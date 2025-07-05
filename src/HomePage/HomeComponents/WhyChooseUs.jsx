@@ -16,7 +16,7 @@ const WhyChooseUs = () => {
                             <div className='col-lg-4 mb-4'>
                                 <div className='w-100 h-100 p-4 rounded-4' style={{backgroundColor: "#343a40"}}>
                                     <div className='mb-4'>
-                                            <img src={lock} alt="" srcset="" height={60} />
+                                            <img src={lock} alt="" srcSet="" height={60} />
                                         
                                     </div>
                                     <div>
@@ -29,7 +29,7 @@ const WhyChooseUs = () => {
                             <div className='col-lg-4 mb-4'>
                                 <div className='w-100 h-100 p-4 rounded-4' style={{backgroundColor: "#343a40"}}>
                                     <div className='mb-4'>
-                                            <img src={lock} alt="" srcset="" height={60} />
+                                            <img src={lock} alt="" srcSet="" height={60} />
                                         
                                     </div>
                                     <div>
@@ -42,7 +42,7 @@ const WhyChooseUs = () => {
                             <div className='col-lg-4 mb-4'>
                                 <div className='w-100 h-100 p-4 rounded-4' style={{backgroundColor: "#343a40"}}>
                                     <div className='mb-4'>
-                                            <img src={lock} alt="" srcset="" height={60} />
+                                            <img src={lock} alt="" srcSet="" height={60} />
                                         
                                     </div>
                                     <div>
