@@ -1,0 +1,27 @@
+/* full container width padding remove */
+/* .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl{
+    padding: 0;
+} */
+
+
+.animated-navbar {
+  transition: all 0.4s ease;
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.sticky-animated {
+  transform: translateY(0);
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.non-sticky-animated {
+  transform: translateY(0%);
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-wrapper-height {
+  height: 80px; /* match your navbar height to prevent layout jump */
+}
