@@ -6,7 +6,6 @@ import "../HomeCss/home.css";
 
 function Navbar() {
     const [isSticky, setIsSticky] = useState(false);
-    const [hasScrolled, setHasScrolled] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -14,7 +13,6 @@ function Navbar() {
 
             if (scrollTop > 50) {
                 setIsSticky(true);
-                setHasScrolled(true);
             } else {
                 setIsSticky(false);
             }
@@ -35,22 +33,26 @@ function Navbar() {
     ];
 
     return (
-
         <div className={isSticky ? "navbar-wrapper-height" : ""}>
             <nav
-                className={`navbar navbar-expand-lg navbar-dark bg-dark px-4 ${isSticky ? "fixed-top sticky-animated" : "fixed non-sticky-animated"
-                    } ${hasScrolled ? "animated-navbar" : "non-sticky-animated"}`}
+                className={`navbar navbar-expand-lg navbar-dark px-4 navbar-animated ${
+                    isSticky ? "navbar-sticky" : "navbar-default"
+                }`}
             >
                 <div className="container">
-                    <a className="navbar-brand d-flex align-items-center" href="#">
+                    <a className="navbar-brand d-flex align-items-center brand-animated" href="#">
                         <img
                             src={logo}
                             alt="Logo"
                             width="50"
                             height="50"
-                            className="d-inline-block align-top me-2"
+                            className={`d-inline-block align-top me-2 logo-animated ${
+                                isSticky ? "logo-sticky" : ""
+                            }`}
                         />
-                        <span className="fw-bold">2+1 DATING</span>
+                        <span className={`fw-bold brand-text ${isSticky ? "brand-sticky" : ""}`}>
+                            2+1 DATING
+                        </span>
                     </a>
 
                     <button
@@ -70,10 +72,14 @@ function Navbar() {
                         id="navbarContent"
                     >
                         <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
-                            {navLinks.map((link) => (
-                                <li key={link.id} className="nav-item">
+                            {navLinks.map((link, index) => (
+                                <li 
+                                    key={link.id} 
+                                    className="nav-item nav-item-animated"
+                                    style={{ animationDelay: `${index * 0.1}s` }}
+                                >
                                     <a
-                                        className={`nav-link ${link.isActive ? 'active' : ''}`}
+                                        className={`nav-link nav-link-animated ${link.isActive ? 'active' : ''}`}
                                         href={link.href}
                                     >
                                         {link.text}
@@ -82,9 +88,9 @@ function Navbar() {
                             ))}
                         </ul>
 
-                        <div className="d-flex gap-3">
-                            <button className="btn bg-white text-dark">Login</button>
-                            <button className="btn btn-primary">Join Now</button>
+                        <div className="d-flex gap-3 buttons-animated">
+                            <button className="btn bg-white text-dark btn-animated">Login</button>
+                            <button className="btn btn-primary btn-animated">Join Now</button>
                         </div>
                     </div>
                 </div>
