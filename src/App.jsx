@@ -1,11 +1,13 @@
 import { Route, BrowserRouter , Routes } from 'react-router-dom'
 import './App.css'
 import { Home } from './HomePage/Home'
+import  Subscription  from './SubscriptionPage/Subscription'
 
 // Bootstrap Link
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 
 
@@ -17,6 +19,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/subscription" element={<Subscription/>}/>
       </Routes>
       </BrowserRouter>
     </>

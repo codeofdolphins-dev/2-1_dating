@@ -3,9 +3,11 @@ import logo from "../HomePictures/logo.png"; // adjust path
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../HomeCss/home.css";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
     const [isSticky, setIsSticky] = useState(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,6 +33,10 @@ function Navbar() {
         { id: 5, text: 'Stories', href: '#stories' },
         { id: 6, text: 'Contact', href: '#contact' }
     ];
+
+    const joinButton = () =>{
+        navigate("/subscription")
+    }
 
     return (
         <div className={isSticky ? "navbar-wrapper-height" : ""}>
@@ -90,7 +96,7 @@ function Navbar() {
 
                         <div className="d-flex gap-3 buttons-animated">
                             <button className="btn bg-white text-dark btn-animated">Login</button>
-                            <button className="btn btn-primary btn-animated">Join Now</button>
+                            <button className="btn btn-primary btn-animated" onClick={joinButton}>Join Now</button>
                         </div>
                     </div>
                 </div>

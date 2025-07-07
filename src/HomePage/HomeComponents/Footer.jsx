@@ -69,7 +69,7 @@ const Footer = () => {
                                     className="form-control border-0 text-white me-2 custom-placeholder"
                                     placeholder="Your email"
                                 />
-                                <button type="submit" className="btn btn-primary px-3"><i class="bi bi-arrow-right"></i></button>
+                                <button type="submit" className="btn btn-primary px-3"><i className="bi bi-arrow-right"></i></button>
                             </form>
                         </div>
                     </div>

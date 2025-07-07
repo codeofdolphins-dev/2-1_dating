@@ -1,7 +1,14 @@
 import React from 'react'
 import heroImg from "../HomePictures/bg-img.jpg"
+import { useNavigate } from 'react-router-dom'
 
 const HeroSection = () => {
+    const navigate = useNavigate()
+
+    const handleJoinToay = () =>{
+        navigate("/subscription")
+    }
+
     return (
         <>
             <div className="container-fluid position-relative p-0" id='home'>
@@ -31,7 +38,7 @@ const HeroSection = () => {
                     </div>
 
                     <div className='d-flex gap-3 mt-2' >
-                        <button className="btn btn-primary px-4 py-2 rounded-2">Join Free Today</button>
+                        <button className="btn btn-primary px-4 py-2 rounded-2" onClick={handleJoinToay}>Join Free Today</button>
                         <button className="btn border-white text-white rounded-2 px-4 py-2">Learn More</button>
                     </div>
                 </div>
