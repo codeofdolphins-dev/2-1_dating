@@ -38,6 +38,10 @@ function Navbar() {
         navigate("/subscription")
     }
 
+    const handleHomeClick = () =>{
+        navigate("/")
+    }
+
     return (
         <div className={isSticky ? "navbar-wrapper-height" : ""}>
             <nav
@@ -46,7 +50,7 @@ function Navbar() {
                 }`}
             >
                 <div className="container">
-                    <a className="navbar-brand d-flex align-items-center brand-animated" href="#">
+                    <a className="navbar-brand d-flex align-items-center brand-animated" href="#" onClick={handleHomeClick}>
                         <img
                             src={logo}
                             alt="Logo"
