@@ -45,14 +45,14 @@ const StatsCounter = () => {
       <div className="row text-center" >
         {counters.map((counter, index) => (
           <div key={index} className="col-md-3 col-sm-6 mb-4 mb-md-0">
-            <div className="display-4 fw-bold text-white">
+            <div className="h3 fw-bold text-white">
               {counter.value}
               {counter.suffix && <span>{counter.suffix}</span>}
               {counter.text === "Members" && <span>K+</span>}
               {counter.text === "Countries" && <span>+</span>}
               {counter.text === "Years" && <span>+</span>}
             </div>
-            <p className="h5 fw-light mt-2" style={{color: "#9ca3af"}}>{counter.text}</p>
+            <p className="h6 fw-light mt-2" style={{color: "#9ca3af"}}>{counter.text}</p>
           </div>
         ))}
       </div>

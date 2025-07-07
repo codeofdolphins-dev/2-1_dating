@@ -15,7 +15,7 @@ const BlogCard = () => {
                     <div className="card-body px-0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)' }}>
                         <h5 className="card-title text-white">Card title</h5>
                         <p className="card-text text-white-50">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" className="btn btn-primary mt-2">Learn More</a>
+                        <a href="#" style={{textDecoration: "none"}}>Read More</a>
                     </div>
                 </div>
             </div>

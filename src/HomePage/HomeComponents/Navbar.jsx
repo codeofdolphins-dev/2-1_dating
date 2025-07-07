@@ -24,12 +24,12 @@ function Navbar() {
 
     // Array of navigation items
     const navLinks = [
-        { id: 1, text: 'Home', href: '#', isActive: true },
-        { id: 2, text: 'About', href: '#' },
-        { id: 3, text: 'Blog', href: '#' },
-        { id: 4, text: 'Features', href: '#' },
-        { id: 5, text: 'Stories', href: '#' },
-        { id: 6, text: 'Contact', href: '#' }
+        { id: 1, text: 'Home', href: '#home', isActive: true },
+        { id: 2, text: 'About', href: '#about' },
+        { id: 3, text: 'Blog', href: '#blog' },
+        { id: 4, text: 'Features', href: '#features' },
+        { id: 5, text: 'Stories', href: '#stories' },
+        { id: 6, text: 'Contact', href: '#contact' }
     ];
 
     return (

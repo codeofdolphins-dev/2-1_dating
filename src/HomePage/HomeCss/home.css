@@ -3,6 +3,10 @@
     padding: 0;
 } */
 
+.custom-placeholder::placeholder {
+  color: #ffffff !important;
+  opacity: 1; /* Ensures full visibility */
+}
 
 .animated-navbar {
   transition: all 0.4s ease;

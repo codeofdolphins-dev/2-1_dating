@@ -5,6 +5,10 @@ import StatsCounter from './HomeComponents/StatsCounter'
 import { About } from './HomeComponents/About'
 import WhyChooseUs from './HomeComponents/WhyChooseUs'
 import OurBlog from './HomeComponents/OurBlog'
+import SuccessStories from './HomeComponents/SuccessStories'
+import JoinOurComunity from './HomeComponents/JoinOurComunity'
+import ContactUs from './HomeComponents/ContactUs'
+import Footer from './HomeComponents/Footer'
 
 export const Home = () => {
   return (
@@ -15,6 +19,10 @@ export const Home = () => {
     <About/>
     <WhyChooseUs/>
     <OurBlog/>
+    <SuccessStories/>
+    <JoinOurComunity/>
+    <ContactUs/>
+    <Footer/>
     </>
   )
 }
