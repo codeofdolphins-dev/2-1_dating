@@ -42,6 +42,10 @@ function Navbar() {
         navigate("/")
     }
 
+    const handleLogin = () =>{
+        navigate("/login")
+    }
+
     return (
         <div className={isSticky ? "navbar-wrapper-height" : ""}>
             <nav
@@ -99,7 +103,7 @@ function Navbar() {
                         </ul>
 
                         <div className="d-flex gap-3 buttons-animated">
-                            <button className="btn bg-white text-dark btn-animated">Login</button>
+                            <button className="btn bg-white text-dark btn-animated" onClick={handleLogin}>Login</button>
                             <button className="btn btn-primary btn-animated" onClick={joinButton}>Join Now</button>
                         </div>
                     </div>

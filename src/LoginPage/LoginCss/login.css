@@ -1,0 +1,4 @@
+.custom-placeholder::placeholder {
+  color: #ffffff !important;
+  opacity: 1; /* Ensures full visibility */
+}
