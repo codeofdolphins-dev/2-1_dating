@@ -10,7 +10,7 @@ const LogInNav = () => {
     }
 
     const handleJoin = () =>{
-        navigate("/subscription")
+        navigate("/registration")
     }
     return (
         <header className="bg-dark py-3 px-4 ">

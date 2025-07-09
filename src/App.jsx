@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Login from './LoginPage/Login';
+import Registration from './RegistrationPage/Registration';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/subscription" element={<Subscription/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/registration" element={<Registration/>}/>
       </Routes>
       </BrowserRouter>
     </>

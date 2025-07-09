@@ -60,7 +60,7 @@ const LoginForm = () => {
   }, []);
 
   const handleJoin = () => {
-    navigate("/subscription");
+    navigate("/registration");
   };
 
   const handleShowPassword = () => {
@@ -148,15 +148,16 @@ const LoginForm = () => {
         className="text-white rounded-4 p-4 w-100"
         style={{ maxWidth: '500px', backgroundColor: '#343a40' }}
       >
-        <h4 className="text-center fw-bold mb-4">Member Login</h4>
+        <h4 className="text-center fw-bold mb-4 h3">Member Login</h4>
 
         {/* Username */}
         <div className="mb-3">
           <input
             type="text"
             name="username"
-            className="form-control bg-dark text-white border-secondary py-2 w-75 mx-auto custom-placeholder"
+            className="form-control bg-dark text-white border-secondary py-3 w-75 mx-auto custom-placeholder bg-transparent"
             placeholder="User Name"
+            style={{ border: " 2px solid #6c757d"}}
             value={formData.username}
             onChange={handleInputChange}
           />
@@ -167,9 +168,10 @@ const LoginForm = () => {
           <input
             type={formData.showPassword ? "text" : "password"}
             name="password"
-            className="form-control bg-dark text-white border-secondary py-2 pe-5 custom-placeholder"
+            className="form-control bg-dark text-white border-secondary py-3 pe-5 custom-placeholder bg-transparent"
             placeholder="Password"
             value={formData.password}
+            style={{ border: " 2px solid #6c757d"}}
             onChange={handleInputChange}
           />
           {formData.showPassword ? (
@@ -196,24 +198,24 @@ const LoginForm = () => {
         </div>
 
         {/* Password Info */}
-        <p className="fw-semibold text-center mb-1" style={{ fontSize: '1.05rem' }}>
+        <p className="fw-semibold text-center mb-1" style={{ fontSize: '1.2rem' }}>
           Password is case sensitive.
         </p>
-        <p className="text-white text-center mb-3" style={{ fontSize: '0.9rem' }}>
+        <p className="text-white text-center mb-3" style={{ fontSize: '1rem' }}>
           In case of error, type lowercase only.
         </p>
 
         {/* Math Puzzle */}
         <div className="d-flex justify-content-center align-items-center gap-2 mb-3">
-          <div className="bg-dark text-white p-2 rounded" style={{ minWidth: '80px', textAlign: 'center' }}>
+          <div className="bg-dark text-white p-2 rounded bg-transparent" style={{ minWidth: '80px', textAlign: 'center',border: " 2px solid #6c757d" }}>
             {mathPuzzle.question}
           </div>
           <span className="text-white fs-5 fw-bold">=</span>
           <input
             type="text"
             name="userAnswer"
-            className="form-control bg-dark text-white border-secondary"
-            style={{ width: '60px' }}
+            className="form-control bg-dark text-white border-secondary bg-transparent"
+            style={{ width: '60px',border: " 2px solid #6c757d" }}
             value={formData.userAnswer}
             onChange={handleInputChange}
             onKeyPress={(e) => {
@@ -232,12 +234,12 @@ const LoginForm = () => {
 
         {/* Login Button */}
         <div className="mb-3 d-flex justify-content-center">
-          <button className="btn btn-primary w-75" onClick={handleSubmit}>Login</button>
+          <button className="btn btn-primary w-75 btn-lg" onClick={handleSubmit}>Login</button>
         </div>
 
         {/* Bottom Text */}
         <div className="d-flex justify-content-between align-items-center w-75 mx-auto">
-          <span className="text-white small">Not a member?</span>
+          <span className="text-white small fw-semibold">Not a member?</span>
           <button className="btn btn-outline-light btn-sm rounded-pill px-3" onClick={handleJoin}>
             Join now free
           </button>
