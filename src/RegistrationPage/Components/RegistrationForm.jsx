@@ -380,7 +380,7 @@ const RegistrationForm = () => {
                     onChange={handleChange}
                   />
                   <label className="form-check-label text-white" htmlFor="ageVerified">
-                    You must be at least <span className='text-danger fw-semibold'>21 years old</span> to use this service.
+                    You must be at least <span className='text-danger fw-semibold'>18 years old</span> to use this service.
                   </label>
                   {errors.ageVerified && <div className="invalid-feedback">{errors.ageVerified}</div>}
                 </div>
