@@ -9,6 +9,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Login from './LoginPage/Login';
 import Registration from './RegistrationPage/Registration';
+import SecondRegistrationPage from './ScondRegistrationPage/SecondRegistrationPage';
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/subscription" element={<Subscription/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/registration" element={<Registration/>}/>
+        <Route path="/second_registration" element={<SecondRegistrationPage/>}/>
       </Routes>
       </BrowserRouter>
     </>

@@ -98,7 +98,7 @@ const RegistrationForm = () => {
       // Here you would typically call your signup API
       toast.success('Account created successfully!');
       // Redirect to login after 2 seconds
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => navigate('/second_registration'), 2000);
     } else {
       toast.error('Please fix the errors in the form');
     }
