@@ -1,0 +1,56 @@
+.custom-input-dark {
+  background-color: #343a40;       /* Dark background */
+  border: 1px solid #4a4f58;       /* Subtle border */
+  color: #ffffff;                  /* Input text */
+  border-radius: 6px;              /* Rounded edges */
+  padding: 10px 12px;
+  font-size: 1rem;
+}
+
+.custom-input-dark::placeholder {
+  color: #aaa;                     /* Light gray placeholder */
+  opacity: 1;
+}
+
+.custom-input-dark:focus {
+  border-color: #6c757d;
+  outline: none;
+  box-shadow: none;
+}
+
+.custom-textarea-dark {
+  background-color: #343a40;
+  border: 1px solid #4a4f58;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 12px;
+  resize: vertical;
+  font-size: 1rem;
+}
+
+.custom-textarea-dark::placeholder {
+  color: #aaaaaa;
+}
+
+.custom-textarea-dark:focus {
+  outline: none;
+  border-color: #6c757d;
+  box-shadow: none;
+}
+
+.custom-submit-btn {
+  background-color: #1976f2;   /* Vibrant blue */
+  color: white;
+  padding: 5px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 999px;        /* Fully rounded */
+  transition: background-color 0.3s ease;
+}
+
+.custom-submit-btn:hover {
+  background-color: #1565c0;   /* Slightly darker on hover */
+}
+
+
