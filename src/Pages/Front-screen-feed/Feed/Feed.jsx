@@ -5,6 +5,7 @@ import "./feedStyle.css"
 import GeneralFilter from '../componeents/GeneralFilter'
 import FeedScreen from '../componeents/FeedScreen.Feed'
 import NotificationScreen from '../componeents/NotificationScreen.Feed'
+import PageWrapper from '../../../components/PageWrapper'
 
 
 const Feed = () => {
@@ -21,47 +22,48 @@ const Feed = () => {
     return (
         <>
 
-            <FrontScreenTopBar />
-            <div className="container-fluid py-3" style={{ backgroundColor: "#212529" }}>
-                <div className="d-flex justify-content-between align-items-end flex-wrap">
+            {/* <FrontScreenTopBar /> */}
+            <PageWrapper>
+                <div className="container-fluid py-3" style={{ backgroundColor: "#212529" }}>
+                    <div className="d-flex justify-content-between align-items-end flex-wrap">
 
-                    {/* Left side: Labels */}
-                    <div className="d-flex gap-3 align-items-end mb-2 mb-lg-0 text-white">
-                        <h5
-                            className={`mb-0 tab-item ${activeTab === "feed" ? "active" : ""}`}
-                            onClick={() => setActiveTab("feed")}
-                            style={{ cursor: "pointer" }}
-                        >
-                            Feed
-                        </h5>
+                        {/* Left side: Labels */}
+                        <div className="d-flex gap-3 align-items-end mb-2 mb-lg-0 text-white">
+                            <h5
+                                className={`mb-0 tab-item ${activeTab === "feed" ? "active" : ""}`}
+                                onClick={() => setActiveTab("feed")}
+                                style={{ cursor: "pointer" }}
+                            >
+                                Feed
+                            </h5>
 
-                        <h5
-                            className={`mb-0 tab-item ${activeTab === "notification" ? "active" : ""}`}
-                            onClick={() => setActiveTab("notification")}
-                            style={{ cursor: "pointer" }}
-                        >
-                            2+1 Notification
-                        </h5>
+                            <h5
+                                className={`mb-0 tab-item ${activeTab === "notification" ? "active" : ""}`}
+                                onClick={() => setActiveTab("notification")}
+                                style={{ cursor: "pointer" }}
+                            >
+                                2+1 Notification
+                            </h5>
+                        </div>
+
+
+
+                        {/* Right side: Buttons */}
+                        <div className="d-flex gap-3">
+                            <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill">General Filter</button>
+                            <button className="btn btn-outline-light border border-danger rounded-pill text-danger">General Filter</button>
+                        </div>
                     </div>
 
-                    
+                    <hr className="text-secondary" />
 
-                    {/* Right side: Buttons */}
-                    <div className="d-flex gap-3">
-                        <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill">General Filter</button>
-                        <button className="btn btn-outline-light border border-danger rounded-pill text-danger">General Filter</button>
+                    <div className='mt-5'>
+                        {
+                            activeTab === "feed" ? <FeedScreen /> : <NotificationScreen />
+                        }
                     </div>
                 </div>
-
-                <hr className="text-secondary" />
-
-                <div className='mt-5'>
-                    {
-                        activeTab === "feed" ? <FeedScreen /> : <NotificationScreen/>
-                    }
-                </div>
-            </div>
-
+            </PageWrapper>
         </>
     )
 }

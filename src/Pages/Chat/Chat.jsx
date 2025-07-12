@@ -63,7 +63,7 @@ const Chat = () => {
     <>
       <PageWrapper>
       <div className="chat-container">
-        <div className="row h-100 g-0">
+        <div className="row h-100 w-100 g-0">
           {/* Sidebar */}
           <div className="col-4 sidebar">
             {/* Header */}

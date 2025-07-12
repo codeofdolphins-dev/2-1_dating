@@ -1,5 +1,6 @@
 import React from 'react'
 import UserJoinedCard from './cards/UserJoinedCard.Feed'
+import EventCard from './cards/EventCard.Feed'
 
 
 const FeedScreen = ({user,handler}) => {
@@ -9,10 +10,8 @@ const FeedScreen = ({user,handler}) => {
     
     return (
         <>
+           <EventCard />
            <UserJoinedCard />
-           <UserJoinedCard />
-           <UserJoinedCard />
-           
         </>
     )
 }
