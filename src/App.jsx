@@ -12,6 +12,7 @@ import Registration from './Pages/RegistrationPage/Registration';
 import SecondRegistrationPage from './Pages/ScondRegistrationPage/SecondRegistrationPage';
 import BusinessProfilePage from './Pages/BusinessProfilePage/BusinessProfilePage';
 import Feed from './Pages/Front-screen-feed/Feed/feed';
+import Chat from './Pages/Chat/chat';
 
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/registration" element={<Registration/>}/>
         <Route path="/second_registration" element={<SecondRegistrationPage/>}/>
+        <Route path="/chat" element={<Chat/>}/>
         
         <Route path="/business_profile" element={<BusinessProfilePage/>}/>
 
