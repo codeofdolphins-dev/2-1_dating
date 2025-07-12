@@ -72,8 +72,16 @@ const RegistrationForm = () => {
 
     // if (emailOtpSent && !formData.emailOtp) newErrors.emailOtp = 'Email OTP is required';
 
-    if (!formData.password) newErrors.password = 'Password is required';
-    else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
+    const password = formData.password;
+
+    if (!password) {
+      newErrors.password = 'Password is required';
+    } else if (password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters long';
+    } else if (!/[A-Z]/.test(password) || !/[0-9]/.test(password) || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      newErrors.password = 'Password must include uppercase letter, number, and special character';
+    }
+
 
     if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
 
@@ -84,7 +92,7 @@ const RegistrationForm = () => {
 
     if (phoneOtpSent && !formData.phoneOtp) newErrors.phoneOtp = 'Phone OTP is required';
 
-    if (!formData.ageVerified) newErrors.ageVerified = 'You must be at least 21 years old';
+    if (!formData.ageVerified) newErrors.ageVerified = 'You must be at least 18 years old';
     if (!formData.termsAgreed) newErrors.termsAgreed = 'You must agree to the terms';
 
     setErrors(newErrors);
@@ -367,7 +375,7 @@ const RegistrationForm = () => {
                   <label className="form-check-label text-white" htmlFor="rememberMe">Remember me</label>
                 </div>
 
-                <hr style={{color:"#ffff"}} />
+                <hr style={{ color: "#ffff" }} />
 
                 {/* Age Verification */}
                 <div className="mb-3 form-check">

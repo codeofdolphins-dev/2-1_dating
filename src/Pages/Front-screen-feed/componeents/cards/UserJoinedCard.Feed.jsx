@@ -1,14 +1,14 @@
 import React from 'react'
-import img from "./iamges/Img.png"
-import star from "./iamges/star.png"
-import pc from "./iamges/pc.png"
-import chat from "./iamges/chat.png"
-import male from "./iamges/male.png"
-import female from "./iamges/female.png"
-import couple from "./iamges/couple.png"
-import middleIcon from "./iamges/middle-logo.png"
+import img from "./Images/Img.png"
+import star from "./Images/star.png"
+import pc from "./Images/pc.png"
+import chat from "./Images/chat.png"
+import male from "./Images/male.png"
+import female from "./Images/female.png"
+import couple from "./Images/couple.png"
+import middleIcon from "./Images/middle-logo.png"
 
-const FeedCard1 = () => {
+const UserJoinedCard = () => {
     return (
         <>
             <div className="container py-4">
@@ -156,4 +156,4 @@ const FeedCard1 = () => {
     )
 }
 
-export default FeedCard1
+export default UserJoinedCard

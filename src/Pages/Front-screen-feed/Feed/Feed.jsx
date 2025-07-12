@@ -2,14 +2,22 @@ import React, { useState } from 'react'
 import FrontScreenLeftSidebar from '../../../components/FrontScreenLeftBar/FrontScreenLeftSidebar'
 import FrontScreenTopBar from '../../../components/FrontScreenTopBar/FrontScreenTopBar'
 import "./feedStyle.css"
-import FeedComponent from '../componeents/FeedComponent1'
-import NotificationComponent from '../componeents/NotificationComponent'
 import GeneralFilter from '../componeents/GeneralFilter'
+import FeedScreen from '../componeents/FeedScreen.Feed'
+import NotificationScreen from '../componeents/NotificationScreen.Feed'
 
 
 const Feed = () => {
     const [activeTab, setActiveTab] = useState("feed");
-    console.log(activeTab)
+
+    // const [user,SetUser] = useState({name:"Bishal"})
+
+    // console.log(activeTab)
+
+    // const handleAccept = () =>{
+    //     console.log("all ok")
+    // }
+
     return (
         <>
 
@@ -49,7 +57,7 @@ const Feed = () => {
 
                 <div className='mt-5'>
                     {
-                        activeTab === "feed" ? <FeedComponent/> : <NotificationComponent/>
+                        activeTab === "feed" ? <FeedScreen /> : <NotificationScreen/>
                     }
                 </div>
             </div>
