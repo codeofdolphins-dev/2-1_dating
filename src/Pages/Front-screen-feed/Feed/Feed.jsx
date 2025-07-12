@@ -4,6 +4,7 @@ import FrontScreenTopBar from '../../../components/FrontScreenTopBar/FrontScreen
 import "./feedStyle.css"
 import FeedComponent from '../componeents/FeedComponent1'
 import NotificationComponent from '../componeents/NotificationComponent'
+import GeneralFilter from '../componeents/GeneralFilter'
 
 
 const Feed = () => {
@@ -34,6 +35,8 @@ const Feed = () => {
                             2+1 Notification
                         </h5>
                     </div>
+
+                    
 
                     {/* Right side: Buttons */}
                     <div className="d-flex gap-3">

@@ -6,13 +6,23 @@ import chat from "./iamges/chat.png"
 import male from "./iamges/male.png"
 import female from "./iamges/female.png"
 import couple from "./iamges/couple.png"
+import middleIcon from "./iamges/middle-logo.png"
 
 const FeedCard1 = () => {
     return (
         <>
             <div className="container py-4">
                 <div className="row justify-content-center gx-4 gy-3 align-items-stretch">
-
+                    <div className="col-lg-11">
+                        <div className='d-flex justify-content-between'>
+                            <div>
+                                <h6 className='text-white'>CPLSUEPAUL has joined Georgia For Chocolate 🍫</h6>
+                            </div>
+                            <div>
+                                <h6 className='text-danger'>Dec 12, 2024 | 24 Members</h6>
+                            </div>
+                        </div>
+                    </div>
                     {/* Card Section */}
                     <div className="col-lg-5">
                         {/* Left card */}
@@ -103,6 +113,16 @@ const FeedCard1 = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Middle Icon Column */}
+                    <div className="col-lg-1 col-md-1 d-flex justify-content-center align-items-center">
+                        <img
+                            src={middleIcon}
+                            alt="Center Icon"
+                            className="img-fluid"
+                            style={{ maxHeight: "50px", objectFit: "contain" }}
+                        />
                     </div>
 
                     {/* Right Card */}

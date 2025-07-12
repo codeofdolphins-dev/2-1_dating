@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { FaBars, FaSearch, FaFacebookMessenger, FaBell, FaCog } from "react-icons/fa";
+import { FaBars, FaSearch, FaFacebookMessenger, FaBell, FaCog,FaTimes } from "react-icons/fa";
+
 import "./css/topbar.css"
 import FrontScreenLeftSidebar from "../FrontScreenLeftBar/FrontScreenLeftSidebar";
 
@@ -7,11 +8,37 @@ const FrontScreenTopBar = () => {
     const [appear, SetApper] = useState(true)
     return (
         <>
-            <div className="topbar d-flex justify-content-between align-items-center px-3 py-4" style={{ background: "#212529" }}>
+            <div
+                className="topbar d-flex justify-content-between align-items-center px-3 py-4"
+                style={{
+                    background: "#212529",
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 1050,
+                    height: "80px", // optional fixed height
+                }}
+            >
                 {/* Left: Hamburger + Search */}
                 <div className="d-flex align-items-center gap-3">
-                    <button className="btn btn-outline-light rounded-circle icon-btn" onClick={() => SetApper(!appear)}>
-                        <FaBars />
+                    <button
+                        className="btn btn-outline-light rounded-circle icon-btn position-relative overflow-hidden"
+                        onClick={() => SetApper(!appear)}
+                        style={{
+                            width: "50px",
+                            height: "50px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <span className={`icon-layer ${appear ? "fade-out" : "fade-in"}`}>
+                            <FaBars />
+                        </span>
+                        <span className={`icon-layer ${appear ? "fade-in" : "fade-out"}`}>
+                            <FaTimes />
+                        </span>
                     </button>
 
                     <div className="search-container position-relative">
@@ -24,7 +51,6 @@ const FrontScreenTopBar = () => {
                     </div>
                 </div>
 
-
                 {/* Right: Icons */}
                 <div className="d-flex align-items-center gap-4 text-white">
                     <FaFacebookMessenger />
@@ -35,15 +61,21 @@ const FrontScreenTopBar = () => {
                     </div>
                 </div>
             </div>
+
             <FrontScreenLeftSidebar visiblity={appear} />
+
+            {/* Add this to separate topbar from rest of the page */}
+            <div style={{ height: "80px" }}></div>
+
             <hr
                 style={{
                     margin: 0,
                     border: "none",
-                    borderTop: "1px solid #343a40", // custom color
-                    height: "0" // must be 0 for proper rendering
+                    borderTop: "1px solid #343a40",
+                    height: "0",
                 }}
             />
+
 
         </>
     );

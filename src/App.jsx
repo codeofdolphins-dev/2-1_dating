@@ -11,7 +11,8 @@ import Login from './Pages/LoginPage/Login';
 import Registration from './Pages/RegistrationPage/Registration';
 import SecondRegistrationPage from './Pages/ScondRegistrationPage/SecondRegistrationPage';
 import BusinessProfilePage from './Pages/BusinessProfilePage/BusinessProfilePage';
-import Feed from './Pages/Front-screen/Feed/feed';
+import Feed from './Pages/Front-screen-feed/Feed/feed';
+
 
 
 

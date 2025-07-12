@@ -13,18 +13,22 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
     return (
         <div
             className={`sidebar ${visiblity ? "slide-in" : "slide-out"} d-flex flex-column justify-content-between p-3`}
-            style={{ backgroundColor: "#343a40", width: "250px", position: "fixed", top: 60, left: 0, height: "100vh", zIndex: 1000 }}
+            style={{
+                backgroundColor: "#343a40",
+                width: "280px",
+                position: "fixed",
+                top: "80px",
+                height: "100vh",
+                zIndex: 1000,
+                overflowY: "auto"
+            }}
         >
-            <div>
+            {/* Scrollable Content */}
+            <div style={{ overflowY: "auto" }} className="flex-grow-1 custom-scrollbar">
                 <div className="text-start mb-4">
-                    <img
-                        src={logo} // replace with your logo path
-                        alt="2+1 Logo"
-                        className="logo-img"
-                        height={50}
-                    />
+                    <img src={logo} alt="2+1 Logo" className="logo-img" height={50} />
                 </div>
-                <ul className="list-unstyled">
+                <ul className="list-unstyled" style={{ height: "150vh" }}>
                     <SidebarItem icon={<FaHome />} label="Feed & updates" />
                     <SidebarItem icon={<FaEnvelope />} label="Instant Messages" />
                     <SidebarItem icon={<FaEye />} label="Viewed Me" />
@@ -46,19 +50,23 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                     <SidebarItem icon={<FaUserFriends />} label="Invite Friends" />
                     <SidebarItem icon={<FaTags />} label="Classifieds" />
                     <SidebarItem icon={<FaBullhorn />} label="Advertise" />
+                    <button className="btn btn-danger w-75 rounded-pill mt-5">
+                        Sign Out
+                    </button>
+
                 </ul>
-            <div>
-                <button className="btn btn-danger w-100 mt-3 rounded-pill">
-                    Signout
-                </button>
             </div>
-            </div>
+
+            {/* Fixed Bottom Button */}
+
         </div>
+
+
     );
 };
 
 const SidebarItem = ({ icon, label }) => (
-    <li className="sidebar-item d-flex align-items-center mb-2 text-white">
+    <li className="sidebar-item d-flex align-items-center mb-4 text-white">
         <span className="me-2">{icon}</span>
         <span>{label}</span>
     </li>

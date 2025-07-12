@@ -9,7 +9,7 @@ const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    emailOtp: '',
+    // emailOtp: '',
     password: '',
     confirmPassword: '',
     countryCode: '91',
@@ -23,7 +23,7 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [emailOtpSent, setEmailOtpSent] = useState(false);
+  // const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [phoneOtpSent, setPhoneOtpSent] = useState(false);
 
   const handleChange = (e) => {
@@ -34,19 +34,19 @@ const RegistrationForm = () => {
     }));
   };
 
-  const handleSendEmailOtp = () => {
-    if (!formData.email) {
-      toast.error('Please enter your email address first');
-      return;
-    }
-    if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-      toast.error('Please enter a valid email address');
-      return;
-    }
-    // API call to send email OTP would go here
-    toast.success(`OTP sent to ${formData.email}`);
-    setEmailOtpSent(true);
-  };
+  // const handleSendEmailOtp = () => {
+  //   if (!formData.email) {
+  //     toast.error('Please enter your email address first');
+  //     return;
+  //   }
+  //   if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+  //     toast.error('Please enter a valid email address');
+  //     return;
+  //   }
+  //   // API call to send email OTP would go here
+  //   toast.success(`OTP sent to ${formData.email}`);
+  //   setEmailOtpSent(true);
+  // };
 
   const handleSendPhoneOtp = () => {
     if (!formData.phoneNumber) {
@@ -70,7 +70,7 @@ const RegistrationForm = () => {
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     else if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Email is invalid';
 
-    if (emailOtpSent && !formData.emailOtp) newErrors.emailOtp = 'Email OTP is required';
+    // if (emailOtpSent && !formData.emailOtp) newErrors.emailOtp = 'Email OTP is required';
 
     if (!formData.password) newErrors.password = 'Password is required';
     else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
@@ -133,7 +133,7 @@ const RegistrationForm = () => {
                 <div className="mb-3">
                   <div className="row g-2">
                     {/* Email + OTP Button */}
-                    <div className="col-lg-9">
+                    <div className="col-lg-12">
                       <div className="input-group">
                         <input
                           type="email"
@@ -145,7 +145,7 @@ const RegistrationForm = () => {
                           onChange={handleChange}
                           style={{ border: " 2px solid #6c757d", color: "#FFFF" }}
                         />
-                        <button
+                        {/* <button
                           type="button"
                           className="btn btn-outline-secondary"
                           onClick={handleSendEmailOtp}
@@ -153,7 +153,7 @@ const RegistrationForm = () => {
                           style={{ border: " 2px solid #6c757d", }}
                         >
                           {emailOtpSent ? 'OTP Sent' : 'Send OTP'}
-                        </button>
+                        </button> */}
                       </div>
                       {errors.email && (
                         <div className="invalid-feedback d-block">{errors.email}</div>
@@ -161,7 +161,7 @@ const RegistrationForm = () => {
                     </div>
 
                     {/* Email OTP */}
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <input
                         type="text"
                         className={`form-control py-3 bg-transparent custom-placeholder`}
@@ -176,7 +176,7 @@ const RegistrationForm = () => {
                       {errors.emailOtp && (
                         <div className="invalid-feedback d-block">{errors.emailOtp}</div>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
