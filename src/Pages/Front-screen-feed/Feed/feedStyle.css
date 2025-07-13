@@ -12,7 +12,8 @@
   position: relative;
   .actionIcon{
     position: absolute;
-    top: 50%;
-    transform: translate(-18px,calc(-50% - 0px));
+    top: calc(50% - 35px);
+    left: calc(50% - 35px);
+    width: 70px;
 }
 }

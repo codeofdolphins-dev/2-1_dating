@@ -1,11 +1,4 @@
 import React from "react";
-import img from "./Images/Img.png";
-import star from "./Images/star.png";
-import pc from "./Images/pc.png";
-import chat from "./Images/chat.png";
-import male from "./Images/male.png";
-import female from "./Images/female.png";
-import couple from "./Images/couple.png";
 import middleIcon from "./Images/middle-logo.png";
 
 import profileImg from "./Images/feed-profile-img.png";
@@ -23,7 +16,7 @@ const EventCard = () => {
                 </h6>
               </div>
               <div>
-                <h6 className="text-danger">Dec 12, 2024 | 24 Members</h6>
+                <h6 className="text-danger">Dec 12, 2024 | 24 Members</h6>
               </div>
             </div>
           </div>
@@ -119,11 +112,6 @@ const EventCard = () => {
               </div>
             </div>
           </div>
-
-          {/* Middle Icon Column */}
-          <div className="col-lg-1 col-md-1 d-flex justify-content-center align-items-center"></div>
-
-          {/* Right Card */}
         </div>
       </div>
     </>
