@@ -7,3 +7,12 @@
 .tab-item.active {
   border-bottom: 2px solid #ffffff; /* or use another highlight color */
 }
+
+.main{
+  position: relative;
+  .actionIcon{
+    position: absolute;
+    top: 50%;
+    transform: translate(-18px,calc(-50% - 0px));
+}
+}
