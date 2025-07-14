@@ -7,9 +7,24 @@ import FeedScreen from '../componeents/FeedScreen.Feed'
 import NotificationScreen from '../componeents/NotificationScreen.Feed'
 import PageWrapper from '../../../components/PageWrapper'
 
+const options = [
+    "Viewed me",
+    "Groups / Blogs",
+    "Speed Date",
+    "Travel Plans",
+    "Parties & Events"
+];
+
 
 const Feed = () => {
     const [activeTab, setActiveTab] = useState("feed");
+    const [showGeneralFilter,setShowGeneralFilter] = useState(false)
+    const [ShowFriendsFilter,setShowFriendsFilter] = useState(false)
+
+    const handleFilter = ()=>{
+        setShowGeneralFilter(!showGeneralFilter)
+        console.log(showGeneralFilter)
+    }
 
     // const [user,SetUser] = useState({name:"Bishal"})
 
@@ -18,6 +33,16 @@ const Feed = () => {
     // const handleAccept = () =>{
     //     console.log("all ok")
     // }
+
+    const [selected, setSelected] = useState(["Viewed me"]);
+
+    const handleToggle = (label) => {
+        setSelected((prev) =>
+            prev.includes(label)
+                ? prev.filter((item) => item !== label)
+                : [...prev, label]
+        );
+    };
 
     return (
         <>
@@ -50,10 +75,35 @@ const Feed = () => {
 
                         {/* Right side: Buttons */}
                         <div className="d-flex gap-3">
-                            <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill">General Filter</button>
+                            <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill" onClick={handleFilter} >General Filter</button>
                             <button className="btn btn-outline-light border border-danger rounded-pill text-danger">General Filter</button>
                         </div>
+
                     </div>
+
+                    {/* General filter seletion */}
+                    <div
+                        className={`${showGeneralFilter ? "position-fixed":"d-none"} end-0 top-25 p-3`}
+                        style={{ zIndex: 1050 }}
+                    >
+                        <div className="checkbox-dropdown p-3  border border-danger rounded-2">
+                            {options.map((label) => (
+                                <label
+                                    key={label}
+                                    className="form-check d-flex align-items-center mb-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        className="form-check-input me-2"
+                                        checked={selected.includes(label)}
+                                        onChange={() => handleToggle(label)}
+                                    />
+                                    <span className="text-white">{label}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
 
                     <hr className="text-secondary" />
 

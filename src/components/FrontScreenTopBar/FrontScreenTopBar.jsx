@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { FaBars, FaSearch, FaFacebookMessenger, FaBell, FaCog,FaTimes } from "react-icons/fa";
+import { FaBars, FaSearch, FaFacebookMessenger, FaBell, FaCog, FaTimes } from "react-icons/fa";
 
 import "./css/topbar.css"
 import FrontScreenLeftSidebar from "../FrontScreenLeftBar/FrontScreenLeftSidebar";
+import SettingSidebar from "../SettingSidebar/SettingsSidebar";
 
 const FrontScreenTopBar = () => {
     const [appear, SetApper] = useState(true)
+    const [open, SetOpen] = useState(false)
+
+    const handleSetting= () => {
+        SetOpen(!open)
+        console.log(open)
+    }
+
     return (
         <>
             <div
@@ -55,9 +63,9 @@ const FrontScreenTopBar = () => {
                 <div className="d-flex align-items-center gap-4 text-white">
                     <FaFacebookMessenger />
                     <FaBell className="position-relative" />
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2" onClick={handleSetting}>
                         <FaCog />
-                        <span className="d-none d-md-inline">Settings</span>
+                        <span className="d-none d-md-inline" >Settings</span>
                     </div>
                 </div>
             </div>
@@ -75,7 +83,7 @@ const FrontScreenTopBar = () => {
                     height: "0",
                 }}
             />
-
+            <SettingSidebar open={open} />
 
         </>
     );
