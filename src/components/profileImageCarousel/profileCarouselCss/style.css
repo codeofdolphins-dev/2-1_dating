@@ -1,0 +1,12 @@
+.swiper-pagination-bullet {
+    background: #ffff;
+    /* Default bullet color */
+    opacity: 1;
+    /* Make all bullets visible */
+}
+
+/* Active bullet */
+.swiper-pagination-bullet-active {
+    background: #0d6efd;
+    /* Active bullet color (e.g., Bootstrap blue) */
+}

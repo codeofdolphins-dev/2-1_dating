@@ -12,8 +12,21 @@ const LoginForm = () => {
     password: '',
     showPassword: false,
     userAnswer: '',
+    rememberMe: false
   });
 
+  //remeember me function
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  console.log(formData.rememberMe)
+
+  const [errors, setErrors] = useState({});
   const [mathPuzzle, setMathPuzzle] = useState({ question: '', answer: 0 });
   const [captchaError, setCaptchaError] = useState('');
   const navigate = useNavigate();
@@ -142,6 +155,8 @@ const LoginForm = () => {
     // });
   };
 
+ 
+
   return (
     <div className="bg-dark d-flex justify-content-center align-items-center text-white px-3" style={{ height: '90vh' }}>
       <ToastContainer />
@@ -158,7 +173,7 @@ const LoginForm = () => {
             name="username"
             className="form-control bg-dark text-white border-secondary py-3 w-75 mx-auto custom-placeholder bg-transparent"
             placeholder="User Name"
-            style={{ border: " 2px solid #6c757d"}}
+            style={{ border: " 2px solid #6c757d" }}
             value={formData.username}
             onChange={handleInputChange}
           />
@@ -172,7 +187,7 @@ const LoginForm = () => {
             className="form-control bg-dark text-white border-secondary py-3 pe-5 custom-placeholder bg-transparent"
             placeholder="Password"
             value={formData.password}
-            style={{ border: " 2px solid #6c757d"}}
+            style={{ border: " 2px solid #6c757d" }}
             onChange={handleInputChange}
           />
           {formData.showPassword ? (
@@ -208,7 +223,7 @@ const LoginForm = () => {
 
         {/* Math Puzzle */}
         <div className="d-flex justify-content-center align-items-center gap-2 mb-3">
-          <div className="bg-dark text-white p-2 rounded bg-transparent" style={{ minWidth: '80px', textAlign: 'center',border: " 2px solid #6c757d" }}>
+          <div className="bg-dark text-white p-2 rounded bg-transparent" style={{ minWidth: '80px', textAlign: 'center', border: " 2px solid #6c757d" }}>
             {mathPuzzle.question}
           </div>
           <span className="text-white fs-5 fw-bold">=</span>
@@ -216,7 +231,7 @@ const LoginForm = () => {
             type="text"
             name="userAnswer"
             className="form-control bg-dark text-white border-secondary bg-transparent"
-            style={{ width: '60px',border: " 2px solid #6c757d" }}
+            style={{ width: '60px', border: " 2px solid #6c757d" }}
             value={formData.userAnswer}
             onChange={handleInputChange}
             onKeyPress={(e) => {
@@ -237,6 +252,22 @@ const LoginForm = () => {
         <div className="mb-3 d-flex justify-content-center">
           <button className="btn btn-primary w-75 btn-lg" onClick={handleSubmit}>Login</button>
         </div>
+
+        {/* Remember Me checkbox */}
+        <div className="container " style={{padding:"0 55px"}}>
+        <div className="mb-3 form-check d-flex justify-content-left gap-2 ">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="rememberMe"
+            name="rememberMe"
+            checked={formData.rememberMe}
+            onChange={handleChange}
+          />
+          <label className="form-check-label text-white" htmlFor="rememberMe">Remember me</label>
+        </div>
+        </div>
+
 
         {/* Bottom Text */}
         <div className="d-flex justify-content-between align-items-center w-75 mx-auto">

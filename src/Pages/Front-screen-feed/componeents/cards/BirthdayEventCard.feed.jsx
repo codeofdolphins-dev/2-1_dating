@@ -1,5 +1,5 @@
-import React from 'react'
-import img from "./Images/Img.png"
+import birthdayCake from "./Images/birthday-cake.png"
+import profileImg from "./Images/Img.png"
 import star from "./Images/star.png"
 import pc from "./Images/pc.png"
 import chat from "./Images/chat.png"
@@ -8,29 +8,30 @@ import female from "./Images/female.png"
 import couple from "./Images/couple.png"
 import middleIcon from "./Images/middle-logo.png"
 
-const UserJoinedCard = () => {
+const BirthdayEventCard = () => {
     return (
         <>
-            <div className="container py-4">
-                <div className="row justify-content-center gx-4 gy-3 align-items-stretch">
-                    <div className="col-lg-11">
-                        <div className='d-flex justify-content-between'>
-                            <div>
-                                <h6 className='text-white'>CPLSUEPAUL has joined Georgia For Chocolate 🍫</h6>
-                            </div>
-                            <div>
-                                <h6 className='text-danger'>Dec 12, 2024 | 24 Members</h6>
-                            </div>
+            <div className="row justify-content-center gx-4 gy-3 align-items-stretch">
+                <div className="col-lg-12">
+                    <div className="d-flex justify-content-between p-3">
+                        <div>
+                            <h6 className="text-white">
+                                CPLSUEPAUL has joined Georgia For Chocolate 🍫
+                            </h6>
+                        </div>
+                        <div>
+                            <h6 className="text-danger">Dec 12, 2024 | 24 Members</h6>
                         </div>
                     </div>
-                    {/* Card Section */}
-                    <div className="col-lg-5">
+                </div>
+                <div className="row main">
+                    <div className="col-lg-6">
                         {/* Left card */}
                         <div className="card h-100" style={{ backgroundColor: "#333b42" }}>
                             <div className="row g-0 h-100">
                                 <div className="col-md-4">
                                     <img
-                                        src={img}
+                                        src={profileImg}
                                         className="img-fluid rounded-start h-100 w-100 object-fit-cover"
                                         alt="Card visual"
                                     />
@@ -114,46 +115,30 @@ const UserJoinedCard = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Middle Icon Column */}
-                    <div className="col-lg-1 col-md-1 d-flex justify-content-center align-items-center">
-                        <img
-                            src={middleIcon}
-                            alt="Center Icon"
-                            className="img-fluid"
-                            style={{ maxHeight: "50px", objectFit: "contain" }}
-                        />
-                    </div>
-
-                    {/* Right Card */}
-                    <div
-                        className="col-lg-5 text-white p-3 rounded h-100 d-flex flex-column justify-content-between"
-                        style={{ backgroundColor: "#343a40" }}
-                    >
-                        <div>
-                            <div className="d-flex justify-content-between mb-3">
-                                <div>
-                                    <p className='mb-2'>Location Based</p>
-                                    <p className='mb-0'>Athens, GA, USA</p>
-                                    <p className='text-primary'>GEORGIANICEGUY</p>
-                                </div>
-                                <div>
-                                    <button className="btn text-white px-4 py-1 rounded-pill bg-primary">Apply To Join</button>
-                                </div>
+                    {/* icon */}
+                    {/* <img
+                        src={middleIcon}
+                        alt="Center Icon"
+                        className="actionIcon"
+                        style={{ maxHeight: "50px", objectFit: "contain" }}
+                    /> */}
+                    {/* 2nd card */}
+                    <div className="col-lg-6">
+                        <div
+                            className="text-white rounded-3 p-4 h-100 d-flex flex-column justify-content-center align-items-center text-center"
+                            style={{ backgroundColor: "#333b42" }}
+                        >
+                            <div className="mb-2">
+                                <i class="bi bi-cake h1" style={{color:"b0c3cc"}}></i>
                             </div>
-                            <div className="text-white small">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius eos repellat a sint ut vitae
-                                illo quaerat aliquam voluptates fugiat accusantium nesciunt dignissimos praesentium
-                                quibusdam incidunt et dicta minus iusto unde, quod labore odit. Nobis voluptatum, officia
-                                expedita laborum consequatur accusamus qui esse impedit!
-                                expedita laborum consequatur accusamus qui esse impedit!
-                            </div>
+                            <h6 className="mb-0" style={{color:"b0c3cc"}}>Birthday</h6>
                         </div>
                     </div>
+
                 </div>
             </div>
         </>
     )
 }
 
-export default UserJoinedCard
+export default BirthdayEventCard

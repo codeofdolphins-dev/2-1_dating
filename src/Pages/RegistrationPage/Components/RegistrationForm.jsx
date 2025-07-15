@@ -26,6 +26,7 @@ const RegistrationForm = () => {
   // const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [phoneOtpSent, setPhoneOtpSent] = useState(false);
 
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -363,7 +364,7 @@ const RegistrationForm = () => {
 
 
                 {/* Remember Me */}
-                <div className="mb-3 form-check">
+                {/* <div className="mb-3 form-check">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -373,7 +374,7 @@ const RegistrationForm = () => {
                     onChange={handleChange}
                   />
                   <label className="form-check-label text-white" htmlFor="rememberMe">Remember me</label>
-                </div>
+                </div> */}
 
                 <hr style={{ color: "#ffff" }} />
 

@@ -6,8 +6,9 @@ import GeneralFilter from '../componeents/GeneralFilter'
 import FeedScreen from '../componeents/FeedScreen.Feed'
 import NotificationScreen from '../componeents/NotificationScreen.Feed'
 import PageWrapper from '../../../components/PageWrapper'
+import CheckboxDropdown from '../../../components/dropdown/CheckboxDropdown'
 
-const options = [
+const GeneralFilteroptions = [
     "Viewed me",
     "Groups / Blogs",
     "Speed Date",
@@ -15,13 +16,34 @@ const options = [
     "Parties & Events"
 ];
 
+const FriendFilterOptions = [
+    "Likes given",
+    "Joined group",
+    "Photos & Videos",
+    "Validations",
+    "Speed Date",
+    "Travel Plans",
+    "Parties & Events",
+    "Member Services",
+    "New Friends / Followers"
+];
+
 
 const Feed = () => {
     const [activeTab, setActiveTab] = useState("feed");
-    const [showGeneralFilter,setShowGeneralFilter] = useState(false)
-    const [ShowFriendsFilter,setShowFriendsFilter] = useState(false)
+    const [showGeneralFilter, setShowGeneralFilter] = useState(false)
+    const [ShowFriendsFilter, setShowFriendsFilter] = useState(false)
 
-    const handleFilter = ()=>{
+    const handleGeneralFilter = () => {
+        setShowGeneralFilter(!showGeneralFilter)
+        if(ShowFriendsFilter)
+        setShowFriendsFilter(!ShowFriendsFilter)
+        console.log(showGeneralFilter)
+    }
+
+    const handleFriendFilter = () => {
+        setShowFriendsFilter(!ShowFriendsFilter)
+        if(showGeneralFilter)
         setShowGeneralFilter(!showGeneralFilter)
         console.log(showGeneralFilter)
     }
@@ -75,39 +97,69 @@ const Feed = () => {
 
                         {/* Right side: Buttons */}
                         <div className="d-flex gap-3">
-                            <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill" onClick={handleFilter} >General Filter</button>
-                            <button className="btn btn-outline-light border border-danger rounded-pill text-danger">General Filter</button>
+
+                            <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill position-relative" onClick={handleGeneralFilter} >General Filter</button>
+
+                            {/* General filter seletion */}
+                            <div
+                                className={`${showGeneralFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
+                                style={{ zIndex: 1050, justifyContent: "end" }}
+                            >
+                                <div className="checkbox-dropdown p-3   rounded-2 bg-dark" style={{ border: "2px solid #343A40" }}>
+                                    {GeneralFilteroptions.map((label) => (
+                                        <label
+                                            key={label}
+                                            className="form-check d-flex align-items-center mb-2"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input me-2"
+                                                checked={selected.includes(label)}
+                                                onChange={() => handleToggle(label)}
+                                            />
+                                            <span className="text-white">{label}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* <CheckboxDropdown onClick={handleFilter}/> */}
+                            <button className="btn btn-outline-light border border-danger rounded-pill text-danger position-relative" onClick={handleFriendFilter}>Friend Filter</button>
+
+                            {/* Friend filter seletion */}
+                            <div
+                                className={`${ShowFriendsFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
+                                style={{ zIndex: 10, justifyContent: "end" }}
+                            >
+                                <div className="checkbox-dropdown p-3  rounded-2 bg-dark" style={{ border: "2px solid #343A40" }}>
+                                    {FriendFilterOptions.map((label) => (
+                                        <label
+                                            key={label}
+                                            className="form-check d-flex align-items-center mb-2"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input me-2"
+                                                checked={selected.includes(label)}
+                                                onChange={() => handleToggle(label)}
+                                            />
+                                            <span className="text-white">{label}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
 
                     </div>
-
-                    {/* General filter seletion */}
-                    <div
-                        className={`${showGeneralFilter ? "position-fixed":"d-none"} end-0 top-25 p-3`}
-                        style={{ zIndex: 1050 }}
-                    >
-                        <div className="checkbox-dropdown p-3  border border-danger rounded-2">
-                            {options.map((label) => (
-                                <label
-                                    key={label}
-                                    className="form-check d-flex align-items-center mb-2"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input me-2"
-                                        checked={selected.includes(label)}
-                                        onChange={() => handleToggle(label)}
-                                    />
-                                    <span className="text-white">{label}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
 
                     <hr className="text-secondary" />
 
-                    <div className='mt-5'>
+
+
+
+
+
+                    <div className=''>
                         {
                             activeTab === "feed" ? <FeedScreen /> : <NotificationScreen />
                         }

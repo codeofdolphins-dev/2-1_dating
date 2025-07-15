@@ -55,6 +55,7 @@ const FrontScreenTopBar = () => {
                             type="text"
                             className="form-control search-input"
                             placeholder="Enter text to search..."
+                            style={{backgroundColor: "#343a40"}}
                         />
                     </div>
                 </div>

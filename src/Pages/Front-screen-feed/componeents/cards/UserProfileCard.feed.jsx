@@ -1,36 +1,37 @@
-import birthday from "./Images/birthday-cake.png"
-import img from "./Images/Img.png"
+import React from 'react'
+import profileImg from "../Images/Img.png"
 import star from "./Images/star.png"
 import pc from "./Images/pc.png"
 import chat from "./Images/chat.png"
 import male from "./Images/male.png"
 import female from "./Images/female.png"
 import couple from "./Images/couple.png"
-import middleIcon from "./Images/middle-logo.png"
+import middleIcon from "../Images/middle-logo.png"
 
-const LifeEventCard = () => {
+const UserProfileCard = () => {
     return (
         <>
-            <div className="container py-4">
-                <div className="row justify-content-center gx-4 gy-3 align-items-stretch">
-                    <div className="col-lg-11">
-                        <div className='d-flex justify-content-between'>
-                            <div>
-                                <h6 className='text-white'>CPLSUEPAUL has joined Georgia For Chocolate 🍫</h6>
-                            </div>
-                            <div>
-                                <h6 className='text-danger'>Dec 12, 2024 | 24 Members</h6>
-                            </div>
+            <div className="row justify-content-center gx-4 gy-3 align-items-stretch">
+                <div className="col-lg-12">
+                    <div className="d-flex justify-content-between p-3">
+                        <div>
+                            <h6 className="text-white">
+                                CPLSUEPAUL has joined Georgia For Chocolate 🍫
+                            </h6>
+                        </div>
+                        <div>
+                            <h6 className="text-danger">Dec 12, 2024 | 24 Members</h6>
                         </div>
                     </div>
-                    {/* Card Section */}
-                    <div className="col-lg-5">
+                </div>
+                <div className="row main">
+                    <div className="col-lg-6">
                         {/* Left card */}
                         <div className="card h-100" style={{ backgroundColor: "#333b42" }}>
                             <div className="row g-0 h-100">
                                 <div className="col-md-4">
                                     <img
-                                        src={img}
+                                        src={profileImg}
                                         className="img-fluid rounded-start h-100 w-100 object-fit-cover"
                                         alt="Card visual"
                                     />
@@ -114,39 +115,39 @@ const LifeEventCard = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Middle Icon Column */}
-                    <div className="col-lg-1 col-md-1 d-flex justify-content-center align-items-center">
-                        <img
-                            src={middleIcon}
-                            alt="Center Icon"
-                            className="img-fluid"
-                            style={{ maxHeight: "50px", objectFit: "contain" }}
-                        />
-                    </div>
-
-                    {/* Right Card */}
-                    <div
-                        className="col-lg-5 text-white p-3 rounded d-flex flex-column justify-content-center"
-                        style={{ backgroundColor: "#343a40" }}
-                    >
-                        <div className="d-flex justify-content-center">
-                            <div
-                                className="col-lg-5 text-white p-4 rounded d-flex flex-column align-items-center justify-content-center text-center"
-                                style={{ backgroundColor: "#343a40" }}
-                            >
-                                <div className="mb-2">
-                                    <i class="bi bi-cake h1"></i>
+                    {/* icon */}
+                    <img
+                        src={middleIcon}
+                        alt="Center Icon"
+                        className="actionIcon"
+                        style={{ maxHeight: "50px", objectFit: "contain" }}
+                    />
+                    {/* 2nd card */}
+                    <div className="col-lg-6">
+                        <div className="text-white rounded-3 p-4 h-100 d-flex flex-column justify-content-between" style={{ backgroundColor: "#333b42" }}>
+                            <div className='d-flex justify-content-between'>
+                                <div className="mb-4">
+                                    <h6 className="mb-2 text-white">Location Based</h6>
+                                    <p className="mb-1 fw-light">Athens, GA, USA</p>
                                 </div>
-                                <div className="fs-5 fw-semibold">His Birthday</div>
-                            </div>
 
+                                <div>
+                                    <button className="btn btn-primary rounded-pill w-100 py-2 px-4">
+                                        Apply to Join
+                                    </button>
+                                </div>
+                            </div>
+                            <p className="small text-white mb-3" style={{ lineHeight: "1.4" }}>
+                                This group for people who are in the swinging lifestyle for only ladies that is looking for chocolate in georgia. Also couples who have a hotwife looking for chocolate in georgia as well. Because I need to verify people before joining in. Only way to be approved to join the group you need to be located in georgia, also a lady t...more
+                                <a href="#" className="text-info">more</a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
 
-export default LifeEventCard
+export default UserProfileCard

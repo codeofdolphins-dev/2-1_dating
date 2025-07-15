@@ -5,11 +5,13 @@ import {
 } from 'react-icons/fa';
 
 import "./css/style.css"
+import { useNavigate } from 'react-router-dom';
 
 const SettingSidebar = ({open}) => {
+    const navigate = useNavigate()
     console.log(open)
     const menuItems = [
-        { icon: <FaUser />, label: "Profile" },
+        { icon: <FaUser />, label: "Profile",PageLink:"/profile" },
         { icon: <FaWrench />, label: "Account" },
         { icon: <FaMapMarkerAlt />, label: "Location" },
         { icon: <FaUserFriends />, label: "Friends" },
@@ -27,6 +29,10 @@ const SettingSidebar = ({open}) => {
         { icon: <FaPhone />, label: "Contact & Help" }
     ];
 
+    const handleNavigate = (pageLink) =>{
+         navigate(pageLink)
+    }
+
     return (
         <div
             className={`bg-dark text-white p-3   ${open ? " slide-left" : "slide-right"}`}
@@ -35,13 +41,14 @@ const SettingSidebar = ({open}) => {
                 height: "100vh",
                 position: "fixed",
                 right: 0,
-                top: 0,
+                top: 80,
                 overflowY: "auto",
+                zIndex: "2800"
             }}
         >
             <ul className={`list-unstyled m-0 `}>
                 {menuItems.map((item, idx) => (
-                    <li key={idx} className="d-flex align-items-center mb-3 hover-effect">
+                    <li key={idx} className="d-flex align-items-center mb-3 hover-effect" onClick={()=>handleNavigate(item.PageLink)}>
                         <span className="me-2">{item.icon}</span>
                         <span>{item.label}</span>
                     </li>
