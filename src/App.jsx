@@ -27,7 +27,8 @@ function App() {
 
   return (
     <>
-      <BrowserRouter basename="/2-1_dating">
+    {/* basename="/2-1_dating" */}
+      <BrowserRouter >
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/subscription" element={<Subscription/>}/>

@@ -31,13 +31,14 @@ export default function ProfileImageCarousel() {
   }, [swiperInstance]);
 
   return (
-    <div className="custom-swiper-wrapper position-relative">
+    <div className="custom-swiper-wrapper position-relative h-100">
       <Swiper
         modules={[Navigation, Pagination]}
         onSwiper={setSwiperInstance} // 🔧 Save Swiper instance
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
         slidesPerView={1}
         spaceBetween={50}
+        className="h-100"
       >
         {images.map((img, idx) => (
           <SwiperSlide key={idx}>
@@ -45,7 +46,7 @@ export default function ProfileImageCarousel() {
               src={img}
               alt={`Slide ${idx}`}
               className="w-100 rounded-4"
-              style={{ height: "300px", objectFit: "cover" }}
+              style={{ height: "100%", objectFit: "cover" }}
             />
           </SwiperSlide>
         ))}
