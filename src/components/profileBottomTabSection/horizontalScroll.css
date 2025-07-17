@@ -1,0 +1,23 @@
+.scroll-container {
+  cursor: grab;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #007bff #343a40;
+}
+
+/* For Webkit Browsers */
+.scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+.scroll-container::-webkit-scrollbar-track {
+  background: #343a40;
+  border-radius: 8px;
+}
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 8px;
+}
+
+.scroll-container.active {
+  cursor: grabbing;
+}

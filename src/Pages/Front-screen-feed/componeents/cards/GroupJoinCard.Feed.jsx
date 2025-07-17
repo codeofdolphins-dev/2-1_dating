@@ -84,13 +84,13 @@ const GroupJoinCard = () => {
                     <img
                         src={middleIcon}
                         alt="Center Icon"
-                        className="actionIcon"
+                        className="actionIcon "
                         style={{ maxHeight: "50px", objectFit: "contain" }}
                     />
                     {/* 2nd card */}
                     <div
-                        className="col-lg-6 text-white  p-3 rounded d-flex flex-column justify-content-center"
-                        style={{ backgroundColor: "#343a40" }}
+                        className="col-lg-6  text-white  p-2 rounded d-flex flex-column justify-content-center"
+                        style={{ backgroundColor: "#343a40",  }}
                     >
                         <div className="d-flex flex-column align-items-center gap-5 my-5">
                             <button

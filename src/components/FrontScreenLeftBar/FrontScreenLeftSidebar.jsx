@@ -6,8 +6,9 @@ import {
     FaTags
 } from "react-icons/fa";
 
-import logo from "./Img/logo.png"
-import "./css/leftBar.css"
+import { Link } from "react-router-dom";
+import logo from "./Img/logo.png";
+import "./css/leftBar.css";
 
 const FrontScreenLeftSidebar = ({ visiblity }) => {
     return (
@@ -23,53 +24,62 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                 overflowY: "auto"
             }}
         >
-            {/* Scrollable Content */}
             <div style={{ overflowY: "auto" }} className="flex-grow-1 custom-scrollbar">
                 <div className="text-start mb-4">
                     <img src={logo} alt="2+1 Logo" className="logo-img" height={50} />
                 </div>
-                <ul className="list-unstyled" style={{ height: "150vh" }}>
-                    <SidebarItem icon={<FaHome />} label="Feed & updates" />
-                    <SidebarItem icon={<FaEnvelope />} label="Instant Messages" />
-                    <SidebarItem icon={<FaEye />} label="Viewed Me" />
-                    <SidebarItem icon={<FaUsers />} label="Online Now" />
-                    <SidebarItem icon={<FaFire />} label="Hot Date" />
-                    <SidebarItem icon={<FaComments />} label="Chatrooms" />
-                    <SidebarItem icon={<FaVideo />} label="Live stream" />
-                    <SidebarItem icon={<FaUserPlus />} label="New Members" />
-                    <SidebarItem icon={<FaCalendarAlt />} label="Events and Parties" />
-                    <SidebarItem icon={<FaFilm />} label="Videos" />
-                    <SidebarItem icon={<FaAward />} label="Travel Date" />
-                    <SidebarItem icon={<FaCertificate />} label="Certifications" />
-                    <SidebarItem icon={<FaStar />} label="Wall of Fame" />
-                    <SidebarItem icon={<FaUsers />} label="Groups" />
-                    <SidebarItem icon={<FaUserCheck />} label="Request Admin Verification" />
-                    <SidebarItem icon={<FaStar />} label="Spotlight Members" />
-                    <SidebarItem icon={<FaAddressBook />} label="Contacts" />
-                    <SidebarItem icon={<FaBed />} label="Bed & Breakfast" />
-                    <SidebarItem icon={<FaUserFriends />} label="Invite Friends" />
-                    <SidebarItem icon={<FaTags />} label="Classifieds" />
-                    <SidebarItem icon={<FaBullhorn />} label="Advertise" />
+                <ul className="list-unstyled">
+                    <SidebarItem icon={<FaHome />} label="Feed & updates" pageUrl="/feed" />
+                    <SidebarItem icon={<FaEnvelope />} label="Instant Messages" pageUrl="/messages" />
+                    <SidebarItem icon={<FaEye />} label="Viewed Me" pageUrl="/viewed" />
+                    <SidebarItem icon={<FaUsers />} label="Online Now" pageUrl="/online" />
+                    <SidebarItem icon={<FaFire />} label="Hot Date" pageUrl="/hotdate" />
+                    <SidebarItem icon={<FaComments />} label="Chatrooms" pageUrl="/chatrooms" />
+                    <SidebarItem icon={<FaVideo />} label="Live stream" pageUrl="/livestream" />
+                    <SidebarItem icon={<FaUserPlus />} label="New Members" pageUrl="/new-members" />
+                    <SidebarItem icon={<FaCalendarAlt />} label="Events and Parties" pageUrl="/events" />
+                    <SidebarItem icon={<FaFilm />} label="Videos" pageUrl="/videos" />
+                    <SidebarItem icon={<FaAward />} label="Travel Date" pageUrl="/travel" />
+                    <SidebarItem icon={<FaCertificate />} label="Certifications" pageUrl="/certifications" />
+                    <SidebarItem icon={<FaStar />} label="Wall of Fame" pageUrl="/wall-of-fame" />
+                    <SidebarItem icon={<FaUsers />} label="Groups" pageUrl="/groups" />
+                    <SidebarItem icon={<FaUserCheck />} label="Request Admin Verification" pageUrl="/admin-verification" />
+                    <SidebarItem icon={<FaStar />} label="Spotlight Members" pageUrl="/spotlight" />
+                    <SidebarItem icon={<FaAddressBook />} label="Contacts" pageUrl="/contacts" />
+                    <SidebarItem icon={<FaBed />} label="Bed & Breakfast" pageUrl="/bnb" />
+                    <SidebarItem icon={<FaUserFriends />} label="Invite Friends" pageUrl="/invite" />
+                    <SidebarItem icon={<FaTags />} label="Classifieds" pageUrl="/classifieds" />
+                    <SidebarItem icon={<FaBullhorn />} label="Advertise" pageUrl="/advertise" />
+
                     <button className="btn btn-danger w-75 rounded-pill mt-5">
                         Sign Out
                     </button>
-
                 </ul>
             </div>
-
-            {/* Fixed Bottom Button */}
-
         </div>
-
-
     );
 };
 
-const SidebarItem = ({ icon, label }) => (
-    <li className="sidebar-item d-flex align-items-center mb-4 text-white">
-        <span className="me-2">{icon}</span>
-        <span>{label}</span>
-    </li>
-);
+// Updated SidebarItem to support routing
+const SidebarItem = ({ icon, label, pageUrl }) => {
+    const content = (
+        <div className="d-flex align-items-center text-white">
+            <span className="me-2">{icon}</span>
+            <span>{label}</span>
+        </div>
+    );
+
+    return (
+        <li className="sidebar-item mb-4">
+            {pageUrl ? (
+                <Link to={pageUrl} className="text-decoration-none">
+                    {content}
+                </Link>
+            ) : (
+                content
+            )}
+        </li>
+    );
+};
 
 export default FrontScreenLeftSidebar;

@@ -6,7 +6,7 @@ import FrontScreenLeftSidebar from "../FrontScreenLeftBar/FrontScreenLeftSidebar
 import SettingSidebar from "../SettingSidebar/SettingsSidebar";
 
 const FrontScreenTopBar = () => {
-    const [appear, SetApper] = useState(true)
+    const [appear, SetApper] = useState(false)
     const [open, SetOpen] = useState(false)
 
     const handleSetting= () => {
