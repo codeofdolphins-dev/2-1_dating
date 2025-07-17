@@ -4,7 +4,7 @@ import FrontScreenTopBar from "./FrontScreenTopBar/FrontScreenTopBar";
 import React from "react";
 import SettingSidebar from "./SettingSidebar/SettingsSidebar";
 
-const PageWrapper = ({ children }) => {
+const PageWrapper = ({ children },) => {
   return (
     <>
       <FrontScreenLeftSidebar />

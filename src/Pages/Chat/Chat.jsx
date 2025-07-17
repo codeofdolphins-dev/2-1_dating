@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaSearch, FaEllipsisH, FaPhone, FaVideo, FaCog, FaPaperPlane, FaMicrophone, FaPlus, FaSmile } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './chat.css';
+// import PageWrapper from '../../components/PageWrapper';
 import PageWrapper from '../../components/PageWrapper';
 
 const Chat = () => {

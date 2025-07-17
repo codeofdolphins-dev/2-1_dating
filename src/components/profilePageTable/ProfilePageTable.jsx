@@ -1,4 +1,6 @@
 import React from 'react'
+import female from "./img/female.png"
+import male from "./img/male.png"
 
 const ProfilePageTable = () => {
   return (
@@ -10,8 +12,8 @@ const ProfilePageTable = () => {
   <thead className="text-start">
     <tr style={{ backgroundColor: "transparent" }}>
       <th className="text-white">Details</th>
-      <th className="text-white">Char</th>
-      <th className="text-white">Parm</th>
+      <th className="text-white"><img src={female} alt="" srcset="" />Char</th>
+      <th className="text-white"><img src={male} alt="" srcset="" />Parm</th>
     </tr>
   </thead>
   <tbody>

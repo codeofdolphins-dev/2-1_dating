@@ -55,9 +55,9 @@ export default function ProfileImageCarousel() {
               <img
                 src={img}
                 alt={`Slide ${idx}`}
-                className="w-100 rounded-4"
+                className="w-100 rounded-4 carousel-img"
                 style={{
-                height: "380px",          // ✅ Fixed height
+                height: "370px",          // ✅ Fixed height
                 width: "auto",            // Maintain aspect ratio
                 objectFit: "cover",       // Cover the space without distortion
                 maxWidth: "100%"          // Prevent overflow on smaller screens

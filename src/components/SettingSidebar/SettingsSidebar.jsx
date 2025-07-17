@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 
 const SettingSidebar = ({open}) => {
     const navigate = useNavigate()
-    console.log(open)
     const menuItems = [
         { icon: <FaUser />, label: "Profile",PageLink:"/profile" },
         { icon: <FaWrench />, label: "Account" },
@@ -46,7 +45,7 @@ const SettingSidebar = ({open}) => {
                 zIndex: "2800"
             }}
         >
-            <ul className={`list-unstyled m-0 `}>
+            <ul className={`list-unstyled m-0 `} style={{cursor:"pointer"}}>
                 {menuItems.map((item, idx) => (
                     <li key={idx} className="d-flex align-items-center mb-3 hover-effect" onClick={()=>handleNavigate(item.PageLink)}>
                         <span className="me-2">{item.icon}</span>

@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
+import "./groupcss.css"
 
 import img1 from "./img/couple.avif";
 import img2 from "./img/coupleImg.jpeg";
@@ -16,89 +17,106 @@ import female from "./img/female.png";
 const images = [img1, img2, img3, img4];
 
 const Groups = () => {
-    const prevRef = useRef(null);
-    const nextRef = useRef(null);
-    const [swiperInstance, setSwiperInstance] = useState(null);
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const [swiperInstance, setSwiperInstance] = useState(null);
 
-    useEffect(() => {
-        if (swiperInstance && prevRef.current && nextRef.current) {
-            swiperInstance.params.navigation.prevEl = prevRef.current;
-            swiperInstance.params.navigation.nextEl = nextRef.current;
-            swiperInstance.navigation.destroy();
-            swiperInstance.navigation.init();
-            swiperInstance.navigation.update();
-        }
-    }, [swiperInstance]);
+  useEffect(() => {
+    if (swiperInstance && prevRef.current && nextRef.current) {
+      swiperInstance.params.navigation.prevEl = prevRef.current;
+      swiperInstance.params.navigation.nextEl = nextRef.current;
+      swiperInstance.navigation.destroy();
+      swiperInstance.navigation.init();
+      swiperInstance.navigation.update();
+    }
+  }, [swiperInstance]);
 
-    return (
-        <div
-      className="rounded-4 text-white pb-3 px-3 pt-3"
-      style={{
-        backgroundColor: "#343a40",
-        width: "600px",
-        minWidth: "600px",
-        flexShrink: 0,
-      }}
-    >
-      {/* 📸 Image */}
-      <div className="row g-3">
-        <div className="col-lg-6 pe-lg-2">
-          <img
-            src={img2}
-            alt="Profile"
-            className="w-100 rounded-3"
-            style={{ objectFit: "cover", height: "250px" }}
-          />
+  return (
+   <div
+  className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4"
+  style={{
+    backgroundColor: "#343a40",
+    width: "600px",
+    minWidth: "600px",
+    flexShrink: 0,
+  }}
+>
+  {/* 📸 Image & Info */}
+  <div className="row g-3">
+    <div className="col-lg-6 pe-lg-2">
+      <img
+        src={img2}
+        alt="Profile"
+        className="w-100 rounded-3"
+        style={{ objectFit: "cover", height: "250px" }}
+      />
+    </div>
+
+    <div className="col-lg-6 d-flex flex-column justify-content-between ps-2">
+      <div>
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className="fw-bold mb-3">FOR2MORE</h5>
         </div>
 
-        {/* 📝 Info */}
-        <div className="col-lg-6 d-flex flex-column justify-content-between ps-2">
+        <hr className="my-2" />
+
+        <div className="mb-2 d-flex gap-2 align-items-center">
+          <p className="mb-0 fw-semibold fs-6">by FUN4TWO</p>
+        </div>
+
+        <hr className="my-2" />
+
+        <div className="small text-white gap-2 mb-2 d-flex">
           <div>
-            <div className="d-flex justify-content-between align-items-center">
-              <h5 className="fw-bold mb-2">FOR2MORE</h5>
+            <i className="bi bi-geo-alt-fill"></i>
+          </div>
+          <div>94555, CA 94555, USA | 8412 mi</div>
+        </div>
+
+        <hr className="my-2" />
+
+        <div className="d-flex gap-2">
+          <div className="d-flex gap-2">
+            <div className="small text-white">
+              <i className="bi bi-file-earmark-text-fill"></i>
             </div>
-
-            <hr className="my-2" />
-
-            <div className="mb-2 d-flex gap-2 align-items-center">
-              <p className="mb-0 fw-semibold fs-6">by FUN4TWO</p>
+            <div className="small text-white">
+              <p>556</p>
             </div>
-
-            <hr className="my-2" />
-
-            <div className="small text-secondary mb-2">
-              94555, CA 94555, USA | 8412 mi
+          </div>
+          <div className="d-flex gap-2">
+            <div className="small text-white">
+              <i className="bi bi-file-earmark-text-fill"></i>
             </div>
-
-            <hr className="my-2" />
-
-            <p className="small mb-2 text-white">
-              I hereby certify that the profile from CPLSUEPAUL is for real!
-            </p>
-
-            <hr className="my-2" />
-
-            <div className="text-secondary small">
-              <span className="text-danger">by FOR2MORE</span> Feb 08, 2025
+            <div className="small text-white">
+              <p>556</p>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Description & Join */}
-      <p className="mt-3 text-light small">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, doloribus maiores placeat eaque rem enim.
-      </p>
-      <div
-        className="text-primary d-flex align-items-center gap-1 mt-0"
-        style={{ cursor: "pointer" }}
-      >
-        <i className="bi bi-plus" />
-        <span>Join</span>
+        <hr className="my-2" />
+
+        <div className="text-secondary small">
+          <span className="text-danger">by FOR2MORE</span> Feb 08, 2025
+        </div>
       </div>
     </div>
+  </div>
 
-    );
+  {/* 👇 Hidden Description & Join - visible on hover */}
+  <div className="hover-overlay position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-75 text-light transition-all" style={{ opacity: 0, visibility: "hidden" }}>
+    <p className="mb-2 small">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, doloribus maiores placeat eaque rem enim.
+    </p>
+    <div className="text-primary d-flex align-items-center gap-1" style={{ cursor: "pointer" }}>
+      <i className="bi bi-plus" />
+      <span>Join</span>
+    </div>
+  </div>
+</div>
+
+
+  );
 };
 
 export default Groups;

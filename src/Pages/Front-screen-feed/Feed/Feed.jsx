@@ -5,8 +5,9 @@ import "./feedStyle.css"
 import GeneralFilter from '../componeents/GeneralFilter'
 import FeedScreen from '../componeents/FeedScreen.Feed'
 import NotificationScreen from '../componeents/NotificationScreen.Feed'
-import PageWrapper from '../../../components/PageWrapper'
+// import PageWrapper from '../../../components/PageWrapper'
 import CheckboxDropdown from '../../../components/dropdown/CheckboxDropdown'
+import PageWrapper from '../../../components/PageWrapper'
 
 const GeneralFilteroptions = [
     "Viewed me",

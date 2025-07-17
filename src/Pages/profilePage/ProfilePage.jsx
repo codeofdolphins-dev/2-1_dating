@@ -24,6 +24,9 @@ import ProfilePageCertificationCard from '../../components/profilePageBottomCard
 import ProfilePageCertificationCardContainer from '../../components/profileBottomTabSection/ProfilePageCertificationCardContainer'
 import ProfilePageTable from '../../components/profilePageTable/ProfilePageTable'
 import ProfilePageGroupCardContainer from '../../components/profileBottomTabSection/ProfilePageGroupCardContainer'
+import PartiesAndeventCardContainer from '../../components/profileBottomTabSection/PartiesAndeventCardContainer'
+import ProfilePageFollowingCardContainer from '../../components/profileBottomTabSection/ProfilePageFollowingCardContainer'
+import FriendsCardContainer from '../../components/profileBottomTabSection/FriendsCardContainer'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
@@ -173,31 +176,54 @@ const ProfilePage = () => {
 
                     {/* bottom tab section */}
 
-                    <div className="border-bottom">
-                        <div className="d-flex gap-5 px-3 pt-2 mt-4">
-                            {tabs.map((tab) => {
-                                const isActive = activeTab === tab.label;
-                                return (
-                                    <div className='d-flex pb-0'>
-                                    <div
-                                        key={tab.label}
-                                        className={`pb-2 cursor-pointer ${isActive ? "text-primary fw-semibold border-bottom border-2 border-primary" : "text-light"
-                                            }`}
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() => setActiveTab(tab.label)}
-                                    >
-                                        {tab.label}
-                                    </div>
-                                        {tab.count !== undefined && (
-                                            <div className={`ms-1 ${isActive ? "text-primary":"text-white"}`}>({tab.count})</div>
-                                        )}
-                                    </div>
-                                );
-                            })}
+                    <div
+                        className="border-bottom d-flex flex-wrap justify-content-between align-items-center px-3 py-3 gap-3"
+                        style={{ cursor: "pointer" }}
+                    >
+                        <div className="d-flex flex-wrap align-items-center justify-content-between px-3 py-3 gap-3">
+                            {/* Tabs */}
+                            <div className="d-flex flex-wrap gap-4 flex-grow-1 align-items-center">
+                                {tabs.map((tab) => {
+                                    const isActive = activeTab === tab.label;
+                                    return (
+                                        <div
+                                            className="d-flex align-items-center gap-1 cursor-pointer pb-2"
+                                            key={tab.label}
+                                            onClick={() => setActiveTab(tab.label)}
+                                        >
+                                            <span
+                                                className={`${isActive
+                                                        ? "text-primary fw-semibold border-bottom border-2 border-primary"
+                                                        : "text-light"
+                                                    }`}
+                                            >
+                                                {tab.label}
+                                            </span>
+                                            {tab.count !== undefined && (
+                                                <span className={`${isActive ? "text-primary" : "text-white"}`}>
+                                                    ({tab.count})
+                                                </span>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
                         </div>
+                            {/* Show All Button aligned right */}
+                            <div className="ms-auto">
+                                <button className="px-4 py-2 bg-primary text-white rounded-pill border-0">
+                                    Show All
+                                </button>
+                            </div>
+
+
                     </div>
 
-                    {activeTab==="Certifications"? <ProfilePageCertificationCardContainer />:activeTab==="Groups" && <ProfilePageGroupCardContainer/> }
+
+
+                    {activeTab === "Certifications" ? <ProfilePageCertificationCardContainer /> : activeTab === "Groups" ? <ProfilePageGroupCardContainer /> : activeTab === "Parties & Events" ? <PartiesAndeventCardContainer /> : activeTab === "Following" ? <ProfilePageFollowingCardContainer /> : activeTab === "Friends" && <FriendsCardContainer />}
+                    {/* <ProfilePageCertificationCard/> */}
                 </div>
 
 

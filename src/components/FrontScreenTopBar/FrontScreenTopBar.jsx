@@ -26,6 +26,7 @@ const FrontScreenTopBar = () => {
                     right: 0,
                     zIndex: 1050,
                     height: "80px", // optional fixed height
+                    cursor: "pointer"
                 }}
             >
                 {/* Left: Hamburger + Search */}

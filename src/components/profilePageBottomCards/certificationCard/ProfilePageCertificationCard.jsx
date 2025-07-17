@@ -106,21 +106,25 @@ const ProfilePageCertificationCard = () => {
                     </div>
 
                     <hr />
-                    <div className="mb-2 d-flex gap-3">
-                        <div >
-                            <p className="mb-1 fw-semibold fs-5">Interests:</p>
-                        </div>
-                        <div className="d-flex mt-1">
-                            <div><img src={male} height={20} alt="" /></div>
-                            <div><img src={female} height={20} alt="" /></div>
-                            <div><img src={male} height={20} alt="" /></div>
+                    <div className="mb-2 d-flex align-items-center gap-3 pt-2">
+                        {/* Label */}
+                        <p className="mb-0 fw-semibold fs-5">Interests:</p>
+
+                        {/* Icons */}
+                        <div className="d-flex gap-1">
+                            <img src={male} height={20} alt="male" />
+                            <img src={female} height={20} alt="female" />
+                            <img src={male} height={20} alt="male" />
                         </div>
                     </div>
+
                     <hr />
-                    <div className="small text-secondary mb-2 mt-1">
-                        94555, CA 94555, USA | 8412 mi
+                    <div className="d-flex align-items-center gap-2 text-secondary small py-2">
+                        <i className="bi bi-geo-alt-fill"></i>
+                        <span>94555, CA 94555, USA | 8412 mi</span>
                     </div>
-                     <hr />
+
+                    <hr />
                 </div>
 
 
@@ -129,7 +133,7 @@ const ProfilePageCertificationCard = () => {
                     I hereby certify that the profile from CPLSUEPAUL is for real!
                 </p>
 
-                 <hr />
+                <hr />
 
                 <div className="text-start text-secondary small">
                     <div className="text-danger">by FOR2MORE Feb 08, 2025</div>

@@ -19,6 +19,7 @@ import ProfilePage from './Pages/profilePage/profilePage';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import ViewsPage from './Pages/viewsPage/ViewsPage';
 
 
 
@@ -42,6 +43,7 @@ function App() {
         {/* Front-screen */}
         <Route path="/feed" element={<Feed/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/view" element={<ViewsPage/>}/>
       </Routes>
       </BrowserRouter>
     </>
