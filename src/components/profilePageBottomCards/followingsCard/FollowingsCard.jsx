@@ -34,7 +34,7 @@ const FollowingsCard = () => {
     }, [swiperInstance]);
 
     return (
-        <div className="row g-3 rounded-4 text-white pb-2 ml-3 mt-4" style={{ backgroundColor: "#343a40", maxWidth: "650px" }}>
+        <div className="row g-3 rounded-4 text-white pb-2 ml-3 mt-4" style={{ backgroundColor: "var(--color-border)",border:"1px solid #ffffff", maxWidth: "650px" }}>
             {/* 📸 Carousel Column */}
             <div className="col-lg-6 pe-lg-3  position-relative" style={{ marginTop: "8px" }}>
                 <div className="rounded-4 overflow-hidden">
@@ -88,7 +88,7 @@ const FollowingsCard = () => {
                 <div>
                     <div className="d-flex justify-content-between">
                         <div>
-                            <h5 className="fw-bold mb-2">BOLEROPALACE</h5>
+                            <h5 className="fw-bold mb-2" style={{color:"var(--color-primary-green)"}}>BOLEROPALACE</h5>
                         </div>
                         {/* <div>
                             <div className='d-flex gap-2'>

@@ -118,7 +118,7 @@ const RegistrationForm = () => {
       <ToastContainer />
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-5">
-          <div className="card " style={{ backgroundColor: '#343a40' }}>
+          <div className="card " style={{ backgroundColor: 'var(--color-border)' }}>
             <div className="card-body p-5 row justify-content-center">
               <h2 className="text-center mb-4 text-white h2">Create Member Account</h2>
 
@@ -277,7 +277,7 @@ const RegistrationForm = () => {
 
                 {/* Phone Number with OTP */}
                 {/* Phone Number with OTP */}
-                <div className="mb-3">
+                <div className="mb-4">
                   <div className="row g-2">
                     {/* Country Code */}
                     <div className="col-md-2">
@@ -376,10 +376,10 @@ const RegistrationForm = () => {
                   <label className="form-check-label text-white" htmlFor="rememberMe">Remember me</label>
                 </div> */}
 
-                <hr style={{ color: "#ffff" }} />
+                <hr style={{ color: "#ffff",  }} />
 
                 {/* Age Verification */}
-                <div className="mb-3 form-check">
+                <div className="mb-3 form-check mt-3">
                   <input
                     type="checkbox"
                     className={`form-check-input ${errors.ageVerified ? 'is-invalid' : ''}`}
@@ -412,7 +412,7 @@ const RegistrationForm = () => {
 
                 {/* Submit Button */}
                 <div className="d-grid mb-3">
-                  <button type="submit" className="btn btn-primary btn-lg">
+                  <button type="submit" className="btn btn-lg" style={{background:"var(--color-primary-green)"}}>
                     Create an account
                   </button>
                 </div>

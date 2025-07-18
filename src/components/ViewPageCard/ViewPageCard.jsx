@@ -15,6 +15,7 @@ import female from "./img/female.png";
 import drink from "./img/drink.png"
 import phone from "./img/phone.png"
 import star from "./img/star.png"
+import ActionMenu from "./Actionmenu";
 
 
 const images = [img1, img2, img3, img4];
@@ -35,7 +36,7 @@ const ViewPageCard = () => {
     }, [swiperInstance]);
 
     return (
-        <div className="row g-3 rounded-4 text-white pb-2 ml-3 mt-4" style={{ backgroundColor: "#343a40", maxWidth: "650px" }}>
+        <div className="row g-3 rounded-4 text-white pb-2 ml-3 mt-4" style={{ backgroundColor: "var(--color-border)",border:"2px solid #ffffff", maxWidth: "650px" }}>
             {/* 📸 Carousel Column */}
             <div className="col-lg-6 pe-lg-3  position-relative" style={{ marginTop: "8px" }}>
                 <div className="rounded-4 overflow-hidden">
@@ -63,25 +64,32 @@ const ViewPageCard = () => {
                 </div>
 
                 {/* 🔽 Navigation Buttons inside carousel column only */}
-                <div
-                    className="position-absolute bottom-0 start-2 m-2 d-flex gap-2"
-                    style={{ zIndex: 10 }}
-                >
-                    <button
-                        ref={prevRef}
-                        className="bg-primary border-0 rounded-circle text-white p-2"
-                        style={{ width: "32px", height: "32px" }}
-                    >
-                        <i className="bi bi-chevron-left"></i>
-                    </button>
-                    <button
-                        ref={nextRef}
-                        className="bg-primary border-0 rounded-circle text-white p-2"
-                        style={{ width: "32px", height: "32px" }}
-                    >
-                        <i className="bi bi-chevron-right"></i>
-                    </button>
+                <div className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2" style={{ zIndex: 10 }}>
+                    {/* Left Buttons (Prev/Next) */}
+                    <div className="d-flex gap-2">
+                        <button
+                            ref={prevRef}
+                            className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
+                            style={{ width: "32px", height: "32px" }}
+                        >
+                            <i className="bi bi-chevron-left"></i>
+                        </button>
+                        <button
+                            ref={nextRef}
+                            className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
+                            style={{ width: "32px", height: "32px" }}
+                        >
+                            <i className="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    {/* Right Button (Up arrow) */}
+                    
+
+                    {<ActionMenu/>}
                 </div>
+
+
             </div>
 
             {/* 📝 Info Column */}

@@ -19,7 +19,7 @@ const FrontScreenTopBar = () => {
             <div
                 className="topbar d-flex justify-content-between align-items-center px-3 py-4"
                 style={{
-                    background: "#212529",
+                    background: "var(--color-border)",
                     position: "fixed",
                     top: 0,
                     left: 0,
@@ -56,7 +56,7 @@ const FrontScreenTopBar = () => {
                             type="text"
                             className="form-control search-input"
                             placeholder="Enter text to search..."
-                            style={{backgroundColor: "#343a40"}}
+                            style={{backgroundColor: "var(--color-background)",border:"2px solid #343a40"}}
                         />
                     </div>
                 </div>

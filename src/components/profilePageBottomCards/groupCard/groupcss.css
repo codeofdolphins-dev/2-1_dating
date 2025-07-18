@@ -1,5 +1,16 @@
 .group:hover .hover-overlay {
-  opacity: 1 !important;
+  opacity: 0.9 !important;
   visibility: visible !important;
   transition: opacity 0.3s ease-in-out;
+}
+
+.card-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-container:hover .hover-overlay {
+  opacity: 0.8 !important;
+  visibility: visible !important;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }

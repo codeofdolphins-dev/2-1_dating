@@ -5,6 +5,8 @@ import femaleIcon from "./img/female.png"
 import male from "./img/male.png"
 import couple from "./img/couple.png"
 import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
+import cameraxxx from "./img/camera-xxx.png";
+// import camera from "./img/camera-xxx.png"
 import { Container, Row, Col } from "react-bootstrap";
 import {
     FaMapMarkerAlt,
@@ -16,6 +18,7 @@ import {
     FaShareAlt,
     FaEnvelope,
     FaHeart,
+    FaCamera
 } from "react-icons/fa";
 // import { MdLocalMovies, MdAdultContent } from "react-icons/md";
 import { BsChatDots, BsBookmark } from "react-icons/bs";
@@ -41,8 +44,8 @@ const actionIcons = [
     { icon: <FaEnvelope />, label: "Invite" },
     { icon: <BsBookmark />, label: "Remember" },
     { icon: <FaHeart />, label: "Kiss" },
-    { icon: <FaHeart />, label: "Kiss" },
-    { icon: <FaHeart />, label: "Kiss" },
+    { icon: <FaCamera />, label: "Adult" },
+    { icon: cameraxxx, label: "Adult Photo" }, ,
 ];
 
 const tabs = [
@@ -60,9 +63,9 @@ const ProfilePage = () => {
     return (
         <>
             <PageWrapper>
-                <div className="container-fluid px-4 py-3" style={{ backgroundColor: "#212529" }}>
+                <div className="container-fluid px-4 py-3" style={{ backgroundColor: "var(--color-background)" }}>
                     {/* Profile slider section */}
-                    <div className="row rounded-4 py-3" style={{ backgroundColor: "#343a40" }}>
+                    <div className="row rounded-4 py-3" style={{ backgroundColor: "var(--color-border)", border: "1px solid #ffffff" }}>
                         {/* Left Column: Carousel */}
                         <div className="col-lg-4 mb-3 mb-lg-0">
                             <ProfileImageCarousel />
@@ -71,7 +74,7 @@ const ProfilePage = () => {
                         {/* Right Column: Content Placeholder */}
                         <div className="col-lg-8 text-white d-flex align-items-center justify-content-start">
                             <div className="w-100">
-                                <div className="px-2 rounded-4 text-white" style={{ backgroundColor: "#343a40" }}>
+                                <div className="px-2 rounded-4 text-white" style={{ backgroundColor: "var(--color-border)" }}>
                                     <div className="mb-4">
                                         <h5 className="fw-bold fs-2 d-flex align-items-center gap-2">
                                             CPLSUEPAUL <span className="text-warning">★</span>
@@ -100,14 +103,16 @@ const ProfilePage = () => {
                                     </div>
 
                                     {/* Action Icons */}
-                                    <div className="d-flex flex-wrap flex-lg-wrap justify-content-left gap-3 text-center mb-3">
+                                    <div className="d-flex flex-wrap gap-3 text-center mb-3">
                                         {actionIcons.map((item, index) => (
                                             <div key={index} className="d-flex flex-column align-items-center">
                                                 <div
                                                     className="border border-1 rounded-circle fs-6 d-flex align-items-center justify-content-center"
                                                     style={{ width: "40px", height: "40px" }}
                                                 >
-                                                    {item.icon}
+                                                    {React.isValidElement(item.icon)
+                                                        ? item.icon
+                                                        : <img src={item.icon} alt="" height={20} />}
                                                 </div>
                                                 <small className="mt-1">{item.label}</small>
                                             </div>
@@ -115,19 +120,19 @@ const ProfilePage = () => {
                                     </div>
 
                                     {/* Bottom Info Strip */}
-                                    <div className="bg-dark px-3 py-3 mt-5 rounded-3 d-flex flex-wrap gap-3 justify-content-between align-items-center">
-                                        <div className="text-white">
+                                    <div className=" px-3 py-3 mt-5 rounded-3 d-flex flex-wrap gap-3 justify-content-between align-items-center" style={{ backgroundColor: "var(--color-primary-green)" }}>
+                                        <div className="text-black">
                                             <strong>Looking for:</strong>{" "}
                                             <span className="text-secondary">Girl on Girl | Soft Swap | Full Swap</span>
                                         </div>
-                                        <div className="text-white d-flex gap-2">
+                                        <div className="text-black d-flex gap-2">
                                             <div><strong>Interests:</strong>{" "}</div>
                                             <div className='d-flex'>
                                                 <div><img src={femaleIcon} height={20} alt="" /></div>
                                                 <div><img src={couple} alt="" height={20} /></div>
                                             </div>
                                         </div>
-                                        <div className="text-white">
+                                        <div className="text-black">
                                             <strong>Fantasy:</strong>{" "}
                                             <span className="text-secondary">Cuckold | Flashing | Wife swap</span>
                                         </div>
@@ -140,10 +145,10 @@ const ProfilePage = () => {
                     {/* Lifetime member section */}
                     <div className="row mt-2">
                         <div className="col-12 ">
-                            <div className="rounded-4 py-4 px-4" style={{ backgroundColor: "#343a40" }}>
+                            <div className="rounded-4 py-4 px-4" style={{ backgroundColor: "var(--color-border)", border: "1px solid white" }}>
                                 <div className="d-flex justify-content-between align-items-center mb-4">
                                     <h4 className="mb-0 text-white fs-2">Lifetime Member</h4>
-                                    <div className="px-4 py-2 bg-primary rounded-pill text-white fw-semibold">
+                                    <div className="px-4 py-2 rounded-pill text-black fw-semibold" style={{backgroundColor:"var(--color-primary-green)",cursor:"pointer"}}>
                                         Translate
                                     </div>
                                 </div>
@@ -170,7 +175,7 @@ const ProfilePage = () => {
                     </div>
 
                     {/* profile table */}
-                    <div className='p-3 rounded-4 mt-2' style={{ backgroundColor: "#343a40" }}>
+                    <div className='p-3 rounded-4 mt-2' style={{ backgroundColor: "var(--color-border)" }}>
                         <ProfilePageTable femaleIcon={femaleIcon} male={male} />
                     </div>
 
@@ -192,15 +197,31 @@ const ProfilePage = () => {
                                             onClick={() => setActiveTab(tab.label)}
                                         >
                                             <span
-                                                className={`${isActive
-                                                        ? "text-primary fw-semibold border-bottom border-2 border-primary"
-                                                        : "text-light"
-                                                    }`}
+                                                className={`${isActive ? "fw-semibold  " : "text-light"}`}
+                                                style={
+                                                    isActive
+                                                        ? {
+                                                            color: "var(--color-primary-green)",
+                                                            borderBottom: "2px solid var(--color-primary-green)"
+                                                        }
+                                                        : {
+                                                            color:"#ffffff"
+                                                        }
+                                                }
                                             >
                                                 {tab.label}
                                             </span>
+
                                             {tab.count !== undefined && (
-                                                <span className={`${isActive ? "text-primary" : "text-white"}`}>
+                                                <span style={
+                                                    isActive
+                                                        ? {
+                                                            color: "var(--color-primary-green)",
+                                                        }
+                                                        : {
+                                                            color:"#ffffff"
+                                                        }
+                                                }>
                                                     ({tab.count})
                                                 </span>
                                             )}
@@ -210,12 +231,12 @@ const ProfilePage = () => {
                             </div>
 
                         </div>
-                            {/* Show All Button aligned right */}
-                            <div className="ms-auto">
-                                <button className="px-4 py-2 bg-primary text-white rounded-pill border-0">
-                                    Show All
-                                </button>
-                            </div>
+                        {/* Show All Button aligned right */}
+                        <div className="ms-auto">
+                            <button className="px-4 py-2 text-black rounded-pill border-0" style={{backgroundColor:"var(--color-primary-green)"}}>
+                                Show All
+                            </button>
+                        </div>
 
 
                     </div>
@@ -233,4 +254,4 @@ const ProfilePage = () => {
     )
 }
 
-export default ProfilePage
+export default ProfilePage;

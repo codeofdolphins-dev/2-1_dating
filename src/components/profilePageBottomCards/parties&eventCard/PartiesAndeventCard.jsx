@@ -35,10 +35,11 @@ const PartiesAndeventCard = () => {
    <div
   className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4"
   style={{
-    backgroundColor: "#343a40",
+    backgroundColor: "var(--color-border)",
     width: "600px",
     minWidth: "600px",
     flexShrink: 0,
+    border:"1px solid #ffffff"
   }}
 >
   {/* 📸 Image & Info */}
@@ -57,7 +58,7 @@ const PartiesAndeventCard = () => {
   <div className="col-lg-6 d-flex align-items-center ps-2">
     <div className="w-100">
       <div className="text-center mb-3">
-        <h5 className="fw-bold text-start">
+        <h5 className="fw-bold text-start" style={{color:"var(--color-primary-green)"}}>
           PORNSTARS ENVY HARDCORE NASTY WITH CLASS DALLAS TX
         </h5>
       </div>
@@ -72,7 +73,7 @@ const PartiesAndeventCard = () => {
       <hr className="my-2" />
 
       <div className="text-secondary small">
-        <span className="text-danger">by FOR2MORE</span> Feb 08, 2025
+        <span className="" style={{color:"var(--color-primary-green)"}}>by FOR2MORE</span> Feb 08, 2025
       </div>
     </div>
   </div>
@@ -80,7 +81,7 @@ const PartiesAndeventCard = () => {
 
 
   {/* 👇 Hidden Description & Join - visible on hover */}
-  <div className="hover-overlay position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-75 text-light transition-all" style={{ opacity: 0, visibility: "hidden" }}>
+  {/* <div className="hover-overlay position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-75 text-light transition-all" style={{ opacity: 0, visibility: "hidden" }}>
     <p className="mb-2 small">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, doloribus maiores placeat eaque rem enim.
     </p>
@@ -88,7 +89,7 @@ const PartiesAndeventCard = () => {
       <i className="bi bi-plus" />
       <span>Join</span>
     </div>
-  </div>
+  </div> */}
 </div>
 
 

@@ -6,14 +6,23 @@ const ProfilePageTable = () => {
   return (
     <>
     <table
-  className="table text-white mb-0"
-  style={{ backgroundColor: "#343a40", borderCollapse: "collapse" }}
+  className="table text-white mb-0 custom-dark-table"
+  style={{
+  
+    borderCollapse: "collapse"
+  }}
 >
-  <thead className="text-start">
-    <tr style={{ backgroundColor: "transparent" }}>
+  <thead className="text-start thead-dark">
+    <tr style={{ backgroundColor: "var(--color-border)" }}>
       <th className="text-white">Details</th>
-      <th className="text-white"><img src={female} alt="" srcset="" />Char</th>
-      <th className="text-white"><img src={male} alt="" srcset="" />Parm</th>
+      <th className="text-white">
+        <img src={female} alt="Female" className="me-1" />
+        Char
+      </th>
+      <th className="text-white">
+        <img src={male} alt="Male" className="me-1" />
+        Parm
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -32,19 +41,17 @@ const ProfilePageTable = () => {
       ["Intelligence is important?", "Very Important", "Very Important"],
       ["Sexuality", "Bi-sexual", "Bi-sexual"],
       ["Relationship status", "Swinger", "Swinger"],
-      ["Experience level", "Advanced", "Advanced"],
+      ["Experience level", "Advanced", "Advanced"]
     ].map(([label, char, parm], i) => (
-      <tr
-        key={i}
-        style={{ borderBottom: "1px solid #555" }}
-      >
-        <td className='text-white'>{label}</td>
-        <td className='text-white'>{char}</td>
-        <td className='text-white'>{parm}</td>
+      <tr key={i} style={{ borderBottom: "1px solid var(--color-background)" }}>
+        <td className="text-white">{label}</td>
+        <td className="text-white">{char}</td>
+        <td className="text-white">{parm}</td>
       </tr>
     ))}
   </tbody>
 </table>
+
 
     </>
   )

@@ -3,11 +3,11 @@ import Navbar from '../HomePage/HomeComponents/Navbar'
 import SubscriptionCard from '../SubscriptionPage/SubscriptionComponent/SubscriptionCard'
 
 const Subscription = () => {
-    const check = <i class="bi bi-check-lg me-3 h5"></i>;
-const cross = <i className="bi bi-x text-white me-2 h5"></i>;
+    const check = <i class="bi bi-check-lg me-3 h5" style={{color:"var(--color-success-green)"}}></i>;
+const cross = <i className="bi bi-x me-2 h5" style={{color:"var(--color-success-green)"}}></i>;
     return (
         <>
-            <div className='container-fluid' style={{ backgroundColor: "#1a1e21" }} >
+            <div className='container-fluid' style={{ backgroundColor: "var(--color-background)" }} >
                 <Navbar />
                 <div className='container  pb-5' style={{paddingTop: "150px"}}>
                     <div className='mb-4'>
@@ -52,8 +52,8 @@ const cross = <i className="bi bi-x text-white me-2 h5"></i>;
                     {/* Conatiner */}
                     <div className="container py-4">
                         <div
-                            className="bg-dark text-white rounded-3 p-4"
-                            style={{ backgroundColor: '#2c3034', fontSize: '0.9rem' }}
+                            className=" text-white rounded-3 p-4"
+                            style={{ backgroundColor: 'var(--color-border)', fontSize: '0.9rem',border: "1px solid #374151" }}
                         >
                             <p className="fw-semibold text-uppercase  mb-4" style={{ fontSize: '0.85rem', color: "#d1d5db" }} >
                                 Account is automatically renewed unless you disable recurring billing on the account page before the renewal date.
@@ -126,7 +126,7 @@ const cross = <i className="bi bi-x text-white me-2 h5"></i>;
                             {/* Trial Member Features */}
                             <div className="col-lg-4">
                                 <h5 className="fw-bold mb-3 text-uppercase mb-4">trial member features</h5>
-                                <div className=" rounded-3 p-4" style={{backgroundColor: "#343a40"}}>
+                                <div className=" rounded-3 p-4" style={{backgroundColor: "var(--border-color)",border: "1px solid #374151"}}>
                                     <p className="mb-2" style={{color :"#9ca3af"}}>{cross}Limited to 10 messages per day</p>
                                     <p className="mb-2" style={{color :"#9ca3af"}}>{cross}Can only receive friend requests</p>
                                     <p className="mb-2" style={{color :"#9ca3af"}}>{cross}View limited profile information</p>

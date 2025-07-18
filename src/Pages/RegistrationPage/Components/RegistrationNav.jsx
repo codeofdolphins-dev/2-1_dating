@@ -13,7 +13,7 @@ const RegistrationNav = () => {
         navigate("/login")
     }
   return (
-    <header className="bg-dark py-3 px-4 ">
+    <header className="py-3 px-4" style={{backgroundColor: "var(--color-background)"}}>
                 <div className="d-flex justify-content-between align-items-center container custom-placeholder">
                     {/* Logo */}
                     <div onClick={handleHomeNav} style={{cursor: "pointer"}}>
@@ -22,7 +22,7 @@ const RegistrationNav = () => {
     
                     {/* Right section */}
                     <div className="d-flex align-items-center gap-3">
-                        <button className="btn btn-outline-primary btn-sm rounded-pill px-3" onClick={handleLogin}>
+                        <button className="btn btn-sm rounded-pill px-3" style={{color:"var(--color-success-green)", border: "1px solid var(--color-success-green)"}} onClick={handleLogin}>
                             Login
                         </button>
                         <div>

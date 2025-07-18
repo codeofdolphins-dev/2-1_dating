@@ -34,7 +34,7 @@ const SettingSidebar = ({open}) => {
 
     return (
         <div
-            className={`bg-dark text-white p-3   ${open ? " slide-left" : "slide-right"}`}
+            className={`text-white p-3   ${open ? " slide-left" : "slide-right"}`}
             style={{
                 width: "250px",
                 height: "100vh",
@@ -42,7 +42,8 @@ const SettingSidebar = ({open}) => {
                 right: 0,
                 top: 80,
                 overflowY: "auto",
-                zIndex: "2800"
+                zIndex: "2800",
+                backgroundColor:"var(--color-background)"
             }}
         >
             <ul className={`list-unstyled m-0 `} style={{cursor:"pointer"}}>

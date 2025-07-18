@@ -70,7 +70,8 @@
   z-index: 1030;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(0);
-  background-color: rgba(33, 37, 41, 0.95) !important;
+  /* background-color: rgba(33, 37, 41, 0.95) !important; */
+   background-color: var(--color-border) !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -82,7 +83,8 @@
 
 .navbar-sticky {
   padding: 0.5rem 0;
-  background-color: rgba(33, 37, 41, 0.98) !important;
+  /* background-color: rgba(33, 37, 41, 0.98) !important; */
+  background-color: var(--color-background) !important;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   animation: slideDown 0.4s ease-out;
 }
@@ -234,5 +236,6 @@ html {
 
 /* Additional hover effects for the entire navbar */
 .navbar-animated:hover {
-  background-color: rgba(33, 37, 41, 1) !important;
+  /* background-color: rgba(33, 37, 41, 1) !important; */
+  background-color: var(--color-border) !important;
 }

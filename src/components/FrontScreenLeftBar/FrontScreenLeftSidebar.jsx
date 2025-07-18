@@ -15,7 +15,7 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
         <div
             className={`sidebar ${visiblity ? "slide-in" : "slide-out"} d-flex flex-column justify-content-between p-3`}
             style={{
-                backgroundColor: "#343a40",
+                backgroundColor: "var(--color-background)",
                 width: "280px",
                 position: "fixed",
                 top: "80px",

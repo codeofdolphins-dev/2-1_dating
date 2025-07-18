@@ -158,11 +158,11 @@ const LoginForm = () => {
  
 
   return (
-    <div className="bg-dark d-flex justify-content-center align-items-center text-white px-3" style={{ height: '90vh' }}>
+    <div className="d-flex justify-content-center align-items-center text-white px-3" style={{ height: '90vh',backgroundColor:"var( --color-background)" }}>
       <ToastContainer />
       <div
         className="text-white rounded-4 p-4 w-100"
-        style={{ maxWidth: '500px', backgroundColor: '#343a40' }}
+        style={{ maxWidth: '500px', backgroundColor: 'var(--color-border)' }}
       >
         <h4 className="text-center fw-bold mb-4 h3">Member Login</h4>
 
@@ -250,7 +250,7 @@ const LoginForm = () => {
 
         {/* Login Button */}
         <div className="mb-3 d-flex justify-content-center">
-          <button className="btn btn-primary w-75 btn-lg" onClick={handleSubmit}>Login</button>
+          <button className="btn w-75 btn-lg" style={{backgroundColor:"var(--color-primary-green)"}} onClick={handleSubmit}>Login</button>
         </div>
 
         {/* Remember Me checkbox */}

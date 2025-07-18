@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
 import "../SecondRegistrationPageCSS/SecondRegistrationPage.css"; // Optional: for custom styles
+import "./secondregistrationFormCss/style.css"
 import CustomDropdown from "./CustomDropDown";
 
 import couple from "../Images/couple.png"
@@ -39,7 +40,7 @@ const SecondRegistrationForm = () => {
 
     return (
         <div className="container py-5 text-white" style={{ maxWidth: "500px" }}>
-            <div className="card text-white p-4 rounded-4" style={{ backgroundColor: "#343a40" }}>
+            <div className="card text-white p-4 rounded-4" style={{ backgroundColor: "var(--color-border)" }}>
                 <div className="d-flex justify-content-between align-items-center mb-3">
                     <label className="form-label fw-semibold">You are a <span className="text-white">*</span></label>
                     <a href="#" className="small text-white">Business signup</a>
@@ -51,16 +52,25 @@ const SecondRegistrationForm = () => {
                         <button
                             key={gender}
                             type="button"
-                            className={`btn px-4 py-2 rounded-2 fw-medium ${selectedGender === gender
-                                    ? "btn-primary text-white"
-                                    : "btn-dark text-secondary"
-                                }`}
+                            className="btn px-4 py-2 rounded-2 fw-medium"
+                            style={{
+                                backgroundColor:
+                                    selectedGender === gender
+                                        ? "var(--color-primary-green)"
+                                        : "var(--color-background)",
+                                color:
+                                    selectedGender === gender
+                                        ? "black"
+                                        : "var(--color-primary-green)",
+                                border: "1px solid var(--color-primary-green)",
+                            }}
                             onClick={() => setSelectedGender(gender)}
                         >
                             {gender}
                         </button>
                     ))}
                 </div>
+
 
 
 
@@ -75,7 +85,7 @@ const SecondRegistrationForm = () => {
                                         ref={selectRef}
                                         className=" border-secondary border-2 border-top-0 border-start-0 border-end-0 rounded-0 pe-5"
                                         style={{
-                                            backgroundColor: '#34393e',
+                                            backgroundColor: 'var(--color-border)',
                                             appearance: 'none',
                                             WebkitAppearance: 'none',
                                             MozAppearance: 'none',
@@ -101,7 +111,7 @@ const SecondRegistrationForm = () => {
                                         ref={selectRef}
                                         className="border-secondary border-2 border-top-0 border-start-0 border-end-0 rounded-0 pe-5"
                                         style={{
-                                            backgroundColor: '#34393e',
+                                            backgroundColor: 'var(--color-border)',
                                             appearance: 'none',
                                             WebkitAppearance: 'none',
                                             MozAppearance: 'none',
@@ -127,23 +137,62 @@ const SecondRegistrationForm = () => {
 
                 {/* Date Of Birth */}
                 <Col className="mb-2">
-                    <Form.Label>Date of birth</Form.Label>
-                    <div className="row">
-                        <div className="col-lg-6"><Form.Control
-                            type="text"
-                            className="bg-transparent text-white border-0 border-bottom border-2 border-secondary rounded-0 custom-placeholder"
-                            placeholder="20.10.1995"
-                            style={{ boxShadow: 'none' }}
-                        /></div>
-                        <div className="col-lg-6"><Form.Control
-                            type="text"
-                            className="bg-transparent text-white border-0 border-bottom border-2 border-secondary rounded-0 custom-placeholder"
-                            placeholder="20.10.1995"
-                            style={{ boxShadow: 'none' }}
-                        /></div>
+                    <div>
+                        <div className="row"></div>
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label text-white">Date of Birth</label>
+                        <div className="d-flex gap-3">
+                            <Form.Control
+                                type="text"
+                                maxLength={2}
+                                placeholder="DD"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
+                                style={{ width: "80px", boxShadow: "none" }}
+                            />
+                            <Form.Control
+                                type="text"
+                                maxLength={2}
+                                placeholder="MM"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
+                                style={{ width: "80px", boxShadow: "none" }}
+                            />
+                            <Form.Control
+                                type="text"
+                                maxLength={4}
+                                placeholder="YYYY"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
+                                style={{ width: "100px", boxShadow: "none" }}
+                            />
+                        </div>
                     </div>
 
-
+                    <div className="mb-3">
+                        <label className="form-label text-white">Date of Birth</label>
+                        <div className="d-flex gap-3">
+                            <Form.Control
+                                type="text"
+                                maxLength={2}
+                                placeholder="DD"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
+                                style={{ width: "80px", boxShadow: "none" }}
+                            />
+                            <Form.Control
+                                type="text"
+                                maxLength={2}
+                                placeholder="MM"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
+                                style={{ width: "80px", boxShadow: "none" }}
+                            />
+                            <Form.Control
+                                type="text"
+                                maxLength={4}
+                                placeholder="YYYY"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
+                                style={{ width: "100px", boxShadow: "none" }}
+                            />
+                        </div>
+                    </div>
                 </Col>
 
                 {/* Looking For */}
@@ -154,7 +203,7 @@ const SecondRegistrationForm = () => {
                             { label: "Couple", icon: couple, isImage: true },
                             { label: "Female", icon: female, isImage: true },
                             { label: "Male", icon: male, isImage: true },
-                            { label: "Transgender", icon: transgender, isImage: true }
+                            { label: "Transgender", icon: transgender, isImage: true },
                         ].map(({ label, icon, isImage }) => {
                             const isSelected = lookingFor.includes(label);
                             return (
@@ -162,15 +211,24 @@ const SecondRegistrationForm = () => {
                                     key={label}
                                     type="button"
                                     onClick={() => handleToggleLookingFor(label)}
-                                    className="d-flex flex-column align-items-center justify-content-center p-3 text-white bg-dark rounded-3"
+                                    className="d-flex flex-column align-items-center justify-content-center p-3 rounded-3 "
                                     style={{
                                         width: "92px",
                                         height: "92px",
-                                        border: `2px solid ${isSelected ? "#dee2e6" : "#343a40"}`
+                                        backgroundColor: isSelected
+                                            ? "var(--color-primary-green)"
+                                            : "var(--color-background)",
+                                        color: isSelected ? "black" : "var(--color-primary-green)",
+                                        border: "2px solid var(--color-primary-green)",
+                                        transition: "all 0.3s ease",
                                     }}
                                 >
                                     {isImage && (
-                                        <img src={icon} alt={label} style={{ height: "50px", marginBottom: "2px" }} />
+                                        <img
+                                            src={icon}
+                                            alt={label}
+                                            style={{ height: "50px", marginBottom: "2px" }}
+                                        />
                                     )}
                                     <div className="small">{label}</div>
                                 </button>
@@ -178,6 +236,8 @@ const SecondRegistrationForm = () => {
                         })}
                     </div>
                 </Form.Group>
+
+
 
 
 
@@ -223,7 +283,7 @@ const SecondRegistrationForm = () => {
                         rows={3}
                         placeholder="Steal the spotlight..."
                         className=" text-white custom-placeholder"
-                        style={{ backgroundColor: "#41484f", border: "none" }}
+                        style={{ backgroundColor: "var(--color-border)", }}
                     />
                 </Form.Group>
 
@@ -232,8 +292,8 @@ const SecondRegistrationForm = () => {
                     <Form.Label>Main Profile Picture</Form.Label>
                     <label
                         htmlFor="photo-upload"
-                        className="d-flex flex-column align-items-center justify-content-center bg-dark text-white rounded-3 position-relative overflow-hidden"
-                        style={{ width: "110px", height: "110px", cursor: "pointer" }}
+                        className="d-flex flex-column align-items-center justify-content-center text-white rounded-3 position-relative overflow-hidden"
+                        style={{ width: "110px", height: "110px", cursor: "pointer", backgroundColor: "var(--color-background)", border: "2px solid var(--color-primary-green)" }}
                     >
                         {preview ? (
                             <img
@@ -274,7 +334,7 @@ const SecondRegistrationForm = () => {
                 </Form.Group>
 
                 <div className="d-grid mt-2">
-                    <Button variant="primary" size="lg">Become a member!</Button>
+                    <Button variant="" className="btn-member" size="lg" style={{ backgroundColor: "var(--color-primary-green)" }}>Become a member!</Button>
                 </div>
                 <div className="text-center mt-2">
                     <a href="#" className="text-decoration-underline  small" style={{ color: "#b6b6b6" }}>Add a promo code</a>

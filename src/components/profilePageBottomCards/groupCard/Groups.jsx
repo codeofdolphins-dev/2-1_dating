@@ -32,88 +32,100 @@ const Groups = () => {
   }, [swiperInstance]);
 
   return (
-   <div
-  className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4"
-  style={{
-    backgroundColor: "#343a40",
-    width: "600px",
-    minWidth: "600px",
-    flexShrink: 0,
-  }}
->
-  {/* 📸 Image & Info */}
-  <div className="row g-3">
-    <div className="col-lg-6 pe-lg-2">
-      <img
-        src={img2}
-        alt="Profile"
-        className="w-100 rounded-3"
-        style={{ objectFit: "cover", height: "250px" }}
-      />
-    </div>
-
-    <div className="col-lg-6 d-flex flex-column justify-content-between ps-2">
-      <div>
-        <div className="d-flex justify-content-between align-items-center">
-          <h5 className="fw-bold mb-3">FOR2MORE</h5>
+    <div
+      className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4"
+      style={{
+        backgroundColor: "var(--color-border)",
+        border: "1px solid #ffffff",
+        width: "600px",
+        minWidth: "600px",
+        flexShrink: 0,
+      }}
+    >
+      {/* 📸 Image & Info */}
+      <div className="row g-3">
+        <div className="col-lg-6 pe-lg-2">
+          <img
+            src={img2}
+            alt="Profile"
+            className="w-100 rounded-3"
+            style={{ objectFit: "cover", height: "250px" }}
+          />
         </div>
 
-        <hr className="my-2" />
-
-        <div className="mb-2 d-flex gap-2 align-items-center">
-          <p className="mb-0 fw-semibold fs-6">by FUN4TWO</p>
-        </div>
-
-        <hr className="my-2" />
-
-        <div className="small text-white gap-2 mb-2 d-flex">
+        <div className="col-lg-6 d-flex flex-column justify-content-between ps-2">
           <div>
-            <i className="bi bi-geo-alt-fill"></i>
+            <div className="d-flex justify-content-between align-items-center">
+              <h5 className="fw-bold mb-3" style={{color:"var(--color-primary-green)"}}>FOR2MORE</h5>
+            </div>
+
+            <hr className="my-2" />
+
+            <div className="mb-2 d-flex gap-2 align-items-center">
+              <p className="mb-0 fw-semibold fs-6">by FUN4TWO</p>
+            </div>
+
+            <hr className="my-2" />
+
+            <div className="small text-white gap-2 mb-2 d-flex">
+              <div>
+                <i className="bi bi-geo-alt-fill"></i>
+              </div>
+              <div>94555, CA 94555, USA | 8412 mi</div>
+            </div>
+
+            <hr className="my-2" />
+
+            <div className="d-flex gap-2">
+              <div className="d-flex gap-2">
+                <div className="small text-white">
+                  <i className="bi bi-file-earmark-text-fill"></i>
+                </div>
+                <div className="small text-white">
+                  <p>556</p>
+                </div>
+              </div>
+              <div className="d-flex gap-2">
+                <div className="small text-white">
+                  <i className="bi bi-file-earmark-text-fill"></i>
+                </div>
+                <div className="small text-white">
+                  <p>556</p>
+                </div>
+              </div>
+            </div>
+
+            <hr className="my-2" />
+
+            <div className="text-secondary small">
+              <span className="" style={{color:"var(--color-primary-green)"}}>by FOR2MORE</span> Feb 08, 2025
+            </div>
           </div>
-          <div>94555, CA 94555, USA | 8412 mi</div>
-        </div>
-
-        <hr className="my-2" />
-
-        <div className="d-flex gap-2">
-          <div className="d-flex gap-2">
-            <div className="small text-white">
-              <i className="bi bi-file-earmark-text-fill"></i>
-            </div>
-            <div className="small text-white">
-              <p>556</p>
-            </div>
-          </div>
-          <div className="d-flex gap-2">
-            <div className="small text-white">
-              <i className="bi bi-file-earmark-text-fill"></i>
-            </div>
-            <div className="small text-white">
-              <p>556</p>
-            </div>
-          </div>
-        </div>
-
-        <hr className="my-2" />
-
-        <div className="text-secondary small">
-          <span className="text-danger">by FOR2MORE</span> Feb 08, 2025
         </div>
       </div>
-    </div>
-  </div>
 
-  {/* 👇 Hidden Description & Join - visible on hover */}
-  <div className="hover-overlay position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-75 text-light transition-all" style={{ opacity: 0, visibility: "hidden" }}>
-    <p className="mb-2 small">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, doloribus maiores placeat eaque rem enim.
-    </p>
-    <div className="text-primary d-flex align-items-center gap-1" style={{ cursor: "pointer" }}>
-      <i className="bi bi-plus" />
-      <span>Join</span>
+      {/* 👇 Hidden Description & Join - visible on hover */}
+      <div
+        className="hover-overlay position-absolute bottom-0 start-0 w-100 p-4 text-light transition-all "
+        style={{
+          opacity: 0.2, // ✅ Valid opacity value (20%)
+          visibility: "hidden",
+          backgroundColor: "var(--color-border)"
+        }}
+      >
+        <p className="mb-2 small">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, doloribus maiores placeat eaque rem enim.
+        </p>
+        <div
+          className="text-primary d-flex align-items-center gap-1"
+          style={{ cursor: "pointer" }}
+        >
+          <i className="bi bi-plus" />
+          <span>Join</span>
+        </div>
+      </div>
+
     </div>
-  </div>
-</div>
 
 
   );

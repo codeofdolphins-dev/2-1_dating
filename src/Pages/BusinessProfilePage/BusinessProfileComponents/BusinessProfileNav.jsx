@@ -15,7 +15,7 @@ const BusinessProfileNav = () => {
     }
     return (
         <>
-            <header className="bg-dark py-3 px-4 ">
+            <header className=" py-3 px-4 "style={{backgroundColor: "var(--color-background)"}}>
                 <div className="d-flex justify-content-between align-items-center container custom-placeholder">
                     {/* Logo */}
                     <div onClick={handleHomeNav} style={{ cursor: "pointer" }}>

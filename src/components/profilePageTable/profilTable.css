@@ -1,0 +1,41 @@
+.custom-dark-table {
+  background-color: var(--color-border) !important;
+}
+
+.custom-dark-table th,
+.custom-dark-table td {
+  background-color: transparent; /* Keep cells clean */
+  color: #fff;
+}
+
+.custom-dark-table tr {
+  border-bottom: 1px solid var(--color-background);
+}
+
+.custom-dark-table {
+  background-color: var(--color-border);
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.custom-dark-table th,
+.custom-dark-table td {
+  color: white;
+  background-color: transparent;
+  padding: 12px;
+  text-align: left;
+}
+
+.custom-dark-table thead th {
+  border-bottom: 2px solid var(--color-background);
+  font-weight: 600;
+}
+
+.custom-dark-table tbody tr {
+  border-bottom: 1px solid var(--color-background);
+}
+
+.custom-dark-table img {
+  vertical-align: middle;
+  margin-right: 4px;
+}

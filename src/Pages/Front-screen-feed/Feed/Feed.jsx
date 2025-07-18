@@ -72,7 +72,7 @@ const Feed = () => {
 
             {/* <FrontScreenTopBar /> */}
             <PageWrapper>
-                <div className="container-fluid py-3" style={{ backgroundColor: "#212529" }}>
+                <div className="container-fluid py-3" style={{ backgroundColor: "var(--color-background)" }}>
                     <div className="d-flex justify-content-between align-items-end flex-wrap">
 
                         {/* Left side: Labels */}
@@ -106,7 +106,7 @@ const Feed = () => {
                                 className={`${showGeneralFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
                                 style={{ zIndex: 1050, justifyContent: "end" }}
                             >
-                                <div className="checkbox-dropdown p-3   rounded-2 bg-dark" style={{ border: "2px solid #343A40" }}>
+                                <div className="checkbox-dropdown p-3   rounded-2" style={{backgroundColor:"var(--color-border)", border: "2px solid #343A40" }}>
                                     {GeneralFilteroptions.map((label) => (
                                         <label
                                             key={label}
@@ -132,7 +132,7 @@ const Feed = () => {
                                 className={`${ShowFriendsFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
                                 style={{ zIndex: 10, justifyContent: "end" }}
                             >
-                                <div className="checkbox-dropdown p-3  rounded-2 bg-dark" style={{ border: "2px solid #343A40" }}>
+                                <div className="checkbox-dropdown p-3  rounded-2 " style={{backgroundColor:"var(--color-border)",border: "2px solid #343A40" }}>
                                     {FriendFilterOptions.map((label) => (
                                         <label
                                             key={label}

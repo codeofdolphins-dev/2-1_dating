@@ -3,7 +3,7 @@ import React from 'react'
 const BusinessProfileFooter = () => {
     return (
         <>
-            <footer className=" text-light pt-5 pb-3" style={{ backgroundColor: "#1a1e21" }}>
+            <footer className=" text-light pt-5 pb-3" style={{ backgroundColor: "#030722" }}>
                 <div className="container">
                     <div className="row text-start gy-4 justify-content-between">
                         {/* Brand Info */}
@@ -47,7 +47,7 @@ const BusinessProfileFooter = () => {
                                     style={{
                                         width: "35px",
                                         height: "35px",
-                                        backgroundColor: "#374151",
+                                        backgroundColor: "var(--color-success-green)",
                                     }}
                                     aria-label="Facebook"
                                 >
@@ -59,7 +59,7 @@ const BusinessProfileFooter = () => {
                                     style={{
                                         width: "35px",
                                         height: "35px",
-                                        backgroundColor: "#374151",
+                                        backgroundColor: "var(--color-success-green)",
                                     }}>
                                     <i className="bi bi-instagram text-black"></i>
                                 </a>
@@ -68,7 +68,7 @@ const BusinessProfileFooter = () => {
                                     style={{
                                         width: "35px",
                                         height: "35px",
-                                        backgroundColor: "#374151",
+                                        backgroundColor: "var(--color-success-green)",
                                     }}>
                                     <i className="bi bi-youtube text-black"></i>
                                 </a>
@@ -77,7 +77,7 @@ const BusinessProfileFooter = () => {
                                     style={{
                                         width: "35px",
                                         height: "35px",
-                                        backgroundColor: "#374151",
+                                        backgroundColor: "var(--color-success-green)",
                                     }}>
                                     <i className="bi bi-twitter text-black"></i>
                                 </a>
@@ -89,12 +89,12 @@ const BusinessProfileFooter = () => {
                                     className="form-control text-white me-2 custom-placeholder"
                                     placeholder="Your email"
                                     style={{
-                                        backgroundColor: "#374151",
+                                        backgroundColor: "#050A30",
                                         border: "1px solid #4b5563",
                                         color: "#ffffff",
                                     }}
                                 />
-                                <button type="submit" className="btn btn-primary px-3" style={{backgroundColor:"#2563eb"}}><i className="bi bi-arrow-right"></i></button>
+                                <button type="submit" className="btn btn-primary px-3 primary-button"><i className="bi bi-arrow-right"></i></button>
                             </form>
                         </div>
                     </div>

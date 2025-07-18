@@ -7,7 +7,7 @@ const SecondRegistrationPage = () => {
   return (
     <>
     <div>
-        <div style={{backgroundColor: "#212529"}}>
+        <div style={{backgroundColor: "var(--color-background)"}}>
         <SecondRegistrationNav/>
         <SecondRegistrationForm/>
         </div>

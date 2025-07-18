@@ -71,8 +71,8 @@ const ViewsPage = () => {
     return (
         <>
             <GlobalPageWrapper>
-                <div style={{backgroundColor:"#212529"}}>
-                    <div className="container-fluid py-3" style={{ backgroundColor: "#212529" }}>
+                <div style={{backgroundColor:"var(--color-background)"}}>
+                    <div className="container-fluid py-3" style={{ backgroundColor: "var(--color-background)" }}>
                         <div className="d-flex justify-content-between align-items-end flex-wrap">
 
                             {/* Left side: Labels */}
@@ -92,7 +92,7 @@ const ViewsPage = () => {
                                     className={`${showGeneralFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
                                     style={{ zIndex: 550, justifyContent: "end" }}
                                 >
-                                    <div className="checkbox-dropdown p-3   rounded-2 bg-dark" style={{ border: "2px solid #343A40" }}>
+                                    <div className="checkbox-dropdown p-3   rounded-2 " style={{ backgroundColor: "var(--color-background)",border: "2px solid #343A40" }}>
                                         {GeneralFilteroptions.map((label) => (
                                             <label
                                                 key={label}
@@ -107,9 +107,13 @@ const ViewsPage = () => {
                                                 <span className="text-white">{label}</span>
                                             </label>
                                         ))}
-                                    <div>
+                                    <div className='pt-3'>
                                         <div>
-                                            <input type="text" className='rounded-pill' style={{backgroundColor:"#212529"}}/>
+                                            <input type="text" placeholder='Search by Country' className='rounded-pill px-2 py-1 text-white' style={{backgroundColor:"var(--color-border)", border:"1px solid white"}}/>
+                                        </div>
+
+                                        <div>
+                                            <button className='py-1 px-2 w-100 rounded-pill border-0 mt-2' style={{backgroundColor:"var(--color-primary-green)"}}>OK</button>
                                         </div>
                                     </div>
                                     </div>
@@ -124,7 +128,7 @@ const ViewsPage = () => {
                                     className={`${ShowFriendsFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
                                     style={{ zIndex: 10, justifyContent: "end" }}
                                 >
-                                    <div className="checkbox-dropdown p-3  rounded-2 bg-dark" style={{ border: "2px solid #343A40" }}>
+                                    <div className="checkbox-dropdown p-3  rounded-2 " style={{ backgroundColor: "var(--color-background)",border: "2px solid #343A40" }}>
                                         {FriendFilterOptions.map((label) => (
                                             <label
                                                 key={label}

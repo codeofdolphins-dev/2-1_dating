@@ -6,7 +6,7 @@ import BusinessProfileFooter from './BusinessProfileComponents/BusinessProfileFo
 const BusinessProfilePage = () => {
   return (
     <>
-    <div style={{backgroundColor: "#212529"}}>
+    <div style={{backgroundColor: "var(--color-background)"}}>
     <BusinessProfileNav/>
     <BusinessProfileForm/>
     <BusinessProfileFooter/>

@@ -16,7 +16,7 @@ const EventCard = () => {
                 </h6>
               </div>
               <div>
-                <h6 className="text-danger">Dec 12, 2024 | 24 Members</h6>
+                <h6 className="text-danger" >Dec 12, 2024 | 24 Members</h6>
               </div>
             </div>
           </div>

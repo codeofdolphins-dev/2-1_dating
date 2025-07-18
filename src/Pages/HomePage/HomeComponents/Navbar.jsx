@@ -26,7 +26,7 @@ function Navbar() {
 
     // Array of navigation items
     const navLinks = [
-        { id: 1, text: 'Home', href: '#home', isActive: true },
+        { id: 1, text: 'Home', href: '#home' },
         { id: 2, text: 'About', href: '#about' },
         { id: 3, text: 'Blog', href: '#blog' },
         { id: 4, text: 'Features', href: '#features' },
@@ -104,7 +104,7 @@ function Navbar() {
 
                         <div className="d-flex gap-3 buttons-animated">
                             <button className="btn bg-white text-dark btn-animated" onClick={handleLogin}>Login</button>
-                            <button className="btn btn-primary btn-animated" onClick={joinButton}>Join Now</button>
+                            <button className="btn btn-animated" onClick={joinButton} style={{backgroundColor:"var(--color-primary-green)"}}>Join Now</button>
                         </div>
                     </div>
                 </div>

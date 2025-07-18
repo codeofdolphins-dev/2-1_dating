@@ -17,7 +17,7 @@ const GroupJoinCardNoImg = () => {
                             </h6>
                         </div>
                         <div>
-                            <h6 className="text-danger">Dec 12, 2024 | 24 Members</h6>
+                            <h6 style={{color:"var(--color-primary-green)"}}>Dec 12, 2024 | 24 Members</h6>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@ const GroupJoinCardNoImg = () => {
                     <div className="col-lg-6 ">
                         {/* Left card */}
                         <div
-                            style={{ backgroundColor: "#343a40" }}
+                            style={{ backgroundColor: "var(--color-border)", border:"2px solid #ffffff"}}
                             className="rounded-2 p-3 text-white"
                         >
                             <div className="d-flex justify-content-between align-items-start mb-3">
@@ -73,7 +73,7 @@ const GroupJoinCardNoImg = () => {
                     {/* 2nd card */}
                     <div
                         className="col-lg-6 text-white  p-3 rounded d-flex flex-column justify-content-center"
-                        style={{ backgroundColor: "#343a40" }}
+                        style={{ backgroundColor: "var(--color-border)", border:"2px solid #ffffff" }}
                     >
                         <div className="d-flex flex-column align-items-center gap-5 my-5">
                             <button
