@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -15,7 +16,10 @@ import female from "./img/female.png";
 import drink from "./img/drink.png"
 import phone from "./img/phone.png"
 import star from "./img/star.png"
-import ActionMenu from "./Actionmenu";
+import ActionMenu from "./ActionMenu/Actionmenu";
+import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
+import { BsBell, BsHandThumbsUp, BsMessenger, BsPersonPlus } from "react-icons/bs";
+// import VewsChatPopup from "../viewsChatPopup/VewsChatPopup";
 
 
 const images = [img1, img2, img3, img4];
@@ -24,6 +28,8 @@ const ViewPageCard = () => {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
     const [swiperInstance, setSwiperInstance] = useState(null);
+
+
 
     useEffect(() => {
         if (swiperInstance && prevRef.current && nextRef.current) {
@@ -35,8 +41,9 @@ const ViewPageCard = () => {
         }
     }, [swiperInstance]);
 
+
     return (
-        <div className="row g-3 rounded-4 text-white pb-2 ml-3 mt-4" style={{ backgroundColor: "var(--color-border)",border:"2px solid #ffffff", maxWidth: "650px" }}>
+        <div className="row g-3 rounded-4 text-white pb-2 ml-3 mt-4" style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}>
             {/* 📸 Carousel Column */}
             <div className="col-lg-6 pe-lg-3  position-relative" style={{ marginTop: "8px" }}>
                 <div className="rounded-4 overflow-hidden">
@@ -64,7 +71,7 @@ const ViewPageCard = () => {
                 </div>
 
                 {/* 🔽 Navigation Buttons inside carousel column only */}
-                <div className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2" style={{ zIndex: 10 }}>
+                <div className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2" style={{ zIndex: 55 }}>
                     {/* Left Buttons (Prev/Next) */}
                     <div className="d-flex gap-2">
                         <button
@@ -84,10 +91,12 @@ const ViewPageCard = () => {
                     </div>
 
                     {/* Right Button (Up arrow) */}
-                    
 
-                    {<ActionMenu/>}
+
+                    {<ActionMenu />}
+                    {/* <VewsChatPopup/> */}
                 </div>
+
 
 
             </div>

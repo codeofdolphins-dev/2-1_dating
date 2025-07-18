@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
 import GlobalPageWrapper from '../../components/GlobalPageWrapper'
 import ViewPageCard from '../../components/ViewPageCard/ViewPageCard';
+import ViewPageMessangerPopup from '../../components/viewPageMessangerPopup/viewPageMessangerPopup';
 
 const GeneralFilteroptions = [
-  "Viewed me",
-  "Viewed each other",
-  "Who I viewed",
-  "Remembered",
-  "Latest",
-  "Distance",
-  "All",
-  "Couples & Females",
-  "Couples",
-  "Female",
-  "Male",
-  "Transgender",
-  "Business",
-  "Ethnicity"
+    "Viewed me",
+    "Viewed each other",
+    "Who I viewed",
+    "Remembered",
+    "Latest",
+    "Distance",
+    "All",
+    "Couples & Females",
+    "Couples",
+    "Female",
+    "Male",
+    "Transgender",
+    "Business",
+    "Ethnicity"
 ];
 
 const FriendFilterOptions = [
@@ -31,11 +32,12 @@ const FriendFilterOptions = [
     "New Friends / Followers"
 ];
 
-
+const cardNumber = [1, 2, 3, 4, 5, 6, 7]
 const ViewsPage = () => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false)
     const [ShowFriendsFilter, setShowFriendsFilter] = useState(false)
+
 
     const handleGeneralFilter = () => {
         setShowGeneralFilter(!showGeneralFilter)
@@ -68,10 +70,12 @@ const ViewsPage = () => {
                 : [...prev, label]
         );
     };
+
+
     return (
         <>
             <GlobalPageWrapper>
-                <div style={{backgroundColor:"var(--color-background)"}}>
+                <div style={{ backgroundColor: "var(--color-background)" }}>
                     <div className="container-fluid py-3" style={{ backgroundColor: "var(--color-background)" }}>
                         <div className="d-flex justify-content-between align-items-end flex-wrap">
 
@@ -92,7 +96,7 @@ const ViewsPage = () => {
                                     className={`${showGeneralFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
                                     style={{ zIndex: 550, justifyContent: "end" }}
                                 >
-                                    <div className="checkbox-dropdown p-3   rounded-2 " style={{ backgroundColor: "var(--color-background)",border: "2px solid #343A40" }}>
+                                    <div className="checkbox-dropdown p-3   rounded-2 " style={{ backgroundColor: "var(--color-background)", border: "2px solid #343A40" }}>
                                         {GeneralFilteroptions.map((label) => (
                                             <label
                                                 key={label}
@@ -107,15 +111,15 @@ const ViewsPage = () => {
                                                 <span className="text-white">{label}</span>
                                             </label>
                                         ))}
-                                    <div className='pt-3'>
-                                        <div>
-                                            <input type="text" placeholder='Search by Country' className='rounded-pill px-2 py-1 text-white' style={{backgroundColor:"var(--color-border)", border:"1px solid white"}}/>
-                                        </div>
+                                        <div className='pt-3'>
+                                            <div>
+                                                <input type="text" placeholder='Search by Country' className='rounded-pill px-2 py-1 text-white' style={{ backgroundColor: "var(--color-border)", border: "1px solid white" }} />
+                                            </div>
 
-                                        <div>
-                                            <button className='py-1 px-2 w-100 rounded-pill border-0 mt-2' style={{backgroundColor:"var(--color-primary-green)"}}>OK</button>
+                                            <div>
+                                                <button className='py-1 px-2 w-100 rounded-pill border-0 mt-2' style={{ backgroundColor: "var(--color-primary-green)" }}>OK</button>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
                                 </div>
@@ -128,7 +132,7 @@ const ViewsPage = () => {
                                     className={`${ShowFriendsFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
                                     style={{ zIndex: 10, justifyContent: "end" }}
                                 >
-                                    <div className="checkbox-dropdown p-3  rounded-2 " style={{ backgroundColor: "var(--color-background)",border: "2px solid #343A40" }}>
+                                    <div className="checkbox-dropdown p-3  rounded-2 " style={{ backgroundColor: "var(--color-background)", border: "2px solid #343A40" }}>
                                         {FriendFilterOptions.map((label) => (
                                             <label
                                                 key={label}
@@ -165,10 +169,15 @@ const ViewsPage = () => {
 
                     <div className="container-fluid">
                         <div className="row g-4">
-                            <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                <ViewPageCard />
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
+                            {
+                                cardNumber.map((item, index) => (
+                                    <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
+                                        <ViewPageCard />
+                                    </div>
+                                ))
+                            }
+
+                            {/* <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
                                 <ViewPageCard />
                             </div>
                             <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
@@ -191,7 +200,7 @@ const ViewsPage = () => {
                             </div>
                             <div className="col-12 col-sm-6 col-lg54 col-xl-4">
                                 <ViewPageCard />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
