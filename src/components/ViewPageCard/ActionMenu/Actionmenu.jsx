@@ -8,12 +8,13 @@ import {
 } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import ViewPageMessangerPopup from "../../viewPageMessangerPopup/ViewPageMessangerPopup";
-import ViewpagePhotoGallery from "../../viewPagePhotovallery/ViewpagePhotoGallery";
 // import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
 
-const ActionMenu = () => {
+const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
+
+  console.log("showMeessagePopup",showMeessagePopup)
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
+  
   
   const likeRef = useRef(null);
   const submenuRef = useRef(null);
@@ -33,9 +34,9 @@ const ActionMenu = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleMessagePopup = () => {
-    setShowChat(!showChat)
-  }
+  // const handleMessagePopup = () => {
+  //   setShowChat(!showChat)
+  // }
 
   
 
@@ -46,7 +47,7 @@ const ActionMenu = () => {
       style={{ cursor: "pointer", minWidth: "180px", backgroundColor: "var(--color-background)" }}
     >
       <Popover.Body className="p-2 position-relative" style={{ zIndex: "555" }}>
-        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white" >
+        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white" onClick={(()=>setshowMeessagePopup(!showMeessagePopup))}>
           <BsMessenger />
           <span>Messenger</span>
 

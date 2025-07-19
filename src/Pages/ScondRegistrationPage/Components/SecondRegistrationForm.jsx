@@ -105,7 +105,8 @@ const SecondRegistrationForm = () => {
 
                                 </div>
                             </div>
-                            <div className="col-lg-6 c">
+                            {
+                                selectedGender ==="Couple" && <div className="col-lg-6 c">
                                 <div className="position-relative">
                                     <Form.Select
                                         ref={selectRef}
@@ -131,6 +132,8 @@ const SecondRegistrationForm = () => {
 
                                 </div>
                             </div>
+                            }
+                            
                         </div>
                     </Col>
                 </Row>
@@ -167,7 +170,8 @@ const SecondRegistrationForm = () => {
                         </div>
                     </div>
 
-                    <div className="mb-3">
+                    {
+                         selectedGender ==="Couple" && <div className="mb-3">
                         <label className="form-label text-white">Date of Birth</label>
                         <div className="d-flex gap-3">
                             <Form.Control
@@ -193,6 +197,9 @@ const SecondRegistrationForm = () => {
                             />
                         </div>
                     </div>
+                    }
+
+                    
                 </Col>
 
                 {/* Looking For */}

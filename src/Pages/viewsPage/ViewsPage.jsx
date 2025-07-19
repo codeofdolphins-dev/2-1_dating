@@ -98,7 +98,7 @@ const ViewsPage = () => {
                             {/* Right side: Buttons */}
                             <div className="d-flex gap-3">
 
-                                <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill position-relative" onClick={handleGeneralFilter} >General Filter</button>
+                                <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill position-relative" onClick={handleGeneralFilter} >Map</button>
 
                                 {/* General filter seletion */}
                                 <div
@@ -134,7 +134,7 @@ const ViewsPage = () => {
                                 </div>
 
                                 {/* <CheckboxDropdown onClick={handleFilter}/> */}
-                                <button className="btn btn-outline-light border border-danger rounded-pill text-danger position-relative" onClick={handleFriendFilter}>Friend Filter</button>
+                                <button className="btn btn-outline-light border border-danger rounded-pill text-danger position-relative" onClick={handleFriendFilter}>Filter</button>
 
                                 {/* Friend filter seletion */}
                                 <div
@@ -177,10 +177,10 @@ const ViewsPage = () => {
                     </div>
 
                     <div className="container-fluid">
-                        <div className="row g-4">
+                        <div className="row g-4 pt-4">
                             {
                                 cards.map((card, index) => (
-                                    <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
+                                    <div className="col-12 col-sm-6 col-lg-6 col-xl-4 ">
                                         <ViewPageCard index={index}
                                             {...{
                                                 card,
