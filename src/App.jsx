@@ -20,7 +20,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import ViewsPage from './Pages/viewsPage/ViewsPage';
-import ViewPageMessangerPopup from './components/viewPageMessangerPopup/viewPageMessangerPopup';
+
 
 
 
@@ -45,7 +45,7 @@ function App() {
         <Route path="/feed" element={<Feed/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
         <Route path="/view" element={<ViewsPage/>}/>
-        {/* <Route path="/pop" element={<ViewPageMessangerPopup/>}/> */}
+       
       </Routes>
       </BrowserRouter>
     </>

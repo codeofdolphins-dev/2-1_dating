@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import GlobalPageWrapper from '../../components/GlobalPageWrapper'
 import ViewPageCard from '../../components/ViewPageCard/ViewPageCard';
-import ViewPageMessangerPopup from '../../components/viewPageMessangerPopup/viewPageMessangerPopup';
+// import ViewPageMessangerPopup from '../../components/viewPageMessangerPopup/viewPageMessangerPopup';
 
 const GeneralFilteroptions = [
     "Viewed me",
@@ -32,12 +32,21 @@ const FriendFilterOptions = [
     "New Friends / Followers"
 ];
 
-const cardNumber = [1, 2, 3, 4, 5, 6, 7]
+const cards = [
+  { title: "Card One" },
+  { title: "Card Two" },
+  { title: "Card Three" },
+  { title: "Card Four" },
+  { title: "Card Five" },
+  { title: "Card Six" },
+  { title: "Card Seven" },
+  // ...
+];
 const ViewsPage = () => {
+    const [popupOpenId, setPopupOpenId] = useState(null);
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false)
     const [ShowFriendsFilter, setShowFriendsFilter] = useState(false)
-
 
     const handleGeneralFilter = () => {
         setShowGeneralFilter(!showGeneralFilter)
@@ -170,9 +179,14 @@ const ViewsPage = () => {
                     <div className="container-fluid">
                         <div className="row g-4">
                             {
-                                cardNumber.map((item, index) => (
+                                cards.map((card, index) => (
                                     <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                        <ViewPageCard />
+                                        <ViewPageCard index={index}
+                                            {...{
+                                                card,
+                                  
+                                            }}
+                                        />
                                     </div>
                                 ))
                             }

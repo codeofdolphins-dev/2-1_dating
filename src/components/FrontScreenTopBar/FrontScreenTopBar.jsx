@@ -24,7 +24,7 @@ const FrontScreenTopBar = () => {
                     top: 0,
                     left: 0,
                     right: 0,
-                    zIndex: 1050,
+                    zIndex: 55550,
                     height: "80px", // optional fixed height
                     cursor: "pointer"
                 }}

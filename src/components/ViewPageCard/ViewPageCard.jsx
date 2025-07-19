@@ -17,18 +17,27 @@ import drink from "./img/drink.png"
 import phone from "./img/phone.png"
 import star from "./img/star.png"
 import ActionMenu from "./ActionMenu/Actionmenu";
-import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
+// import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
 import { BsBell, BsHandThumbsUp, BsMessenger, BsPersonPlus } from "react-icons/bs";
 // import VewsChatPopup from "../viewsChatPopup/VewsChatPopup";
 
 
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+// import "./ActionMenuCss/style.css"
+import { BsHandThumbsDown, } from 'react-icons/bs';
+import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
+
+
 const images = [img1, img2, img3, img4];
 
-const ViewPageCard = () => {
+const ViewPageCard = ({ index,card }) => {
+    const [openCardIndex, setOpenCardIndex] = useState(null);
     const prevRef = useRef(null);
     const nextRef = useRef(null);
     const [swiperInstance, setSwiperInstance] = useState(null);
-
+    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+     const [showGallery, setShowGallery] = useState(false);
 
 
     useEffect(() => {
@@ -59,10 +68,12 @@ const ViewPageCard = () => {
                                     src={img}
                                     alt={`Slide ${idx}`}
                                     className="w-100"
+                                    onClick={() => setShowGallery(true)}
                                     style={{
                                         objectFit: "cover",
                                         height: "250px",
                                         borderRadius: "12px",
+                                        cursor:"pointer"
                                     }}
                                 />
                             </SwiperSlide>
@@ -84,7 +95,7 @@ const ViewPageCard = () => {
                         <button
                             ref={nextRef}
                             className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
-                            style={{ width: "32px", height: "32px" }}
+                            style={{ width: "32px", height: "32px",zIndex:"50" }}
                         >
                             <i className="bi bi-chevron-right"></i>
                         </button>
@@ -92,14 +103,13 @@ const ViewPageCard = () => {
 
                     {/* Right Button (Up arrow) */}
 
-
-                    {<ActionMenu />}
-                    {/* <VewsChatPopup/> */}
+                    <ActionMenu
+                        index={index}
+                    />
                 </div>
 
-
-
             </div>
+                
 
             {/* 📝 Info Column */}
             <div className="col-lg-6 d-flex flex-column justify-content-between ps-3">
@@ -183,7 +193,12 @@ const ViewPageCard = () => {
                 </div>
 
             </div>
-
+         
+         <ViewpagePhotoGallery
+        show={showGallery}
+        handleClose={() => setShowGallery(false)}
+        images={images} // or pass custom image array
+      />
         </div>
     );
 };
