@@ -1,10 +1,10 @@
 import React from 'react'
 import middleIcon from "../../assets/cardImgs/Images/middle-logo.png"
 
-const CardContainer = () => {
+const CardContainer = ({children}) => {
     return (
         <>
-            <div className="row justify-content-center gx-4 gy-3 align-items-stretch">
+            <div className="row">
                 <div className="col-lg-12">
                     <div className="d-flex justify-content-between p-3">
                         <div>
@@ -17,7 +17,7 @@ const CardContainer = () => {
                         </div>
                     </div>
                 </div>
-                <div className="row main">
+                <div className="main">
                     {/* icon */}
                     <img
                         src={middleIcon}
@@ -25,6 +25,8 @@ const CardContainer = () => {
                         className="actionIcon"
                         style={{ maxHeight: "50px", objectFit: "contain" }}
                     />
+                    {/* Card Content */}
+                    {children}
                 </div>
             </div>
         </>

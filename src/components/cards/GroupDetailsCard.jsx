@@ -3,8 +3,8 @@ import React from 'react'
 const GroupDetailsCard = () => {
     return (
         <>
-            <div className="col-lg-6">
-                <div className="text-white rounded-3 p-4 h-100 d-flex flex-column justify-content-between" style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff" }}>
+            <div className=' h-100 '>
+                <div className="text-white rounded-3 p-4 d-flex flex-column justify-content-between" style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff" }}>
                     <div className='d-flex justify-content-between'>
                         <div className="mb-4">
                             <h6 className="mb-2 text-white">Location Based</h6>
