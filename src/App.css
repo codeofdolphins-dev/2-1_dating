@@ -37,3 +37,8 @@ hr {
     border-width: 1px;
 }
 
+/* Card Styles */
+.card{
+  background-color: var(--color-border) !important;
+  border: 2px solid #ffffff !important;
+}

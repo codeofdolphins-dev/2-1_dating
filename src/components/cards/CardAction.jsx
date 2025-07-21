@@ -3,7 +3,7 @@ import React from "react";
 const CardAction = () => {
   return (
     <div
-      className="text-white  p-2 rounded d-flex flex-column justify-content-center"
+      className="text-white  p-2 rounded d-flex flex-column align-center justify-content-center h-100"
       style={{
         backgroundColor: "var(--color-border)",
         border: "2px solid #ffffff",
