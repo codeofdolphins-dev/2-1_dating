@@ -42,3 +42,61 @@ hr {
   background-color: var(--color-border) !important;
   border: 2px solid #ffffff !important;
 }
+
+.client-page-background{
+  background-color: var(--color-background);
+}
+
+.finter-bottom-button{
+  background-color: var(--color-primary-green);
+  color: #000000;
+}
+
+.custom-slider {
+  accent-color: #ff4d4d; /* red thumb */
+  /* background: linear-gradient(to right, #004aad 0%, #004aad 100%); */
+  height: 4px;
+  border-radius: 5px;
+}
+
+
+
+
+/* sidebar date picker */
+/* Dark calendar background and white text */
+.dark-calendar {
+  background-color: #1f1f1f;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.dark-calendar .react-datepicker__header {
+  background-color: var(--color-border);
+  border-bottom: 1px solid #333;
+}
+
+.dark-calendar .react-datepicker__current-month {
+  color: var(--color-primary-green);
+}
+
+.dark-calendar .react-datepicker__day,
+.dark-calendar .react-datepicker__day-name {
+  color: var(--color-primary-green);
+}
+
+.dark-calendar .react-datepicker__day--selected {
+  background-color: var(--color-primary-green);
+  color: #000000;
+  border-radius: 50%;
+}
+
+.dark-calendar .react-datepicker__day--keyboard-selected {
+  background-color: var(--color-border) !important;
+  color: white;
+}
+
+.react-datepicker{
+  background-color: var(--color-background) !important;
+}

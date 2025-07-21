@@ -12,7 +12,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
 
-  console.log("showMeessagePopup",showMeessagePopup)
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
   
   

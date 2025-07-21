@@ -21,6 +21,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import ViewsPage from './Pages/viewsPage/ViewsPage';
 import OnlinePage from './Pages/Online/OnlinePage';
+import HotDatePage from './Pages/HotDate/HotDatePage';
 
 
 
@@ -47,6 +48,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage/>}/>
         <Route path="/view" element={<ViewsPage/>}/>
         <Route path="/online" element={<OnlinePage/>}/>
+        <Route path="/hotdate" element={<HotDatePage/>}/>
        
       </Routes>
       </BrowserRouter>

@@ -14,7 +14,7 @@ const ViewpagePhotoGallery = ({ show, handleClose, images }) => {
       onHide={handleClose}
       centered
       backdrop="static"
-      ClassName="custom-gallery-modal" // custom width class
+      className="custom-gallery-modal" // custom width class
       contentClassName="border-0" // removes modal default borders
       style={{ zIndex: 5000 }}
     >
@@ -31,7 +31,7 @@ const ViewpagePhotoGallery = ({ show, handleClose, images }) => {
             onClick={handleClose}
             className="btn btn-sm btn-outline-light"
           >
-           <i class="bi bi-x-lg"></i>
+           <i className="bi bi-x-lg"></i>
           </button>
         </div>
 

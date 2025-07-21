@@ -4,24 +4,20 @@ import { Navigation } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import img1 from "./img/couple.avif";
-import img2 from "./img/coupleImg.jpeg";
-import img3 from "./img/profileImg.png";
-import img4 from "./img/profileImg.webp";
-import pc from "./img/pc.png";
-import chat from "./img/chat.png";
-import male from "./img/male.png";
-import female from "./img/female.png";
-import phone from "./img/phone.png";
-import star from "./img/star.png";
+
+import pc from "../../assets/ViwCardImags/img/pc.png";
+import chat from "../../assets/ViwCardImags/img/chat.png";
+import male from "../../assets/ViwCardImags/img/male.png";
+import female from "../../assets/ViwCardImags/img/female.png";
+import phone from "../../assets/ViwCardImags/img/phone.png";
+import star from "../../assets/ViwCardImags/img/star.png";
 
 import ActionMenu from "./ActionMenu/Actionmenu";
 import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
 import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
 
-const images = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index }) => {
+const ViewPageCard = ({ index,images }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
@@ -149,11 +145,15 @@ const ViewPageCard = ({ index }) => {
             </div>
           </div>
 
+           <div className="d-flex justify-content-between align-items-end">
           <div className="d-flex gap-3 mt-2">
             <img src={phone} alt="" height={30} />
             <img src={pc} alt="" height={30} />
             <img src={chat} alt="" height={30} />
           </div>
+           
+           <div className="text-danger">8h4m</div>
+           </div>
         </div>
       </div>
 
@@ -165,7 +165,7 @@ const ViewPageCard = ({ index }) => {
       />
 
       {/* 💬 Messenger Popup */}
-      {showMessagePopup && <ViewpageMessengerPopup profileImg={img2} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
+      {showMessagePopup && <ViewpageMessengerPopup profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
     </div>
   );
 };
