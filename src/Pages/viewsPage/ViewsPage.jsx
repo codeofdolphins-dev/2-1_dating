@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import GlobalPageWrapper from '../../components/GlobalPageWrapper'
 import ViewPageCard from '../../components/ViewPageCard/ViewPageCard';
+import FilterBar from '../../components/FilterBar/FilterBar';
 // import ViewPageMessangerPopup from '../../components/viewPageMessangerPopup/viewPageMessangerPopup';
 
-const GeneralFilteroptions = [
+const map = [
     "Viewed me",
     "Viewed each other",
     "Who I viewed",
@@ -20,7 +21,7 @@ const GeneralFilteroptions = [
     "Ethnicity"
 ];
 
-const FriendFilterOptions = [
+const filter = [
     "Likes given",
     "Joined group",
     "Photos & Videos",
@@ -85,96 +86,7 @@ const ViewsPage = () => {
         <>
             <GlobalPageWrapper>
                 <div style={{ backgroundColor: "var(--color-background)" }}>
-                    <div className="container-fluid py-3" style={{ backgroundColor: "var(--color-background)" }}>
-                        <div className="d-flex justify-content-between align-items-end flex-wrap">
-
-                            {/* Left side: Labels */}
-                            <div className="d-flex gap-3 align-items-end mb-2 mb-lg-0 text-white">
-                                <h5>Viewed Me</h5>
-                            </div>
-
-
-
-                            {/* Right side: Buttons */}
-                            <div className="d-flex gap-3">
-
-                                <button className="btn btn-outline-lighttext text-primary border border-primary rounded-pill position-relative" onClick={handleGeneralFilter} >Map</button>
-
-                                {/* General filter seletion */}
-                                <div
-                                    className={`${showGeneralFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
-                                    style={{ zIndex: 550, justifyContent: "end" }}
-                                >
-                                    <div className="checkbox-dropdown p-3   rounded-2 " style={{ backgroundColor: "var(--color-background)", border: "2px solid #343A40" }}>
-                                        {GeneralFilteroptions.map((label) => (
-                                            <label
-                                                key={label}
-                                                className="form-check d-flex align-items-center mb-2"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    className="form-check-input me-2"
-                                                    checked={selected.includes(label)}
-                                                    onChange={() => handleToggle(label)}
-                                                />
-                                                <span className="text-white">{label}</span>
-                                            </label>
-                                        ))}
-                                        <div className='pt-3'>
-                                            <div>
-                                                <input type="text" placeholder='Search by Country' className='rounded-pill px-2 py-1 text-white' style={{ backgroundColor: "var(--color-border)", border: "1px solid white" }} />
-                                            </div>
-
-                                            <div>
-                                                <button className='py-1 px-2 w-100 rounded-pill border-0 mt-2' style={{ backgroundColor: "var(--color-primary-green)" }}>OK</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                {/* <CheckboxDropdown onClick={handleFilter}/> */}
-                                <button className="btn btn-outline-light border border-danger rounded-pill text-danger position-relative" onClick={handleFriendFilter}>Filter</button>
-
-                                {/* Friend filter seletion */}
-                                <div
-                                    className={`${ShowFriendsFilter ? "d-flex" : "d-none"} end-0 top-25 p-3  position-absolute mt-5`}
-                                    style={{ zIndex: 10, justifyContent: "end" }}
-                                >
-                                    <div className="checkbox-dropdown p-3  rounded-2 " style={{ backgroundColor: "var(--color-background)", border: "2px solid #343A40" }}>
-                                        {FriendFilterOptions.map((label) => (
-                                            <label
-                                                key={label}
-                                                className="form-check d-flex align-items-center mb-2"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    className="form-check-input me-2"
-                                                    checked={selected.includes(label)}
-                                                    onChange={() => handleToggle(label)}
-                                                />
-                                                <span className="text-white">{label}</span>
-                                            </label>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <hr className="text-secondary" />
-
-
-
-
-
-
-                        {/* <div className=''>
-                        {
-                            activeTab === "feed" ? <FeedScreen /> : <NotificationScreen />
-                        }
-                    </div> */}
-                    </div>
+                    <FilterBar filter1={map} filter2={filter} filterName1={"Map"} filterName2={"Filter"} showTab={false} pageName={"Views"}/>
 
                     <div className="container-fluid">
                         <div className="row g-4 pt-4">
@@ -190,31 +102,6 @@ const ViewsPage = () => {
                                     </div>
                                 ))
                             }
-
-                            {/* <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                <ViewPageCard />
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                <ViewPageCard />
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                <ViewPageCard />
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                <ViewPageCard />
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                <ViewPageCard />
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                <ViewPageCard />
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg-6 col-xl-4">
-                                <ViewPageCard />
-                            </div>
-                            <div className="col-12 col-sm-6 col-lg54 col-xl-4">
-                                <ViewPageCard />
-                            </div> */}
                         </div>
                     </div>
                 </div>

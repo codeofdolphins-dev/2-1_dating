@@ -63,7 +63,7 @@ const ProfilePage = () => {
     return (
         <>
             <PageWrapper>
-                <div className="container-fluid px-4 py-3" style={{ backgroundColor: "var(--color-background)" }}>
+                <div className="container-fluid px-4 py-3 pt-5" style={{ backgroundColor: "var(--color-background)" }}>
                     {/* Profile slider section */}
                     <div className="row rounded-4 py-3" style={{ backgroundColor: "var(--color-border)", border: "1px solid #ffffff" }}>
                         {/* Left Column: Carousel */}

@@ -75,7 +75,7 @@ const FrontScreenTopBar = () => {
             <FrontScreenLeftSidebar visiblity={appear} />
 
             {/* Add this to separate topbar from rest of the page */}
-            <div style={{ height: "80px" }}></div>
+            <div style={{ height: "40px" }}></div>
 
             <hr
                 style={{
