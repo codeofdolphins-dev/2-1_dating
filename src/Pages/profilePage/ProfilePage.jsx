@@ -35,6 +35,8 @@ const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
     // { icon: <MdLocalMovies />, label: "Adult" },
     // { icon: <MdAdultContent />, label: "Non-Adult" },
+    { icon: <FaCamera />, label: "Non-adult" },
+    // { icon: cameraxxx, label: "Adult Photo" }, ,
     { icon: <FaVideo />, label: "Videos" },
     { icon: <FaImages />, label: "Albums" },
     { icon: <FaUserFriends />, label: "Friends" },
@@ -43,9 +45,7 @@ const actionIcons = [
     { icon: <FaShareAlt />, label: "Share" },
     { icon: <FaEnvelope />, label: "Invite" },
     { icon: <BsBookmark />, label: "Remember" },
-    { icon: <FaHeart />, label: "Kiss" },
-    { icon: <FaCamera />, label: "Adult" },
-    { icon: cameraxxx, label: "Adult Photo" }, ,
+    { icon: <FaHeart />, label: "Kiss" }
 ];
 
 const tabs = [
@@ -175,7 +175,7 @@ const ProfilePage = () => {
                     </div>
 
                     {/* profile table */}
-                    <div className='p-3 rounded-4 mt-2' style={{ backgroundColor: "var(--color-border)" }}>
+                    <div className='p-3 rounded-4 mt-4' style={{ backgroundColor: "var(--color-border)" }}>
                         <ProfilePageTable femaleIcon={femaleIcon} male={male} />
                     </div>
 

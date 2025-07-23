@@ -15,7 +15,8 @@
     /* Optional CSS */
 .table {
   border-radius: 12px;
-   --bs-table-bg: #343a40 !important;
+   --bs-table-bg: var(--color-border) !important;
+
 }
 .table tr{
   background-color: "#ffffff" !important;
@@ -100,3 +101,62 @@ hr {
 .react-datepicker{
   background-color: var(--color-background) !important;
 }
+
+/* Speed-date modal style on hot date page */
+.custom-modal-width{
+  max-width: 650px !important;
+}
+@media only screen and (max-width: 767px) {
+  .custom-modal-width{
+  max-width: 280px !important;
+}
+}
+.modal-bg{
+  background-color: var(--color-background) !important;
+}
+.custom-modal .btn-close {
+  filter: invert(1);
+}
+.custom-modal .btn-close::before {
+  color: white;
+}
+.modal-content{
+border: 2px solid #ffffff !important;
+}
+.custom-modal .btn-close {
+  display: none; /* Hides default Bootstrap close button */
+}
+.custom-close-btn {
+  position: absolute;
+  top: -12px;
+  right: -35px;
+  color: white;
+  font-size: 2.5rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1056;
+}
+
+.filterTypeName{
+  color: var(--color-primary-green);
+}
+
+.traveldateRighttext{
+  color: var(--color-primary-green);
+}
+
+.custom-calendar-width {
+  width: 50% !important; /* Take full width of parent */
+  max-width: 50%;        /* Adjust this as per your design */
+  min-width: 50%;        /* Optional: set a minimum */
+}
+
+.custom-datepicker-wrapper {
+  width: 50% !important;  /* Wrapper to control overflow */
+}
+
+r

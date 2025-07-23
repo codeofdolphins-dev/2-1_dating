@@ -14,6 +14,12 @@
   --color-border: #0f113a;
 }
 
+/* .btn-primary{
+  background-color: var(--color-primary-green) !important;
+  color: #000 !important;
+  border: 0px !important;
+} */
+
 .primary-button {
   background-color: var(--color-success-green);
   border: none;

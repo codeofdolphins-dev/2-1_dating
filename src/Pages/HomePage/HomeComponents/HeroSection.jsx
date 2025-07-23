@@ -40,7 +40,7 @@ const HeroSection = () => {
 
                     <div className='d-flex gap-3 mt-2' >
                         {/* Button color Changed */}
-                        <button className="btn btn-primary px-4 py-2 rounded-2 primary-button"  onClick={handleJoinToay}>Join Free Today</button>
+                        <button className=" btn-primary custom-button-home px-4 py-2 rounded-2 primary-button"  onClick={handleJoinToay}>Join Free Today</button>
                         <button className="btn border-white text-white rounded-2 px-4 py-2">Learn More</button>
                     </div>
                 </div>

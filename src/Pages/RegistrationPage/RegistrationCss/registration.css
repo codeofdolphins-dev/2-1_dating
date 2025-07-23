@@ -3,3 +3,99 @@
   opacity: 1; /* Ensures full visibility */
 }
 
+.selected-flag{
+  width: 55px !important;
+  font-size: 55px !important;
+}
+
+.react-tel-input .flag-dropdown.open .selected-flag{
+  background-color: var(--color-border) !important;
+}
+
+.react-tel-input .country-list .search,.react-tel-input .country-list .search-box{
+ background-color: var(--color-background) !important;
+ color: #ffffff;
+}
+
+.react-tel-input .country-list{
+  background-color: var(--color-border) !important;
+}
+
+.react-tel-input .country-list .country.highlight{
+  background-color: var(--color-background) !important;
+}
+
+.react-tel-input .country-list .country:hover{
+  background-color: var(--color-background) !important;
+}
+
+
+/* .form-control{
+  padding-left: 150px !important;
+} */
+
+
+
+.custom-phone-container {
+  width: 100%;
+  background-color: var(--color-border);
+  border-radius: 8px;
+  border: 2px solid #6c757d;
+  overflow: visible !important;
+  position: relative;
+}
+
+.custom-phone-input {
+  width: 100%;
+  background-color: transparent !important;
+  color: #fff !important;
+  padding-left: 70px !important;
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+  border: none !important;
+  font-size: 1rem;
+}
+
+.custom-phone-dropdown {
+  position: absolute !important;
+  bottom: 100% !important;
+  top: auto !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+  background-color: #1c1c3a !important;
+  color: #fff !important;
+  border: 1px solid #6c757d;
+  max-height: 200px;
+  width: 385px !important;
+  overflow-y: auto;
+}
+
+.react-tel-input .selected-flag{
+  background-color: var(--color-border);
+}
+
+.custom-phone-dropdown {
+  background-color: #1c1c3a;
+  color: #fff;
+}
+
+
+.react-tel-input .form-control{
+  width: 385px !important;
+}
+
+.react-tel-input .country-list .search-box{
+  width: 350px;
+}
+
+custom-phone-container .flag {
+  width: 35px !important; /* default is 20px */
+  height: 24px !important;
+  background-size: cover !important;
+}
+
+.custom-phone-container .selected-flag {
+  padding: 6px 12px !important; /* adjust spacing */
+}
+

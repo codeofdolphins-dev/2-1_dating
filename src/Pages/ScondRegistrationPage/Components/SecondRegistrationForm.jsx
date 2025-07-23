@@ -5,17 +5,14 @@ import "../SecondRegistrationPageCSS/SecondRegistrationPage.css"; // Optional: f
 import "./secondregistrationFormCss/style.css"
 import CustomDropdown from "./CustomDropDown";
 
-import couple from "../Images/couple.png"
-import female from "../Images/female.png"
-import male from "../Images/male.png"
-import transgender from "../Images/transgender.png"
+import ChoosePartnerGenderselector from "../../../components/ChoosePartnerGenderselector/ChoosePartnerGenderselector";
 
 
 
 
 const SecondRegistrationForm = () => {
     const [selectedGender, setSelectedGender] = useState("Couple");
-    const [lookingFor, setLookingFor] = useState(["Couple"]);
+    // const [lookingFor, setLookingFor] = useState(["Couple"]);
     const selectRef = useRef(null);
 
     const fileInputRef = useRef(null);
@@ -29,11 +26,11 @@ const SecondRegistrationForm = () => {
         }
     };
 
-    const handleToggleLookingFor = (type) => {
-        setLookingFor(prev =>
-            prev.includes(type) ? prev.filter(item => item !== type) : [...prev, type]
-        );
-    };
+    // const handleToggleLookingFor = (type) => {
+    //     setLookingFor(prev =>
+    //         prev.includes(type) ? prev.filter(item => item !== type) : [...prev, type]
+    //     );
+    // };
 
 
 
@@ -203,7 +200,7 @@ const SecondRegistrationForm = () => {
                 </Col>
 
                 {/* Looking For */}
-                <Form.Group className="mb-4">
+                {/* <Form.Group className="mb-4">
                     <Form.Label className="py-2">Looking for (choose 1 or more)</Form.Label>
                     <div className="d-flex gap-3 flex-wrap">
                         {[
@@ -242,7 +239,8 @@ const SecondRegistrationForm = () => {
                             );
                         })}
                     </div>
-                </Form.Group>
+                </Form.Group> */}
+                <ChoosePartnerGenderselector/>
 
 
 

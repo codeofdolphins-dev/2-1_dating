@@ -21,7 +21,7 @@ const OurBlog = () => {
                     </div>
 
                     <div className='d-flex justify-content-center mt-5'>
-                         <button type="button" className="btn btn-primary px-3 py-2 display-4 d-flex align-middle primary-button">View All Articles</button>
+                         <button type="button" className="btn btn-primary custom-button-home px-3 py-2 display-4 d-flex align-middle primary-button">View All Articles</button>
                     </div>
                 </div>
             </div>

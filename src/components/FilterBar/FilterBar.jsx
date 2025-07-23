@@ -9,7 +9,7 @@ import NotificationScreen from '../../Pages/Front-screen-feed/componeents/Notifi
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width,showDatePicker,showLocationForm }) => {
+const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width,showDatePicker,showLocationForm,filterTypeName }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
@@ -84,6 +84,9 @@ const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageNa
                             <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: `${ width }` }}
                             >
                                 <div className="checkbox-dropdown p-3 rounded-2" style={{ backgroundColor: "var(--color-border)", border: "2px solid #343A40" }}>
+                                    {
+                                        filterTypeName && <p><a className='filterTypeName fs-5' href="">{filterTypeName}</a></p>
+                                    }
                                     {filter1.map((label) => (
                                         <label key={label} className="form-check d-flex align-items-center mb-2">
                                             <input

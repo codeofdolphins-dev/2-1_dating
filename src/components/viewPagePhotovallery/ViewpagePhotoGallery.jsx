@@ -15,7 +15,7 @@ const ViewpagePhotoGallery = ({ show, handleClose, images }) => {
       centered
       backdrop="static"
       className="custom-gallery-modal" // custom width class
-      contentClassName="border-0" // removes modal default borders
+      contentClassName="border-0 mt-5" // removes modal default borders
       style={{ zIndex: 5000 }}
     >
       <Modal.Body
@@ -26,13 +26,8 @@ const ViewpagePhotoGallery = ({ show, handleClose, images }) => {
         }}
       >
         {/* Close Button */}
-        <div className="d-flex justify-content-end mb-2">
-          <button
-            onClick={handleClose}
-            className="btn btn-sm btn-outline-light"
-          >
-           <i className="bi bi-x-lg"></i>
-          </button>
+        <div className="custom-close-btn" onClick={handleClose}>
+          &times;
         </div>
 
         {/* Image Gallery Grid */}

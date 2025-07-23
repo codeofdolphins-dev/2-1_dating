@@ -4,6 +4,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../RegistrationCss/registration.css"
 
+import 'react-phone-input-2/lib/style.css';
+import PhoneInput from 'react-phone-input-2';
+import CustomPhonenumberInputField from './CustomPhonenumberInputField';
+
+
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -26,7 +31,7 @@ const RegistrationForm = () => {
   // const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [phoneOtpSent, setPhoneOtpSent] = useState(false);
 
-  
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -278,72 +283,77 @@ const RegistrationForm = () => {
                 {/* Phone Number with OTP */}
                 {/* Phone Number with OTP */}
                 <div className="mb-4">
-                  <div className="row g-2">
-                    {/* Country Code */}
-                    <div className="col-md-2">
-                      <div className="input-group">
-                        {/* <span className="input-group-text">+</span> */}
-                        <input
-                          type="text"
-                          className={`form-control ${errors.countryCode ? 'is-invalid' : ''} py-3 bg-transparent custom-placeholder `}
-                          id="countryCode"
-                          name="countryCode"
-                          placeholder="91"
-                          value={formData.countryCode}
-                          onChange={handleChange}
-                          maxLength="3"
-                          style={{ border: " 2px solid #6c757d", color: "#ffff" }}
-                        />
-                      </div>
-                      {errors.countryCode && (
-                        <div className="invalid-feedback d-block">{errors.countryCode}</div>
-                      )}
-                    </div>
-
-                    {/* Phone Number + OTP Button */}
-                    <div className='col-md-7'>
-                      <div className="input-group">
-                        <input
-                          type="text"
-                          className={`form-control ${errors.phoneNumber ? 'is-invalid' : ''} py-3 bg-transparent custom-placeholder`}
-                          id="phoneNumber"
-                          name="phoneNumber"
-                          placeholder="Enter Phone Number"
-                          value={formData.phoneNumber}
-                          onChange={handleChange}
-                          style={{ border: " 2px solid #6c757d", color: "#FFFF" }}
-                        />
-                        <button
-                          type="button"
-                          className="btn"
-                          onClick={handleSendPhoneOtp}
-                          disabled={phoneOtpSent}
-                          onMouseEnter={(e) => {
-                            e.target.style.backgroundColor = "#6c757d";
-                            e.target.style.color = "#fff";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.backgroundColor = "transparent";
-                            e.target.style.color = "#6c757d";
-                          }}
-                          style={{
-                            border: "2px solid #6c757d",
-                            color: "#6c757d",
-                            backgroundColor: "transparent",
-                            transition: "all 0.3s ease",
-                          }}
-                        >
-                          {phoneOtpSent ? 'OTP Sent' : 'Send OTP'}
-                        </button>
-
-                      </div>
+                  {/* 📞 Phone Input */}
+                  {/* <div className="row g-3 align-items-center mb-3">
+                    <div className="col-md-12">
+                      <PhoneInput
+                        country={'in'}
+                        value={formData.phoneNumber}
+                        onChange={(value, country) => {
+                          setFormData({
+                            ...formData,
+                            phoneNumber: value,
+                            countryCode: country.dialCode,
+                          });
+                        }}
+                        enableSearch
+                        inputClass="bg-transparent text-white"
+                        buttonClass="bg-transparent"
+                        dropdownClass="text-white"
+                        inputStyle={{
+                          width: '100%',
+                          paddingLeft: '65px', // leave space for flag
+                          paddingTop: '28px',
+                          paddingBottom: '28px',
+                          border: '2px solid #6c757d',
+                          borderRadius: '0.375rem',
+                          backgroundColor: 'transparent',
+                          color: '#fff',
+                          fontSize: "1rem",
+                          
+                        }}
+                        containerStyle={{
+                          width: '100%',
+                        }}
+                      />
                       {errors.phoneNumber && (
                         <div className="invalid-feedback d-block">{errors.phoneNumber}</div>
                       )}
                     </div>
 
-                    {/* Phone OTP */}
-                    <div className="col-md-3">
+                  </div> */}
+                  <CustomPhonenumberInputField formData={formData} setFormData={setFormData} errors={errors}/>
+
+                  {/* 📨 Send OTP + OTP Input */}
+                  <div className="row g-3 align-items-center">
+                    {/* Send OTP Button */}
+                    <div className="col-md-8">
+                      <button
+                        type="button"
+                        className="btn w-100 py-3"
+                        onClick={handleSendPhoneOtp}
+                        disabled={phoneOtpSent}
+                        onMouseEnter={(e) => {
+                          e.target.style.backgroundColor = "#6c757d";
+                          e.target.style.color = "#fff";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.backgroundColor = "transparent";
+                          e.target.style.color = "#6c757d";
+                        }}
+                        style={{
+                          border: "2px solid #6c757d",
+                          color: "#6c757d",
+                          backgroundColor: "transparent",
+                          transition: "all 0.3s ease",
+                        }}
+                      >
+                        {phoneOtpSent ? 'OTP Sent' : 'Send OTP'}
+                      </button>
+                    </div>
+
+                    {/* OTP Input */}
+                    <div className="col-md-4">
                       <input
                         type="text"
                         className={`form-control ${errors.phoneOtp ? 'is-invalid' : ''} py-3 bg-transparent custom-placeholder`}
@@ -353,7 +363,7 @@ const RegistrationForm = () => {
                         value={formData.phoneOtp}
                         onChange={handleChange}
                         maxLength="6"
-                        style={{ border: " 2px solid #6c757d", color: "#FFFF" }}
+                        style={{ border: "2px solid #6c757d", color: "#FFFF" }}
                       />
                       {errors.phoneOtp && (
                         <div className="invalid-feedback d-block">{errors.phoneOtp}</div>
@@ -361,6 +371,8 @@ const RegistrationForm = () => {
                     </div>
                   </div>
                 </div>
+
+
 
 
                 {/* Remember Me */}
@@ -376,7 +388,7 @@ const RegistrationForm = () => {
                   <label className="form-check-label text-white" htmlFor="rememberMe">Remember me</label>
                 </div> */}
 
-                <hr style={{ color: "#ffff",  }} />
+                <hr style={{ color: "#ffff", }} />
 
                 {/* Age Verification */}
                 <div className="mb-3 form-check mt-3">
@@ -412,7 +424,7 @@ const RegistrationForm = () => {
 
                 {/* Submit Button */}
                 <div className="d-grid mb-3">
-                  <button type="submit" className="btn btn-lg" style={{background:"var(--color-primary-green)"}}>
+                  <button type="submit" className="btn btn-lg" style={{ background: "var(--color-primary-green)" }}>
                     Create an account
                   </button>
                 </div>
