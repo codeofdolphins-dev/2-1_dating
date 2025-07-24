@@ -25,6 +25,8 @@ import HotDatePage from './Pages/HotDate/HotDatePage';
 import CreateSpeeddatepage from './Pages/CreateSpeeddatepage/CreateSpeeddatepage';
 import LiveStreamPage from './Pages/LiveStreamPage/LiveStreamPage';
 import LiveAndChatroomPage from './Pages/LiveAndChatroomPage/LiveAndChatroomPage';
+import ChatroomGroupPageList from './Pages/Chatroom/ChatroomGroupPageList';
+import Chatroom from './Pages/Chatroom/Chatroom';
 
 
 
@@ -55,6 +57,8 @@ function App() {
         <Route path="/create-speeddate" element={<CreateSpeeddatepage/>}/>
         <Route path="/livestream" element={<LiveStreamPage/>}/>
         <Route path="/liveandchatroom" element={<LiveAndChatroomPage/>}/>
+        <Route path="/chatrooms" element={<ChatroomGroupPageList/>}/>
+        <Route path="/chatroom" element={<Chatroom/>}/>
        
       </Routes>
       </BrowserRouter>

@@ -44,6 +44,11 @@ hr {
   border: 2px solid #ffffff !important;
 }
 
+.custom-button{
+  background-color: var(--color-primary-green);
+  color: #000000;
+}
+
 .client-page-background{
   background-color: var(--color-background);
 }
