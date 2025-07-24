@@ -5,7 +5,6 @@ import {
     FaUserCheck, FaStar, FaAddressBook, FaBed, FaUserFriends, FaBullhorn,
     FaTags
 } from "react-icons/fa";
-
 import { Link } from "react-router-dom";
 import logo from "./Img/logo.png";
 import "./css/leftBar.css";
@@ -13,7 +12,7 @@ import "./css/leftBar.css";
 const FrontScreenLeftSidebar = ({ visiblity }) => {
     return (
         <div
-            className={`sidebar ${visiblity ? "slide-in" : "slide-out"} d-flex flex-column justify-content-between p-3`}
+            className={`sidebar ${visiblity ? "slide-in" : "slide-out"} d-flex flex-column`}
             style={{
                 backgroundColor: "var(--color-background)",
                 width: "280px",
@@ -21,10 +20,10 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                 top: "80px",
                 height: "100vh",
                 zIndex: 1000,
-                overflowY: "auto"
             }}
         >
-            <div style={{ overflowY: "auto" }} className="flex-grow-1 custom-scrollbar">
+            {/* Scrollable content */}
+            <div className="flex-grow-1 overflow-auto p-3">
                 <div className="text-start mb-4">
                     <img src={logo} alt="2+1 Logo" className="logo-img" height={50} />
                 </div>
@@ -50,34 +49,38 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                     <SidebarItem icon={<FaUserFriends />} label="Invite Friends" pageUrl="/invite" />
                     <SidebarItem icon={<FaTags />} label="Classifieds" pageUrl="/classifieds" />
                     <SidebarItem icon={<FaBullhorn />} label="Advertise" pageUrl="/advertise" />
-
-                    <button className="btn btn-danger w-75 rounded-pill mt-5">
-                        Sign Out
-                    </button>
+                    <SidebarItem className=" w-100 mt-4 text-center" label="Report" pageUrl="/advertise" />
+                    <SidebarItem className="btn btn-danger w-100 rounded-pill mt-2" label="Logout" pageUrl="/advertise" />
                 </ul>
+            {/* Bottom Sign Out Button */}
+            {/* <button className="btn btn-danger w-100 rounded-pill">
+                Sign Out
+            </button> */}
+            <div className="p-5 text-center">
             </div>
+            </div>
+
         </div>
     );
 };
 
-// Updated SidebarItem to support routing
-const SidebarItem = ({ icon, label, pageUrl }) => {
+const SidebarItem = ({ icon, label, pageUrl,className }) => {
     const content = (
         <div className="d-flex align-items-center text-white">
             <span className="me-2">{icon}</span>
-            <span>{label}</span>
+            <span className={className}>{label}</span>
         </div>
     );
 
     return (
-        <li className="sidebar-item mb-4">
+        <li className="sidebar-item mb-3">
             {pageUrl ? (
                 <Link to={pageUrl} className="text-decoration-none">
                     {content}
                 </Link>
-            ) : (
-                content
-            )}
+            ) : <button className="btn btn-danger w-100 rounded-pill">
+                   {buttonTxt}
+                </button>}
         </li>
     );
 };

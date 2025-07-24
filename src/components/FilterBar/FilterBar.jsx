@@ -9,7 +9,7 @@ import NotificationScreen from '../../Pages/Front-screen-feed/componeents/Notifi
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width,showDatePicker,showLocationForm,filterTypeName }) => {
+const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
@@ -72,16 +72,19 @@ const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageNa
                     {/* Filters */}
                     <div className="d-flex gap-3 position-relative pb-3">
                         {/* General Filter Button */}
-                        <button
-                            className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
-                            onClick={handleGeneralFilter}
-                        >
-                            {filterName1}
-                        </button>
+                        {
+                            filterName1 &&
+                            <button
+                                className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
+                                onClick={handleGeneralFilter}
+                            >
+                                {filterName1}
+                            </button>
+                        }
 
                         {/* General Filter Dropdown */}
                         {showGeneralFilter && (
-                            <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: `${ width }` }}
+                            <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: `${width}` }}
                             >
                                 <div className="checkbox-dropdown p-3 rounded-2" style={{ backgroundColor: "var(--color-border)", border: "2px solid #343A40" }}>
                                     {
@@ -195,12 +198,15 @@ const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageNa
                         )}
 
                         {/* Friend Filter Button */}
-                        <button
-                            className="btn btn-outline-light border border-danger rounded-pill text-danger"
-                            onClick={handleFriendFilter}
-                        >
-                            {filterName2}
-                        </button>
+                        {
+                            filterName2 &&
+                            <button
+                                className="btn btn-outline-light border border-danger rounded-pill text-danger"
+                                onClick={handleFriendFilter}
+                            >
+                                {filterName2}
+                            </button>
+                        }
 
                         {/* Friend Filter Dropdown */}
                         {showFriendsFilter && (

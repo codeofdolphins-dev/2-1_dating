@@ -1,0 +1,38 @@
+.popup-modal {
+  background-color:var(--color-border);
+  border-radius: 20px;
+  border: none;
+  position: relative;
+}
+
+.popup-modal .modal-body {
+  padding: 2rem;
+}
+
+.custom-checkbox .form-check-input {
+  background-color: transparent;
+  border: 2px solid #aaa;
+  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.custom-checkbox .form-check-input:checked {
+  background-color: var(--color-primary-green);
+  border-color: var(--color-primary-green);
+}
+
+.custom-checkbox .form-check-label {
+  color: white;
+  font-weight: 500;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 1.2rem;
+  border: none;
+}

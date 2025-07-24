@@ -23,6 +23,8 @@ import ViewsPage from './Pages/viewsPage/ViewsPage';
 import OnlinePage from './Pages/Online/OnlinePage';
 import HotDatePage from './Pages/HotDate/HotDatePage';
 import CreateSpeeddatepage from './Pages/CreateSpeeddatepage/CreateSpeeddatepage';
+import LiveStreamPage from './Pages/LiveStreamPage/LiveStreamPage';
+import LiveAndChatroomPage from './Pages/LiveAndChatroomPage/LiveAndChatroomPage';
 
 
 
@@ -51,6 +53,8 @@ function App() {
         <Route path="/online" element={<OnlinePage/>}/>
         <Route path="/hotdate" element={<HotDatePage/>}/>
         <Route path="/create-speeddate" element={<CreateSpeeddatepage/>}/>
+        <Route path="/livestream" element={<LiveStreamPage/>}/>
+        <Route path="/liveandchatroom" element={<LiveAndChatroomPage/>}/>
        
       </Routes>
       </BrowserRouter>

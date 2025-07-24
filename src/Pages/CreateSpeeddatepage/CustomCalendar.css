@@ -1,0 +1,34 @@
+/* Dark theme for datepicker */
+.dark-theme-calendar {
+  background-color: #1c1c1c;
+  color: white;
+  border-radius: 8px;
+  padding: 0.5rem;
+  border: none;
+}
+
+.dark-theme-calendar .react-datepicker__header {
+  background-color: #1c1c1c;
+  border-bottom: none;
+}
+
+.dark-theme-calendar .react-datepicker__day,
+.dark-theme-calendar .react-datepicker__day-name {
+  color: #fff;
+}
+
+.dark-theme-calendar .react-datepicker__day--selected,
+.dark-theme-calendar .react-datepicker__day--keyboard-selected {
+  background-color: #007bff; /* Bootstrap primary */
+  color: #fff;
+}
+
+.dark-theme-calendar .react-datepicker__current-month {
+  font-weight: bold;
+  color: #fff;
+}
+
+.custom-datepicker-wrapper {
+  background-color: #1c1c1c;
+  border: 2px solid #0d6efd; /* Bootstrap primary */
+}

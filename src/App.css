@@ -159,4 +159,12 @@ border: 2px solid #ffffff !important;
   width: 50% !important;  /* Wrapper to control overflow */
 }
 
-r
+.custom-input-speeddate::placeholder {
+  color: #ffffff !important; /* Light gray or your desired color */
+  opacity: 1; /* Ensure visibility on Firefox */
+}
+
+/* popup modal css */
+.popup-modal{
+  background-color: var(--color-background);
+}

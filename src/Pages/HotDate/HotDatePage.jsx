@@ -34,6 +34,7 @@ import img7 from "../../assets/ViwCardImags/img/couple7.webp";
 import SpeedDatePopup from '../../components/SpeedDatePopUp/SpeedDatePopUp';
 import { Button } from 'bootstrap/dist/js/bootstrap.bundle.min';
 import TravelDatePopup from '../../components/TravelDatePopup/TravelDatePopup';
+import SpeedDateCheckBoxPopup from '../../components/SpeedDateCheckBoxPopup/SpeedDateCheckBoxPopup';
 
 const images = [img5, img6, img7, img1];
 const cards = [
@@ -66,13 +67,23 @@ const travelDateModalData = {
     "Single ladies & sensual couples to the front! We travel here for work often! So finding regulars for a fun encounter every month would be fun! Need to catch an early morning flight so let's meet early to get some fun in 😏. In Cary & Clayton area!",
 };
 
+const SpeedDateCheckBoxPopupOptions = {
+  heading: "SPEED DATE TYPE",
+  options: [
+    "Private Place",
+    "Public Place",
+    "Virtual Date"
+  ]
+}
+
 const HotDatePage = () => {
   const [showTraveldate, setShowTraveldateShow] = useState(true);
   const [showSpeeddate, setShowSpeddateShow] = useState(true);
+  const [showSpeeddateCheckBox, setShowSpeeddateCheckBox] = useState(true);
   return (
     <>
       <GlobalPageWrapper />
-      <FilterBar filter1={map} filter2={filter} filterName1={"Add Hotdate"} filterName2={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"}/>
+      <FilterBar filter1={map} filter2={filter} filterName1={"Add Hotdate"} filterName2={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} />
 
       <div className='client-page-background'>
         <div className="container-fluid">
@@ -96,7 +107,8 @@ const HotDatePage = () => {
 
       <SpeedDatePopup show={showSpeeddate} handleClose={() => setShowSpeddateShow(false)} speedDateModalData={speedDateModalData} />
       <TravelDatePopup show={showTraveldate} handleClose={() => setShowTraveldateShow(false)} travelDateModalData={travelDateModalData} />
-      
+      <SpeedDateCheckBoxPopup show={showSpeeddateCheckBox} handleClose={() => setShowSpeeddateCheckBox(false)} SpeedDateCheckBoxPopupOptions={SpeedDateCheckBoxPopupOptions} />
+
     </>
   )
 }

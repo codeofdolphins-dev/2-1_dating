@@ -1,0 +1,32 @@
+.live-stream-container {
+    background-color: var(--color-border);
+    min-height: 100vh;
+    color: white;
+}
+
+.video-box {
+    height: 100%;
+    background-color: #000000;
+}
+
+.chat-box {
+    height: 100%; /* or set fixed height like 400px if needed */
+    background-color: #1e1e1e; /* optional dark theme */
+}
+
+.chat-messages {
+    max-height: 500px; /* adjust as needed */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+

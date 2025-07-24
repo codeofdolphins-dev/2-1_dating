@@ -13,6 +13,7 @@ import female from "../../Pages/ScondRegistrationPage/Images/female.png"
 import male from "../../Pages/ScondRegistrationPage/Images/male.png"
 import transgender from "../../Pages/ScondRegistrationPage/Images/transgender.png"
 import ChoosePartnerGenderselector from "../../components/ChoosePartnerGenderselector/ChoosePartnerGenderselector";
+import "../../App.css"
 
 
 const CreateSpeeddatepage = () => {
@@ -84,7 +85,7 @@ const CreateSpeeddatepage = () => {
 
 
           <div className="bg-gray-800 min-h-screen flex items-center justify-center font-sans mt-5">
-            <div className="bg-gray-900 p-8 rounded-xl shadow-lg w-full max-w-lg">
+            <div className="bg-gray-900 p-8 rounded-xl w-full max-w-lg">
               {/* Title for the radio button group */}
               <h2 className="text-2xl font-bold text-white mb-4">Type</h2>
 
@@ -115,6 +116,8 @@ const CreateSpeeddatepage = () => {
             </div>
           </div>
 
+        {/* <Calendar/> */}
+
           {/* With */}
           <div className="mt-5">
             <ChoosePartnerGenderselector />
@@ -126,8 +129,9 @@ const CreateSpeeddatepage = () => {
               <Form.Control
                 id="whereInput"
                 type="text"
-                className="rounded-pill px-3 py-2"
+                className="rounded-pill px-3 py-2 custom-input-speeddate"
                 placeholder="Enter location"
+                style={{backgroundColor:"var(--color-border)"}}
               />
             </Form.Group>
           </div>
@@ -143,7 +147,8 @@ const CreateSpeeddatepage = () => {
               rows={5}
               maxLength={250}
               placeholder="Add a short description..."
-              className="rounded-3 px-3 py-2 w-50"
+              className="rounded-3 px-3 py-2 w-50 custom-input-speeddate"
+              style={{backgroundColor:"var(--color-border)"}}
             />
           </div>
 
