@@ -8,22 +8,23 @@ import coupleImg2 from "../../assets/ViwCardImags/img/couple5.webp"
 import coupleImg3 from "../../assets/ViwCardImags/img/couple6.jpeg"
 import coupleImg4 from "../../assets/ViwCardImags/img/couple7.webp"
 import coupleImg5 from "../../assets/ViwCardImags/img/coupleImg.jpeg"
+import ChatroomChatBox from '../../components/ChatroomChatBox/ChatroomChatBox';
 
 const cards = [
-  { code: "NYCCPL1", img: coupleImg1 },
-  { code: "NYCCPL2", img: coupleImg2 },
-  { code: "NYCCPL3", img: coupleImg3 },
-  { code: "NYCCPL4", img: coupleImg4 },
-  { code: "NYCCPL5", img: coupleImg5 },
-  { code: "NYCCPL6", img: coupleImg2 },
-  { code: "NYCCPL7", img: coupleImg3 },
-  { code: "NYCCPL8", img: coupleImg1 },
-  { code: "NYCCPL9", img: coupleImg5 },
-  { code: "NYCCPL10", img: coupleImg4 },
-  { code: "NYCCPL11", img: coupleImg2 },
-  { code: "NYCCPL12", img: coupleImg3 },
-  { code: "NYCCPL13", img: coupleImg1 },
-  { code: "NYCCPL14", img: coupleImg5 },
+    { code: "NYCCPL1", img: coupleImg1 },
+    { code: "NYCCPL2", img: coupleImg2 },
+    { code: "NYCCPL3", img: coupleImg3 },
+    { code: "NYCCPL4", img: coupleImg4 },
+    { code: "NYCCPL5", img: coupleImg5 },
+    { code: "NYCCPL6", img: coupleImg2 },
+    { code: "NYCCPL7", img: coupleImg3 },
+    { code: "NYCCPL8", img: coupleImg1 },
+    { code: "NYCCPL9", img: coupleImg5 },
+    { code: "NYCCPL10", img: coupleImg4 },
+    { code: "NYCCPL11", img: coupleImg2 },
+    { code: "NYCCPL12", img: coupleImg3 },
+    { code: "NYCCPL13", img: coupleImg1 },
+    { code: "NYCCPL14", img: coupleImg5 },
 ];
 
 
@@ -64,21 +65,24 @@ const Chatroom = () => {
 
                                 <div className="d-flex align-items-center gap-1">
                                     <label className="text-white small me-1">Sort by:</label>
-                                    <select className="form-select form-select-sm bg-dark text-white border-0" style={{ width: "120px" }}>
+                                    <select className="form-select form-select-sm text-white" style={{ width: "120px", backgroundColor: "var(--color-border)", border: "2px solid white" }}>
                                         <option>Distance</option>
                                         <option>Newest</option>
                                         <option>Popular</option>
                                     </select>
                                 </div>
-
-                                <button className="btn btn-outline-light btn-sm rounded-pill px-3">
-                                    Report
-                                </button>
                             </div>
-
+                        </div>
+                        <div className='d-flex justify-content-between mt-3'>
+                            <div className='text-white fs-5 pl-5'>
+                                &nbsp; &nbsp; &nbsp; &nbsp; NCCUPL
+                            </div>
+                            <button className="btn btn-outline-light btn-sm rounded-pill px-3">
+                                Report
+                            </button>
                         </div>
                         <div className='mt-5'>
-                            <div className="container-fluid client-page-background overflow-auto" style={{height:"555px"}}>
+                            <div className="container-fluid client-page-background overflow-auto" style={{ height: "555px" }}>
                                 <div className="row g-2 py-2 d-flex ">
                                     {
                                         cards.map((card, index) => (
@@ -90,6 +94,9 @@ const Chatroom = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className='col-lg-4'>
+                        <ChatroomChatBox />
                     </div>
                 </div>
             </div>

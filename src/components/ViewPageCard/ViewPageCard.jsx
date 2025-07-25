@@ -17,7 +17,7 @@ import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
 import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
 
 
-const ViewPageCard = ({ index,images }) => {
+const ViewPageCard = ({ index, images,timestamp }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
@@ -38,7 +38,7 @@ const ViewPageCard = ({ index,images }) => {
   return (
     <div className="row g-3 rounded-4 text-white pb-2 ml-3 "
       style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}>
-      
+
       {/* Left: Image Carousel */}
       <div className="col-lg-6 pe-lg-3 position-relative mt-2">
         <div className="rounded-4 overflow-hidden">
@@ -145,15 +145,18 @@ const ViewPageCard = ({ index,images }) => {
             </div>
           </div>
 
-           <div className="d-flex justify-content-between align-items-end">
-          <div className="d-flex gap-3 mt-2">
-            <img src={phone} alt="" height={30} />
-            <img src={pc} alt="" height={30} />
-            <img src={chat} alt="" height={30} />
+          <div className="d-flex justify-content-between align-items-end">
+            <div className="d-flex gap-3 mt-2">
+              <img src={phone} alt="" height={30} />
+              <img src={pc} alt="" height={30} />
+              <img src={chat} alt="" height={30} />
+            </div>
+
+            {
+              timestamp && <div className="text-danger">8h4m</div>
+            }
+            
           </div>
-           
-           <div className="text-danger">8h4m</div>
-           </div>
         </div>
       </div>
 

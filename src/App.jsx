@@ -27,6 +27,10 @@ import LiveStreamPage from './Pages/LiveStreamPage/LiveStreamPage';
 import LiveAndChatroomPage from './Pages/LiveAndChatroomPage/LiveAndChatroomPage';
 import ChatroomGroupPageList from './Pages/Chatroom/ChatroomGroupPageList';
 import Chatroom from './Pages/Chatroom/Chatroom';
+import CreateChatroomPage from './Pages/CreateChatroom/CreateChatroomPage';
+import NewmembersPage from './Pages/NewmembersPage/NewmembersPage';
+import PartiesAndEventPage from './Pages/PartiesAndEventPage/PartiesAndEventPage';
+import PartiesAndEventInfo from './Pages/PartiesAndEventInfo/PartiesAndEventInfo';
 
 
 
@@ -59,6 +63,11 @@ function App() {
         <Route path="/liveandchatroom" element={<LiveAndChatroomPage/>}/>
         <Route path="/chatrooms" element={<ChatroomGroupPageList/>}/>
         <Route path="/chatroom" element={<Chatroom/>}/>
+        <Route path="/create_chatroom" element={<CreateChatroomPage/>}/>
+        <Route path="/new-members" element={<NewmembersPage/>}/>
+        <Route path="/messages" element={<Chat/>}/>
+        <Route path="/events" element={<PartiesAndEventPage/>}/>
+        <Route path="/event-info" element={<PartiesAndEventInfo/>}/>
        
       </Routes>
       </BrowserRouter>
