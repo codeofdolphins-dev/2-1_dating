@@ -31,7 +31,8 @@ import CreateChatroomPage from './Pages/CreateChatroom/CreateChatroomPage';
 import NewmembersPage from './Pages/NewmembersPage/NewmembersPage';
 import PartiesAndEventPage from './Pages/PartiesAndEventPage/PartiesAndEventPage';
 import PartiesAndEventInfo from './Pages/PartiesAndEventInfo/PartiesAndEventInfo';
-import PartiesAndEventsClubInfoPage from './Pages/Parties&EventsClubInfoPage/PartiesAndEventsClubInfoPage';
+import Search from './Pages/search/Search';
+import AdvanceMemberSearch from './Pages/advance member search/AdvanceMemberSearch';
 
 
 
@@ -69,7 +70,9 @@ function App() {
         <Route path="/messages" element={<Chat/>}/>
         <Route path="/events" element={<PartiesAndEventPage/>}/>
         <Route path="/event-info" element={<PartiesAndEventInfo/>}/>
-        <Route path="/eventclub-info" element={<PartiesAndEventsClubInfoPage/>}/>
+
+        <Route path="/search" element={ <Search /> } />
+        <Route path="/advance-search" element={<AdvanceMemberSearch />} />
        
       </Routes>
       </BrowserRouter>
