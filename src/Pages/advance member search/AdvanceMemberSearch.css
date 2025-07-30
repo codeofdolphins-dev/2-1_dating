@@ -1,21 +1,9 @@
-/* D */
-/* input[type="text"] {
-    background-color: transparent;
-    color: white;
-    width: 610px;
-    border-radius: 4px;
-    padding: 5px 10px;
-    border: 1px solid #6C757D;
-} */
-
 input[type="checkbox"]:not(.no-radius),
 .form-check-input[type="checkbox"]:not(.no-radius) {
   border-radius: 50% !important;
   /* width: 18px !important; */
   height: 22px !important;
 }
-
-
 
 h5 {
     font-size: 16px;
@@ -80,14 +68,14 @@ h5 {
 
 .row-3_6 input[type="text"] {
     width: 272px;
-    background-color: #2E3237 !important;
-    border: 1px solid white;
+    background-color: transparent;
+    border: 1px solid #6C757D;
   }
   
   .row-3_12 input[type="text"] {
     width: 272px;
-    background-color: #2E3237 !important;
-    border: 1px solid white;
+    background-color: transparent;
+    border: 1px solid #6C757D;
 }
 
 .row-4{
@@ -302,4 +290,7 @@ h5 {
 }
 .no-radius{
   border-radius: 100px !important;
+}
+.back-icon{
+  cursor: pointer;
 }

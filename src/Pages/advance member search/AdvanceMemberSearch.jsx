@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import "./AdvanceMemberSearch.css"
 import PageWrapper from '../../components/PageWrapper'
+import { useNavigate } from 'react-router-dom'
 
 const AdvanceMemberSearch = () => {
+
+  const navigate = useNavigate();
 
   const [femaleMinValue, setFemaleMinValue] = useState(100);
   const [femaleMaxValue, setFemaleMaxValue] = useState(10);
@@ -265,24 +268,7 @@ const AdvanceMemberSearch = () => {
     }));
   };
 
-  const handelSubmit = () => {
-    console.log(search);
-    console.log(lookingFor);
-    console.log(status);
-    console.log(visual);
-    console.log(lang);
-    console.log(location);
-    console.log(subscription);
-    console.log(features);
-    console.log(sexuality);
-    console.log(smoking);
-    console.log(relationship);
-    console.log(ethnic_background);
-    console.log(relationship_orientation);
-    console.log(body_type);
-    console.log(save_search);
-    
-  }
+  const handelSubmit = () => {};
 
   return (
     <>
@@ -292,8 +278,11 @@ const AdvanceMemberSearch = () => {
           {/* row 1 */}
           <div className="row-1 text-white">
             <div className="d-flex justify-content-start align-items-center gap-3">
-              <a href="#"><i className="bi bi-chevron-left fs-5 text-white"></i></a>
-              <h4 className='text-white'>Member Search</h4>
+              <i 
+                className="bi bi-chevron-left fs-5 text-white back-icon"
+                onClick={() => navigate("/feed")}
+              ></i>
+              <h4 className='text-white mb-0'>Member Search</h4>
             </div>
             <p className='para mt-2'>Select who you are looking for and refine your search parameters in the sections below. Next to "Search Mode", you can either select "and" to narrow down your search results to show profiles that have all the features you select below; or you can select "or" to show profiles that have minimum one of the features you select below.</p>
           </div>
@@ -832,6 +821,7 @@ const AdvanceMemberSearch = () => {
                     type="text"
                     id="nameKeyword_input"
                     name='nameKeyword_input'
+                    placeholder='Type...'
                     value={features.profileName.text}
                     onChange={(e) =>
                       setFeatures((prev) => ({
@@ -1473,6 +1463,7 @@ const AdvanceMemberSearch = () => {
                     type="text"
                     id="relationship_input"
                     name='relationship_input'
+                    placeholder='Other...'
                   />
                 </div>
               </div>
