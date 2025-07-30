@@ -43,7 +43,7 @@ const TravelDatespage = () => {
     return (
         <>
             <GlobalPageWrapper>
-                <FilterBar pageName={"Travel Date"} filter2={filter} filterName1={"+Travel Plan"} filterName2={"Filter"} navigationToAnotherPage={handleCreateTravelplanPageNavigator} />
+                <FilterBar pageName={"Travel Date"}  filterName1={"+Travel Plan"} filterName2={"Filter"} navigationToAnotherPage={handleCreateTravelplanPageNavigator} />
 
                 <div className='client-page-background'>
                     <div className="container-fluid">

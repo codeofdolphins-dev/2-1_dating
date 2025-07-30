@@ -9,13 +9,25 @@ import NotificationScreen from '../../Pages/Front-screen-feed/componeents/Notifi
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName,navigationToAnotherPage }) => {
+const filter = [
+    "Likes given",
+    "Joined group",
+    "Photos & Videos",
+    "Validations",
+    "Speed Date",
+    "Travel Plans",
+    "Parties & Events",
+    "Member Services",
+    "New Friends / Followers"
+];
+
+const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName,navigationToAnotherPage }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
     const [selected, setSelected] = useState(["Viewed me"]);
     const [distance, setDistance] = useState(500);
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date()  ); 
     const [location, setLocation] = useState('');
     const [minAge, setMinAge] = useState(20);
     const [maxAge, setMaxAge] = useState(30);
