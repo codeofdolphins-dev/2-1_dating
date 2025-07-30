@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./AdvanceMemberSearch.css"
 import PageWrapper from '../../components/PageWrapper'
 
@@ -38,7 +38,7 @@ const AdvanceMemberSearch = () => {
 
   //location slider
 
-    const handleLocationSliderChange = (e) => {
+  const handleLocationSliderChange = (e) => {
     const value = Math.min(Number(e.target.value), LocationValue + 1);
     setLocationValue(value);
   };
@@ -47,7 +47,6 @@ const AdvanceMemberSearch = () => {
 
 
   const [search, setSearch] = useState("");
-
   const [lookingFor, setLookingFor] = useState({
     couple: false,
     female: false,
@@ -56,19 +55,16 @@ const AdvanceMemberSearch = () => {
     business: false,
     me_us: false
   });
-
   const [status, setStatus] = useState({
     online: false,
     newMember: false,
     birthday: false,
   });
-
   const [visual, setVisual] = useState({
     picture: false,
     video: false,
     album: false,
   });
-
   const [lang, setLang] = useState({
     searchMode: {
       and: false,
@@ -96,15 +92,12 @@ const AdvanceMemberSearch = () => {
       text: ""
     }
   });
-
   const [location, setLocation] = useState("");
-
   const [subscription, setSubscription] = useState({
     lifeTime: false,
     fullMember: false,
     trailMember: false
   });
-
   const [features, setFeatures] = useState({
     searchMode: {
       and: false,
@@ -113,8 +106,99 @@ const AdvanceMemberSearch = () => {
     certificate: false,
     hotDate: false,
     travelDate: false,
-    profileName: ""
+    profileName: {
+      selected: false,
+      text: ""
+    }
   });
+  const [sexuality, setSexuality] = useState({
+    searchMode: {
+      and: false,
+      or: false
+    },
+    female: {
+      any: false,
+      straight: false,
+      bi_sexual: false,
+      bi_curious: false,
+      lesbian: false,
+      pansexual: false
+    },
+    male: {
+      any: false,
+      straight: false,
+      bi_sexual: false,
+      bi_curious: false,
+      gay: false,
+      pansexual: false
+    }
+  });
+  const [smoking, setSmoking] = useState({
+    male: {
+      not_important: false,
+      no: false,
+      yes: false
+    },
+    female: {
+      not_important: false,
+      no: false,
+      yes: false
+    }
+  });
+  const [relationship, setRelationship] = useState({
+    relation_any: false,
+    monogamous: false,
+    open_minded: false,
+    swinger: false,
+    polyamorous: false
+  });
+  const [ethnic_background, setEthnic_background] = useState({
+    Ethnic_any: false,
+    caucasian: false,
+    latin: false,
+    african_american: false,
+    asian: false,
+    indian: false,
+    pakistani: false,
+    nepali: false,
+    sri_lankan: false,
+    bangladeshi: false,
+    mauritian: false,
+    Ethnic_other: false
+  });
+  const [relationship_orientation, setRelationship_orientation] = useState({
+    hindu: false,
+    islam: false,
+    christan: false,
+    jew: false,
+    relationship_other: false
+  });
+  const [body_type, setBody_type] = useState({
+    searchMode: {
+      and: false,
+      or: false
+    },
+    female: {
+      any: false,
+      slim: false,
+      athletic: false,
+      average: false,
+      nicely_shaped: false,
+      me_to_love: false,
+      huggable_and_heavy: false,
+    },
+    male: {
+      any: false,
+      slim: false,
+      athletic: false,
+      average: false,
+      nicely_shaped: false,
+      me_to_love: false,
+      huggable_and_heavy: false,
+    }
+  });
+
+  const [save_search, setSave_search] = useState(false);
 
 
   const handleLookingForChange = (e) => {
@@ -152,7 +236,6 @@ const AdvanceMemberSearch = () => {
       [name]: checked
     }));
   };
-
   const handleFeaturesChange = (e) => {
     const { name, checked } = e.target;
     setFeatures((prev) => ({
@@ -160,9 +243,46 @@ const AdvanceMemberSearch = () => {
       [name]: checked
     }));
   };
+  const handleRelationshipChange = (e) => {
+    const { name, checked } = e.target;
+    setRelationship((prev) => ({
+      ...prev,
+      [name]: checked
+    }));
+  };
+  const handleEthnic_backgroundChange = (e) => {
+    const { name, checked } = e.target;
+    setEthnic_background((prev) => ({
+      ...prev,
+      [name]: checked
+    }));
+  };
+  const handleRelationship_orientationChange = (e) => {
+    const { name, checked } = e.target;
+    setRelationship_orientation((prev) => ({
+      ...prev,
+      [name]: checked
+    }));
+  };
 
-
-
+  const handelSubmit = () => {
+    console.log(search);
+    console.log(lookingFor);
+    console.log(status);
+    console.log(visual);
+    console.log(lang);
+    console.log(location);
+    console.log(subscription);
+    console.log(features);
+    console.log(sexuality);
+    console.log(smoking);
+    console.log(relationship);
+    console.log(ethnic_background);
+    console.log(relationship_orientation);
+    console.log(body_type);
+    console.log(save_search);
+    
+  }
 
   return (
     <>
@@ -185,6 +305,7 @@ const AdvanceMemberSearch = () => {
               value={search}
               onChange={() => setSearch(e.target.value)}
               placeholder='Login Name'
+              className='customeTextBox'
             />
             <button>Submit</button>
           </div>
@@ -195,48 +316,48 @@ const AdvanceMemberSearch = () => {
             <div className="row-3_0">
               <h5>What you are looking for</h5>
               <div className="filterSection">
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="couple"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="couple"
                     name='couple'
                     checked={lookingFor.couple}
                     onChange={handleLookingForChange}
                   />
                   <label className="form-check-label" htmlFor="couple">Couple Female / Male</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="female"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="female"
                     name='female'
                     checked={lookingFor.female}
                     onChange={handleLookingForChange}
                   />
                   <label className="form-check-label" htmlFor="female">Female</label>
                 </div>
-                <div class="form-check">
-                  <input className="form-check-input" type="checkbox" id="male"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="male"
                     name='male'
                     checked={lookingFor.male}
                     onChange={handleLookingForChange}
                   />
                   <label className="form-check-label" htmlFor="male">Male</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="transgender"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="transgender"
                     name='transgender'
                     checked={lookingFor.transgender}
                     onChange={handleLookingForChange}
                   />
                   <label className="form-check-label" htmlFor="transgender">Transgender</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="business"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="business"
                     name='business'
                     checked={lookingFor.business}
                     onChange={handleLookingForChange}
                   />
                   <label className="form-check-label" htmlFor="business">Businesses</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="me_us"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="me_us"
                     name='me_us'
                     checked={lookingFor.me_us}
                     onChange={handleLookingForChange}
@@ -255,29 +376,29 @@ const AdvanceMemberSearch = () => {
               </div>
 
               <div className="filterSection">
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="online"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="online"
                     name='online'
                     checked={status.online}
                     onChange={handleStatusChange}
                   />
                   <label className="form-check-label" htmlFor="online">Online</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="newMember"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="newMember"
                     name='newMember'
                     checked={status.newMember}
                     onChange={handleStatusChange}
                   />
                   <label className="form-check-label" htmlFor="newMember">New Member</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="birthday"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="birthday"
                     name='birthday'
                     checked={status.birthday}
                     onChange={handleStatusChange}
                   />
-                  <htmlFl className="form-check-label" htmlFor="birthday">Has a Birthday</htmlFl>
+                  <label className="form-check-label" htmlFor="birthday">Has a Birthday</label>
                 </div>
               </div>
             </div>
@@ -291,24 +412,24 @@ const AdvanceMemberSearch = () => {
               </div>
 
               <div className="filterSection">
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="picture"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="picture"
                     name='picture'
                     checked={visual.picture}
                     onChange={handleVisualChange}
                   />
                   <label className="form-check-label" htmlFor="picture">Profile Picture</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="video"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="video"
                     name='video'
                     checked={visual.video}
                     onChange={handleVisualChange}
                   />
                   <label className="form-check-label" htmlFor="video">video</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="album"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="album"
                     name='album'
                     checked={visual.album}
                     onChange={handleVisualChange}
@@ -330,8 +451,8 @@ const AdvanceMemberSearch = () => {
               {/* search mode */}
               <div className="filterSection">
                 <h5>Search Mode</h5>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="langAnd"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="langAnd"
                     name='langAnd'
                     checked={lang.searchMode.and}
                     onChange={(e) =>
@@ -346,8 +467,8 @@ const AdvanceMemberSearch = () => {
                   />
                   <label className="form-check-label" htmlFor="langAnd">and</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="langOr"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="langOr"
                     name='langOr'
                     checked={lang.searchMode.or}
                     onChange={(e) =>
@@ -360,150 +481,150 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" htmlFor="langOr">or</label>
+                  <label className="form-check-label" htmlFor="langOr">or</label>
                 </div>
               </div>
 
               {/* languages */}
               <div className="filterSection">
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="any"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="any"
                     name='any'
                     checked={lang.any}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="any">Any</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="nederlands"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="nederlands"
                     name='nederlands'
                     checked={lang.nederlands}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="nederlands">Nederlands</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="deutsch"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="deutsch"
                     name='deutsch'
                     checked={lang.deutsch}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="deutsch">Deutsch</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="français"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="français"
                     name='français'
                     checked={lang.français}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="français">Français</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="español"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="español"
                     name='español'
                     checked={lang.español}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="español">Español</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="italiano"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="italiano"
                     name='italiano'
                     checked={lang.italiano}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="italiano">Italiano</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="english"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="english"
                     name='english'
                     checked={lang.english}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="english">English</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="português"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="português"
                     name='português'
                     checked={lang.português}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="português">Português</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="hindi"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="hindi"
                     name='hindi'
                     checked={lang.hindi}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="hindi">Hindi</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="tamil"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="tamil"
                     name='tamil'
                     checked={lang.tamil}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="tamil">Tamil</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="telugu"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="telugu"
                     name='telugu'
                     checked={lang.telugu}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="telugu">Telugu</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="malyali"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="malyali"
                     name='malyali'
                     checked={lang.malyali}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="malyali">Malyali</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="kanada"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="kanada"
                     name='kanada'
                     checked={lang.kanada}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="kanada">Kanada</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="gujrati"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="gujrati"
                     name='gujrati'
                     checked={lang.gujrati}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="gujrati">Gujrati</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="panjabi"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="panjabi"
                     name='panjabi'
                     checked={lang.panjabi}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="panjabi">Panjabi</label>
                 </div>
-                <div class="form-check">
-                  <input className="form-check-input" type="checkbox" id="bengali"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="bengali"
                     name='bengali'
                     checked={lang.bengali}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="bengali">Bengali</label>
                 </div>
-                <div class="form-check">
-                  <input className="form-check-input" type="checkbox" id="marathi"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="marathi"
                     name='marathi'
                     checked={lang.marathi}
                     onChange={handleLangChange}
                   />
                   <label className="form-check-label" htmlFor="marathi">Marathi</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="other"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="other"
                     name='other'
                     checked={lang.other.selected}
                     onChange={(e) =>
@@ -516,9 +637,9 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label className="form-check-label" for="other">Others</label>
+                  <label className="form-check-label" htmlFor="other">Others</label>
                   <input
-                    className="form-input inputFiled-background"
+                    className="form-input inputFiled-background customeTextBox"
                     type="text"
                     id="other"
                     name='other'
@@ -549,7 +670,7 @@ const AdvanceMemberSearch = () => {
 
               <div className="filterSection" style={{ width: '100%' }}>
                 <div
-                  classNameName="form-check"
+                  className="custome-form-check"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -558,14 +679,13 @@ const AdvanceMemberSearch = () => {
                     width: '40%',
                   }}
                 >
-                  <input
-                    classNameName="form-input inputFiled-background"
+                  <input className="form-input inputFiled-background customeTextBox"
                     type="text"
                     id="location"
                     name="location"
                     placeholder="Kolkata, West Bengal, IN"
                     style={{ flexGrow: 1 }}
-                 
+
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                   />
@@ -597,23 +717,23 @@ const AdvanceMemberSearch = () => {
               </div>
 
               <div className="filterSection">
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="lifeTime"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="lifeTime"
                     name='lifeTime'
                     checked={subscription.lifeTime}
                     onChange={handleSubscriptionChange}
                   />
                   <label className="form-check-label" htmlFor="lifeTime">Lifetime Member</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="fullMember" name='fullMember'
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="fullMember" name='fullMember'
                     checked={subscription.fullMember}
                     onChange={handleSubscriptionChange}
                   />
                   <label className="form-check-label" htmlFor="fullMember">Full Member</label>
                 </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" id="trailMember"
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="trailMember"
                     name='trailMember'
                     checked={subscription.trailMember}
                     onChange={handleSubscriptionChange}
@@ -628,45 +748,100 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Features</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               {/* search mode */}
               <div className="filterSection">
                 <h5>Search Mode</h5>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="featAnd" name='featAnd' />
-                  <label class="form-check-label" for="featAnd">and</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="featAnd" name='featAnd'
+                    checked={features.searchMode.and}
+                    onChange={(e) =>
+                      setFeatures((prev) => ({
+                        ...prev,
+                        searchMode: {
+                          ...prev.searchMode,
+                          and: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="featAnd">and</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="featOr" name='featOr' />
-                  <label class="form-check-label" for="featOr">or</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="featOr" name='featOr'
+                    checked={features.searchMode.or}
+                    onChange={(e) =>
+                      setFeatures((prev) => ({
+                        ...prev,
+                        searchMode: {
+                          ...prev.searchMode,
+                          or: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="featOr">or</label>
                 </div>
               </div>
 
               {/* features */}
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="certificate" name='certificate' />
-                  <label class="form-check-label" for="certificate">Certification</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="certificate"
+                    name='certificate'
+                    checked={features.certificate}
+                    onChange={handleFeaturesChange}
+                  />
+                  <label className="form-check-label" htmlFor="certificate">Certification</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="hotDate" name='hotDate' />
-                  <label class="form-check-label" for="hotDate">Hot Date</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="hotDate"
+                    name='hotDate'
+                    checked={features.hotDate}
+                    onChange={handleFeaturesChange}
+                  />
+                  <label className="form-check-label" htmlFor="hotDate">Hot Date</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="travelDate" name='travelDate' />
-                  <label class="form-check-label" for="travelDate">Travel Date</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="travelDate"
+                    name='travelDate'
+                    checked={features.travelDate}
+                    onChange={handleFeaturesChange}
+                  />
+                  <label className="form-check-label" htmlFor="travelDate">Travel Date</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="nameKeyword" name='nameKeyword' />
-                  <label class="form-check-label" for="nameKeyword">Profile Name/Keyword</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="nameKeyword" name='nameKeyword'
+                    checked={features.profileName.selected}
+                    onChange={(e) =>
+                      setFeatures((prev) => ({
+                        ...prev,
+                        profileName: {
+                          ...prev.profileName,
+                          selected: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="nameKeyword">Profile Name/Keyword</label>
                   <input
-                    class="form-input inputFiled-background"
+                    className="form-input inputFiled-background customeTextBox"
                     type="text"
                     id="nameKeyword_input"
                     name='nameKeyword_input'
+                    value={features.profileName.text}
+                    onChange={(e) =>
+                      setFeatures((prev) => ({
+                        ...prev,
+                        profileName: {
+                          ...prev.profileName,
+                          text: e.target.value
+                        }
+                      }))
+                    }
                   />
                 </div>
               </div>
@@ -677,78 +852,232 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Sexuality</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               {/* search mode */}
               <div className="filterSection">
                 <h6>Search Mode</h6>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="sexAnd" name='sexAnd' />
-                  <label class="form-check-label" for="sexAnd">and</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="sexAnd" name='sexAnd'
+                    checked={sexuality.searchMode.and}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        searchMode: {
+                          ...prev.searchMode,
+                          and: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="sexAnd">and</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="sexOr" name='sexOr' />
-                  <label class="form-check-label" for="sexOr">or</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="sexOr" name='sexOr'
+                    checked={sexuality.searchMode.or}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        searchMode: {
+                          ...prev.searchMode,
+                          or: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="sexOr">or</label>
                 </div>
               </div>
 
               {/* Females */}
               <h5 className='femaleHeader'>Females</h5>
               <div className="filterSection pt-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_any" name='f_any' />
-                  <label class="form-check-label" for="f_any">Any</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_any" name='f_any'
+                    checked={sexuality.female.any}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          any: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_any">Any</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_straight" name='f_straight' />
-                  <label class="form-check-label" for="f_straight">Straight</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_straight" name='f_straight'
+                    checked={sexuality.female.straight}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          straight: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_straight">Straight</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_bi-sexual" name='f_bi-sexual' />
-                  <label class="form-check-label" for="f_bi-sexual">Bi-sexual</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_bi-sexual" name='f_bi-sexual'
+                    checked={sexuality.female.bi_sexual}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          bi_sexual: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_bi-sexual">Bi-sexual</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_bi-curious" name='f_bi-curious' />
-                  <label class="form-check-label" for="f_bi-curious">Bi-curious</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_bi-curious" name='f_bi-curious'
+                    checked={sexuality.female.bi_curious}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          bi_curious: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_bi-curious">Bi-curious</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="lesbian" name='lesbian' />
-                  <label class="form-check-label" for="lesbian">Lesbian</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="lesbian" name='lesbian'
+                    checked={sexuality.female.lesbian}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          lesbian: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="lesbian">Lesbian</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_pansexual" name='f_pansexual' />
-                  <label class="form-check-label" for="f_pansexual">Pansexual</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_pansexual" name='f_pansexual'
+                    checked={sexuality.female.pansexual}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          pansexual: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_pansexual">Pansexual</label>
                 </div>
               </div>
 
               {/* Males */}
               <h5 className='maleHeader'>Males</h5>
               <div className="filterSection pt-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_any" name='m_any' />
-                  <label class="form-check-label" for="m_any">Any</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="m_any" name='m_any'
+                    checked={sexuality.male.any}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          any: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="m_any">Any</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_straight" name='m_straight' />
-                  <label class="form-check-label" for="m_straight">Straight</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="m_straight" name='m_straight'
+                    checked={sexuality.male.straight}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          straight: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="m_straight">Straight</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_bi-sexual" name='m_bi-sexual' />
-                  <label class="form-check-label" for="m_bi-sexual">Bi-sexual</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="m_bi-sexual" name='m_bi-sexual'
+                    checked={sexuality.male.bi_sexual}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          bi_sexual: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="m_bi-sexual">Bi-sexual</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_bi-curious" name='m_bi-curious' />
-                  <label class="form-check-label" for="m_bi-curious">Bi-curious</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="m_bi-curious" name='m_bi-curious'
+                    checked={sexuality.male.bi_curious}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          bi_curious: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="m_bi-curious">Bi-curious</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gay" name='gay' />
-                  <label class="form-check-label" for="gay">Gay</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="gay" name='gay'
+                    checked={sexuality.male.gay}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          gay: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="gay">Gay</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_pansexual" name='m_pansexual' />
-                  <label class="form-check-label" for="m_pansexual">Pansexual</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="m_pansexual" name='m_pansexual'
+                    checked={sexuality.male.pansexual}
+                    onChange={(e) =>
+                      setSexuality((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          pansexual: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="m_pansexual">Pansexual</label>
                 </div>
               </div>
             </div>
@@ -817,31 +1146,62 @@ const AdvanceMemberSearch = () => {
               </div>
             </div>
 
-
-
             {/* smoking */}
             <div className="row-3_9">
               <div className="header">
                 <h5>Smoking</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               {/* Females */}
               <h5 className='femaleHeader'>Females</h5>
               <div className="filterSection pt-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_notImportant" name='f_notImportant' />
-                  <label class="form-check-label" for="f_notImportant">Not important</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_notImportant" name='f_notImportant'
+                    checked={smoking.female.not_important}
+                    onChange={(e) =>
+                      setSmoking((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          not_important: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_notImportant">Not important</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_yes" name='f_yes' />
-                  <label class="form-check-label" for="f_yes">Yes</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_yes" name='f_yes'
+                    checked={smoking.female.yes}
+                    onChange={(e) =>
+                      setSmoking((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          yes: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_yes">Yes</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_no" name='f_no' />
-                  <label class="form-check-label" for="f_no">No</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_no" name='f_no'
+                    checked={smoking.female.no}
+                    onChange={(e) =>
+                      setSmoking((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          no: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_no">No</label>
                 </div>
 
               </div>
@@ -849,17 +1209,50 @@ const AdvanceMemberSearch = () => {
               {/* Males */}
               <h5 className='maleHeader'>Males</h5>
               <div className="filterSection pt-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_notImportant" name='m_notImportant' />
-                  <label class="form-check-label" for="m_notImportant">Not important</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="m_notImportant" name='m_notImportant'
+                    checked={smoking.male.not_important}
+                    onChange={(e) =>
+                      setSmoking((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          not_important: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="m_notImportant">Not important</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_yes" name='m_yes' />
-                  <label class="form-check-label" for="m_yes">Yes</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="m_yes" name='m_yes'
+                    checked={smoking.male.yes}
+                    onChange={(e) =>
+                      setSmoking((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          yes: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="m_yes">Yes</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_no" name='m_no' />
-                  <label class="form-check-label" for="m_no">No</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="m_no" name='m_no'
+                    checked={smoking.male.no}
+                    onChange={(e) =>
+                      setSmoking((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          no: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="m_no">No</label>
                 </div>
               </div>
             </div>
@@ -869,30 +1262,50 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Relationship Orientation</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="relation_any" name='relation_any' />
-                  <label class="form-check-label" for="relation_any">Any</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="relation_any"
+                    name='relation_any'
+                    checked={relationship.relation_any}
+                    onChange={handleRelationshipChange}
+                  />
+                  <label className="form-check-label" htmlFor="relation_any">Any</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="monogamous" name='monogamous' />
-                  <label class="form-check-label" for="monogamous">Monogamous</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="monogamous"
+                    name='monogamous'
+                    checked={relationship.monogamous}
+                    onChange={handleRelationshipChange}
+                  />
+                  <label className="form-check-label" htmlFor="monogamous">Monogamous</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="open-Minded" name='open-Minded' />
-                  <label class="form-check-label" for="open-Minded">Open-Minded</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="open_minded"
+                    name='open_minded'
+                    checked={relationship.open_minded}
+                    onChange={handleRelationshipChange}
+                  />
+                  <label className="form-check-label" htmlFor="open-Minded">Open-Minded</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="swinger" name='swinger' />
-                  <label class="form-check-label" for="swinger">Swinger</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="swinger"
+                    name='swinger'
+                    checked={relationship.swinger}
+                    onChange={handleRelationshipChange}
+                  />
+                  <label className="form-check-label" htmlFor="swinger">Swinger</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="polyamorous" name='polyamorous' />
-                  <label class="form-check-label" for="polyamorous">Polyamorous</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="polyamorous"
+                    name='polyamorous'
+                    checked={relationship.polyamorous}
+                    onChange={handleRelationshipChange}
+                  />
+                  <label className="form-check-label" htmlFor="polyamorous">Polyamorous</label>
                 </div>
               </div>
             </div>
@@ -902,58 +1315,106 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Ethnic background</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="Ethnic_any" name='Ethnic_any' />
-                  <label class="form-check-label" for="Ethnic_any">Any</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="Ethnic_any"
+                    name='Ethnic_any'
+                    checked={ethnic_background.Ethnic_any}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="Ethnic_any">Any</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="caucasian" name='caucasian' />
-                  <label class="form-check-label" for="caucasian">Caucasian</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="caucasian"
+                    name='caucasian'
+                    checked={ethnic_background.caucasian}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="caucasian">Caucasian</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="latin" name='latin' />
-                  <label class="form-check-label" for="latin">Hispanic / Latin</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="latin"
+                    name='latin'
+                    checked={ethnic_background.latin}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="latin">Hispanic / Latin</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="african_american" name='african_american' />
-                  <label class="form-check-label" for="african_american">Black / African-American</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="african_american"
+                    name='african_american'
+                    checked={ethnic_background.african_american}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="african_american">Black / African-American</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="asian" name='asian' />
-                  <label class="form-check-label" for="asian">Asian</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="asian"
+                    name='asian'
+                    checked={ethnic_background.asian}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="asian">Asian</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="indian" name='indian' />
-                  <label class="form-check-label" for="indian">Indian</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="indian"
+                    name='indian'
+                    checked={ethnic_background.indian}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="indian">Indian</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="pakistani" name='pakistani' />
-                  <label class="form-check-label" for="pakistani">Pakistani</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="pakistani"
+                    name='pakistani'
+                    checked={ethnic_background.pakistani}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="pakistani">Pakistani</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="nepali" name='nepali' />
-                  <label class="form-check-label" for="nepali">Nepali</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="nepali"
+                    name='nepali'
+                    checked={ethnic_background.nepali}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="nepali">Nepali</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="sri_lankan" name='sri_lankan' />
-                  <label class="form-check-label" for="sri_lankan">Sri lankan</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="sri_lankan"
+                    name='sri_lankan'
+                    checked={ethnic_background.sri_lankan}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="sri_lankan">Sri lankan</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="bangladeshi" name='bangladeshi' />
-                  <label class="form-check-label" for="bangladeshi">Bangladeshi</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="bangladeshi"
+                    name='bangladeshi'
+                    checked={ethnic_background.bangladeshi}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="bangladeshi">Bangladeshi</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="mauritian" name='mauritian' />
-                  <label class="form-check-label" for="mauritian">Mauritian</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="mauritian"
+                    name='mauritian'
+                    checked={ethnic_background.mauritian}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="mauritian">Mauritian</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="Ethnic_other" name='Ethnic_other' />
-                  <label class="form-check-label" for="Ethnic_other">Other</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="Ethnic_other"
+                    name='Ethnic_other'
+                    checked={ethnic_background.Ethnic_other}
+                    onChange={handleEthnic_backgroundChange}
+                  />
+                  <label className="form-check-label" htmlFor="Ethnic_other">Other</label>
                 </div>
               </div>
             </div>
@@ -963,32 +1424,52 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Relationship Orientation</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="hindu" name='hindu' />
-                  <label class="form-check-label" for="hindu">Hindu</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="hindu"
+                    name='hindu'
+                    checked={relationship_orientation.hindu}
+                    onChange={handleRelationship_orientationChange}
+                  />
+                  <label className="form-check-label" htmlFor="hindu">Hindu</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="islam" name='islam' />
-                  <label class="form-check-label" for="islam">Islam</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="islam"
+                    name='islam'
+                    checked={relationship_orientation.islam}
+                    onChange={handleRelationship_orientationChange}
+                  />
+                  <label className="form-check-label" htmlFor="islam">Islam</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="christan" name='christan' />
-                  <label class="form-check-label" for="christan">Christan</label>
+                <div clasNamclass="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="christan"
+                    name='christan'
+                    checked={relationship_orientation.christan}
+                    onChange={handleRelationship_orientationChange}
+                  />
+                  <label className="form-check-label" htmlFor="christan">Christan</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="jew" name='jew' />
-                  <label class="form-check-label" for="jew">Jew</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="jew"
+                    name='jew'
+                    checked={relationship_orientation.jew}
+                    onChange={handleRelationship_orientationChange}
+                  />
+                  <label className="form-check-label" htmlFor="jew">Jew</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input " type="checkbox" id="relationship_other" name='relationship_other' />
-                  <label class="form-check-label" for="relationship_other">Other</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input " type="checkbox" id="relationship_other"
+                    name='relationship_other'
+                    checked={relationship_orientation.relationship_other}
+                    onChange={handleRelationship_orientationChange}
+                  />
+                  <label className="form-check-label" htmlFor="relationship_other">Other</label>
                   <input
-                    class="form-input inputFiled-background"
+                    className="form-input inputFiled-background customeTextBox"
                     type="text"
                     id="relationship_input"
                     name='relationship_input'
@@ -1002,85 +1483,261 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Body type</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               {/* search mode */}
               <div className="filterSection">
                 <h6>Search Mode</h6>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="body_and" name='body_and' />
-                  <label class="form-check-label" for="body_and">and</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="body_and" name='body_and'
+                    checked={body_type.searchMode.and}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        searchMode: {
+                          ...prev.searchMode,
+                          and: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="body_and">and</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="body_or" name='body_or' />
-                  <label class="form-check-label" for="body_or">or</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="body_or" name='body_or'
+                    checked={body_type.searchMode.or}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        searchMode: {
+                          ...prev.searchMode,
+                          or: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="body_or">or</label>
                 </div>
               </div>
 
               {/* Females */}
               <h5 className='femaleHeader'>Females</h5>
               <div className="filterSection pt-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="body_f_any" name='body_f_any' />
-                  <label class="form-check-label" for="body_f_any">Any</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="body_f_any" name='body_f_any'
+                    checked={body_type.female.any}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          any: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="body_f_any">Any</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_slim" name='f_slim' />
-                  <label class="form-check-label" for="f_slim">Slim</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_slim" name='f_slim'
+                    checked={body_type.female.slim}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          slim: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_slim">Slim</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_athletic" name='f_athletic' />
-                  <label class="form-check-label" for="f_athletic">Athletic</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_athletic" name='f_athletic'
+                    checked={body_type.female.athletic}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          athletic: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_athletic">Athletic</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_average" name='f_average' />
-                  <label class="form-check-label" for="f_average">Average</label>
+                <div class="custome-form-check">
+                  <input class="form-check-input custome-form-check-input" type="checkbox" id="f_average" name='f_average'
+                    checked={body_type.female.average}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          average: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label class="form-check-label" htmlFor="f_average">Average</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_nicely_shaped" name='f_nicely_shaped' />
-                  <label class="form-check-label" for="f_nicely_shaped">Nicely Shaped</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_nicely_shaped" name='f_nicely_shaped'
+                    checked={body_type.female.nicely_shaped}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          nicely_shaped: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_nicely_shaped">Nicely Shaped</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_love" name='f_love' />
-                  <label class="form-check-label" for="f_love">More of me to love</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_love" name='f_love'
+                    checked={body_type.female.me_to_love}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          me_to_love: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_love">More of me to love</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="f_heavy" name='f_heavy' />
-                  <label class="form-check-label" for="f_heavy">Huggable and Heavy</label>
+                <div className="custome-form-check">
+                  <input className="form-check-input custome-form-check-input" type="checkbox" id="f_heavy" name='f_heavy'
+                    checked={body_type.female.huggable_and_heavy}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        female: {
+                          ...prev.female,
+                          huggable_and_heavy: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" htmlFor="f_heavy">Huggable and Heavy</label>
                 </div>
               </div>
 
               {/* Males */}
               <h5 className='maleHeader'>Males</h5>
               <div className="filterSection pt-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="body_m_any" name='body_m_any' />
+                <div class="custome-form-check">
+                  <input class="form-check-input custome-form-check-input" type="checkbox" id="body_m_any" name='body_m_any'
+                    checked={body_type.male.any}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          any: e.target.checked
+                        }
+                      }))
+                    }
+                  />
                   <label class="form-check-label" for="body_m_any">Any</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_slim" name='m_slim' />
+                <div class="custome-form-check">
+                  <input class="form-check-input custome-form-check-input" type="checkbox" id="m_slim" name='m_slim'
+                    checked={body_type.male.slim}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          slim: e.target.checked
+                        }
+                      }))
+                    }
+                  />
                   <label class="form-check-label" for="m_slim">Slim</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_athletic" name='m_athletic' />
+                <div class="custome-form-check">
+                  <input class="form-check-input custome-form-check-input" type="checkbox" id="m_athletic" name='m_athletic'
+                    checked={body_type.male.athletic}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          athletic: e.target.checked
+                        }
+                      }))
+                    }
+                  />
                   <label class="form-check-label" for="m_athletic">Athletic</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_average" name='m_average' />
+                <div class="custome-form-check">
+                  <input class="form-check-input custome-form-check-input" type="checkbox" id="m_average" name='m_average'
+                    checked={body_type.male.average}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          average: e.target.checked
+                        }
+                      }))
+                    }
+                  />
                   <label class="form-check-label" for="m_average">Average</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_nicely_shaped" name='m_nicely_shaped' />
+                <div class="custome-form-check">
+                  <input class="form-check-input custome-form-check-input" type="checkbox" id="m_nicely_shaped" name='m_nicely_shaped'
+                    checked={body_type.male.nicely_shaped}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          nicely_shaped: e.target.checked
+                        }
+                      }))
+                    }
+                  />
                   <label class="form-check-label" for="m_nicely_shaped">Nicely Shaped</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_love" name='m_love' />
+                <div class="custome-form-check">
+                  <input class="form-check-input custome-form-check-input" type="checkbox" id="m_love" name='m_love'
+                    checked={body_type.male.me_to_love}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          me_to_love: e.target.checked
+                        }
+                      }))
+                    }
+                  />
                   <label class="form-check-label" for="m_love">More of me to love</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="m_heavy" name='m_heavy' />
+                <div class="custome-form-check">
+                  <input class="form-check-input custome-form-check-input" type="checkbox" id="m_heavy" name='m_heavy'
+                    checked={body_type.male.huggable_and_heavy}
+                    onChange={(e) =>
+                      setBody_type((prev) => ({
+                        ...prev,
+                        male: {
+                          ...prev.male,
+                          huggable_and_heavy: e.target.checked
+                        }
+                      }))
+                    }
+                  />
                   <label class="form-check-label" for="m_heavy">Huggable and Heavy</label>
                 </div>
               </div>
@@ -1088,14 +1745,20 @@ const AdvanceMemberSearch = () => {
 
             <div className="row-4">
               <h6>Reset Search</h6>
-              <div class="form-check form-switch">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Save Search</label>
-                <input class="no-radius form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
+              <div className="custome-form-check form-switch">
+                <label className="form-check-label" for="flexSwitchCheckDefault">Save Search</label>
+                <input className="no-radius form-check-input custome-form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                  checked={save_search}
+                  onChange={(e) => setSave_search(e.target.checked)}
+                />
               </div>
             </div>
 
             <div className="row-5">
-              <button className='submitBtn'>Submit</button>
+              <button 
+                className='submitBtn'
+                onClick={handelSubmit}
+              >Submit</button>
             </div>
 
           </div>

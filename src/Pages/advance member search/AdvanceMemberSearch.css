@@ -1,11 +1,12 @@
-input[type="text"] {
+/* D */
+/* input[type="text"] {
     background-color: transparent;
     color: white;
     width: 610px;
     border-radius: 4px;
     padding: 5px 10px;
     border: 1px solid #6C757D;
-}
+} */
 
 input[type="checkbox"]:not(.no-radius),
 .form-check-input[type="checkbox"]:not(.no-radius) {
@@ -79,14 +80,14 @@ h5 {
 
 .row-3_6 input[type="text"] {
     width: 272px;
-    background-color: #343A40;
-    border: none;
-}
-
-.row-3_12 input[type="text"] {
+    background-color: #2E3237 !important;
+    border: 1px solid white;
+  }
+  
+  .row-3_12 input[type="text"] {
     width: 272px;
-    background-color: #343A40;
-    border: none;
+    background-color: #2E3237 !important;
+    border: 1px solid white;
 }
 
 .row-4{
@@ -101,10 +102,6 @@ h5 {
 .row-4 label{
     font-size: 12px;
     margin-right: 10px;
-}
-.form-check-input{
-    margin-left: 2px !important;
-    /* border-radius: 0 !important; */
 }
 
 .femaleHeader {
@@ -133,15 +130,6 @@ h5 {
     gap: 40px;
     flex-wrap: wrap;
 }
-
-.form-check {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px !important;
-}
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -292,4 +280,26 @@ h5 {
     border-radius: 16.23px;
     outline: none;
     border: none;
+}
+.customeTextBox{
+  background-color: transparent;
+    color: white;
+    width: 610px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    border: 1px solid #6C757D;
+}
+.custome-form-check-input{
+    margin-left: 2px !important;
+    border-radius: 0 !important;
+}
+.custome-form-check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px !important;
+}
+.no-radius{
+  border-radius: 100px !important;
 }
