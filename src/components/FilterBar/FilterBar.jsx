@@ -9,7 +9,7 @@ import NotificationScreen from '../../Pages/Front-screen-feed/componeents/Notifi
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName }) => {
+const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName,navigationToAnotherPage }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
@@ -73,10 +73,15 @@ const FilterBar = ({ filter1, filter2, filterName1, filterName2, showTab, pageNa
                     <div className="d-flex gap-3 position-relative pb-3">
                         {/* General Filter Button */}
                         {
-                            filterName1 &&
+                            (filterName1 && !navigationToAnotherPage) ?
                             <button
                                 className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
                                 onClick={handleGeneralFilter}
+                            >
+                                {filterName1}
+                            </button> : <button
+                                className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
+                                onClick={navigationToAnotherPage}
                             >
                                 {filterName1}
                             </button>

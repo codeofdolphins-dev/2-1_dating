@@ -38,7 +38,7 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                     <SidebarItem icon={<FaUserPlus />} label="New Members" pageUrl="/new-members" />
                     <SidebarItem icon={<FaCalendarAlt />} label="Events and Parties" pageUrl="/events" />
                     <SidebarItem icon={<FaFilm />} label="Videos" pageUrl="/videos" />
-                    <SidebarItem icon={<FaAward />} label="Travel Date" pageUrl="/travel" />
+                    <SidebarItem icon={<FaAward />} label="Travel Date" pageUrl="/traveldate" />
                     <SidebarItem icon={<FaCertificate />} label="Certifications" pageUrl="/certifications" />
                     <SidebarItem icon={<FaStar />} label="Wall of Fame" pageUrl="/wall-of-fame" />
                     <SidebarItem icon={<FaUsers />} label="Groups" pageUrl="/groups" />

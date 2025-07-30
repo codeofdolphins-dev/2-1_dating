@@ -33,6 +33,10 @@ import PartiesAndEventPage from './Pages/PartiesAndEventPage/PartiesAndEventPage
 import PartiesAndEventInfo from './Pages/PartiesAndEventInfo/PartiesAndEventInfo';
 import Search from './Pages/search/Search';
 import AdvanceMemberSearch from './Pages/advance member search/AdvanceMemberSearch';
+import TravelDatespage from './Pages/TravelDatespage/TravelDatespage';
+import CreateTravelDatePage from './Pages/CreateTravelDatePage/CreateTravelPage';
+
+
 
 
 
@@ -73,6 +77,8 @@ function App() {
 
         <Route path="/search" element={ <Search /> } />
         <Route path="/advance-search" element={<AdvanceMemberSearch />} />
+        <Route path="/traveldate" element={<TravelDatespage />} />
+        <Route path="/createtraveldate" element={<CreateTravelDatePage />} />
        
       </Routes>
       </BrowserRouter>

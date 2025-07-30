@@ -30,6 +30,10 @@
   background-color: var(--color-border) !important;
 }
 
+.custom-inputFiled-background{
+  background-color: var(--color-background) !important;
+}
+
 hr {
     display: block;
     margin-block-start: 0em !important;
