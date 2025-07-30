@@ -1,0 +1,25 @@
+input{
+    background-color: #343A40;
+    width: 610px;
+    border-radius: 4px;
+    padding: 1px 10px;
+    border: 1px solid #6C757D;
+}
+button{
+    color: #EC5252;
+    border: 1px solid #EC5252;
+    background-color: transparent;
+    border-radius: 16.23px;
+}
+.searchSuggestion{
+    display: inline-block;
+    margin: 5px 5px;
+    min-width: 117px;
+    height: 32px;
+    padding: 5px 20px;
+    background-color: #096BFF;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 16.23px;
+}
