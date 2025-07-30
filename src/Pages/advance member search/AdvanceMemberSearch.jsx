@@ -47,9 +47,12 @@ const AdvanceMemberSearch = () => {
     kanada: false,
     gujrati: false,
     panjabi: false,
-    bangali: false,
+    bengali: false,
     marathi: false,
-    other: ""
+    other: {
+      selected: false,
+      text: ""
+    }
   });
 
   const [location, setLocation] = useState("");
@@ -79,7 +82,6 @@ const AdvanceMemberSearch = () => {
       [name]: checked
     }));
   };
-
   const handleStatusChange = (e) => {
     const { name, checked } = e.target;
     setStatus((prev) => ({
@@ -87,10 +89,31 @@ const AdvanceMemberSearch = () => {
       [name]: checked
     }));
   };
-
   const handleVisualChange = (e) => {
     const { name, checked } = e.target;
     setVisual((prev) => ({
+      ...prev,
+      [name]: checked
+    }));
+  };
+  const handleLangChange = (e) => {
+    const { name, checked } = e.target;
+    setLang((prev) => ({
+      ...prev,
+      [name]: checked
+    }));
+  };
+  const handleSubscriptionChange = (e) => {
+    const { name, checked } = e.target;
+    setSubscription((prev) => ({
+      ...prev,
+      [name]: checked
+    }));
+  };
+
+  const handleFeaturesChange = (e) => {
+    const { name, checked } = e.target;
+    setFeatures((prev) => ({
       ...prev,
       [name]: checked
     }));
@@ -107,7 +130,7 @@ const AdvanceMemberSearch = () => {
           {/* row 1 */}
           <div className="row-1 text-white">
             <div className="d-flex justify-content-start align-items-center gap-3">
-              <a href="#"><i class="bi bi-chevron-left fs-5 text-white"></i></a>
+              <a href="#"><i className="bi bi-chevron-left fs-5 text-white"></i></a>
               <h4 className='text-white'>Member Search</h4>
             </div>
             <p className='para mt-2'>Select who you are looking for and refine your search parameters in the sections below. Next to "Search Mode", you can either select "and" to narrow down your search results to show profiles that have all the features you select below; or you can select "or" to show profiles that have minimum one of the features you select below.</p>
@@ -117,6 +140,7 @@ const AdvanceMemberSearch = () => {
           <div className="row-2 d-flex justify-content-start align-items-center gap-2">
             <input
               type="text"
+              value={search}
               onChange={() => setSearch(e.target.value)}
               placeholder='Login Name'
             />
@@ -129,48 +153,53 @@ const AdvanceMemberSearch = () => {
             <div className="row-3_0">
               <h5>What you are looking for</h5>
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="couple"
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="couple"
                     name='couple'
                     checked={lookingFor.couple}
                     onChange={handleLookingForChange}
                   />
-                  <label class="form-check-label" for="couple">Couple Female / Male</label>
+                  <label className="form-check-label" htmlFor="couple">Couple Female / Male</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="female" name='female'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="female"
+                    name='female'
                     checked={lookingFor.female}
                     onChange={handleLookingForChange}
                   />
-                  <label class="form-check-label" for="female">Female</label>
+                  <label className="form-check-label" htmlFor="female">Female</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="male" name='male'
+                  <input className="form-check-input" type="checkbox" id="male"
+                    name='male'
                     checked={lookingFor.male}
                     onChange={handleLookingForChange}
                   />
-                  <label class="form-check-label" for="male">Male</label>
+                  <label className="form-check-label" htmlFor="male">Male</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="transgender" name='transgender'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="transgender"
+                    name='transgender'
                     checked={lookingFor.transgender}
                     onChange={handleLookingForChange}
                   />
-                  <label class="form-check-label" for="transgender">Transgender</label>
+                  <label className="form-check-label" htmlFor="transgender">Transgender</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="business" name='business'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="business"
+                    name='business'
                     checked={lookingFor.business}
                     onChange={handleLookingForChange}
                   />
-                  <label class="form-check-label" for="business">Businesses</label>
+                  <label className="form-check-label" htmlFor="business">Businesses</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="me_us" name='me_us'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="me_us"
+                    name='me_us'
                     checked={lookingFor.me_us}
                     onChange={handleLookingForChange}
                   />
-                  <label class="form-check-label" for="me_us">Looking for me / us</label>
+                  <label className="form-check-label" htmlFor="me_us">Looking for me / us</label>
                 </div>
               </div>
             </div>
@@ -179,31 +208,34 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Status</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="online" name='online'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="online"
+                    name='online'
                     checked={status.online}
                     onChange={handleStatusChange}
                   />
-                  <label class="form-check-label" for="online">Online</label>
+                  <label className="form-check-label" htmlFor="online">Online</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="newMember" name='newMember'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="newMember"
+                    name='newMember'
                     checked={status.newMember}
                     onChange={handleStatusChange}
                   />
-                  <label class="form-check-label" for="newMember">New Member</label>
+                  <label className="form-check-label" htmlFor="newMember">New Member</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="birthday" name='birthday'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="birthday"
+                    name='birthday'
                     checked={status.birthday}
                     onChange={handleStatusChange}
                   />
-                  <label class="form-check-label" for="birthday">Has a Birthday</label>
+                  <htmlFl className="form-check-label" htmlFor="birthday">Has a Birthday</htmlFl>
                 </div>
               </div>
             </div>
@@ -212,31 +244,34 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Visuals</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="picture" name='picture'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="picture"
+                    name='picture'
                     checked={visual.picture}
                     onChange={handleVisualChange}
                   />
-                  <label class="form-check-label" for="picture">Profile Picture</label>
+                  <label className="form-check-label" htmlFor="picture">Profile Picture</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="video" name='video'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="video"
+                    name='video'
                     checked={visual.video}
                     onChange={handleVisualChange}
                   />
-                  <label class="form-check-label" for="video">video</label>
+                  <label className="form-check-label" htmlFor="video">video</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="album" name='album'
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="album"
+                    name='album'
                     checked={visual.album}
                     onChange={handleVisualChange}
                   />
-                  <label class="form-check-label" for="album">Album</label>
+                  <label className="form-check-label" htmlFor="album">Album</label>
                 </div>
               </div>
             </div>
@@ -246,110 +281,216 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Languages</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               {/* search mode */}
               <div className="filterSection">
                 <h5>Search Mode</h5>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="langAnd" name='langAnd' />
-                  <label class="form-check-label" for="langAnd">and</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="langOr" name='langOr'
-                    checked={visual.picture}
-                    onChange={((e) => (
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="langAnd"
+                    name='langAnd'
+                    checked={lang.searchMode.and}
+                    onChange={(e) =>
                       setLang((prev) => ({
                         ...prev,
-                        // {searchMode.and: e.target.checked}
+                        searchMode: {
+                          ...prev.searchMode,
+                          and: e.target.checked
+                        }
                       }))
-                    ))}
+                    }
                   />
-                  <label class="form-check-label" for="langOr">or</label>
+                  <label className="form-check-label" htmlFor="langAnd">and</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="langOr"
+                    name='langOr'
+                    checked={lang.searchMode.or}
+                    onChange={(e) =>
+                      setLang((prev) => ({
+                        ...prev,
+                        searchMode: {
+                          ...prev.searchMode,
+                          or: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label class="form-check-label" htmlFor="langOr">or</label>
                 </div>
               </div>
 
               {/* languages */}
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="any" name='any' />
-                  <label class="form-check-label" for="any">Any</label>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="any"
+                    name='any'
+                    checked={lang.any}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="any">Any</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="nederlands"
+                    name='nederlands'
+                    checked={lang.nederlands}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="nederlands">Nederlands</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="deutsch"
+                    name='deutsch'
+                    checked={lang.deutsch}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="deutsch">Deutsch</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="français"
+                    name='français'
+                    checked={lang.français}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="français">Français</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="español"
+                    name='español'
+                    checked={lang.español}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="español">Español</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="italiano"
+                    name='italiano'
+                    checked={lang.italiano}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="italiano">Italiano</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="english"
+                    name='english'
+                    checked={lang.english}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="english">English</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="português"
+                    name='português'
+                    checked={lang.português}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="português">Português</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="hindi"
+                    name='hindi'
+                    checked={lang.hindi}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="hindi">Hindi</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="tamil"
+                    name='tamil'
+                    checked={lang.tamil}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="tamil">Tamil</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="telugu"
+                    name='telugu'
+                    checked={lang.telugu}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="telugu">Telugu</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="malyali"
+                    name='malyali'
+                    checked={lang.malyali}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="malyali">Malyali</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="kanada"
+                    name='kanada'
+                    checked={lang.kanada}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="kanada">Kanada</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="gujrati"
+                    name='gujrati'
+                    checked={lang.gujrati}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="gujrati">Gujrati</label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="panjabi"
+                    name='panjabi'
+                    checked={lang.panjabi}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="panjabi">Panjabi</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="nederlands" name='nederlands' />
-                  <label class="form-check-label" for="nederlands">Nederlands</label>
+                  <input className="form-check-input" type="checkbox" id="bengali"
+                    name='bengali'
+                    checked={lang.bengali}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="bengali">Bengali</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="deutsch" name='deutsch' />
-                  <label class="form-check-label" for="deutsch">Deutsch</label>
+                  <input className="form-check-input" type="checkbox" id="marathi"
+                    name='marathi'
+                    checked={lang.marathi}
+                    onChange={handleLangChange}
+                  />
+                  <label className="form-check-label" htmlFor="marathi">Marathi</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="français" name='français' />
-                  <label class="form-check-label" for="français">Français</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="español" name='español' />
-                  <label class="form-check-label" for="español">Español</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="italiano" name='italiano' />
-                  <label class="form-check-label" for="italiano">Italiano</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="english" name='english' />
-                  <label class="form-check-label" for="english">English</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="português" name='português' />
-                  <label class="form-check-label" for="português">Português</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="hindi" name='hindi' />
-                  <label class="form-check-label" for="hindi">Hindi</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="tamil" name='tamil' />
-                  <label class="form-check-label" for="tamil">Tamil</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="telugu" name='telugu' />
-                  <label class="form-check-label" for="telugu">Telugu</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="malyali" name='malyali' />
-                  <label class="form-check-label" for="malyali">Malyali</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="kanada" name='kanada' />
-                  <label class="form-check-label" for="kanada">Kanada</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gujrati" name='gujrati' />
-                  <label class="form-check-label" for="gujrati">Gujrati</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="panjabi" name='panjabi' />
-                  <label class="form-check-label" for="panjabi">Panjabi</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="bengali" name='bengali' />
-                  <label class="form-check-label" for="bengali">Bengali</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="marathi" name='marathi' />
-                  <label class="form-check-label" for="marathi">Marathi</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="other" name='other' />
-                  <label class="form-check-label" for="other">Others</label>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="other"
+                    name='other'
+                    checked={lang.other.selected}
+                    onChange={(e) =>
+                      setLang((prev) => ({
+                        ...prev,
+                        other: {
+                          ...prev.other,
+                          selected: e.target.checked
+                        }
+                      }))
+                    }
+                  />
+                  <label className="form-check-label" for="other">Others</label>
                   <input
-                    class="form-input"
+                    className="form-input"
                     type="text"
                     id="other"
                     name='other'
                     placeholder='Type your language here'
+                    value={lang.other.text}
+                    onChange={(e) =>
+                      setLang((prev) => ({
+                        ...prev,
+                        other: {
+                          ...prev.other,
+                          text: e.target.value
+                        }
+                      }))
+                    }
                   />
                 </div>
               </div>
@@ -360,13 +501,16 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Location / Distance</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-input" type="text" id="location" name='location' placeholder='Kolkata, West Bengal, IN' />
+                <div className="form-check">
+                  <input className="form-input" type="text" id="location" name='location' placeholder='Kolkata, West Bengal, IN'
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
                   <p>0 mi</p>
                 </div>
               </div>
@@ -377,22 +521,33 @@ const AdvanceMemberSearch = () => {
               <div className="header">
                 <h5>Subscription</h5>
                 <div className="circle">
-                  <i class="bi bi-chevron-down"></i>
+                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
 
               <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="fileMember" name='fileMember' />
-                  <label class="form-check-label" for="fileMember">Lifetime Member</label>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="lifeTime"
+                    name='lifeTime'
+                    checked={subscription.lifeTime}
+                    onChange={handleSubscriptionChange}
+                  />
+                  <label className="form-check-label" htmlFor="lifeTime">Lifetime Member</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="fullMember" name='fullMember' />
-                  <label class="form-check-label" for="fullMember">Full Member</label>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="fullMember" name='fullMember'
+                    checked={subscription.fullMember}
+                    onChange={handleSubscriptionChange}
+                  />
+                  <label className="form-check-label" htmlFor="fullMember">Full Member</label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="trailMember" name='trailMember' />
-                  <label class="form-check-label" for="trailMember">Trail Member</label>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="trailMember"
+                    name='trailMember'
+                    checked={subscription.trailMember}
+                    onChange={handleSubscriptionChange}
+                  />
+                  <label className="form-check-label" htmlFor="trailMember">Trail Member</label>
                 </div>
               </div>
             </div>
