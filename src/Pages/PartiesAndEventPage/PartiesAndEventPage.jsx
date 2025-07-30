@@ -13,7 +13,7 @@ import female from "../../assets/ViwCardImags/img/female.png"
 
 const cards = [
   {
-    title: "RED HOT LOVERS & SECRET",
+    title: "RED HOT LOVERS & SECRET CANDLELIT ✨ saasdasd",
     kind: "Private Party",
     date: "Mar 14, 2025",
     host: "SPLENDIDPARTYS",
