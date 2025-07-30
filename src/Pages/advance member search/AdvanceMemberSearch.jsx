@@ -4,6 +4,48 @@ import PageWrapper from '../../components/PageWrapper'
 
 const AdvanceMemberSearch = () => {
 
+  const [femaleMinValue, setFemaleMinValue] = useState(100);
+  const [femaleMaxValue, setFemaleMaxValue] = useState(10);
+
+  const [maleMinValue, setMaleMinValue] = useState(100);
+  const [maleMaxValue, setMaleMaxValue] = useState(10);
+
+
+  const [LocationValue, setLocationValue] = useState(10);
+
+
+  //  for female
+  const handleMinChange = (e) => {
+    const value = Math.min(Number(e.target.value), femaleMinValue + 1);
+    setFemaleMinValue(value);
+  };
+
+  const handleMaxChange = (e) => {
+    const value = Math.max(Number(e.target.value), femaleMaxValue - 1);
+    setFemaleMaxValue(value);
+  };
+
+  //for male
+  const handleMinChangeForMale = (e) => {
+    const value = Math.min(Number(e.target.value), maleMinValue + 1);
+    setMaleMinValue(value);
+  };
+
+  const handleMaxChangeForMale = (e) => {
+    const value = Math.max(Number(e.target.value), maleMaxValue - 1);
+    setMaleMaxValue(value);
+  };
+
+  //location slider
+
+    const handleLocationSliderChange = (e) => {
+    const value = Math.min(Number(e.target.value), LocationValue + 1);
+    setLocationValue(value);
+  };
+
+
+
+
   const [search, setSearch] = useState("");
 
   const [lookingFor, setLookingFor] = useState({
@@ -345,7 +387,7 @@ const AdvanceMemberSearch = () => {
                   <input class="form-check-input" type="checkbox" id="other" name='other' />
                   <label class="form-check-label" for="other">Others</label>
                   <input
-                    class="form-input"
+                    class="form-input inputFiled-background"
                     type="text"
                     id="other"
                     name='other'
@@ -364,12 +406,41 @@ const AdvanceMemberSearch = () => {
                 </div>
               </div>
 
-              <div className="filterSection">
-                <div class="form-check">
-                  <input class="form-input" type="text" id="location" name='location' placeholder='Kolkata, West Bengal, IN' />
-                  <p>0 mi</p>
+              <div className="filterSection" style={{ width: '100%' }}>
+                <div
+                  className="form-check"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '0.5rem',
+                    width: '40%',
+                  }}
+                >
+                  <input
+                    className="form-input inputFiled-background"
+                    type="text"
+                    id="location"
+                    name="location"
+                    placeholder="Kolkata, West Bengal, IN"
+                    style={{ flexGrow: 1 }}
+                  />
+                  <p style={{ margin: 0, whiteSpace: 'nowrap' }}>{LocationValue} mi</p>
+                </div>
+
+                <div className="loction-range w-100" style={{ marginTop: '0.5rem' }}>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={LocationValue}
+                    onChange={handleLocationSliderChange}
+                    className="range"
+                    style={{ width: '100%' }}
+                  />
                 </div>
               </div>
+
             </div>
 
             {/* Subscription */}
@@ -437,7 +508,7 @@ const AdvanceMemberSearch = () => {
                   <input class="form-check-input" type="checkbox" id="nameKeyword" name='nameKeyword' />
                   <label class="form-check-label" for="nameKeyword">Profile Name/Keyword</label>
                   <input
-                    class="form-input"
+                    class="form-input inputFiled-background"
                     type="text"
                     id="nameKeyword_input"
                     name='nameKeyword_input'
@@ -542,11 +613,25 @@ const AdvanceMemberSearch = () => {
                   <h6>Females</h6>
                   <div className="sliderRow">
                     <div className="rangeGroup">
-                      <input type="range" min="0" max="100" className="range" />
-                      <input type="range" min="0" max="100" className="range" />
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={femaleMinValue}
+                        onChange={handleMinChange}
+                        className="range"
+                      />
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={femaleMaxValue}
+                        onChange={handleMaxChange}
+                        className="range"
+                      />
                     </div>
-                    <span className="rangeLabel left">20</span>
-                    <span className="rangeLabel right">60</span>
+                    <span className="rangeLabel left">{femaleMinValue}</span>
+                    <span className="rangeLabel right">{femaleMaxValue}</span>
                   </div>
                 </div>
 
@@ -555,11 +640,23 @@ const AdvanceMemberSearch = () => {
                   <h6>Males</h6>
                   <div className="sliderRow">
                     <div className="rangeGroup">
-                      <input type="range" min="0" max="100" className="range blu" />
-                      <input type="range" min="0" max="100" className="range blu" />
+                      <input type="range"
+                        min="0"
+                        max="100"
+                        value={maleMinValue}
+                        onChange={handleMinChangeForMale}
+                        className="range blu"
+                      />
+                      <input type="range"
+                        min="0"
+                        max="100"
+                        value={maleMaxValue}
+                        onChange={handleMaxChangeForMale}
+                        className="range blu"
+                      />
                     </div>
-                    <span className="rangeLabel left">20</span>
-                    <span className="rangeLabel right">60</span>
+                    <span className="rangeLabel left">{maleMinValue}</span>
+                    <span className="rangeLabel right">{maleMaxValue}</span>
                   </div>
                 </div>
               </div>
@@ -733,10 +830,10 @@ const AdvanceMemberSearch = () => {
                   <label class="form-check-label" for="jew">Jew</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="relationship_other" name='relationship_other' />
+                  <input class="form-check-input " type="checkbox" id="relationship_other" name='relationship_other' />
                   <label class="form-check-label" for="relationship_other">Other</label>
                   <input
-                    class="form-input"
+                    class="form-input inputFiled-background"
                     type="text"
                     id="relationship_input"
                     name='relationship_input'

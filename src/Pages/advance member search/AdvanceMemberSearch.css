@@ -164,7 +164,9 @@ h5 {
   /* margin-top: 3px; */
 }
 
-
+.loction-range input{
+  width: 600px !important;
+}
 
 
 .age-wrapper {

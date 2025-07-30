@@ -26,6 +26,10 @@
   vertical-align: middle;
 }
 
+.inputFiled-background{
+  background-color: var(--color-border) !important;
+}
+
 hr {
     display: block;
     margin-block-start: 0em !important;
