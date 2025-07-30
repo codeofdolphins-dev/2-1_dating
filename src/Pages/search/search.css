@@ -20,6 +20,16 @@ button{
     background-color: #096BFF;
     color: white;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     border-radius: 16.23px;
+    cursor: pointer;
+}
+.searchBtn{
+    font-size: 14px;
+    padding: 5px 10px;
+}
+.back-icon{
+    cursor: pointer;
+    color: white;
+    
 }
