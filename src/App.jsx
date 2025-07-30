@@ -34,7 +34,8 @@ import PartiesAndEventInfo from './Pages/PartiesAndEventInfo/PartiesAndEventInfo
 import Search from './Pages/search/Search';
 import AdvanceMemberSearch from './Pages/advance member search/AdvanceMemberSearch';
 import TravelDatespage from './Pages/TravelDatespage/TravelDatespage';
-import CreateTravelDatePage from './Pages/CreateTravelDatePage/CreateTravelPage';
+// import CreateTravelDatePage from './Pages/CreateTravelDatePage/CreateTravelPage';
+import CertificationPage from './Pages/certificationPage/CertificationPage';
 
 
 
@@ -78,7 +79,8 @@ function App() {
         <Route path="/search" element={ <Search /> } />
         <Route path="/advance-search" element={<AdvanceMemberSearch />} />
         <Route path="/traveldate" element={<TravelDatespage />} />
-        <Route path="/createtraveldate" element={<CreateTravelDatePage />} />
+        {/* <Route path="/createtraveldate" element={<CreateTravelDatePage />} /> */}
+        <Route path="/certifications" element={<CertificationPage />} />
        
       </Routes>
       </BrowserRouter>
