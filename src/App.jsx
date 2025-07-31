@@ -82,7 +82,7 @@ function App() {
         <Route path="/advance-search" element={<AdvanceMemberSearch />} />
         <Route path="/traveldate" element={<TravelDatespage />} />
         {/* {/* <Route path="/createtraveldate" element={<CreateTravelDatePage />} /> */}
-        <Route path="/certifications" element={<CertificationPage />} /> */}
+        <Route path="/certifications" element={<CertificationPage />} /> 
         
         <Route path="/videos" element={<Videos />} />
 
