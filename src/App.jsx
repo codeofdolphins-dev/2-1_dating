@@ -34,8 +34,11 @@ import PartiesAndEventInfo from './Pages/PartiesAndEventInfo/PartiesAndEventInfo
 import Search from './Pages/search/Search';
 import AdvanceMemberSearch from './Pages/advance member search/AdvanceMemberSearch';
 import TravelDatespage from './Pages/TravelDatespage/TravelDatespage';
-// import CreateTravelDatePage from './Pages/CreateTravelDatePage/CreateTravelPage';
+// // import CreateTravelDatePage from './Pages/CreateTravelDatePage/CreateTravelPage';
 import CertificationPage from './Pages/certificationPage/CertificationPage';
+import LiveStreamCard from './components/Video Card/VideoCard';
+import Videos from './Pages/videos/Videos';
+import AddVideo from './Pages/Add Video/AddVideo';
 import WallOfFramePage from './Pages/WallOfFramePage/WallOfFramePage';
 
 
@@ -76,14 +79,17 @@ function App() {
         <Route path="/messages" element={<Chat/>}/>
         <Route path="/events" element={<PartiesAndEventPage/>}/>
         <Route path="/event-info" element={<PartiesAndEventInfo/>}/>
-
         <Route path="/search" element={ <Search /> } />
         <Route path="/advance-search" element={<AdvanceMemberSearch />} />
         <Route path="/traveldate" element={<TravelDatespage />} />
-        {/* <Route path="/createtraveldate" element={<CreateTravelDatePage />} /> */}
-        <Route path="/certifications" element={<CertificationPage />} />
+        {/* {/* <Route path="/createtraveldate" element={<CreateTravelDatePage />} /> */}
+        <Route path="/certifications" element={<CertificationPage />} /> 
+        
+        <Route path="/videos" element={<Videos />} />
+
+        <Route path="/add-video" element={ <AddVideo /> }/>
         <Route path="/wall-of-fame" element={<WallOfFramePage />} />
-       
+
       </Routes>
       </BrowserRouter>
     </>
