@@ -84,8 +84,8 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                     {/* Filters */}
                     <div className="d-flex gap-3 position-relative pb-3">
                         {/* General Filter Button */}
-                        {
-                            (filterName1 && !navigationToAnotherPage) ?
+                        { filterName1 ?
+                            (filterName1 || !navigationToAnotherPage) ?
                             <button
                                 className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
                                 onClick={handleGeneralFilter}
@@ -96,7 +96,7 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                                 onClick={navigationToAnotherPage}
                             >
                                 {filterName1}
-                            </button>
+                            </button> :""
                         }
 
                         {/* General Filter Dropdown */}

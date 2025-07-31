@@ -27,6 +27,8 @@ const Search = () => {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder='Profile Name / Keyword'
+                            className='searchPageInput inputFiled-background'
+                            
                         />
                         <button className="searchBtn">Advanced Member Search</button>
                     </div>

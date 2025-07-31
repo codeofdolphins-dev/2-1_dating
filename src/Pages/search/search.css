@@ -1,4 +1,4 @@
-input{
+.searchPageInput{
     background-color: #343A40;
     width: 610px;
     border-radius: 4px;
@@ -17,8 +17,8 @@ button{
     min-width: 117px;
     height: 32px;
     padding: 5px 20px;
-    background-color: #096BFF;
-    color: white;
+    background-color: var(--color-primary-green);
+    color: #000000;
     text-align: center;
     font-size: 14px;
     border-radius: 16.23px;
