@@ -102,8 +102,15 @@ const CertificationpageCard = ({ index, images }) => {
             {/* Right: Card Info */}
             <div className="col-lg-6 d-flex flex-column justify-content-between ps-3">
                 <div>
+                    <div className="d-flex justify-content-between">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                         <h5 className="fw-bold mb-0">BOLEROPALACE</h5>
+                    </div>
+
+                    <div className="d-flex gap-2">
+                        <div><img src={phone} height={25} alt="" srcset="" /></div>
+                        <div><img src={pc} height={25} alt="" srcset="" /></div>
+                    </div>
                     </div>
 
                     <div className="d-flex align-items-center justify-content-between flex-wrap gap-3 fw-semibold mb-2 pt-2">
