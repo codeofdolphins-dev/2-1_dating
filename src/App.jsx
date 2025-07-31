@@ -13,7 +13,6 @@ import SecondRegistrationPage from './Pages/ScondRegistrationPage/SecondRegistra
 import BusinessProfilePage from './Pages/BusinessProfilePage/BusinessProfilePage';
 import Feed from './Pages/Front-screen-feed/Feed/Feed';
 import Chat from './Pages/Chat/chat';
-import ProfilePage from './Pages/profilePage/profilePage';
 
 // Swiper js Css
 import 'swiper/css';
@@ -40,6 +39,7 @@ import LiveStreamCard from './components/Video Card/VideoCard';
 import Videos from './Pages/videos/Videos';
 import AddVideo from './Pages/Add Video/AddVideo';
 import WallOfFramePage from './Pages/WallOfFramePage/WallOfFramePage';
+import ProfilePage from './Pages/profilePage/ProfilePage';
 
 
 
