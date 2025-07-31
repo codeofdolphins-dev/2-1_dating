@@ -1,0 +1,18 @@
+.custom-card {
+  width: 310px;
+  background-color: #1e1e1e;
+}
+
+.custom-card .card-title {
+  font-size: 1.1rem;
+}
+
+.icon-btn {
+  font-size: 1.2rem;
+  color: #cfcfcf;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  color: #0d6efd;
+}

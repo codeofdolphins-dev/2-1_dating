@@ -36,6 +36,7 @@ import AdvanceMemberSearch from './Pages/advance member search/AdvanceMemberSear
 import TravelDatespage from './Pages/TravelDatespage/TravelDatespage';
 // import CreateTravelDatePage from './Pages/CreateTravelDatePage/CreateTravelPage';
 import CertificationPage from './Pages/certificationPage/CertificationPage';
+import WallOfFramePage from './Pages/WallOfFramePage/WallOfFramePage';
 
 
 
@@ -81,6 +82,7 @@ function App() {
         <Route path="/traveldate" element={<TravelDatespage />} />
         {/* <Route path="/createtraveldate" element={<CreateTravelDatePage />} /> */}
         <Route path="/certifications" element={<CertificationPage />} />
+        <Route path="/wall-of-fame" element={<WallOfFramePage />} />
        
       </Routes>
       </BrowserRouter>
