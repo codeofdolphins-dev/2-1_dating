@@ -5,10 +5,10 @@ import RegistrationForm from './Components/RegistrationForm'
 const Registration = () => {
   return (
     <>
-    <div style={{backgroundColor: "var(--color-background)"}}>
-    <RegistrationNav/>
-    <RegistrationForm/>
-    </div>
+      <div style={{ backgroundColor: "var(--color-background)" }}>
+        <RegistrationNav />
+        <RegistrationForm />
+      </div>
     </>
   )
 }

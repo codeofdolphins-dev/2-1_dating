@@ -6,12 +6,21 @@ import VideoCard from '../../components/Video Card/VideoCard';
 import VideoModal from '../../components/Video Modal/VideoModal';
 import { useNavigate } from 'react-router-dom';
 
+// const map = [
+//   "Latest",
+//   "Couples",
+//   "Female",
+//   "Male",
+//   "Transgender",
+//   "Looking for me/us",
+// ];
+
 
 const Videos = () => {
 
   const navigate = useNavigate()
 
-  const handleVideoPageNavigator = () => { 
+  const navigationToAnotherPage = () => { 
     navigate("/add-video");
    }
 
@@ -26,7 +35,7 @@ const Videos = () => {
     <>
       <PageWrapper >
         <div className="container-fluid pt-0 pb-5 d-flex flex-column align-items-start justify-content-start gap-2" style={{ backgroundColor: "var(--color-background)", minHeight: "100vh" }}>
-          <FilterBar pageName={"Videos"} filterName1={"Add Videos"} filterName2={"Filter"} navigationToAnotherPage={handleVideoPageNavigator} />
+          <FilterBar pageName={"Videos"} navigationPageName1={"Add Videos"}  filterName2={"Filter"} navigationToAnotherPage={navigationToAnotherPage} />
           <div className='client-page-background'>
             <div className="container-fluid">
               <div className="row g-4 pt-4">

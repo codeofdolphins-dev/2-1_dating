@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "../RegistrationCss/registration.css"
 
 import 'react-phone-input-2/lib/style.css';
-import PhoneInput from 'react-phone-input-2';
+// import PhoneInput from 'react-phone-input-2';
 import CustomPhonenumberInputField from './CustomPhonenumberInputField';
 
 

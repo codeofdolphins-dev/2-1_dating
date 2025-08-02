@@ -21,13 +21,13 @@ const filter = [
     "New Friends / Followers"
 ];
 
-const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName,navigationToAnotherPage }) => {
+const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName,navigationPageName1,navigationPageName2 ,navigationToAnotherPage,navigationToAnotherPage2 }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
     const [selected, setSelected] = useState(["Viewed me"]);
     const [distance, setDistance] = useState(500);
-    const [selectedDate, setSelectedDate] = useState(new Date()  ); 
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [location, setLocation] = useState('');
     const [minAge, setMinAge] = useState(20);
     const [maxAge, setMaxAge] = useState(30);
@@ -84,20 +84,39 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                     {/* Filters */}
                     <div className="d-flex gap-3 position-relative pb-3">
                         {/* General Filter Button */}
-                        { filterName1 ?
-                            (filterName1 || !navigationToAnotherPage) ?
+
+
+                        {filterName1 && (
                             <button
                                 className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
                                 onClick={handleGeneralFilter}
                             >
                                 {filterName1}
-                            </button> : <button
+                            </button>
+                        )}
+
+                        {
+                            navigationPageName2 &&(
+                                 <button
+                                className="btn bg-primary text-white rounded-pill"
+                                onClick={navigationToAnotherPage2}
+                            >
+                                {navigationPageName2}
+                            </button>
+                            )
+                        }
+
+                        {
+                            navigationPageName1 &&(
+                                <button
                                 className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
                                 onClick={navigationToAnotherPage}
                             >
-                                {filterName1}
-                            </button> :""
+                                {navigationPageName1}
+                            </button>
+                            )
                         }
+
 
                         {/* General Filter Dropdown */}
                         {showGeneralFilter && (

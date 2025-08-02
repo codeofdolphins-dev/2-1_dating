@@ -33,12 +33,12 @@ const Groups = () => {
 
   return (
     <div
-      className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4"
+      className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4 mx-auto"
       style={{
         backgroundColor: "var(--color-border)",
         border: "1px solid #ffffff",
-        width: "600px",
-        minWidth: "600px",
+        width: "540px",
+        minWidth: "540px",
         flexShrink: 0,
       }}
     >
