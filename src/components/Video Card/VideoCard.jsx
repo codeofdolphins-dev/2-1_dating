@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import "./style.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,7 +16,6 @@ import ActionMenu from "../ViewPageCard/ActionMenu/Actionmenu";
 import LiveStreamingCardVideoPopup from "../LiveStreamingCardVideoPopup/LiveStreamingCardVideoPopup";
 
 import video from "../../assets/PopupDemoVideo/243647_small.mp4"
-import { useNavigate } from "react-router-dom";
 
 
 const VideoCard = ({
@@ -24,14 +23,12 @@ const VideoCard = ({
     maleNumbers = "57",
     femaleNumbers = "58",
     location = "Altedo, ITA | 4256 mi",
-    interest = "",
     views = "68",
     onClick
 }) => {
     const [showMessagePopup, setShowMessagePopup] = useState(false);
     const [showPlayerPopup, setShowPlayerPopup] = useState(false);
 
-    const navigate = useNavigate()
 
     return (
         <div className="row g-3 rounded-4 text-white pt-2 pb-2 m-1"
