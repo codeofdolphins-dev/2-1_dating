@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageWrapper from '../../components/PageWrapper'
 import ProfileImg from "./img/profileImg.png"
 import femaleIcon from "./img/female.png"
@@ -30,6 +30,8 @@ import ProfilePageGroupCardContainer from '../../components/profileBottomTabSect
 import PartiesAndeventCardContainer from '../../components/profileBottomTabSection/PartiesAndeventCardContainer'
 import ProfilePageFollowingCardContainer from '../../components/profileBottomTabSection/ProfilePageFollowingCardContainer'
 import FriendsCardContainer from '../../components/profileBottomTabSection/FriendsCardContainer'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
@@ -56,10 +58,41 @@ const tabs = [
     { label: "Friends", count: 1737 },
 ];
 
-
-
 const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("Certifications");
+    const [userData, setUserData] = useState(null)
+
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: `${import.meta.env.VITE_BASE_URL}/auth/me`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+                'Content-Type': 'application/json' // optional, axios sets it automatically for JSON
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                setUserData(response.data)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        if (userData === null) {
+            toast.error('Session is expired please login Again', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "colored",
+            });
+        }
+    }, [userData])
+
+
     return (
         <>
             <PageWrapper>
@@ -77,7 +110,7 @@ const ProfilePage = () => {
                                 <div className="px-2 rounded-4 text-white" style={{ backgroundColor: "var(--color-border)" }}>
                                     <div className="mb-4">
                                         <h5 className="fw-bold fs-2 d-flex align-items-center gap-2">
-                                            CPLSUEPAUL <span className="text-warning">★</span>
+                                            {userData?.username} <span className="text-warning">★</span>
                                         </h5>
                                         <div className="d-flex gap-3 my-2 fw-bold">
                                             <div className="d-flex align-items-center gap-1">
@@ -148,7 +181,7 @@ const ProfilePage = () => {
                             <div className="rounded-4 py-4 px-4" style={{ backgroundColor: "var(--color-border)", border: "1px solid white" }}>
                                 <div className="d-flex justify-content-between align-items-center mb-4">
                                     <h4 className="mb-0 text-white fs-2">Lifetime Member</h4>
-                                    <div className="px-4 py-2 rounded-pill text-black fw-semibold" style={{backgroundColor:"var(--color-primary-green)",cursor:"pointer"}}>
+                                    <div className="px-4 py-2 rounded-pill text-black fw-semibold" style={{ backgroundColor: "var(--color-primary-green)", cursor: "pointer" }}>
                                         Translate
                                     </div>
                                 </div>
@@ -205,7 +238,7 @@ const ProfilePage = () => {
                                                             borderBottom: "2px solid var(--color-primary-green)"
                                                         }
                                                         : {
-                                                            color:"#ffffff"
+                                                            color: "#ffffff"
                                                         }
                                                 }
                                             >
@@ -219,7 +252,7 @@ const ProfilePage = () => {
                                                             color: "var(--color-primary-green)",
                                                         }
                                                         : {
-                                                            color:"#ffffff"
+                                                            color: "#ffffff"
                                                         }
                                                 }>
                                                     ({tab.count})
@@ -233,7 +266,7 @@ const ProfilePage = () => {
                         </div>
                         {/* Show All Button aligned right */}
                         <div className="ms-auto">
-                            <button className="px-4 py-2 text-black rounded-pill border-0" style={{backgroundColor:"var(--color-primary-green)"}}>
+                            <button className="px-4 py-2 text-black rounded-pill border-0" style={{ backgroundColor: "var(--color-primary-green)" }}>
                                 Show All
                             </button>
                         </div>

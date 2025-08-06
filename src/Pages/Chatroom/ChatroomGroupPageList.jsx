@@ -26,18 +26,22 @@ const cards = [
 
 const ChatroomGroupPageList = () => {
   const navigate = useNavigate()
-   const handlEtakeToChatRoom=(card)=>{
-     navigate("/chatroom",{state:card})
+  const handlEtakeToChatRoom = (card) => {
+    navigate("/chatroom", { state: card })
+  }
+
+  const navigateToCreateChatRoom = ()=>{
+    navigate("/create_chatroom")
   }
   return (
     <GlobalPageWrapper>
-      <FilterBar pageName={"Chatroom"} filterName1={"chatroom"}/>
+      <FilterBar pageName={"Chatroom"} navigationPageName2={"chatroom"} navigationToAnotherPage2={navigateToCreateChatRoom} />
       <div className="client-page-background mt-1 pb-4">
         <div className="container-fluid">
           <div className="row g-4 justify-content-left px-2">
             {cards.map((card, index) => (
-              <div className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center" style={{marginBottom:"-25px",padding:" 5px"}} key={index}>
-                <ChatroomCard title={card.title} members={card.members} handlEtakeToChatRoom={()=>handlEtakeToChatRoom(card)} />
+              <div className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center" style={{ marginBottom: "-25px", padding: " 5px" }} key={index}>
+                <ChatroomCard title={card.title} members={card.members} handlEtakeToChatRoom={() => handlEtakeToChatRoom(card)} />
               </div>
             ))}
           </div>

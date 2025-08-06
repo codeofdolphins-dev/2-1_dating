@@ -112,7 +112,7 @@ const LoginForm = () => {
         try {
           const { status, data } = await axios.post(`${apiUrl}/auth/login`, {
             email: "bishal@gmail.com",
-            password: "password123",
+            password: "password12",
           });
 
           if (status === 200) {
@@ -124,9 +124,13 @@ const LoginForm = () => {
               theme: "colored",
             });
             console.log("Userdata", data);
+            setTimeout(() => {
+              navigate("/feed")
+            }, 300);
           }
+          console.log("all ok")
         } catch (error) {
-          toast.error('Login failed!', {
+          toast.error(error?.response?.data?.message, {
             position: "top-right",
             autoClose: 3000,
             theme: "colored",
