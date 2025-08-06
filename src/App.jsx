@@ -42,6 +42,10 @@ import WallOfFramePage from './Pages/WallOfFramePage/WallOfFramePage';
 import ProfilePage from './Pages/profilePage/ProfilePage';
 import GroupsPage from './Pages/GroupsPage/GroupsPage';
 import MyGroupsPage from './Pages/MyGroupsPage/MyGroupsPage';
+import FeaturedMembers from './Pages/Featured-Members/FeaturedMembers';
+import AddmePage from './Pages/FeaturedMembers-add-me-page/AddmePage';
+import Contests from './Pages/Contests/Contests';
+import VacationRentalPage from './Pages/VacationRental/VacationRentalPage';
 
 
 
@@ -94,6 +98,10 @@ function App() {
         <Route path="/wall-of-fame" element={<WallOfFramePage />} />
         <Route path="/groups" element={<GroupsPage />} />
         <Route path="/my-groups" element={<MyGroupsPage/>} />
+        <Route path="/featured-members" element={<FeaturedMembers/>} />
+        <Route path="/add-me" element={<AddmePage/>} />
+        <Route path="/contests" element={<Contests/>} />
+        <Route path="/add-vacations-rental" element={<VacationRentalPage/>} />
         
 
       </Routes>

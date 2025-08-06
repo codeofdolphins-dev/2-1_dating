@@ -1,0 +1,38 @@
+@media only screen and (min-width: 1366px) and (max-width: 1600px) {
+    .iconic-img {
+        width: 40%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .iconic-img {
+        width: 80%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .iconic-img {
+        width: 80%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+  .iconic-img {
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+}
+
+/* .iconic-img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+} */

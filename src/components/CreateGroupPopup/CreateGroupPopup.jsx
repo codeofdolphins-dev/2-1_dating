@@ -33,96 +33,105 @@ const CreateGroupPopup = ({ show, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered >
-      <Modal.Header closeButton className="client-page-background text-white">
-        <Modal.Title>Request your own group:</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="client-page-background text-white">
-        <Form onSubmit={handleSubmit}>
-            <Form.Label>Group</Form.Label>
-          <Form.Group className="mb-3">
-            <Form.Control
-             className="rounded-pill"
-              type="text"
-              name="group"
-              value={formData.group}
-              onChange={handleChange}
+   <Modal show={show} onHide={handleClose} centered>
+  <Modal.Header  className="client-page-background text-white position-relative">
+    <Modal.Title>Request your own group:</Modal.Title>
+    <button
+      type="button"
+      className="btn-close btn-close-white position-absolute "
+      style={{ right: '1rem', top: '1rem' }}
+      onClick={handleClose}
+      aria-label="Close"
+    ></button>
+  </Modal.Header>
+
+  <Modal.Body className="client-page-background text-white">
+    <Form onSubmit={handleSubmit}>
+      <Form.Label>Group</Form.Label>
+      <Form.Group className="mb-3">
+        <Form.Control
+          className="rounded-pill"
+          type="text"
+          name="group"
+          value={formData.group}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
+      <Form.Label>Description</Form.Label>
+      <Form.Group className="mb-3">
+        <Form.Control
+          type="text"
+          className="rounded-pill"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
+      <Form.Label>Where</Form.Label>
+      <Form.Group className="mb-3">
+        <Form.Control
+          type="text"
+          className="rounded-pill"
+          name="where"
+          value={formData.where}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Group type</Form.Label>
+        <div className="d-flex flex-column gap-1">
+          <Form.Check
+            type="radio"
+            label="Open Group (join without approval)"
+            name="groupType"
+            value="open"
+            onChange={handleRadioChange}
+          />
+          <Form.Check
+            type="radio"
+            label="Closed Group (join by approval)"
+            name="groupType"
+            value="closed"
+            onChange={handleRadioChange}
+          />
+          <Form.Check
+            type="radio"
+            label="Private Group (join by invitation)"
+            name="groupType"
+            value="private"
+            onChange={handleRadioChange}
+          />
+        </div>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Group for</Form.Label>
+        <div className="d-flex flex-wrap gap-3">
+          {["Couples", "Females", "Males", "Transgender", "Business"].map((option) => (
+            <Form.Check
+              key={option}
+              type="radio"
+              name="groupFor"
+              label={option}
+              value={option}
+              onChange={handleGroupForChange}
             />
-          </Form.Group>
-          
-          <Form.Label>Description</Form.Label>
-          <Form.Group className="mb-3">
-            <Form.Control
-              type="text"
-              className="rounded-pill"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-            />
-          </Form.Group>
+          ))}
+        </div>
+      </Form.Group>
 
-          <Form.Label>Where</Form.Label>
-          <Form.Group className="mb-3">
-            <Form.Control
-              type="text"
-              className="rounded-pill"
-              name="where"
-              value={formData.where}
-              onChange={handleChange}
-            />
-          </Form.Group>
+      <div className="text-center">
+        <Button variant="primary" type="submit">
+          Send
+        </Button>
+      </div>
+    </Form>
+  </Modal.Body>
+</Modal>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Group type</Form.Label>
-            <div className="d-flex flex-column gap-1">
-              <Form.Check
-                type="radio"
-                label="Open Group (join without approval)"
-                name="groupType"
-                value="open"
-                onChange={handleRadioChange}
-              />
-              <Form.Check
-                type="radio"
-                label="Closed Group (join by approval)"
-                name="groupType"
-                value="closed"
-                onChange={handleRadioChange}
-              />
-              <Form.Check
-                type="radio"
-                label="Private Group (join by invitation)"
-                name="groupType"
-                value="private"
-                onChange={handleRadioChange}
-              />
-            </div>
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Group for</Form.Label>
-            <div className="d-flex flex-wrap gap-3">
-              {["Couples", "Females", "Males", "Transgender", "Business"].map((option) => (
-                <Form.Check
-                  key={option}
-                  type="radio"
-                  name="groupFor"
-                  label={option}
-                  value={option}
-                  onChange={handleGroupForChange}
-                />
-              ))}
-            </div>
-          </Form.Group>
-
-          <div className="text-center">
-            <Button variant="primary" type="submit">
-              Send
-            </Button>
-          </div>
-        </Form>
-      </Modal.Body>
-    </Modal>
   );
 };
 

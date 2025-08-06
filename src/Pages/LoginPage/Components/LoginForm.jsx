@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // import UseAlert from '../';
 import { ToastContainer, toast } from 'react-toastify';
 import UseAlert from '../../alert/UseAlert';
+import axios from 'axios';
 
 const LoginForm = () => {
   // Combined form state
@@ -26,11 +27,11 @@ const LoginForm = () => {
 
   console.log(formData.rememberMe)
 
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
   const [mathPuzzle, setMathPuzzle] = useState({ question: '', answer: 0 });
   const [captchaError, setCaptchaError] = useState('');
   const navigate = useNavigate();
-  const { showAlert } = UseAlert();
+  // const { showAlert } = UseAlert();
 
   // Generate a new math puzzle
   const generateMathPuzzle = () => {
@@ -87,8 +88,10 @@ const LoginForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const apiUrl = import.meta.env.VITE_BASE_URL;
+  // const { username, password } = formData
   // Form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -105,17 +108,31 @@ const LoginForm = () => {
       return;
     } else {
       // API CALL WILL BE HERE
-      if (parseInt(formData.userAnswer) == mathPuzzle.answer) {
-        toast.success('Login Success!', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "colored",
-        });
+      if (parseInt(formData.userAnswer) === mathPuzzle.answer) {
+        try {
+          const { status, data } = await axios.post(`${apiUrl}/auth/login`, {
+            email: "bishal@gmail.com",
+            password: "password123",
+          });
+
+          if (status === 200) {
+            toast.success('Login Success!', {
+              position: "top-right",
+              autoClose: 3000,
+              theme: "colored",
+            });
+            console.log("Userdata", data);
+          }
+        } catch (error) {
+          toast.error('Login failed!', {
+            position: "top-right",
+            autoClose: 3000,
+            theme: "colored",
+          });
+          console.error("Login Error:", error);
+        }
       }
+
     }
 
     // Validate the math puzzle answer
@@ -155,10 +172,10 @@ const LoginForm = () => {
     // });
   };
 
- 
+
 
   return (
-    <div className="d-flex justify-content-center align-items-center text-white px-3" style={{ height: '90vh',backgroundColor:"var( --color-background)" }}>
+    <div className="d-flex justify-content-center align-items-center text-white px-3" style={{ height: '90vh', backgroundColor: "var( --color-background)" }}>
       <ToastContainer />
       <div
         className="text-white rounded-4 p-4 w-100"
@@ -250,22 +267,22 @@ const LoginForm = () => {
 
         {/* Login Button */}
         <div className="mb-3 d-flex justify-content-center">
-          <button className="btn w-75 btn-lg" style={{backgroundColor:"var(--color-primary-green)"}} onClick={handleSubmit}>Login</button>
+          <button className="btn w-75 btn-lg" style={{ backgroundColor: "var(--color-primary-green)" }} onClick={handleSubmit}>Login</button>
         </div>
 
         {/* Remember Me checkbox */}
-        <div className="container " style={{padding:"0 55px"}}>
-        <div className="mb-3 form-check d-flex justify-content-left gap-2 ">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="rememberMe"
-            name="rememberMe"
-            checked={formData.rememberMe}
-            onChange={handleChange}
-          />
-          <label className="form-check-label text-white" htmlFor="rememberMe">Remember me</label>
-        </div>
+        <div className="container " style={{ padding: "0 55px" }}>
+          <div className="mb-3 form-check d-flex justify-content-left gap-2 ">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="rememberMe"
+              name="rememberMe"
+              checked={formData.rememberMe}
+              onChange={handleChange}
+            />
+            <label className="form-check-label text-white" htmlFor="rememberMe">Remember me</label>
+          </div>
         </div>
 
 

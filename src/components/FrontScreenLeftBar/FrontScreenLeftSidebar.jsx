@@ -28,27 +28,27 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                     <img src={logo} alt="2+1 Logo" className="logo-img" height={50} />
                 </div>
                 <ul className="list-unstyled">
-                    <SidebarItem icon={<FaHome />} label="Feed & updates" pageUrl="/feed" />
-                    <SidebarItem icon={<FaEnvelope />} label="Instant Messages" pageUrl="/messages" />
+                    <SidebarItem icon={<FaHome />} label="2+1 Feed" pageUrl="/feed" />
+                    <SidebarItem icon={<FaEnvelope />} label="Messages" pageUrl="/messages" />
                     <SidebarItem icon={<FaEye />} label="Viewed Me" pageUrl="/view" />
-                    <SidebarItem icon={<FaUsers />} label="Online Now" pageUrl="/online" />
+                    <SidebarItem icon={<FaUsers />} label="Online" pageUrl="/online" />
                     <SidebarItem icon={<FaFire />} label="Hot Date" pageUrl="/hotdate" />
                     <SidebarItem icon={<FaComments />} label="Chatrooms" pageUrl="/chatrooms" />
                     <SidebarItem icon={<FaVideo />} label="Live stream" pageUrl="/livestream" />
                     <SidebarItem icon={<FaUserPlus />} label="New Members" pageUrl="/new-members" />
-                    <SidebarItem icon={<FaCalendarAlt />} label="Events and Parties" pageUrl="/events" />
+                    <SidebarItem icon={<FaCalendarAlt />} label="Parties and Events" pageUrl="/events" />
                     <SidebarItem icon={<FaFilm />} label="Videos" pageUrl="/videos" />
                     <SidebarItem icon={<FaAward />} label="Travel Date" pageUrl="/traveldate" />
                     <SidebarItem icon={<FaCertificate />} label="Certifications" pageUrl="/certifications" />
                     <SidebarItem icon={<FaStar />} label="Wall of Fame" pageUrl="/wall-of-fame" />
                     <SidebarItem icon={<FaUsers />} label="Groups" pageUrl="/groups" />
-                    <SidebarItem icon={<FaUserCheck />} label="Request Admin Verification" pageUrl="/admin-verification" />
-                    <SidebarItem icon={<FaStar />} label="Spotlight Members" pageUrl="/spotlight" />
-                    <SidebarItem icon={<FaAddressBook />} label="Contacts" pageUrl="/contacts" />
-                    <SidebarItem icon={<FaBed />} label="Bed & Breakfast" pageUrl="/bnb" />
-                    <SidebarItem icon={<FaUserFriends />} label="Invite Friends" pageUrl="/invite" />
-                    <SidebarItem icon={<FaTags />} label="Classifieds" pageUrl="/classifieds" />
-                    <SidebarItem icon={<FaBullhorn />} label="Advertise" pageUrl="/advertise" />
+                    {/* <SidebarItem icon={<FaUserCheck />} label="Admin Verification" pageUrl="/admin-verification" /> */}
+                    <SidebarItem icon={<FaStar />} label="Featured Members" pageUrl="/featured-members" />
+                    <SidebarItem icon={<FaAddressBook />} label="Contest" pageUrl="/contests" />
+                    <SidebarItem icon={<FaBed />} label="Add Vacations Rental" pageUrl="/add-vacations-rental" />
+                    <SidebarItem icon={<FaUserFriends />} label="2+1" pageUrl="/2+1" />
+                    {/* <SidebarItem icon={<FaTags />} label="Classifieds" pageUrl="/classifieds" />
+                    <SidebarItem icon={<FaBullhorn />} label="Advertise" pageUrl="/advertise" /> */}
                     <SidebarItem className=" w-100 mt-4 text-center" label="Report" pageUrl="/advertise" />
                     <SidebarItem className="btn btn-danger w-100 rounded-pill mt-2" label="Logout" pageUrl="/advertise" />
                 </ul>

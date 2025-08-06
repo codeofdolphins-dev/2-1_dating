@@ -17,14 +17,14 @@ import video from "../../assets/PopupDemoVideo/243647_small.mp4"
 import { useNavigate } from "react-router-dom";
 
 
-const LiveStreamCard = () => {
+const LiveStreamCard = ({ icons = true }) => {
     const [showMessagePopup, setShowMessagePopup] = useState(false);
     const [showPlayerPopup, setShowPlayerPopup] = useState(false);
-    const navigate= useNavigate()
+    const navigate = useNavigate()
 
 
-    const navigateToTheChatRoom=()=>{
-          navigate("/liveandchatroom")
+    const navigateToTheChatRoom = () => {
+        navigate("/liveandchatroom")
     }
 
     return (
@@ -101,17 +101,20 @@ const LiveStreamCard = () => {
                 <div className="d-flex justify-content-between align-items-center mb-2">
                     <h5 className="fw-bold mb-0">Happytime</h5>
                 </div>
+                
+                {
+                    icons && <div className="d-flex align-items-center gap-3 mb-2 fw-semibold mt-2">
+                        <div className="d-flex align-items-center gap-1">
+                            <img src={female} height={14} alt="female" />
+                            <span className="text-danger">57</span>
+                        </div>
+                        <div className="d-flex align-items-center gap-1">
+                            <img src={male} height={14} alt="male" />
+                            <span className="text-primary">58</span>
+                        </div>
+                    </div>
+                }
 
-                <div className="d-flex align-items-center gap-3 mb-2 fw-semibold mt-2">
-                    <div className="d-flex align-items-center gap-1">
-                        <img src={female} height={14} alt="female" />
-                        <span className="text-danger">57</span>
-                    </div>
-                    <div className="d-flex align-items-center gap-1">
-                        <img src={male} height={14} alt="male" />
-                        <span className="text-primary">58</span>
-                    </div>
-                </div>
 
                 <hr />
 

@@ -1,3 +1,6 @@
 .modal-title button{
     color: white !important;
 }
+.btn-close{
+        --bs-btn-close-color: #ffffff !important;
+}
