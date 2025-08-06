@@ -8,13 +8,14 @@ import {
 } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import axios from "axios";
 // import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
 
-const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
+const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011" }) => {
 
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
-  
-  
+
+
   const likeRef = useRef(null);
   const submenuRef = useRef(null);
 
@@ -37,7 +38,26 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
   //   setShowChat(!showChat)
   // }
 
-  
+  const handleLike = () => {
+
+    console.log("click");    
+
+    axios({
+      method: 'post',
+      url: `${import.meta.env.VITE_BASE_URL}/interactions`,
+      data: {
+        "targetUserId": `${targetUserId}`,
+        "interactionType": "like"
+      }
+    })
+    .then(data => {
+
+      console.log(data);
+      
+    })
+  }
+
+
 
   const popover = (
     <Popover
@@ -46,7 +66,7 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
       style={{ cursor: "pointer", minWidth: "180px", backgroundColor: "var(--color-background)" }}
     >
       <Popover.Body className="p-2 position-relative" style={{ zIndex: "555" }}>
-        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white" onClick={(()=>setshowMeessagePopup(!showMeessagePopup))}>
+        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white" onClick={(() => setshowMeessagePopup(!showMeessagePopup))}>
           <BsMessenger />
           <span>Messenger</span>
 
@@ -74,7 +94,7 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
                 backgroundColor: "var(--color-background)"
               }}
             >
-              <div className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
+              <div onClick={handleLike} className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
                 <i className="bi bi-hand-thumbs-up"></i>
                 <span>Like</span>
               </div>
@@ -110,7 +130,7 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
           <i className="bi bi-chevron-up"></i>
         </button>
       </OverlayTrigger>
-      
+
     </>
   );
 };
