@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import {
   BsMessenger,
@@ -14,6 +14,7 @@ import axios from "axios";
 const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011" }) => {
 
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
+  const [isLiked, setIsLiked] = useState({ id: "", status: false });
 
 
   const likeRef = useRef(null);
@@ -38,24 +39,77 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
   //   setShowChat(!showChat)
   // }
 
-  const handleLike = () => {
+  // Fetch current like status
+  const fetchLikeStatus = useCallback(() => {
+    axios({
+      method: 'get',
+      url: `${import.meta.env.VITE_BASE_URL}/interactions`,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+      }
+    })
+      .then(res => {
+        const liked = res.data.find(like => like.targetUserId === targetUserId);
+        if (liked) {
+          setIsLiked({ id: liked._id, status: true });
+        } else {
+          setIsLiked({ id: "", status: false });
+        }
+      })
+      .catch(console.error);
+  }, [targetUserId]);
 
-    console.log("click");    
 
+  useEffect(() => {
+    fetchLikeStatus();
+  }, [fetchLikeStatus]);
+
+  // Like post
+  const handleLike = useCallback(() => {
     axios({
       method: 'post',
       url: `${import.meta.env.VITE_BASE_URL}/interactions`,
-      data: {
-        "targetUserId": `${targetUserId}`,
-        "interactionType": "like"
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+        'Content-Type': 'application/json'
+      },
+      data: { 
+        targetUserId,
+        interactionType: "like"
       }
     })
-    .then(data => {
+      .then(res => {
+        setIsLiked({ id: res.data._id, status: true });
+        // Optionally re-fetch
+        fetchLikeStatus();
+      })
+      .catch(console.error);
+  }, [targetUserId, fetchLikeStatus]);
 
-      console.log(data);
-      
+  // Dislike post
+  const handleDisLike = useCallback(() => {
+    if (!isLiked.id) return;
+
+    axios({
+      method: 'delete',
+      url: `${import.meta.env.VITE_BASE_URL}/interactions/${isLiked.id}`,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+      }
     })
+      .then(res => {
+        setIsLiked({ id: "", status: false });
+        // Optionally re-fetch
+        fetchLikeStatus();
+      })
+      .catch(console.error);
+  }, [isLiked.id, fetchLikeStatus]);
+
+  const handelLikeDislike = () => {
+    if(isLiked.status) handleDisLike();
+    else handleLike();
   }
+
 
 
 
@@ -74,7 +128,7 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
 
         {/* Like with submenu */}
         <div
-          className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-primary position-relative"
+          className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white position-relative"
           ref={likeRef}
           onClick={() => setShowLikeSubmenu((prev) => !prev)}
         >
@@ -94,11 +148,11 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
                 backgroundColor: "var(--color-background)"
               }}
             >
-              <div onClick={handleLike} className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
+              <div onClick={handelLikeDislike} className={`d-flex align-items-center gap-2 p-2 hover-bg ${isLiked.status ? "text-primary" : "text-white"}`}>
                 <i className="bi bi-hand-thumbs-up"></i>
                 <span>Like</span>
               </div>
-              <div className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
+              <div  className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
                 <i className="bi bi-hand-thumbs-down"></i>
                 <span>Not Interested</span>
               </div>
