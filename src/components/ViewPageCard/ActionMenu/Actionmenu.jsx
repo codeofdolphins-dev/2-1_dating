@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import {
   BsMessenger,
@@ -8,13 +8,15 @@ import {
 } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import axios from "axios";
 // import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
 
-const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
+const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011" }) => {
 
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
-  
-  
+  const [isLiked, setIsLiked] = useState({ id: "", status: false });
+
+
   const likeRef = useRef(null);
   const submenuRef = useRef(null);
 
@@ -37,7 +39,79 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
   //   setShowChat(!showChat)
   // }
 
-  
+  // Fetch current like status
+  const fetchLikeStatus = useCallback(() => {
+    axios({
+      method: 'get',
+      url: `${import.meta.env.VITE_BASE_URL}/interactions`,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+      }
+    })
+      .then(res => {
+        const liked = res.data.find(like => like.targetUserId === targetUserId);
+        if (liked) {
+          setIsLiked({ id: liked._id, status: true });
+        } else {
+          setIsLiked({ id: "", status: false });
+        }
+      })
+      .catch(console.error);
+  }, [targetUserId]);
+
+
+  useEffect(() => {
+    fetchLikeStatus();
+  }, [fetchLikeStatus]);
+
+  // Like post
+  const handleLike = useCallback(() => {
+    axios({
+      method: 'post',
+      url: `${import.meta.env.VITE_BASE_URL}/interactions`,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+        'Content-Type': 'application/json'
+      },
+      data: { 
+        targetUserId,
+        interactionType: "like"
+      }
+    })
+      .then(res => {
+        setIsLiked({ id: res.data._id, status: true });
+        // Optionally re-fetch
+        fetchLikeStatus();
+      })
+      .catch(console.error);
+  }, [targetUserId, fetchLikeStatus]);
+
+  // Dislike post
+  const handleDisLike = useCallback(() => {
+    if (!isLiked.id) return;
+
+    axios({
+      method: 'delete',
+      url: `${import.meta.env.VITE_BASE_URL}/interactions/${isLiked.id}`,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+      }
+    })
+      .then(res => {
+        setIsLiked({ id: "", status: false });
+        // Optionally re-fetch
+        fetchLikeStatus();
+      })
+      .catch(console.error);
+  }, [isLiked.id, fetchLikeStatus]);
+
+  const handelLikeDislike = () => {
+    if(isLiked.status) handleDisLike();
+    else handleLike();
+  }
+
+
+
 
   const popover = (
     <Popover
@@ -46,7 +120,7 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
       style={{ cursor: "pointer", minWidth: "180px", backgroundColor: "var(--color-background)" }}
     >
       <Popover.Body className="p-2 position-relative" style={{ zIndex: "555" }}>
-        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white" onClick={(()=>setshowMeessagePopup(!showMeessagePopup))}>
+        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white" onClick={(() => setshowMeessagePopup(!showMeessagePopup))}>
           <BsMessenger />
           <span>Messenger</span>
 
@@ -54,7 +128,7 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
 
         {/* Like with submenu */}
         <div
-          className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-primary position-relative"
+          className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white position-relative"
           ref={likeRef}
           onClick={() => setShowLikeSubmenu((prev) => !prev)}
         >
@@ -74,11 +148,11 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
                 backgroundColor: "var(--color-background)"
               }}
             >
-              <div className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
+              <div onClick={handelLikeDislike} className={`d-flex align-items-center gap-2 p-2 hover-bg ${isLiked.status ? "text-primary" : "text-white"}`}>
                 <i className="bi bi-hand-thumbs-up"></i>
                 <span>Like</span>
               </div>
-              <div className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
+              <div  className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
                 <i className="bi bi-hand-thumbs-down"></i>
                 <span>Not Interested</span>
               </div>
@@ -110,7 +184,7 @@ const ActionMenu = ({showMeessagePopup,setshowMeessagePopup}) => {
           <i className="bi bi-chevron-up"></i>
         </button>
       </OverlayTrigger>
-      
+
     </>
   );
 };

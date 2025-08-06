@@ -31,7 +31,9 @@ const cards = [
 const Chatroom = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { title, members } = location.state || {};
+    const { name, createdBy, participants } = location.state || {};
+    console.log(location.state);
+    
 
     const nagigatePrevPage = () => {
         navigate("/chatrooms");
@@ -53,7 +55,7 @@ const Chatroom = () => {
                                     onClick={nagigatePrevPage}
                                 ></i>
                                 <div className="fs-4 fw-semibold text-uppercase">
-                                    {title} <span className="fw-normal" style={{ color: "var(--color-primary-green)" }}>| {members}</span>
+                                    {name} <span className="fw-normal" style={{ color: "var(--color-primary-green)" }}>| { participants.length }</span>
                                 </div>
                             </div>
 
@@ -75,7 +77,7 @@ const Chatroom = () => {
                         </div>
                         <div className='d-flex justify-content-between mt-3'>
                             <div className='text-white fs-5 pl-5'>
-                                &nbsp; &nbsp; &nbsp; &nbsp; NCCUPL
+                                &nbsp; &nbsp; &nbsp; &nbsp; {createdBy._id}
                             </div>
                             <button className="btn btn-outline-light btn-sm rounded-pill px-3">
                                 Report

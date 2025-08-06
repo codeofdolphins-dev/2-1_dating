@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import GlobalPageWrapper from '../../components/GlobalPageWrapper';
 import FilterBar from '../../components/FilterBar/FilterBar';
 import ChatroomCard from '../../components/ChatroomCard/ChatroomCard';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const cards = [
   { title: "General Chat", members: 74 },
@@ -33,6 +34,26 @@ const ChatroomGroupPageList = () => {
   const navigateToCreateChatRoom = ()=>{
     navigate("/create_chatroom")
   }
+
+  useEffect(() => {
+
+    axios({
+      method: 'get',
+      url: `${import.meta.env.VITE_BASE_URL}/chatrooms`,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+      }
+    })
+    .then(res => {
+      if(res.statusText === "OK"){
+        setChatRooms(res.data);        
+      }      
+    })
+
+  }, [])
+
+
+
   return (
     <GlobalPageWrapper>
       <FilterBar pageName={"Chatroom"} navigationPageName2={"chatroom"} navigationToAnotherPage2={navigateToCreateChatRoom} />
