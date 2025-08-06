@@ -7,6 +7,7 @@ import "../RegistrationCss/registration.css"
 import 'react-phone-input-2/lib/style.css';
 // import PhoneInput from 'react-phone-input-2';
 import CustomPhonenumberInputField from './CustomPhonenumberInputField';
+import axios from 'axios';
 
 
 const RegistrationForm = () => {
@@ -29,7 +30,10 @@ const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   // const [emailOtpSent, setEmailOtpSent] = useState(false);
+  const staticPhoneOTP=1111
   const [phoneOtpSent, setPhoneOtpSent] = useState(false);
+
+  const { username, email, password } = formData
 
 
   const handleChange = (e) => {
@@ -55,18 +59,21 @@ const RegistrationForm = () => {
   // };
 
   const handleSendPhoneOtp = () => {
-    if (!formData.phoneNumber) {
-      toast.error('Please enter your phone number first');
-      return;
-    }
-    if (formData.phoneNumber.length < 10) {
-      toast.error('Please enter a valid phone number');
-      return;
-    }
-    // API call to send phone OTP would go here
-    toast.success(`OTP sent to +${formData.countryCode}${formData.phoneNumber}`);
-    setPhoneOtpSent(true);
-  };
+  if (!formData.phoneNumber) {
+    toast.error('Please enter your phone number first');
+    return;
+  }
+
+  if (formData.phoneNumber.length < 10) {
+    toast.error('Please enter a valid phone number');
+    return;
+  }
+
+  // Simulate OTP sending
+  toast.success(`OTP sent to +${formData.countryCode}${formData.phoneNumber}`);
+  setPhoneOtpSent(true); // allow user to enter OTP
+};
+
 
   const validateForm = () => {
     const newErrors = {};
@@ -105,18 +112,39 @@ const RegistrationForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const apiUrl = import.meta.env.VITE_BASE_URL;
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (validateForm()) {
-      // Here you would typically call your signup API
+  const isValid = validateForm();
+
+  if (!isValid) {
+    toast.error('Please fix the errors in the form');
+    return;
+  }
+
+  // OTP validation (moved here)
+  if (parseInt(formData.phoneOtp) !== staticPhoneOTP) {
+    toast.error('Invalid OTP. Please try again.');
+    return;
+  }
+
+  // If valid and OTP matched
+  axios.post(`${apiUrl}/auth/signup`, { username, email, password })
+    .then((response) => {
+      const token = response.data.token;
+      sessionStorage.setItem('jwtToken', token);
       toast.success('Account created successfully!');
-      // Redirect to login after 2 seconds
+
+      // Redirect to next step
       setTimeout(() => navigate('/second_registration'), 2000);
-    } else {
-      toast.error('Please fix the errors in the form');
-    }
-  };
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error('Signup failed. Please try again.');
+    });
+};
+
 
   return (
     <div className="container py-5">
@@ -322,7 +350,7 @@ const RegistrationForm = () => {
                     </div>
 
                   </div> */}
-                  <CustomPhonenumberInputField formData={formData} setFormData={setFormData} errors={errors}/>
+                  <CustomPhonenumberInputField formData={formData} setFormData={setFormData} errors={errors} />
 
                   {/* 📨 Send OTP + OTP Input */}
                   <div className="row g-3 align-items-center">

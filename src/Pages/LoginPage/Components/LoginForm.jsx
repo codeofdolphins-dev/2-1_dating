@@ -116,6 +116,8 @@ const LoginForm = () => {
           });
 
           if (status === 200) {
+            const token = data.token;
+            sessionStorage.setItem('jwtToken', token);
             toast.success('Login Success!', {
               position: "top-right",
               autoClose: 3000,
