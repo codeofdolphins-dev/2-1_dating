@@ -33,8 +33,9 @@ const VideoCard = ({
     return (
         <div className="row g-3 rounded-4 text-white pt-2 pb-2 m-1"
             style={{
-                // backgroundColor: "var(--color-border)",
-                backgroundColor: "#343A40",
+                backgroundColor: "var(--color-border)",
+                // backgroundColor: "#343A40",
+                border:"2px solid #ffff",
                 width: "auto",
                 borderRadius: "15px"
             }}

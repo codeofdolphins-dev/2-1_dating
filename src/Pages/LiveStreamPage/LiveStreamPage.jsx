@@ -2,6 +2,7 @@ import React from 'react'
 import GlobalPageWrapper from '../../components/GlobalPageWrapper'
 import FilterBar from '../../components/FilterBar/FilterBar'
 import LiveStreamCard from '../../components/LiveStreamCard/LiveStreamCard'
+import { useNavigate } from 'react-router-dom';
 const cards = [
     { title: "Card One" },
     { title: "Card Two" },
@@ -16,11 +17,17 @@ const cards = [
 const LiveStreamPage = () => {
     const filterName1 = "Stream"
     const pageName = "Live Stream"
+
+    const navigate = useNavigate()
+
+    const handleNavigate = () =>{
+        navigate("/livestream")
+    }
     return (
         <>
             <div style={{ backgroundColor: "var(--color-background)" }}>
                 <GlobalPageWrapper />
-                <FilterBar filterName1={filterName1} pageName={pageName} />
+                <FilterBar navigationToAnotherPage={handleNavigate} navigationPageName1={"Steam"} pageName={pageName} />
                 <div className="container-fluid client-page-background">
                     <div className="row g-2 pt-2">
                         {

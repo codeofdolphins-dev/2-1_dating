@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Row, Col } from "react-bootstrap";
 import lipsIcon from "../../assets/cardImgs/Images/lipsPic.png"; // Replace with your actual image path
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const ChatroomCard = ({ title, members,handlEtakeToChatRoom }) => {
+
+const ChatroomCard = ({title, members, handlEtakeToChatRoom }) => {
+
   return (
     <Card className="text-white rounded-4 p-3 card" style={{ width: "450px", }}>
       <Row className="align-items-center justify-content-center">
@@ -25,7 +28,7 @@ const ChatroomCard = ({ title, members,handlEtakeToChatRoom }) => {
           <div
             size="sm"
             className="rounded-pill px-3 py-2 text-center fw-medium mt-3 custom-button w-auto"
-            style={{ minWidth: "130px",cursor:"pointer" }}
+            style={{ minWidth: "130px", cursor: "pointer" }}
             onClick={handlEtakeToChatRoom}
           >
             Join Chatroom

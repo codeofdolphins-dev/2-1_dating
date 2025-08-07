@@ -38,7 +38,7 @@ const cards = [
 const TravelDatespage = () => {
     const navigate = useNavigate()
     const handleCreateTravelplanPageNavigator = () => {
-        navigate("/createtraveldate")
+        navigate("/traveldate")
     }
     return (
         <>

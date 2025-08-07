@@ -38,7 +38,7 @@ export default function ProfileImageCarousel() {
     <>
       {/* 🔳 Main Swiper with click to open modal */}
       <div
-        className="custom-swiper-wrapper position-relative h-100"
+        className="custom-swiper-wrapper position-relative h-100 "
         style={{ cursor: "pointer" }}
 
       >
@@ -99,7 +99,7 @@ export default function ProfileImageCarousel() {
       {/* 🔲 Modal Swiper */}
       {isModalOpen && (
   <div
-    className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-flex align-items-center justify-content-center"
+    className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-flex align-items-center justify-content-center mt-4"
     style={{ zIndex: 2000 }}
     onClick={() => setIsModalOpen(false)}
   >

@@ -61,6 +61,7 @@ const tabs = [
 const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("Certifications");
     const [userData, setUserData] = useState(null)
+    const [chckToken, setCheckToken] = useState(null)
 
     useEffect(() => {
         axios({
@@ -72,14 +73,15 @@ const ProfilePage = () => {
             }
         })
             .then(response => {
-                console.log(response.data);
-                setUserData(response.data)
+                console.log(response?.data?.data);
+                setUserData(response?.data?.data)
+                setCheckToken(response?.success)
             })
             .catch(error => {
                 console.error(error);
             });
 
-        if (userData === null) {
+        if (chckToken) {
             toast.error('Session is expired please login Again', {
                 position: "top-right",
                 autoClose: 3000,
@@ -90,7 +92,7 @@ const ProfilePage = () => {
                 theme: "colored",
             });
         }
-    }, [userData])
+    }, [])
 
 
     return (

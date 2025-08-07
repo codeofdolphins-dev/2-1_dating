@@ -111,12 +111,12 @@ const LoginForm = () => {
       if (parseInt(formData.userAnswer) === mathPuzzle.answer) {
         try {
           const { status, data } = await axios.post(`${apiUrl}/auth/login`, {
-            email: "bishal@gmail.com",
-            password: "password12",
+            identifier: formData.username,
+            password: formData.password,
           });
 
           if (status === 200) {
-            const token = data.token;
+            const token = data?.data?.token;
             sessionStorage.setItem('jwtToken', token);
             toast.success('Login Success!', {
               position: "top-right",

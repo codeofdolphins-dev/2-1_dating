@@ -6,7 +6,6 @@ import Pictures from '../../../components/NotificationCard.jsx/Pictures.Notifica
 const NotificationScreen = () => {
   return (
     <>
-    <div>NotificationScreen</div>
     <LifetimeSpecial/>
     <PartiesAndEvents/>
     <Pictures/>
