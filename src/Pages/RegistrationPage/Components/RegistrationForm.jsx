@@ -212,8 +212,7 @@ const RegistrationForm = () => {
           // If valid and OTP matched
           axios.post(`${apiUrl}/auth/signup`, { username, email, password })
             .then((response) => {
-              const token = response?.data?.token;
-              console.log(token)
+              const token = response?.data?.data?.token;
               sessionStorage.setItem('jwtToken', token);
               toast.success('Account created successfully!');
 
@@ -236,9 +235,9 @@ const RegistrationForm = () => {
     <div className="container py-5">
       <ToastContainer />
       <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-5 col-12">
+        <div className="col-md-8 col-lg-8 col-12">
           <div className="card " style={{ backgroundColor: 'var(--color-border)' }}>
-            <div className="card-body p-5 row justify-content-center">
+            <div className="card-body p-md-5 row justify-content-center">
               <h2 className="text-center mb-4 text-white h2">Create Member Account</h2>
 
               <form onSubmit={handleSubmit} className='col-lg-11 ' >
