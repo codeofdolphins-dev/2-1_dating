@@ -139,9 +139,9 @@ const RegistrationForm = () => {
       // Redirect to next step
       setTimeout(() => navigate('/second_registration'), 2000);
     })
-    .catch((err) => {
-      console.log(err);
-      toast.error('Signup failed. Please try again.');
+    .catch((error) => {
+      console.log(error);
+      toast.error(error?.response?.data?.message);
     });
 };
 

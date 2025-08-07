@@ -3,14 +3,21 @@ import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import GlobalPageWrapper from '../../components/GlobalPageWrapper';
 import FilterBar from '../../components/FilterBar/FilterBar';
+import axios from 'axios';
 
 const CreateChatroomPage = () => {
     const [chatType, setChatType] = useState("");
     const [goingliveType, setGoingliveType] = useState("");
+    const [title, setTitle] = useState("");
+    const [blockSingleMales, setBlockSingleMales] = useState(false);
+    // const [handleButton, setHandleButton] = useState(false);
+    const blockVal = "Block single males"
     const navigate = useNavigate();
 
+    const apiUrl = import.meta.env.VITE_BASE_URL;
+
     const nagigatePrevPage = () => {
-        navigate("/chatroom");
+        navigate("/chatrooms");
     };
 
     const handleChange = (e) => {
@@ -18,8 +25,42 @@ const CreateChatroomPage = () => {
     };
 
     const handleGoingLiveType = (e) => {
-        setGoingliveType(e.target.value)
-    }
+        setGoingliveType(e.target.value);
+    };
+
+    const handleCreateChatroom = async () => {
+        if (!chatType || !goingliveType || !title.trim()) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                `${apiUrl}/chatrooms`,
+                {
+                    type: chatType,
+                    name:title,
+                    // goingLive: goingliveType,
+                    rules:[blockVal],
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (response.status === 201 || response.status === 200) {
+                alert("Chatroom created successfully!");
+                navigate("/chatrooms");
+            }
+        } catch (error) {
+            console.error("Failed to create chatroom:", error);
+            alert(error?.response?.data?.errors);
+        }
+
+    };
 
     return (
         <div className='' style={{ backgroundColor: "var(--color-border)" }}>
@@ -86,22 +127,38 @@ const CreateChatroomPage = () => {
                         </div>
                     </div>
 
+                    {/* Title Input */}
                     <div className='mt-5'>
                         <p className='fw-semibold'>Title</p>
                         <div className=' ' style={{ backgroundColor: "var(--color-border)" }}>
-                            <input type="text" className='w-50 rounded-pill p-2 border border-white text-white ' style={{ backgroundColor: "var(--color-border)" }} placeholder='Chatroom Title, max 30 Characters' />
+                            <input
+                                type="text"
+                                className='w-50 rounded-pill p-2 border border-white text-white'
+                                style={{ backgroundColor: "var(--color-border)" }}
+                                placeholder='Chatroom Title, max 30 Characters'
+                                maxLength={30}
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
                         </div>
                     </div>
 
+                    {/* Block Single Males */}
                     <div className='d-flex gap-3 mt-4'>
                         <div>
-                            <input type="checkbox" name="male-blocked" id="" height={20} />
+                            <input
+                                type="checkbox"
+                                name="male-blocked"
+                                checked={blockSingleMales}
+                                onChange={(e) => setBlockSingleMales(e.target.checked)}
+                            />
                         </div>
                         <div>
                             <p>Block Single Males from entering the chatroom</p>
                         </div>
                     </div>
 
+                    {/* Going Live */}
                     <div className='mt-5'>
                         <p className='fw-semibold'>Going Live</p>
                         <Form.Group>
@@ -128,8 +185,12 @@ const CreateChatroomPage = () => {
                         </Form.Group>
                     </div>
 
+                    {/* Create Button */}
                     <div className='mt-5'>
-                        <button className="border-0 custom-button  rounded-pill py-2 px-4">
+                        <button
+                            className="border-0 custom-button  rounded-pill py-2 px-4"
+                            onClick={handleCreateChatroom}
+                        >
                             Create Chatroom
                         </button>
                     </div>
