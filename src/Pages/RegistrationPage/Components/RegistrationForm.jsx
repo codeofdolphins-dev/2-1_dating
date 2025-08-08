@@ -235,7 +235,7 @@ const RegistrationForm = () => {
     <div className="container py-5">
       <ToastContainer />
       <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-8 col-12">
+        <div className="col-md-8 col-lg-6 col-12">
           <div className="card " style={{ backgroundColor: 'var(--color-border)' }}>
             <div className="card-body p-md-5 row justify-content-center">
               <h2 className="text-center mb-4 text-white h2">Create Member Account</h2>

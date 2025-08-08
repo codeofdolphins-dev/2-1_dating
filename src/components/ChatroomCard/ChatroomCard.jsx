@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
 import { Card, Row, Col } from "react-bootstrap";
 import lipsIcon from "../../assets/cardImgs/Images/lipsPic.png"; // Replace with your actual image path
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
 const ChatroomCard = ({title, members, handlEtakeToChatRoom }) => {
+  
 
   return (
     <Card className="text-white rounded-4 p-3 card" style={{ width: "450px", }}>
