@@ -1,46 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import GlobalPageWrapper from '../../components/GlobalPageWrapper';
 import ChatRoomPersoncard from '../../components/ChatroomCard/ChatRoomPersoncard';
 
 import coupleImg1 from "../../assets/cardImgs/Images/Img.png"
-import coupleImg2 from "../../assets/ViwCardImags/img/couple5.webp"
-import coupleImg3 from "../../assets/ViwCardImags/img/couple6.jpeg"
-import coupleImg4 from "../../assets/ViwCardImags/img/couple7.webp"
-import coupleImg5 from "../../assets/ViwCardImags/img/coupleImg.jpeg"
 import ChatroomChatBox from '../../components/ChatroomChatBox/ChatroomChatBox';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const cards = [
-    { code: "NYCCPL1", img: coupleImg1 },
-    { code: "NYCCPL2", img: coupleImg2 },
-    { code: "NYCCPL3", img: coupleImg3 },
-    { code: "NYCCPL4", img: coupleImg4 },
-    { code: "NYCCPL5", img: coupleImg5 },
-    { code: "NYCCPL6", img: coupleImg2 },
-    { code: "NYCCPL7", img: coupleImg3 },
-    { code: "NYCCPL8", img: coupleImg1 },
-    { code: "NYCCPL9", img: coupleImg5 },
-    { code: "NYCCPL10", img: coupleImg4 },
-    { code: "NYCCPL11", img: coupleImg2 },
-    { code: "NYCCPL12", img: coupleImg3 },
-    { code: "NYCCPL13", img: coupleImg1 },
-    { code: "NYCCPL14", img: coupleImg5 },
-];
 
 
 const Chatroom = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { name, createdBy, participants } = location.state || {};
-    console.log(location.state);
-    console.log("Participants",participants)
+    const apiUrl = import.meta.env.VITE_BASE_URL;
+
+
+    const [chatRoom, setChatRoom] = useState("");
+
+    const room_id = location?.state?._id
+
+    useEffect(() => {        
+        axios({
+            method: 'get',
+            url: `${apiUrl}/chatrooms/${room_id}`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+            },
+        })
+        .then((res) => {
+            setChatRoom(res.data.data)
+        })
+        .catch((error) => {})
+
+    }, [room_id]);
+
 
     const nagigatePrevPage = () => {
         navigate("/chatrooms");
     };
 
+    const handleLeave = () => {
+      axios({
+        method: "post",
+        url: `${apiUrl}/chatrooms/${room_id}/leave`,
+        headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+        }
+      })
+      .then(res => {
+        if(res.data.success){
+
+            toast.error(res.data.message, {
+                position: 'top-right',
+                autoClose: 3000,
+                theme: 'colored',
+            });
+            navigate("/chatrooms");
+        }
+        
+      })
+      .catch((err) => {})
+    }
+
     return (
         <div className='mt-5' style={{ backgroundColor: "var(--color-border)", minHeight: "100vh" }}>
+            <ToastContainer />
             <GlobalPageWrapper />
 
             <div className='container-fluid'>
@@ -54,13 +80,18 @@ const Chatroom = () => {
                                     style={{ cursor: "pointer" }}
                                     onClick={nagigatePrevPage}
                                 ></i>
-                                <div className="fs-4 fw-semibold text-uppercase">
-                                    {name} <span className="fw-normal" style={{ color: "var(--color-primary-green)" }}>| { participants.length }</span>
+                                <div className="fs-4 fw-semibold text-uppercase">{chatRoom?.name} <span className="fw-normal" style={{ color: "var(--color-primary-green)" }}>| {chatRoom?.participants?.length}</span>
                                 </div>
                             </div>
 
                             {/* Right section: Buttons */}
                             <div className="d-flex align-items-center gap-3">
+                                <button 
+                                    className="btn bg-white text-danger btn-sm rounded-pill px-3"
+                                    onClick={handleLeave}
+                                >
+                                    Leave Room
+                                </button>
                                 <button className="btn btn-danger btn-sm rounded-pill px-3">
                                     Go Live Now
                                 </button>
@@ -77,7 +108,7 @@ const Chatroom = () => {
                         </div>
                         <div className='d-flex justify-content-between mt-3'>
                             <div className='text-white fs-5 pl-5'>
-                                &nbsp; &nbsp; &nbsp; &nbsp; {createdBy.username}
+                                &nbsp; &nbsp; &nbsp; &nbsp; {chatRoom?.createdBy?.username}
                             </div>
                             <button className="btn btn-outline-light btn-sm rounded-pill px-3">
                                 Report
@@ -87,7 +118,7 @@ const Chatroom = () => {
                             <div className="container-fluid client-page-background overflow-auto" style={{ height: "555px" }}>
                                 <div className="row g-2 py-2 d-flex ">
                                     {
-                                        participants.map((card, index) => (
+                                        chatRoom?.participants?.map((card, index) => (
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-3 d-flex justify-content-center mb-2" key={index}>
                                                 <ChatRoomPersoncard image={coupleImg1} code={card.username} />
                                             </div>

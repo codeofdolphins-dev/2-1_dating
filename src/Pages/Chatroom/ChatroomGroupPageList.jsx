@@ -50,10 +50,10 @@ const ChatroomGroupPageList = () => {
       );
 
       // Try fetching latest chatroom data
-      const { data } = await axios.get(`${apiUrl}/chatrooms/${card._id}`, config);
+      const { data } = await axios.get(`${apiUrl}/chatrooms/${card._id}`, config);      
 
       // Navigate with updated chatroom info
-      navigate('/chatroom', { state: data });
+      navigate('/chatroom', { state: data.data });
 
     } catch (error) {
       console.error('Chatroom Join or Fetch Failed:', error);
