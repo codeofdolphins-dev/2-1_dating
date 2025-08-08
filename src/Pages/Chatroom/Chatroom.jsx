@@ -33,7 +33,7 @@ const Chatroom = () => {
     const navigate = useNavigate();
     const { name, createdBy, participants } = location.state || {};
     console.log(location.state);
-    
+    console.log("Participants",participants)
 
     const nagigatePrevPage = () => {
         navigate("/chatrooms");
@@ -77,7 +77,7 @@ const Chatroom = () => {
                         </div>
                         <div className='d-flex justify-content-between mt-3'>
                             <div className='text-white fs-5 pl-5'>
-                                &nbsp; &nbsp; &nbsp; &nbsp; {createdBy._id}
+                                &nbsp; &nbsp; &nbsp; &nbsp; {createdBy.username}
                             </div>
                             <button className="btn btn-outline-light btn-sm rounded-pill px-3">
                                 Report
@@ -87,9 +87,9 @@ const Chatroom = () => {
                             <div className="container-fluid client-page-background overflow-auto" style={{ height: "555px" }}>
                                 <div className="row g-2 py-2 d-flex ">
                                     {
-                                        cards.map((card, index) => (
+                                        participants.map((card, index) => (
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-3 d-flex justify-content-center mb-2" key={index}>
-                                                <ChatRoomPersoncard image={card.img} code={card.code} />
+                                                <ChatRoomPersoncard image={coupleImg1} code={card.username} />
                                             </div>
                                         ))
                                     }

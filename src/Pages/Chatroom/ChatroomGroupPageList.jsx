@@ -21,57 +21,57 @@ const ChatroomGroupPageList = () => {
     navigate("/create_chatroom");
   };
 
-  const handlEtakeToChatRoom = (card) => {
-    axios.post(`${apiUrl}/chatrooms/${card._id}/join`, {}, {
+  const handlEtakeToChatRoom = async (card) => {
+    const token = sessionStorage.getItem('jwtToken');
+    const config = {
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
-    })
-      .then(() => {
-        toast.success('User joined successfully', {
-          position: "top-right",
-          autoClose: 3000,
-          theme: "colored",
-        });
+    };
 
-        // Update participants locally by adding a dummy user (or ideally fetch from API)
-        setChatRooms(prevRooms =>
-          prevRooms.map(room =>
-            room._id === card._id
-              ? { ...room, participants: [...room.participants, { _id: 'temp-user' }] }
-              : room
-          )
-        );
+    try {
+      // Try to join the chatroom
+      await axios.post(`${apiUrl}/chatrooms/${card._id}/join`, {}, config);
 
-        navigate("/chatroom", { state: card });
-      })
-      .catch((err) => {
-        // const message = err?.response?.data?.message || 'Failed to join chatroom';
-
-        console.log(err);
-        toast.error("message error", {
-          position: "top-right",
-          autoClose: 3000,
-          theme: "colored",
-        });
-
-        // alert(message);
-        // toast.success('Failed to join chatroom', {
-        //   position: "top-right",
-        //   autoClose: 3000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   theme: "colored",
-        // });
-        setTimeout(() => {
-          navigate("/chatroom", { state: card });
-        }, [200])
+      toast.success('User joined successfully', {
+        position: 'top-right',
+        autoClose: 3000,
+        theme: 'colored',
       });
+
+      // Optimistically update participants
+      setChatRooms(prevRooms =>
+        prevRooms.map(room =>
+          room._id === card._id
+            ? { ...room, participants: [...room.participants, { _id: 'temp-user' }] }
+            : room
+        )
+      );
+
+      // Try fetching latest chatroom data
+      const { data } = await axios.get(`${apiUrl}/chatrooms/${card._id}`, config);
+
+      // Navigate with updated chatroom info
+      navigate('/chatroom', { state: data });
+
+    } catch (error) {
+      console.error('Chatroom Join or Fetch Failed:', error);
+
+      toast.error("Something went wrong, but redirecting you anyway...", {
+        position: 'top-right',
+        autoClose: 3000,
+        theme: 'colored',
+      });
+
+      // Navigate with fallback info
+      navigate('/chatroom', { state: card });
+    }
   };
 
+
+
+  // ChatRooms fetch API (Get all Chatroom API)
   useEffect(() => {
     axios.get(`${apiUrl}/chatrooms`, {
       headers: {
