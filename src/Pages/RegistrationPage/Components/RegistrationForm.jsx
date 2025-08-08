@@ -30,7 +30,7 @@ const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   // const [emailOtpSent, setEmailOtpSent] = useState(false);
-  const staticPhoneOTP=1111
+  const staticPhoneOTP = 1111
   const [phoneOtpSent, setPhoneOtpSent] = useState(false);
 
   const { username, email, password } = formData
@@ -58,23 +58,103 @@ const RegistrationForm = () => {
   //   setEmailOtpSent(true);
   // };
 
+  //OTp copy function
+  const handleCopy = (otp) => {
+    navigator.clipboard.writeText(otp)
+      .then(() => toast.success('OTP copied to clipboard!'))
+      .catch(() => toast.error('Failed to copy OTP.'));
+  };
+
+  //otp send Functionality
   const handleSendPhoneOtp = () => {
-  if (!formData.phoneNumber) {
-    toast.error('Please enter your phone number first');
-    return;
-  }
+    if (!formData.phoneNumber) {
+      toast.error('Please enter your phone number first');
+      return;
+    }
 
-  if (formData.phoneNumber.length < 10) {
-    toast.error('Please enter a valid phone number');
-    return;
-  }
+    if (formData.phoneNumber.length < 10) {
+      toast.error('Please enter a valid phone number');
+      return;
+    }
 
-  // Simulate OTP sending
-  toast.success(`OTP sent to +${formData.countryCode}${formData.phoneNumber}`);
-  setPhoneOtpSent(true); // allow user to enter OTP
-};
+    // Simulate OTP sending
+    toast.success(`OTP sent to +${formData.countryCode}${formData.phoneNumber}`);
+    setPhoneOtpSent(true); // allow user to enter OTP
+
+    axios.post(`${apiUrl}/otp/request`, { target: formData.email, type: "signup" })
+      .then((response) => {
+        const otp = response.data.data.code;
+
+        toast(
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            position: 'relative',
+            padding: '0.5rem 1rem 0.75rem 0.75rem',
+            minWidth: '300px',
+            maxWidth: '100%',
+          }}>
+
+            {/* Close Icon */}
+            <button
+              onClick={() => toast.dismiss()}
+              style={{
+                position: 'absolute',
+                top: '6px',
+                right: '8px',
+                background: 'transparent',
+                border: 'none',
+                fontSize: '1.25rem',
+                color: '#000',
+                cursor: 'pointer',
+                lineHeight: 1
+              }}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+
+            {/* OTP Text */}
+            <div style={{ marginBottom: '0.5rem', fontSize: '1rem' }}>
+              <strong>Your OTP:</strong> <span style={{ color: '#6c757d' }}>{otp}</span>
+            </div>
+
+            {/* Copy Button */}
+            <button
+              onClick={() => handleCopy(otp)}
+              style={{
+                padding: '5px 12px',
+                fontSize: '0.875rem',
+                background: '#007bff',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Copy OTP
+            </button>
+          </div>
+          ,
+          {
+            position: "top-right",
+            autoClose: false, // Keep it until user interacts
+            theme: "colored",
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Failed to request OTP", {
+          position: "top-right",
+          theme: "colored",
+        });
+      });
+  };
 
 
+  //Form validation
   const validateForm = () => {
     const newErrors = {};
 
@@ -112,47 +192,52 @@ const RegistrationForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  //form submit functionality
   const apiUrl = import.meta.env.VITE_BASE_URL;
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const isValid = validateForm();
+    const isValid = validateForm();
 
-  if (!isValid) {
-    toast.error('Please fix the errors in the form');
-    return;
-  }
+    if (!isValid) {
+      toast.error('Please fix the errors in the form');
+      return;
+    }
 
-  // OTP validation (moved here)
-  if (parseInt(formData.phoneOtp) !== staticPhoneOTP) {
-    toast.error('Invalid OTP. Please try again.');
-    return;
-  }
+    // OTP validation (moved here)
+    axios.post(`${apiUrl}/otp/verify`, { target: formData.email, type: "signup", code: formData.phoneOtp })
+      .then((response) => {
+        console.log(response.data.message)
+        if (response.data.success) {
+          // If valid and OTP matched
+          axios.post(`${apiUrl}/auth/signup`, { username, email, password })
+            .then((response) => {
+              const token = response?.data?.data?.token;
+              sessionStorage.setItem('jwtToken', token);
+              toast.success('Account created successfully!');
 
-  // If valid and OTP matched
-  axios.post(`${apiUrl}/auth/signup`, { username, email, password })
-    .then((response) => {
-      const token = response.data.token;
-      sessionStorage.setItem('jwtToken', token);
-      toast.success('Account created successfully!');
-
-      // Redirect to next step
-      setTimeout(() => navigate('/second_registration'), 2000);
-    })
-    .catch((error) => {
-      console.log(error);
-      toast.error(error?.response?.data?.message);
-    });
-};
+              // Redirect to next step
+              setTimeout(() => navigate('/feed'), 2000);
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error(error?.response?.data?.message);
+            });
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message, `${error?.response?.data?.error?.reason}`);
+      });
+  };
 
 
   return (
     <div className="container py-5">
       <ToastContainer />
       <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-5">
+        <div className="col-md-8 col-lg-8 col-12">
           <div className="card " style={{ backgroundColor: 'var(--color-border)' }}>
-            <div className="card-body p-5 row justify-content-center">
+            <div className="card-body p-md-5 row justify-content-center">
               <h2 className="text-center mb-4 text-white h2">Create Member Account</h2>
 
               <form onSubmit={handleSubmit} className='col-lg-11 ' >
@@ -227,7 +312,8 @@ const RegistrationForm = () => {
 
 
                 {/* Password */}
-                <div className="mb-3 position-relative">
+                {/* Password Input Field with Eye Icon */}
+                <div className="position-relative mb-0 first-password">
                   <input
                     type={showPassword ? "text" : "password"}
                     className={`form-control py-3 bg-transparent pe-5 custom-placeholder ${errors.password ? 'is-invalid' : ''}`}
@@ -239,38 +325,50 @@ const RegistrationForm = () => {
                     style={{
                       border: "2px solid #6c757d",
                       color: "#fff",
-                      paddingRight: "2.5rem"
+                      paddingRight: "3rem",
+                      boxSizing: "border-box"
                     }}
                   />
 
+                  {/* Eye toggle button */}
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     style={{
                       position: "absolute",
                       top: "50%",
-                      right: "12px",
+                      right: "0.75rem",
                       transform: "translateY(-50%)",
                       border: "none",
                       background: "transparent",
                       padding: "0",
                       color: "#6c757d",
-                      fontSize: "1.2rem",
-                      cursor: "pointer"
+                      fontSize: "1.25rem",
+                      cursor: "pointer",
+                      lineHeight: 1
                     }}
                   >
                     <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
                   </button>
+                </div>
 
-                  {errors.password && <div className="invalid-feedback d-block">{errors.password}</div>}
+                {/* Error message with reserved space to avoid shifting */}
+                <div style={{ minHeight: "0.8rem", marginTop: "0.25rem" }}>
+                  {errors.password && (
+                    <div className="invalid-feedback d-block mb-3">
+                      {errors.password}
+                    </div>
+                  )}
                 </div>
 
 
+
                 {/* Confirm Password */}
-                <div className="mb-3 position-relative">
+                {/* Password input with eye icon */}
+                <div className=" position-relative password">
                   <input
                     type={showConfirmPassword ? "text" : "password"}
-                    className={`form-control py-3 bg-transparent pe-5 custom-placeholder ${errors.confirmPassword ? 'is-invalid' : ''}`}
+                    className={`form-control py-3 bg-transparent custom-placeholder`}
                     id="confirmPassword"
                     name="confirmPassword"
                     placeholder="Confirm password"
@@ -279,33 +377,45 @@ const RegistrationForm = () => {
                     style={{
                       border: "2px solid #6c757d",
                       color: "#fff",
-                      paddingRight: "2.5rem"
+                      paddingRight: "3rem",
+                      boxSizing: "border-box"
                     }}
                   />
 
+                  {/* Eye toggle button */}
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     style={{
                       position: "absolute",
                       top: "50%",
-                      right: "12px",
+                      right: "0.75rem",
                       transform: "translateY(-50%)",
                       border: "none",
                       background: "transparent",
                       padding: "0",
                       color: "#6c757d",
-                      fontSize: "1.2rem",
-                      cursor: "pointer"
+                      fontSize: "1.25rem",
+                      cursor: "pointer",
+                      lineHeight: 1
                     }}
                   >
                     <i className={`bi ${showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
                   </button>
-
-                  {errors.confirmPassword && (
-                    <div className="invalid-feedback d-block">{errors.confirmPassword}</div>
-                  )}
                 </div>
+
+                {/* Error message placed separately to avoid shifting the eye icon */}
+                {/* Always reserve space below input to prevent shifting */}
+                <div style={{ minHeight: "0.8rem", marginTop: "0.25rem" }}>
+                  {errors.confirmPassword ? (
+                    <div className="invalid-feedback d-block mb-3">
+                      {errors.confirmPassword}
+                    </div>
+                  ) : null}
+                </div>
+
+
+
 
 
                 {/* Phone Number with OTP */}
@@ -360,7 +470,7 @@ const RegistrationForm = () => {
                         type="button"
                         className="btn w-100 py-3"
                         onClick={handleSendPhoneOtp}
-                        disabled={phoneOtpSent}
+                        // disabled={phoneOtpSent}
                         onMouseEnter={(e) => {
                           e.target.style.backgroundColor = "#6c757d";
                           e.target.style.color = "#fff";

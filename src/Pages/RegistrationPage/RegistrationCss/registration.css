@@ -99,3 +99,10 @@ custom-phone-container .flag {
   padding: 6px 12px !important; /* adjust spacing */
 }
 
+.password input.is-invalid {
+  background-image: none !important;
+}
+
+.first-password input.is-invalid {
+  background-image: none !important;
+}
