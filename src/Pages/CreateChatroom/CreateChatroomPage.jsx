@@ -9,29 +9,28 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const CreateChatroomPage = () => {
+    const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_BASE_URL;
+
     const [chatType, setChatType] = useState("");
-    const [goingliveType, setGoingliveType] = useState("");
     const [title, setTitle] = useState("");
     const [blockSingleMales, setBlockSingleMales] = useState(false);
-    // const [handleButton, setHandleButton] = useState(false);
-    const blockVal = "Block single males"
-    const navigate = useNavigate();
+    const [goingliveType, setGoingliveType] = useState("");
 
-    const apiUrl = import.meta.env.VITE_BASE_URL;
+
 
     const nagigatePrevPage = () => {
         navigate("/chatrooms");
     };
-
     const handleChange = (e) => {
         setChatType(e.target.value);
     };
-
     const handleGoingLiveType = (e) => {
         setGoingliveType(e.target.value);
     };
 
-    const handleCreateChatroom = async () => {
+    const handleCreateChatroom = async () => {       
+        
         if (!chatType || !goingliveType || !title.trim()) {
             alert("Please fill in all required fields.");
             return;
@@ -43,8 +42,8 @@ const CreateChatroomPage = () => {
                 {
                     type: chatType,
                     name: title,
-                    // goingLive: goingliveType,
-                    rules: [blockVal],
+                    blockSingleMales: blockSingleMales,
+                    goingLive: goingliveType
                 },
                 {
                     headers: {
@@ -52,7 +51,7 @@ const CreateChatroomPage = () => {
                         'Content-Type': 'application/json',
                     },
                 }
-            );
+            );            
 
             if (response.status === 201 || response.status === 200) {
                 console.log(response)
@@ -107,6 +106,7 @@ const CreateChatroomPage = () => {
                                     <div className="d-flex gap-4 mt-2">
                                         <Form.Check
                                             type="radio"
+                                            id='public'
                                             label="Public Chatroom"
                                             name="chatroomType"
                                             value="public"
@@ -116,6 +116,7 @@ const CreateChatroomPage = () => {
                                         />
                                         <Form.Check
                                             type="radio"
+                                            id='private'
                                             label="Private Chatroom"
                                             name="chatroomType"
                                             value="private"
@@ -125,6 +126,7 @@ const CreateChatroomPage = () => {
                                         />
                                         <Form.Check
                                             type="radio"
+                                            id='secret'
                                             label="Secret Chatroom"
                                             name="chatroomType"
                                             value="secret"
@@ -139,11 +141,12 @@ const CreateChatroomPage = () => {
 
                         {/* Title Input */}
                         <div className='mt-5'>
-                            <p className='fw-semibold'>Title</p>
-                            <div className=' ' style={{ backgroundColor: "var(--color-border)" }}>
+                            <label className='fw-semibold mb-2' htmlFor='title'>Title</label>
+                            <div className='' style={{ backgroundColor: "var(--color-border)" }}>
                                 <input
                                     type="text"
-                                    className='w-50 rounded-pill p-2 border border-white text-white'
+                                    id='title'
+                                    className='w-50 rounded-pill py-2 px-4 border border-white text-white'
                                     style={{ backgroundColor: "var(--color-border)" }}
                                     placeholder='Chatroom Title, max 30 Characters'
                                     maxLength={30}
@@ -158,13 +161,14 @@ const CreateChatroomPage = () => {
                             <div>
                                 <input
                                     type="checkbox"
+                                    id='blockM'
                                     name="male-blocked"
                                     checked={blockSingleMales}
                                     onChange={(e) => setBlockSingleMales(e.target.checked)}
                                 />
                             </div>
                             <div>
-                                <p>Block Single Males from entering the chatroom</p>
+                                <label htmlFor='blockM'>Block Single Males from entering the chatroom</label>
                             </div>
                         </div>
 
@@ -175,20 +179,22 @@ const CreateChatroomPage = () => {
                                 <div className="d-flex gap-4 mt-2">
                                     <Form.Check
                                         type="radio"
+                                        id='now'
                                         label="ChatNow"
                                         name="ChatNow"
-                                        value="Chat now"
+                                        value="now"
                                         onChange={handleGoingLiveType}
-                                        checked={goingliveType === "Chat now"}
+                                        checked={goingliveType === "now"}
                                         className="text-white"
                                     />
                                     <Form.Check
                                         type="radio"
+                                        id='later'
                                         label="Chat later"
                                         name="ChatLater"
-                                        value="Chat later"
+                                        value="later"
                                         onChange={handleGoingLiveType}
-                                        checked={goingliveType === "Chat later"}
+                                        checked={goingliveType === "later"}
                                         className="text-white"
                                     />
                                 </div>
