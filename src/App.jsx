@@ -47,6 +47,8 @@ import AddmePage from './Pages/FeaturedMembers-add-me-page/AddmePage';
 import Contests from './Pages/Contests/Contests';
 import VacationRentalPage from './Pages/VacationRental/VacationRentalPage';
 import { ToastContainer } from 'react-toastify';
+import CreateTravelPlan from './Pages/Create Travel Plan/CreateTravelPlan';
+import PartiesEventsClub from './Pages/Parties&EventsClub/PartiesEventsClub';
 
 
 
@@ -105,7 +107,9 @@ function App() {
           <Route path="/add-me" element={<AddmePage />} />
           <Route path="/contests" element={<Contests />} />
           <Route path="/add-vacations-rental" element={<VacationRentalPage />} />
+        <Route path="/create-travel-plan" element={<CreateTravelPlan />} />
 
+        <Route path="/parties-events-club" element={ <PartiesEventsClub /> } />        
 
         </Routes>
       </BrowserRouter>
