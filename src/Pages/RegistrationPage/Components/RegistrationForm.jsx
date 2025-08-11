@@ -30,7 +30,6 @@ const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   // const [emailOtpSent, setEmailOtpSent] = useState(false);
-  const staticPhoneOTP = 1111
   const [phoneOtpSent, setPhoneOtpSent] = useState(false);
 
   const { username, email, password } = formData
