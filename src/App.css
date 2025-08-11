@@ -11,6 +11,10 @@
   --color-border: #2C3D55;
 }
 
+body{
+  background-color: var(--color-background);
+}
+
 
     /* Optional CSS */
 .table {

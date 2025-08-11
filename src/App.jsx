@@ -1,5 +1,4 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom'
-import './App.css'
 // Bootstrap Link
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -49,6 +48,7 @@ import VacationRentalPage from './Pages/VacationRental/VacationRentalPage';
 import { ToastContainer } from 'react-toastify';
 import CreateTravelPlan from './Pages/Create Travel Plan/CreateTravelPlan';
 import PartiesEventsClub from './Pages/Parties&EventsClub/PartiesEventsClub';
+import './App.css'
 
 
 

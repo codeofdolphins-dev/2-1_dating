@@ -25,3 +25,19 @@
     font-size: 12px;
     text-align: justify;
 }
+.heading{
+    color: #096BFF;
+    font-size: 18px;
+}
+.subHeader{
+    font-size: 14px;
+}
+
+.options{
+    padding: 5px 15px;
+    color: #096BFF;
+    background-color: #B3D1FF;
+    border-radius: 35px;
+    width: fit-content;
+    font-size: 13px;
+}

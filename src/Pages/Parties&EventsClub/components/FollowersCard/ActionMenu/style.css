@@ -1,0 +1,9 @@
+.popup-main-container{
+    background-color: #010B3C;
+}
+.popup-content {
+    border-radius: 10px !important;
+    background-color: #010B3C;
+    top: 185px !important;
+    border:0px
+}
