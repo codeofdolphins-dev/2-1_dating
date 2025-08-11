@@ -102,10 +102,7 @@ const ViewsPage = () => {
                                 cards.map((card, index) => (
                                     <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
                                         <ViewPageCard index={index} images={images} timestamp={true}
-                                            {...{
-                                                card,
-                                  
-                                            }}
+                                            card={card}
                                         />
                                     </div>
                                 ))

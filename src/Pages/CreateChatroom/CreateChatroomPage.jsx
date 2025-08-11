@@ -6,6 +6,7 @@ import FilterBar from '../../components/FilterBar/FilterBar';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
 
 
 const CreateChatroomPage = () => {
@@ -29,10 +30,10 @@ const CreateChatroomPage = () => {
         setGoingliveType(e.target.value);
     };
 
-    const handleCreateChatroom = async () => {       
-        
+    const handleCreateChatroom = async () => {
+
         if (!chatType || !goingliveType || !title.trim()) {
-            alert("Please fill in all required fields.");
+            showErrorToast("Please fill in all required fields.");
             return;
         }
 
@@ -51,20 +52,16 @@ const CreateChatroomPage = () => {
                         'Content-Type': 'application/json',
                     },
                 }
-            );            
+            );
 
             if (response.status === 201 || response.status === 200) {
                 console.log(response)
-                toast.success(`Hello`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    theme: "colored",
-                });
+                showSuccessToast(`${response?.data?.message}`);
                 navigate("/chatrooms");
             }
         } catch (error) {
             console.error("Failed to create chatroom:", error);
-            alert(error?.response?.data?.errors);
+            showErrorToast(`Please login again. ${error?.response?.data?.message || "An error occurred."}`);
         }
 
     };
