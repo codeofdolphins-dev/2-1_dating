@@ -55,7 +55,7 @@ const NewmembersPage = () => {
         <>
         <div style={{backgroundColor:"var(--color-background)"}}>
             <GlobalPageWrapper>
-                <FilterBar pageName={"New Members"} filter1={map} filter2={filter} filterName1={"Map"} filterName2={"Filter"} showTab={false} distanceSlider={false} bottomForm={false} width={"280px"} />
+                <FilterBar pageName={"New Members"} filter2={filter} filterName2={"Filter"} showTab={false} distanceSlider={false} bottomForm={false} width={"280px"} />
 
                 <div className="container-fluid">
                     <div className="row g-4 pt-4">

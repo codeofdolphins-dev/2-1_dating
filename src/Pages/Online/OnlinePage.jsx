@@ -27,15 +27,12 @@ const map = [
 ];
 
 const filter = [
-    "Likes given",
-    "Joined group",
-    "Photos & Videos",
-    "Validations",
-    "Speed Date",
-    "Travel Plans",
-    "Parties & Events",
-    "Member Services",
-    "New Friends / Followers"
+    "Couples",
+    "Female",
+    "Male",
+    "Business",
+    "Transgender",
+    "Looking for me / us",
 ];
 
 const cards = [
@@ -62,11 +59,15 @@ const SpeedDateCheckBoxPopupOptions = {
 }
 
 const OnlinePage = () => {
-    const [showSpeeddateCheckBox, setShowSpeeddateCheckBox] = useState(true);
+    const [showSpeeddateCheckBox, setShowSpeeddateCheckBox] = useState(false);
+
+    const handleFeaturePopup = () =>{
+        setShowSpeeddateCheckBox(true)
+    }
     return (
         <>
             <GlobalPageWrapper />
-            <FilterBar filter1={map} filter2={filter} filterName1={"Map"} filterName2={"Filter"} showTab={false} pageName={"Online Now"} distanceSlider={false} bottomForm={false} width={"280px"} />
+            <FilterBar filter2={filter} handleSpedDatePopup={true} handleFeaturePopup={handleFeaturePopup} showLocationForm={true} filterName2={"Filter"} showTab={false} pageName={"Online Now"} distanceSlider={false} bottomForm={false} width={"280px"} />
 
             <div className="container-fluid client-page-background">
                 <div className="row g-4 pt-4">

@@ -94,7 +94,7 @@ const ViewsPage = () => {
         <>
             <GlobalPageWrapper>
                 <div className='client-page-background'>
-                    <FilterBar filter1={map} filter2={filter} filterName1={"Map"} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"}/>
+                    <FilterBar filter2={filter} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"}/>
 
                     <div className="container-fluid">
                         <div className="row g-4 pt-4">

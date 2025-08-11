@@ -25,9 +25,9 @@ const filter = [
 ];
 
 import img1 from "../../assets/ViwCardImags/img/couple.avif";
-import img2 from "../../assets/ViwCardImags/img/coupleImg.jpeg";
-import img3 from "../../assets/ViwCardImags/img/profileImg.png";
-import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
+// import img2 from "../../assets/ViwCardImags/img/coupleImg.jpeg";
+// import img3 from "../../assets/ViwCardImags/img/profileImg.png";
+// import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
 import img5 from "../../assets/ViwCardImags/img/couple5.webp";
 import img6 from "../../assets/ViwCardImags/img/couple6.jpeg";
 import img7 from "../../assets/ViwCardImags/img/couple7.webp";
@@ -77,13 +77,30 @@ const SpeedDateCheckBoxPopupOptions = {
 }
 
 const HotDatePage = () => {
-  const [showTraveldate, setShowTraveldateShow] = useState(true);
-  const [showSpeeddate, setShowSpeddateShow] = useState(true);
-  const [showSpeeddateCheckBox, setShowSpeeddateCheckBox] = useState(true);
+  const [showTraveldate, setShowTraveldateShow] = useState(false);
+  const [showSpeeddate, setShowSpeddateShow] = useState(false);
+  const [showSpeeddateCheckBox, setShowSpeeddateCheckBox] = useState(false);
+
+
+
+  const handleSpedDateTypePopup = () =>{
+    setShowSpeeddateCheckBox(true)
+    console.log(showSpeeddate)
+  }
+
+  const handleSpedDatePopup = () =>{
+    setShowSpeddateShow(true)
+    console.log(showSpeeddate)
+  }
+
+  const handleTravelDatePopup = () =>{
+    setShowTraveldateShow(true)
+    console.log(showSpeeddate)
+  }
   return (
     <>
       <GlobalPageWrapper />
-      <FilterBar filter1={map} filter2={filter} filterName1={"Add Hotdate"} filterName2={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} />
+      <FilterBar filter1={map} filter2={filter} filterName1={"Add Hotdate"} filterName2={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} handleSpedDatePopup={handleSpedDateTypePopup}/>
 
       <div className='client-page-background'>
         <div className="container-fluid">
@@ -91,7 +108,7 @@ const HotDatePage = () => {
             {
               cards.map((card, index) => (
                 <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                  <HotDatePageCard index={index} images={images}
+                  <HotDatePageCard index={index} images={images} handleSpedDatePopup={handleSpedDatePopup} handleTravelDatePopup={handleTravelDatePopup}
                     {...{
                       card,
 
