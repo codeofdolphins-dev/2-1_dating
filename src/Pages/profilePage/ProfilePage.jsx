@@ -32,6 +32,7 @@ import ProfilePageFollowingCardContainer from '../../components/profileBottomTab
 import FriendsCardContainer from '../../components/profileBottomTabSection/FriendsCardContainer'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useLocation } from 'react-router-dom'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
@@ -60,39 +61,42 @@ const tabs = [
 
 const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("Certifications");
-    const [userData, setUserData] = useState(null)
-    const [chckToken, setCheckToken] = useState(null)
+    // const [userData, setUserData] = useState(null)
+    // const [chckToken, setCheckToken] = useState(null)
+    const location = useLocation();
+    const { userId, username, role } = location.state || {};
+    console.log(location.state)
 
-    useEffect(() => {
-        axios({
-            method: 'get',
-            url: `${import.meta.env.VITE_BASE_URL}/auth/me`,
-            headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
-                'Content-Type': 'application/json' // optional, axios sets it automatically for JSON
-            }
-        })
-            .then(response => {
-                console.log(response?.data?.data);
-                setUserData(response?.data?.data)
-                setCheckToken(response?.success)
-            })
-            .catch(error => {
-                console.error(error);
-            });
+    // useEffect(() => {
+    //     axios({
+    //         method: 'get',
+    //         url: `${import.meta.env.VITE_BASE_URL}/auth/me`,
+    //         headers: {
+    //             'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+    //             'Content-Type': 'application/json' // optional, axios sets it automatically for JSON
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log(response?.data?.data);
+    //             setUserData(response?.data?.data)
+    //             setCheckToken(response?.success)
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         });
 
-        if (chckToken) {
-            toast.error('Session is expired please login Again', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "colored",
-            });
-        }
-    }, [])
+    //     if (chckToken) {
+    //         toast.error('Session is expired please login Again', {
+    //             position: "top-right",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             theme: "colored",
+    //         });
+    //     }
+    // }, [])
 
 
     return (
@@ -112,7 +116,7 @@ const ProfilePage = () => {
                                 <div className="px-2 rounded-4 text-white" style={{ backgroundColor: "var(--color-border)" }}>
                                     <div className="mb-4">
                                         <h5 className="fw-bold fs-2 d-flex align-items-center gap-2">
-                                            {userData?.username} <span className="text-warning">★</span>
+                                            {username} <span className="text-warning">★</span>
                                         </h5>
                                         <div className="d-flex gap-3 my-2 fw-bold">
                                             <div className="d-flex align-items-center gap-1">

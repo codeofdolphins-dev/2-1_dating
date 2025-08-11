@@ -15,9 +15,10 @@ import star from "../../assets/ViwCardImags/img/star.png";
 import ActionMenu from "./ActionMenu/Actionmenu";
 import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
 import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
+import { useNavigate } from "react-router-dom";
 
 
-const ViewPageCard = ({ index, images,timestamp }) => {
+const ViewPageCard = ({ index, images, timestamp, card  }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
@@ -35,9 +36,23 @@ const ViewPageCard = ({ index, images,timestamp }) => {
     }
   }, [swiperInstance]);
 
+  const navigate = useNavigate()
+  const handleNavigateToProfilepage = () => {
+    navigate("/profile", {
+      state: {
+        userId: card?._id,
+        username: card?.title,
+        role: card?.role
+      }
+    });
+  };
+
+
   return (
-    <div className="row g-3 rounded-4 text-white pb-2 ml-3 "
-      style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}>
+    <div className="row g-3 rounded-4 text-white pb-2 ml-3"
+      style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}
+      onClick={handleNavigateToProfilepage}
+    >
 
       {/* Left: Image Carousel */}
       <div className="col-lg-6 pe-lg-3 position-relative mt-2">
@@ -98,7 +113,7 @@ const ViewPageCard = ({ index, images,timestamp }) => {
       <div className="col-lg-6 d-flex flex-column justify-content-between ps-3">
         <div>
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <h5 className="fw-bold mb-0">BOLEROPALACE</h5>
+            <h5 className="fw-bold mb-0">{card?.title}</h5>
             <div><img src={star} height={30} alt="Star" /></div>
           </div>
 
@@ -155,7 +170,7 @@ const ViewPageCard = ({ index, images,timestamp }) => {
             {
               timestamp && <div className="text-danger">8h4m</div>
             }
-            
+
           </div>
         </div>
       </div>

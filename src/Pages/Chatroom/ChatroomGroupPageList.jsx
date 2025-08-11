@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { showErrorToast } from '../../components/customToast/CustomToast';
 
 // toast.configure(); // Only needed once, typically at the root of your app
 
@@ -57,13 +58,6 @@ const ChatroomGroupPageList = () => {
 
     } catch (error) {
       console.error('Chatroom Join or Fetch Failed:', error);
-
-      toast.error("Something went wrong, but redirecting you anyway...", {
-        position: 'top-right',
-        autoClose: 3000,
-        theme: 'colored',
-      });
-
       // Navigate with fallback info
       navigate('/chatroom', { state: card });
     }
@@ -86,14 +80,15 @@ const ChatroomGroupPageList = () => {
       })
       .catch(err => {
         console.error("Failed to fetch chatrooms:", err);
+        showErrorToast(`Please login again. ${err?.response?.data?.message || "An error occurred."}`);
       });
   }, []);
 
   return (
     <GlobalPageWrapper>
       {/* <ToastContainer /> */}
-      <FilterBar navigationPageName2={"Chatroom"} navigationToAnotherPage2={handleToAnotherPage} />
-      <div className="client-page-background mt-1 pb-4">
+      <FilterBar pageName={"Chatrooms"} navigationPageName2={"Chatroom"} navigationToAnotherPage2={handleToAnotherPage} />
+      <div className="client-page-background mt-1 pb-4" style={{minHeight:"100vh"}}>
         <div className="container-fluid">
           <div className="row g-4 justify-content-left px-2">
             {chatRooms.map((room, index) => (
@@ -113,6 +108,7 @@ const ChatroomGroupPageList = () => {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </GlobalPageWrapper>
   );
 };

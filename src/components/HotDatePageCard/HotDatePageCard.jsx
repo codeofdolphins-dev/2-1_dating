@@ -12,6 +12,7 @@ import female from "../../assets/ViwCardImags/img/female.png";
 import phone from "../../assets/ViwCardImags/img/phone.png";
 import star from "../../assets/ViwCardImags/img/star.png";
 import clock from "../../assets/ViwCardImags/img/clock_card_bottom.png";
+import calender from "../../assets/icons/calender.png";
 
 import ActionMenu from "../ViewPageCard/ActionMenu/Actionmenu";
 import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
@@ -20,7 +21,7 @@ import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
 
 
 
-const HotDatePageCard = ({ index, images }) => {
+const HotDatePageCard = ({ index, images,handleSpedDatePopup=null,handleTravelDatePopup=null }) => {
     const [swiperInstance, setSwiperInstance] = useState(null);
     const [showGallery, setShowGallery] = useState(false);
     const [showMessagePopup, setShowMessagePopup] = useState(false);
@@ -149,12 +150,13 @@ const HotDatePageCard = ({ index, images }) => {
                         <p>male half visiting Hyderabad from US and has a Sexy and ...</p>
                     </div>
                     
-                    <div className="d-flex justify-content-between align-items-end">
-                        <div className="d-flex gap-3 mt-2">
+                    <div className="d-flex justify-content-between align-items-end" style={{cursor:"pointer"}}>
+                        <div className="d-flex gap-2 mt-2">
                             <img src={phone} alt="" height={30} />
                             <img src={pc} alt="" height={30} />
                             <img src={chat} alt="" height={30} />
-                            <img src={clock} alt="" height={30} />
+                            <img src={clock} alt="" height={30} onClick={handleSpedDatePopup}/>
+                            <img src={calender} alt="" height={30} onClick={handleTravelDatePopup}/>
                         </div>
 
                         <div className="text-danger">8h4m</div>

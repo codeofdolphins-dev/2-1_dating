@@ -21,7 +21,7 @@ const filter = [
     "New Friends / Followers"
 ];
 
-const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName,navigationPageName1,navigationPageName2 ,navigationToAnotherPage,navigationToAnotherPage2 }) => {
+const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup=null  }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
@@ -96,24 +96,24 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                         )}
 
                         {
-                            navigationPageName2 &&(
-                                 <button
-                                className="btn bg-primary text-white rounded-pill"
-                                onClick={navigationToAnotherPage2}
-                            >
-                                {navigationPageName2}
-                            </button>
+                            navigationPageName2 && (
+                                <button
+                                    className="btn bg-primary text-white rounded-pill"
+                                    onClick={navigationToAnotherPage2}
+                                >
+                                    {navigationPageName2}
+                                </button>
                             )
                         }
 
                         {
-                            navigationPageName1 &&(
+                            navigationPageName1 && (
                                 <button
-                                className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
-                                onClick={navigationToAnotherPage}
-                            >
-                                {navigationPageName1}
-                            </button>
+                                    className="btn btn-outline-lighttext text-primary border border-primary rounded-pill"
+                                    onClick={navigationToAnotherPage}
+                                >
+                                    {navigationPageName1}
+                                </button>
                             )
                         }
 
@@ -124,7 +124,7 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                             >
                                 <div className="checkbox-dropdown p-3 rounded-2" style={{ backgroundColor: "var(--color-border)", border: "2px solid #343A40" }}>
                                     {
-                                        filterTypeName && <p><a className='filterTypeName fs-5' href="">{filterTypeName}</a></p>
+                                        filterTypeName && <div className='filterTypeName fs-5 text-decoration-underline pb-2' style={{ cursor: "pointer" }} onClick={handleSpedDatePopup}>{filterTypeName}</div>
                                     }
                                     {filter1.map((label) => (
                                         <label key={label} className="form-check d-flex align-items-center mb-2">
@@ -249,16 +249,45 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                             <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: "250px" }}>
                                 <div className="checkbox-dropdown p-3 rounded-2" style={{ backgroundColor: "var(--color-border)", border: "2px solid #343A40" }}>
                                     {filter2.map((label) => (
-                                        <label key={label} className="form-check d-flex align-items-center mb-2">
-                                            <input
-                                                type="checkbox"
-                                                className="form-check-input me-2"
-                                                checked={selected.includes(label)}
-                                                onChange={() => handleToggle(label)}
-                                            />
-                                            <span className="text-white">{label}</span>
-                                        </label>
+                                        <div>
+                                            <label key={label} className="form-check d-flex align-items-center mb-2">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input me-2"
+                                                    checked={selected.includes(label)}
+                                                    onChange={() => handleToggle(label)}
+                                                />
+                                                <span className="text-white">{label}</span>
+                                            </label>
+                                        </div>
                                     ))}
+                                    <hr className='my-3 text-white' />
+                                    {/* Location Form */}
+                                    {
+                                        showLocationForm && (<div
+                                            className=" d-flex flex-column gap-3"
+
+                                        >
+                                            <div>
+                                                <div className="mb-1 text-decoration-underline d-block" onClick={handleFeaturePopup} style={{color:"var(--color-primary-green)"}}>Features</div>
+                                                <input
+                                                    type="text"
+                                                    className="form-control bg-white border-0 text-black rounded-pill px-3"
+                                                    placeholder="Search by country"
+                                                    value={location}
+                                                    onChange={(e) => setLocation(e.target.value)}
+                                                />
+                                            </div>
+
+                                            
+                                            <button
+                                                className="w-100 rounded-pill border-0 py-2 finter-bottom-button"
+                                                onClick={handleSubmit}
+                                            >
+                                                Ok
+                                            </button>
+                                        </div>)
+                                    }
                                 </div>
                             </div>
                         )}

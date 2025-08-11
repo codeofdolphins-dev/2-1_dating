@@ -94,7 +94,7 @@ const ViewsPage = () => {
         <>
             <GlobalPageWrapper>
                 <div className='client-page-background'>
-                    <FilterBar filter1={map} filter2={filter} filterName1={"Map"} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"}/>
+                    <FilterBar filter2={filter} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"}/>
 
                     <div className="container-fluid">
                         <div className="row g-4 pt-4">
@@ -102,10 +102,7 @@ const ViewsPage = () => {
                                 cards.map((card, index) => (
                                     <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
                                         <ViewPageCard index={index} images={images} timestamp={true}
-                                            {...{
-                                                card,
-                                  
-                                            }}
+                                            card={card}
                                         />
                                     </div>
                                 ))

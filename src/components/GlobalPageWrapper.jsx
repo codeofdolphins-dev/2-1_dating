@@ -12,6 +12,8 @@ const GlobalPageWrapper = ({ children }) => {
       <FrontScreenTopBar />
       
       {children}
+
+      
     </>
   );
 };
