@@ -139,8 +139,6 @@ const CertificationpageCard = ({ index, images }) => {
                     </div>
 
                     <hr />
-
-                    <hr />
                     <div className=" text-white small py-2">
                         <div>male half visiting Hyderabad from US and has a Sexy and ...</div>
                     </div>

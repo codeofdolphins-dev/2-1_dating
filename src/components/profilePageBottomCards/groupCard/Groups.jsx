@@ -56,7 +56,7 @@ const Groups = () => {
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-2">
           <div>
             <div className="d-flex justify-content-between align-items-center">
-              <h5 className="fw-bold mb-3" style={{color:"var(--color-primary-green)"}}>FOR2MORE</h5>
+              <h4 className="fw-bold mb-3" style={{color:"var(--color-primary-green)"}}>FOR2MORE</h4>
             </div>
 
             <hr className="my-2" />

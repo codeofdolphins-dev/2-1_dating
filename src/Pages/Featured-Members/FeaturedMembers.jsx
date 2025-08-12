@@ -10,13 +10,13 @@ import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
 import ViewPageCard from '../../components/ViewPageCard/ViewPageCard';
 
 const cards = [
-  { title: "Card One" },
-  { title: "Card Two" },
-  { title: "Card Three" },
-  { title: "Card Four" },
-  { title: "Card Five" },
-  { title: "Card Six" },
-  { title: "Card Seven" },
+  { username: "Card One" },
+  { username: "Card Two" },
+  { username: "Card Three" },
+  { username: "Card Four" },
+  { username: "Card Five" },
+  { username: "Card Six" },
+  { username: "Card Seven" },
   // ...
 ];
 
@@ -39,7 +39,7 @@ const FeaturedMembers = () => {
           {
             cards.map((card, index) => (
               <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                <ViewPageCard index={index} images={images} timestamp={false}
+                <ViewPageCard card={card} index={index} images={images} timestamp={false}
                   {...{
                     card,
 

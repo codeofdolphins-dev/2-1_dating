@@ -31,8 +31,9 @@ import PartiesAndeventCardContainer from '../../components/profileBottomTabSecti
 import ProfilePageFollowingCardContainer from '../../components/profileBottomTabSection/ProfilePageFollowingCardContainer'
 import FriendsCardContainer from '../../components/profileBottomTabSection/FriendsCardContainer'
 import axios from 'axios'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
+import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
@@ -65,38 +66,29 @@ const ProfilePage = () => {
     // const [chckToken, setCheckToken] = useState(null)
     const location = useLocation();
     const { userId, username, role } = location.state || {};
+    console.log("profileId", userId)
     console.log(location.state)
 
-    // useEffect(() => {
-    //     axios({
-    //         method: 'get',
-    //         url: `${import.meta.env.VITE_BASE_URL}/auth/me`,
-    //         headers: {
-    //             'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
-    //             'Content-Type': 'application/json' // optional, axios sets it automatically for JSON
-    //         }
-    //     })
-    //         .then(response => {
-    //             console.log(response?.data?.data);
-    //             setUserData(response?.data?.data)
-    //             setCheckToken(response?.success)
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-    //         });
-
-    //     if (chckToken) {
-    //         toast.error('Session is expired please login Again', {
-    //             position: "top-right",
-    //             autoClose: 3000,
-    //             hideProgressBar: false,
-    //             closeOnClick: true,
-    //             pauseOnHover: true,
-    //             draggable: true,
-    //             theme: "colored",
-    //         });
-    //     }
-    // }, [])
+    useEffect(() => {
+        axios({
+            method: 'post',
+            url: `${import.meta.env.VITE_BASE_URL}/users/${userId}/view`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+                'Content-Type': 'application/json' // optional
+            },
+            data: {
+                source: "profile_link"
+            }
+        }).then(response => {
+            console.log(response)
+            showSuccessToast(response?.data?.message)
+        })
+            .catch(error => {
+                console.error(error);
+                showErrorToast(error)
+            });
+    }, [])
 
 
     return (
@@ -286,7 +278,7 @@ const ProfilePage = () => {
                     {/* <ProfilePageCertificationCard/> */}
                 </div>
 
-
+             <ToastContainer/>
 
             </PageWrapper>
         </>

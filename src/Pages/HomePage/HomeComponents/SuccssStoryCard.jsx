@@ -5,9 +5,9 @@ const SuccssStoryCard = () => {
     return (
         <>
             <div
-                className="mb-4 card text-white  p-4 rounded-2 shadow-sm secondary-background-color"
+                className="mb-4 text-white  p-4 rounded-2 shadow-sm secondary-background-color"
                 style={{
-                    // border: '1px solid #2c2f33',
+                    border: '1px solid #2c2f33',
                     boxShadow: '0 0 0 1px #2c2f33',
                     // backgroundColor: '#1a1e21',
                     overflow: 'hidden'
