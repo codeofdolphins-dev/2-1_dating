@@ -9,19 +9,19 @@
     outline: none;
 }
 
-.country_search::placeholder {
+/* .country_search::placeholder {
     color: #FFFFFF;
     opacity: .75;
-}
+} */
 
 .country_search {
     width: 709px;
     border-radius: 19.87px;
-    border: 1px solid #CFCFCF2B;
+    border: 1px solid #FAFAFA;
     padding: 10px 15px;
     color: #FFFFFF;
-    background-color: #31373D;
-    font-size: 12px;
+    background-color: transparent;
+    font-size: 14px;
 }
 
 .custome_row {
@@ -73,19 +73,16 @@
 }
 
 .custome_row textarea {
-    background-color: #31373D;
+    background-color: transparent;
     height: 146px;
     color: #FFFFFF;
-    font-size: 12px;
+    font-size: 14px;
 }
 .custome_row button{
     width: 160px;
     height: 32px;
-    background-color: #096BFF;
-    color: #FFFFFF;
     font-size: 14px;
     border: none;
-}
-.custome_row button:hover{
-    background-color: #005de7;
+    border-radius: 40px;
+    font-weight: 500;
 }

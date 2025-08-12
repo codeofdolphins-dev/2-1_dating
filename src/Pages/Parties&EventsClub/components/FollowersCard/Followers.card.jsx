@@ -44,11 +44,11 @@ const FollowersCard = ({ index, timestamp }) => {
 
   return (
     <div className="row g-3 rounded-4 text-white pb-2 ml-3 m-0"
-      style={{ 
-        backgroundColor: "#343A40", 
-        border: "2px solid #ffffff", 
+      style={{
+        backgroundColor: "var(--color-border)",
+        border: "2px solid #ffffff",
         // maxWidth: "650px" 
-        }}
+      }}
     >
 
       {/* Left: Image Carousel */}
@@ -161,7 +161,7 @@ const FollowersCard = ({ index, timestamp }) => {
             {
               timestamp && <div className="text-danger">8h4m</div>
             }
-            
+
           </div>
         </div>
       </div>

@@ -9,13 +9,13 @@ import img2 from "../../../../assets/ViwCardImags/img/profileImg.png";
 
 
 const Groups = ({
-    title= "",
-    createdBy = "",
-    location = "",
-    number1 = "",
-    number2 = "",
-    date = "",
-    description = ""
+  title = "",
+  createdBy = "",
+  location = "",
+  number1 = "",
+  number2 = "",
+  date = "",
+  description = ""
 }) => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -35,7 +35,7 @@ const Groups = ({
     <div
       className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden"
       style={{
-        backgroundColor: "#343A40",
+        backgroundColor: "var(--color-border)",
         border: "1px solid #ffffff",
         // maxWidth: "450px",
         flexShrink: 0,
@@ -55,7 +55,7 @@ const Groups = ({
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-2">
           <div>
             <div className="d-flex justify-content-between align-items-center">
-              <h5 className="fw-bold mb-3" style={{color:"var(--color-primary-green)"}}> {title || "---"} </h5>
+              <h5 className="fw-bold mb-3" style={{ color: "var(--color-primary-green)" }}> {title || "---"} </h5>
             </div>
 
             <hr className="my-2" />

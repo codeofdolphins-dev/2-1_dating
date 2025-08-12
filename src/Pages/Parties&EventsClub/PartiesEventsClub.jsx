@@ -355,7 +355,7 @@ const PartiesEventsClub = () => {
                                 <div className="col-lg-12">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h5 className={`${style.heading}`}>PARTY REVIEWS (24)</h5>
-                                        <button type='button' className='btn btn-primary rounded-5 px-4'>Show All</button>
+                                        <button type='button' className='rounded-5 py-2 px-4 custom-button'>Show All</button>
                                     </div>
                                 </div>
                             </div>
@@ -373,7 +373,6 @@ const PartiesEventsClub = () => {
                         </div>
                     </div>
 
-
                     {/* row 7 */}
                     <div className="component w-100 d-flex flex-column gap-4 mt-3">
                         {/* heading */}
@@ -382,7 +381,7 @@ const PartiesEventsClub = () => {
                                 <div className="col-lg-12">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h5 className={`${style.heading}`}>BUSINESS REVIEWS (17)</h5>
-                                        <button type='button' className='btn btn-primary rounded-5 px-4'>Show All</button>
+                                        <button type='button' className='rounded-5 px-4 py-2 custom-button'>Show All</button>
                                     </div>
                                 </div>
                             </div>
@@ -408,7 +407,7 @@ const PartiesEventsClub = () => {
                                 <div className="col-lg-12">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h5 className={`${style.heading}`}>Followers (27)</h5>
-                                        <button type='button' className='btn btn-primary rounded-5 px-4'>Show All</button>
+                                        <button type='button' className='rounded-5 px-4 py-2 custom-button'>Show All</button>
                                     </div>
                                 </div>
                             </div>
@@ -425,7 +424,6 @@ const PartiesEventsClub = () => {
                             </div>
                         </div>
                     </div>
-
 
                 </div>
             </PageWrapper>

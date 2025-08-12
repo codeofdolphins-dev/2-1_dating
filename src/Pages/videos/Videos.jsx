@@ -6,15 +6,6 @@ import VideoCard from '../../components/Video Card/VideoCard';
 import VideoModal from '../../components/Video Modal/VideoModal';
 import { useNavigate } from 'react-router-dom';
 
-// const map = [
-//   "Latest",
-//   "Couples",
-//   "Female",
-//   "Male",
-//   "Transgender",
-//   "Looking for me/us",
-// ];
-
 
 const Videos = () => {
 
