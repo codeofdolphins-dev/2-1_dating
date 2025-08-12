@@ -49,6 +49,9 @@ import { ToastContainer } from 'react-toastify';
 import CreateTravelPlan from './Pages/Create Travel Plan/CreateTravelPlan';
 import PartiesEventsClub from './Pages/Parties&EventsClub/PartiesEventsClub';
 import './App.css'
+import VacationsRentalDetails from './Pages/VacationsRentalDetails/VacationsRentalDetails';
+import TwoPlusOne from './Pages/2+1/TwoPlusOne';
+import InviteFriend from './Pages/InviteFriend/InviteFriend';
 
 
 
@@ -107,9 +110,12 @@ function App() {
           <Route path="/add-me" element={<AddmePage />} />
           <Route path="/contests" element={<Contests />} />
           <Route path="/add-vacations-rental" element={<VacationRentalPage />} />
-        <Route path="/create-travel-plan" element={<CreateTravelPlan />} />
+          <Route path="/create-travel-plan" element={<CreateTravelPlan />} />
+          <Route path="/parties-events-club" element={<PartiesEventsClub />} />
+          <Route path="/vacations-rental-details" element={<VacationsRentalDetails />} />
+          <Route path="/two-plus-one" element={ <TwoPlusOne /> } />
 
-        <Route path="/parties-events-club" element={ <PartiesEventsClub /> } />        
+          <Route path="/invite-friend" element={ <InviteFriend /> } />
 
         </Routes>
       </BrowserRouter>

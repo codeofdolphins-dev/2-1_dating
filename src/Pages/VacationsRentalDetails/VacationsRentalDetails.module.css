@@ -1,0 +1,39 @@
+.row1 p{
+    margin: 0;
+}
+.icon{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* width: 50px; */
+}
+.icon img{
+    margin-bottom: 10px;
+}
+.icon p{
+    margin-bottom: 0;
+    font-size: 10px;
+    text-align: center;
+}
+
+.info p{
+    font-size: 14px;
+    text-align: justify;
+}
+.heading{
+    color: #096BFF;
+    font-size: 18px;
+}
+.subHeader{
+    font-size: 14px;
+}
+
+.options{
+    padding: 5px 15px;
+    color: #096BFF;
+    background-color: #B3D1FF;
+    border-radius: 35px;
+    width: fit-content;
+    font-size: 13px;
+}
