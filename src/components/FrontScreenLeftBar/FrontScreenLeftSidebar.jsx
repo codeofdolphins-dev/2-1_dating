@@ -45,7 +45,7 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                     {/* <SidebarItem icon={<FaUserCheck />} label="Admin Verification" pageUrl="/admin-verification" /> */}
                     <SidebarItem icon={<FaStar />} label="Featured Members" pageUrl="/featured-members" />
                     <SidebarItem icon={<FaAddressBook />} label="Contest" pageUrl="/contests" />
-                    <SidebarItem icon={<FaBed />} label="Add Vacations Rental" pageUrl="#" />
+                    <SidebarItem icon={<FaBed />} label="Add Vacations Rental" pageUrl="/vacations-rental-details" />
                     <SidebarItem icon={<FaUserFriends />} label="2+1" pageUrl="/two-plus-one" />
                     {/* <SidebarItem icon={<FaTags />} label="Classifieds" pageUrl="/classifieds" />
                     <SidebarItem icon={<FaBullhorn />} label="Advertise" pageUrl="/advertise" /> */}
