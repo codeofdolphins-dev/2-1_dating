@@ -8,7 +8,7 @@
   --color-coin-yellow: #FFB800;
   --color-card-blue: #00B8F4;
   --color-success-green: #35C759;
-  --color-border: #2C3D55;
+  --color-border: #0B103D;
 }
 
 body{
@@ -51,6 +51,11 @@ hr {
 }
 
 /* Card Styles */
+.home-card{
+  background-color: var(--color-border) !important;
+  /* border: 2px solid #ffffff !important; */
+}
+
 .card{
   background-color: var(--color-border) !important;
   border: 2px solid #ffffff !important;

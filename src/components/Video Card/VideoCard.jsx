@@ -42,7 +42,7 @@ const VideoCard = ({
         >
             {/* Left: Image with Swiper */}
             <div className="col-lg-6 position-relative mt-0">
-                <div className="rounded-4 overflow-hidden position-relative" style={{ width: "100%", height: "210px" }}>
+                <div className="rounded-4 overflow-hidden position-relative" style={{ width: "100%", }}>
 
                     {/* Image */}
                     <img src={videocardImg} alt="" className="h-100 w-100" style={{ objectFit: "fill" }} />
@@ -104,12 +104,12 @@ const VideoCard = ({
             <div className="col-lg-6 d-flex flex-column justify-content-between mt-0">
                 {/* <div className="d-flex justify-content-between align-items-center mb-2"> */}
                 <div className="cardTitle">
-                    <h5 className="fw-bold mb-0">{headerText}</h5>
+                    <h4 className="fw-bold mb-0">{headerText}</h4>
                     <img src={starIcon} height={20} alt="star" />
                 </div>
                 {/* </div> */}
 
-                <div className="d-flex align-items-center gap-3 mb-2 fw-semibold mt-2">
+                <div className="d-flex align-items-center gap-3 mb-2 fw-semibold mt-2 border-bottom pb-2">
                     <div className="d-flex align-items-center gap-1">
                         <img src={femaleIcon} height={14} alt="female" />
                         <span className="text-danger"> {femaleNumbers} </span>
@@ -120,9 +120,7 @@ const VideoCard = ({
                     </div>
                 </div>
 
-                <hr />
-
-                <div className="text-muted small d-flex align-items-center gap-1 mb-2 mt-2">
+                <div className="text-muted small d-flex align-items-center gap-1 border-bottom pb-2">
                     <div className="text-white py-1 d-flex justify-content-center align-items-center gap-3 ">Interests:
                         <div className="">
                             <img src={femaleIcon} height={14} alt="male" />
@@ -132,14 +130,11 @@ const VideoCard = ({
                     </div>
                 </div>
 
-                <hr />
-
-                <div className="text-muted small d-flex align-items-center gap-1 mb-2 mt-2">
+                <div className="text-muted small d-flex align-items-center gap-1 mb-2 mt-2 border-bottom pb-2">
                     <i className="bi bi-geo-alt-fill text-white" />
                     <div className="text-white py-1"> {location} </div>
                 </div>
 
-                <hr />
 
                 <div className="d-flex align-items-center gap-4 mb-3 mt-2">
 
@@ -148,13 +143,13 @@ const VideoCard = ({
 
                 <div className="d-flex gap-3 align-items-center justify-content-between mb-2">
                     <div className="d-flex gap-1">
-                        <img src={pc} height={22} alt="pc" />
-                        <img src={chat} height={22} alt="chat" />
-                        <img src={phone} height={22} alt="phone" />
-                        <img src={clockIcon} height={22} alt="phone" />
+                        <img src={pc} height={25} alt="pc" />
+                        <img src={chat} height={25} alt="chat" />
+                        <img src={phone} height={25} alt="phone" />
+                        <img src={clockIcon} height={25} alt="phone" />
                     </div>
                     <div className="d-flex align-items-center justify-content-center text-white-50">
-                        <p className="mb-0" style={{ color: "#EC5252", fontSize: "10px" }}>{views} views</p>
+                        <p className="mb-0 fs-6" style={{ color: "#EC5252", fontSize: "10px" }}>{views} views</p>
                     </div>
                 </div>
             </div>

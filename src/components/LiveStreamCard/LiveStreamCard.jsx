@@ -99,11 +99,11 @@ const LiveStreamCard = ({ icons = true }) => {
             {/* Right: Card Info */}
             <div className="col-lg-6 d-flex flex-column justify-content-between ps-3">
                 <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h5 className="fw-bold mb-0">Happytime</h5>
+                    <h4 className="fw-bold mb-0">Happytime</h4>
                 </div>
                 
                 {
-                    icons && <div className="d-flex align-items-center gap-3 mb-2 fw-semibold mt-2">
+                    icons && <div className="d-flex align-items-center gap-3 mb-2 fw-semibold mt-2 border-bottom pb-2">
                         <div className="d-flex align-items-center gap-1">
                             <img src={female} height={14} alt="female" />
                             <span className="text-danger">57</span>
@@ -116,14 +116,14 @@ const LiveStreamCard = ({ icons = true }) => {
                 }
 
 
-                <hr />
+                
 
-                <div className="text-muted small d-flex align-items-center gap-1 mb-2 mt-2">
+                <div className="text-muted small d-flex align-items-center gap-1 border-bottom pb-2 ">
                     <i className="bi bi-geo-alt-fill text-white" />
                     <div className="text-white py-1">Altedo, ITA | 4256 mi</div>
                 </div>
 
-                <hr />
+                
 
                 <div className="d-flex align-items-center gap-4 mb-3 mt-2">
                     <span className="d-flex align-items-center gap-2 text-white-50 fs-5">

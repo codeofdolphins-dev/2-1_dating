@@ -41,7 +41,7 @@ const ViewPageCard = ({ index, images, timestamp, card  }) => {
     navigate("/profile", {
       state: {
         userId: card?._id,
-        username: card?.title,
+        username: card?.username,
         role: card?.role
       }
     });
@@ -51,7 +51,6 @@ const ViewPageCard = ({ index, images, timestamp, card  }) => {
   return (
     <div className="row g-3 rounded-4 text-white pb-2 ml-3"
       style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}
-      onClick={handleNavigateToProfilepage}
     >
 
       {/* Left: Image Carousel */}
@@ -110,10 +109,10 @@ const ViewPageCard = ({ index, images, timestamp, card  }) => {
       </div>
 
       {/* Right: Card Info */}
-      <div className="col-lg-6 d-flex flex-column justify-content-between ps-3">
+      <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" onClick={handleNavigateToProfilepage}>
         <div>
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <h5 className="fw-bold mb-0">{card?.title}</h5>
+            <h4 className="fw-bold mb-0">{card?.username}</h4>
             <div><img src={star} height={30} alt="Star" /></div>
           </div>
 

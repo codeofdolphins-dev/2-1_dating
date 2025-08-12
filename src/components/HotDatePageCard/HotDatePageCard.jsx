@@ -103,7 +103,7 @@ const HotDatePageCard = ({ index, images,handleSpedDatePopup=null,handleTravelDa
             <div className="col-lg-6 d-flex flex-column justify-content-between ps-3">
                 <div>
                     <div className="d-flex justify-content-between align-items-center mb-2">
-                        <h5 className="fw-bold mb-0">BOLEROPALACE</h5>
+                        <h4 className="fw-bold mb-0">BOLEROPALACE</h4>
                         <div><img src={star} height={30} alt="Star" /></div>
                     </div>
 
