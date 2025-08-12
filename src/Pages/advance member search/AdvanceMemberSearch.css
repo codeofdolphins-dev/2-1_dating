@@ -40,7 +40,7 @@ h5 {
 .row-3_3 input[type="text"] {
   margin-left: 15px;
   width: 236px;
-  background-color: #343A40;
+  background-color: transparent;
   font-size: 15px;
   font-weight: 400;
 }
@@ -280,12 +280,12 @@ h5 {
 }
 
 .customeTextBox {
-  background-color: transparent;
+  background-color: transparent !important;
   color: white;
   width: 610px;
   border-radius: 4px;
   padding: 5px 10px;
-  border: 1px solid #6C757D;
+  border: 1px solid #fafafa !important;
 }
 
 .custome-form-check-input {
@@ -307,4 +307,39 @@ h5 {
 
 .back-icon {
   cursor: pointer;
+}
+
+#flexSwitchCheckDefault:focus{
+  box-shadow: none;
+}
+
+/* Unchecked: white background, black thumb */
+#flexSwitchCheckDefault {
+  background-color: white;
+  border-color: #ccc;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* This is the thumb (the "dot") */
+#flexSwitchCheckDefault::before {
+  background-color: black; /* black thumb when unchecked */
+  transition: background-color 0.3s ease;
+}
+
+#flexSwitchCheckDefault:checked::before {
+  background-color: white; /* white thumb when checked */
+}
+
+
+/* Checked state: background red, thumb white */
+#flexSwitchCheckDefault:checked {
+  background-color: var(--color-primary-green);
+  border-color: var(--color-primary-green);
+}
+
+
+
+.row-5 button{
+  background-color: var(--color-primary-green);
+  color: black;
 }

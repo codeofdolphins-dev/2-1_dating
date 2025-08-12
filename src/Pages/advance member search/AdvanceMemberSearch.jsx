@@ -50,6 +50,7 @@ const AdvanceMemberSearch = () => {
 
 
   const [search, setSearch] = useState("");
+  const [save_search, setSave_search] = useState(false);
   const [lookingFor, setLookingFor] = useState({
     couple: false,
     female: false,
@@ -174,7 +175,10 @@ const AdvanceMemberSearch = () => {
     islam: false,
     christan: false,
     jew: false,
-    relationship_other: false
+    other: {
+      selected: false,
+      text: ""
+    }
   });
   const [body_type, setBody_type] = useState({
     searchMode: {
@@ -200,10 +204,6 @@ const AdvanceMemberSearch = () => {
       huggable_and_heavy: false,
     }
   });
-
-  const [save_search, setSave_search] = useState(false);
-
-
   const handleLookingForChange = (e) => {
     const { name, checked } = e.target;
     setLookingFor((prev) => ({
@@ -291,8 +291,10 @@ const AdvanceMemberSearch = () => {
           <div className="row-2 d-flex justify-content-start align-items-center gap-2">
             <input
               type="text"
+              id='searchBox'
+              name='searchBox'
               value={search}
-              onChange={() => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder='Login Name'
               className='customeTextBox'
             />
@@ -632,8 +634,8 @@ const AdvanceMemberSearch = () => {
                   <input
                     className="form-input inputFiled-background customeTextBox"
                     type="text"
-                    id="other"
-                    name='other'
+                    id="otherText"
+                    name='otherText'
                     placeholder='Type your language here'
                     value={lang.other.text}
                     onChange={(e) =>
@@ -819,7 +821,7 @@ const AdvanceMemberSearch = () => {
                   />
                   <label className="form-check-label" htmlFor="nameKeyword">Profile Name/Keyword</label>
                   <input
-                    className="form-input inputFiled-background customeTextBox border-0"
+                    className="form-input inputFiled-background customeTextBox border-1"
                     type="text"
                     id="nameKeyword_input"
                     name='nameKeyword_input'
@@ -1281,7 +1283,7 @@ const AdvanceMemberSearch = () => {
                     checked={relationship.open_minded}
                     onChange={handleRelationshipChange}
                   />
-                  <label className="form-check-label" htmlFor="open-Minded">Open-Minded</label>
+                  <label className="form-check-label" htmlFor="open_minded">Open-Minded</label>
                 </div>
                 <div className="custome-form-check">
                   <input className="form-check-input customCheckBox" type="checkbox" id="swinger"
@@ -1437,7 +1439,7 @@ const AdvanceMemberSearch = () => {
                   />
                   <label className="form-check-label" htmlFor="islam">Islam</label>
                 </div>
-                <div clasNamclass="custome-form-check">
+                <div className="custome-form-check">
                   <input className="form-check-input customCheckBox" type="checkbox" id="christan"
                     name='christan'
                     checked={relationship_orientation.christan}
@@ -1456,8 +1458,16 @@ const AdvanceMemberSearch = () => {
                 <div className="custome-form-check">
                   <input className="form-check-input customCheckBox " type="checkbox" id="relationship_other"
                     name='relationship_other'
-                    checked={relationship_orientation.relationship_other}
-                    onChange={handleRelationship_orientationChange}
+                    checked={relationship_orientation.other.checked}
+                    onChange={(e) => setRelationship_orientation(
+                      (prev) => ({
+                        ...prev,
+                        other: {
+                          ...prev.other,
+                          selected: e.target.checked
+                        }
+                      })
+                    )}
                   />
                   <label className="form-check-label" htmlFor="relationship_other">Other</label>
                   <input
@@ -1465,6 +1475,16 @@ const AdvanceMemberSearch = () => {
                     type="text"
                     id="relationship_input"
                     name='relationship_input'
+                    value={relationship_orientation.other.text}
+                    onChange={(e) => setRelationship_orientation(
+                      (prev) => ({
+                        ...prev,
+                        other: {
+                          ...prev.other,
+                          text: e.target.value
+                        }
+                      })
+                    )}
                     // placeholder='Other...'
                   />
                 </div>
@@ -1563,8 +1583,8 @@ const AdvanceMemberSearch = () => {
                   />
                   <label className="form-check-label" htmlFor="f_athletic">Athletic</label>
                 </div>
-                <div class="custome-form-check">
-                  <input class="form-check-input customCheckBox" type="checkbox" id="f_average" name='f_average'
+                <div className="custome-form-check">
+                  <input className="form-check-input customCheckBox" type="checkbox" id="f_average" name='f_average'
                     checked={body_type.female.average}
                     onChange={(e) =>
                       setBody_type((prev) => ({
@@ -1576,7 +1596,7 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" htmlFor="f_average">Average</label>
+                  <label className="form-check-label" htmlFor="f_average">Average</label>
                 </div>
                 <div className="custome-form-check">
                   <input className="form-check-input customCheckBox" type="checkbox" id="f_nicely_shaped" name='f_nicely_shaped'
@@ -1628,8 +1648,8 @@ const AdvanceMemberSearch = () => {
               {/* Males */}
               <h5 className='maleHeader'>Males</h5>
               <div className="filterSection pt-2">
-                <div class="custome-form-check">
-                  <input class="form-check-input customCheckBox" type="checkbox" id="body_m_any" name='body_m_any'
+                <div className="custome-form-check">
+                  <input className="form-check-input customCheckBox" type="checkbox" id="body_m_any" name='body_m_any'
                     checked={body_type.male.any}
                     onChange={(e) =>
                       setBody_type((prev) => ({
@@ -1641,10 +1661,10 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" for="body_m_any">Any</label>
+                  <label className="form-check-label" htmlFor="body_m_any">Any</label>
                 </div>
-                <div class="custome-form-check">
-                  <input class="form-check-input customCheckBox" type="checkbox" id="m_slim" name='m_slim'
+                <div className="custome-form-check">
+                  <input className="form-check-input customCheckBox" type="checkbox" id="m_slim" name='m_slim'
                     checked={body_type.male.slim}
                     onChange={(e) =>
                       setBody_type((prev) => ({
@@ -1656,10 +1676,10 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" for="m_slim">Slim</label>
+                  <label className="form-check-label" htmlFor="m_slim">Slim</label>
                 </div>
-                <div class="custome-form-check">
-                  <input class="form-check-input customCheckBox" type="checkbox" id="m_athletic" name='m_athletic'
+                <div className="custome-form-check">
+                  <input className="form-check-input customCheckBox" type="checkbox" id="m_athletic" name='m_athletic'
                     checked={body_type.male.athletic}
                     onChange={(e) =>
                       setBody_type((prev) => ({
@@ -1671,10 +1691,10 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" for="m_athletic">Athletic</label>
+                  <label className="form-check-label" htmlFor="m_athletic">Athletic</label>
                 </div>
-                <div class="custome-form-check">
-                  <input class="form-check-input customCheckBox" type="checkbox" id="m_average" name='m_average'
+                <div className="custome-form-check">
+                  <input className="form-check-input customCheckBox" type="checkbox" id="m_average" name='m_average'
                     checked={body_type.male.average}
                     onChange={(e) =>
                       setBody_type((prev) => ({
@@ -1686,10 +1706,10 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" for="m_average">Average</label>
+                  <label className="form-check-label" htmlFor="m_average">Average</label>
                 </div>
-                <div class="custome-form-check">
-                  <input class="form-check-input customCheckBox" type="checkbox" id="m_nicely_shaped" name='m_nicely_shaped'
+                <div className="custome-form-check">
+                  <input className="form-check-input customCheckBox" type="checkbox" id="m_nicely_shaped" name='m_nicely_shaped'
                     checked={body_type.male.nicely_shaped}
                     onChange={(e) =>
                       setBody_type((prev) => ({
@@ -1701,10 +1721,10 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" for="m_nicely_shaped">Nicely Shaped</label>
+                  <label className="form-check-label" htmlFor="m_nicely_shaped">Nicely Shaped</label>
                 </div>
-                <div class="custome-form-check">
-                  <input class="form-check-input customCheckBox" type="checkbox" id="m_love" name='m_love'
+                <div className="custome-form-check">
+                  <input className="form-check-input customCheckBox" type="checkbox" id="m_love" name='m_love'
                     checked={body_type.male.me_to_love}
                     onChange={(e) =>
                       setBody_type((prev) => ({
@@ -1716,10 +1736,10 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" for="m_love">More of me to love</label>
+                  <label className="form-check-label" htmlFor="m_love">More of me to love</label>
                 </div>
-                <div class="custome-form-check">
-                  <input class="form-check-input customCheckBox" type="checkbox" id="m_heavy" name='m_heavy'
+                <div className="custome-form-check">
+                  <input className="form-check-input customCheckBox" type="checkbox" id="m_heavy" name='m_heavy'
                     checked={body_type.male.huggable_and_heavy}
                     onChange={(e) =>
                       setBody_type((prev) => ({
@@ -1731,7 +1751,7 @@ const AdvanceMemberSearch = () => {
                       }))
                     }
                   />
-                  <label class="form-check-label" for="m_heavy">Huggable and Heavy</label>
+                  <label className="form-check-label" htmlFor="m_heavy">Huggable and Heavy</label>
                 </div>
               </div>
             </div>
@@ -1739,7 +1759,7 @@ const AdvanceMemberSearch = () => {
             <div className="row-4">
               <h6>Reset Search</h6>
               <div className="custome-form-check form-switch">
-                <label className="form-check-label" for="flexSwitchCheckDefault">Save Search</label>
+                <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Save Search</label>
                 <input className="no-radius form-check-input customCheckBox" type="checkbox" id="flexSwitchCheckDefault"
                   checked={save_search}
                   onChange={(e) => setSave_search(e.target.checked)}

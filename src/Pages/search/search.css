@@ -1,15 +1,12 @@
 .searchPageInput{
-    background-color: #343A40;
+    margin: 10px 0;
+    background-color: transparent !important;
     width: 610px;
     border-radius: 4px;
-    padding: 1px 10px;
+    padding: 5px 10px;
     border: 1px solid #6C757D;
-}
-button{
-    color: #EC5252;
-    border: 1px solid #EC5252;
-    background-color: transparent;
-    border-radius: 16.23px;
+    color: #fff;
+    font-size: 14px;
 }
 .searchSuggestion{
     display: inline-block;
@@ -27,6 +24,10 @@ button{
 .searchBtn{
     font-size: 14px;
     padding: 5px 10px;
+    color: #EC5252;
+    border: 1px solid #EC5252;
+    background-color: transparent;
+    border-radius: 16.23px;
 }
 .back-icon{
     cursor: pointer;

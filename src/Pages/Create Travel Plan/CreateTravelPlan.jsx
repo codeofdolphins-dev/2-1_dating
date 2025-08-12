@@ -52,7 +52,6 @@ const CreateTravelPlan = () => {
       [name]: checked
     }));
   };
-
   const handleDetailInput = (e) => {
 
     if(details_char_len === 0)
@@ -289,14 +288,14 @@ const CreateTravelPlan = () => {
                 value={details}
                 onChange={ handleDetailInput }
                 placeholder='Descriptions'
-                className='w-100 rounded-3 py-2 px-3'
+                className={`w-100 rounded-3 py-2 px-3`}
               />
             </div>
           </div>
 
           {/* submit button */}
           <div className={`${style.custome_row}`}>
-            <button type="submit">Post</button>
+            <button type="submit" className='custom-button'>Post</button>
           </div>
 
 

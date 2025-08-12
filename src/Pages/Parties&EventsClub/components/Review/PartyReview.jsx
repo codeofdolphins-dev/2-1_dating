@@ -1,6 +1,5 @@
 import React from 'react'
 
-import style from "./style.module.css";
 import dummyProfileImage from "../../../../assets/ViwCardImags/img/couple6.jpeg";
 
 const PartyReview = ({ review }) => {
