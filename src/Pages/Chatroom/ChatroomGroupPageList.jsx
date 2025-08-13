@@ -100,6 +100,7 @@ const ChatroomGroupPageList = () => {
                 <ChatroomCard
                   groupId={room._id}
                   title={room.name}
+                  date={room.updatedAt}
                   members={room.participants.length}
                   handlEtakeToChatRoom={() => handlEtakeToChatRoom(room)}
                 />

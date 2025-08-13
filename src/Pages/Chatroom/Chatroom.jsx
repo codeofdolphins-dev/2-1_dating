@@ -8,6 +8,7 @@ import ChatroomChatBox from '../../components/ChatroomChatBox/ChatroomChatBox';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
 
 
 
@@ -18,10 +19,11 @@ const Chatroom = () => {
 
 
     const [chatRoom, setChatRoom] = useState("");
+    const [stateChanger, setStateChanger] = useState(false)
 
     const room_id = location?.state?._id
 
-    useEffect(() => {        
+    useEffect(() => {
         axios({
             method: 'get',
             url: `${apiUrl}/chatrooms/${room_id}`,
@@ -29,12 +31,12 @@ const Chatroom = () => {
                 'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
             },
         })
-        .then((res) => {
-            setChatRoom(res.data.data)
-        })
-        .catch((error) => {})
+            .then((res) => {
+                setChatRoom(res.data.data)
+            })
+            .catch((error) => { })
 
-    }, [room_id]);
+    }, [room_id, stateChanger, apiUrl]);
 
 
     const nagigatePrevPage = () => {
@@ -42,28 +44,81 @@ const Chatroom = () => {
     };
 
     const handleLeave = () => {
-      axios({
-        method: "post",
-        url: `${apiUrl}/chatrooms/${room_id}/leave`,
-        headers: {
-            'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
-        }
-      })
-      .then(res => {
-        if(res.data.success){
+        axios({
+            method: "post",
+            url: `${apiUrl}/chatrooms/${room_id}/leave`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+            }
+        })
+            .then(res => {
+                if (res.data.success) {
+                    showSuccessToast(res.data.message || "You left the room");
 
-            toast.error(res.data.message, {
-                position: 'top-right',
-                autoClose: 3000,
-                theme: 'colored',
+                    // Small delay so toast is visible before redirect
+                    setTimeout(() => {
+                        navigate("/chatrooms");
+                    }, 500);
+
+                    setStateChanger(false); // ✅ Correct state update
+                }
+            })
+            .catch((err) => {
+                showErrorToast("Failed to leave the room");
             });
-            navigate("/chatrooms");
-        }
-        
-      })
-      .catch((err) => {})
+
+        //remove live status 
+        axios({
+            method: "post",
+            url: `${apiUrl}/chatrooms/${room_id}/live`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+            },
+            data: {
+                "action": "end"
+            }
+        })
+            .then(res => {
+                if (res.data.success) {
+                    console.log("chatroom live status", res)
+                    showSuccessToast("Chatroom lived")
+                    setStateChanger(!stateChanger)
+                }
+            })
+            .catch((err) => {
+                console.log("chatroom live status", err)
+                showErrorToast("Chatroom lived")
+                setStateChanger(!stateChanger)
+            })
+    };
+
+
+    const handleChatRoomLive = () => {
+        axios({
+            method: "post",
+            url: `${apiUrl}/chatrooms/${room_id}/live`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+            },
+            data: {
+                "action": "start"
+            }
+        })
+            .then(res => {
+                if (res.data.success) {
+                    console.log("chatroom live status", res)
+                    showSuccessToast("Chatroom lived")
+                    setStateChanger(!stateChanger)
+                }
+            })
+            .catch((err) => {
+                console.log("chatroom live status", err)
+                showErrorToast("Chatroom lived")
+                setStateChanger(!stateChanger)
+            })
     }
 
+    console.log(chatRoom)
     return (
         <div className='mt-5' style={{ backgroundColor: "var(--color-border)", minHeight: "100vh" }}>
             <ToastContainer />
@@ -86,15 +141,17 @@ const Chatroom = () => {
 
                             {/* Right section: Buttons */}
                             <div className="d-flex align-items-center gap-3">
-                                <button 
+                                <button
                                     className="btn bg-white text-danger btn-sm rounded-pill px-3"
                                     onClick={handleLeave}
                                 >
                                     Leave Room
                                 </button>
-                                <button className="btn btn-danger btn-sm rounded-pill px-3">
-                                    Go Live Now
-                                </button>
+                                {
+                                    chatRoom.isLive === false && <button className="btn btn-danger btn-sm rounded-pill px-3" onClick={handleChatRoomLive}>
+                                        Go Live Now
+                                    </button>
+                                }
 
                                 <div className="d-flex align-items-center gap-1">
                                     <label className="text-white small me-1">Sort by:</label>

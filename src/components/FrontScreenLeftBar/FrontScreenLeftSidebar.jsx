@@ -1,15 +1,20 @@
-import React from "react";
 import {
     FaHome, FaEnvelope, FaEye, FaUsers, FaFire, FaComments, FaVideo,
     FaUserPlus, FaCalendarAlt, FaFilm, FaAward, FaCertificate, FaUsersCog,
     FaUserCheck, FaStar, FaAddressBook, FaBed, FaUserFriends, FaBullhorn,
     FaTags
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "./Img/logo.png";
 import "./css/leftBar.css";
+import { showSuccessToast } from "../customToast/CustomToast";
+import { ToastContainer } from "react-toastify";
+
 
 const FrontScreenLeftSidebar = ({ visiblity }) => {
+
+
+
     return (
         <div
             className={`sidebar ${visiblity ? "slide-in" : "slide-out"} d-flex flex-column`}
@@ -50,27 +55,39 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                     {/* <SidebarItem icon={<FaTags />} label="Classifieds" pageUrl="/classifieds" />
                     <SidebarItem icon={<FaBullhorn />} label="Advertise" pageUrl="/advertise" /> */}
                     <SidebarItem className=" w-100 mt-4 text-center" label="Report" pageUrl="/advertise" />
-                    <SidebarItem className="btn btn-danger w-100 rounded-pill mt-2" label="Logout" pageUrl="/advertise" />
+                    <SidebarItem className="btn btn-danger w-100 rounded-pill mt-2" label="Logout" />
                 </ul>
-            {/* Bottom Sign Out Button */}
-            {/* <button className="btn btn-danger w-100 rounded-pill">
+                {/* Bottom Sign Out Button */}
+                {/* <button className="btn btn-danger w-100 rounded-pill">
                 Sign Out
             </button> */}
-            <div className="p-5 text-center">
-            </div>
+                <div className="p-5 text-center">
+                </div>
             </div>
 
         </div>
     );
 };
 
-const SidebarItem = ({ icon, label, pageUrl,className }) => {
+const SidebarItem = ({ icon, label, pageUrl, className }) => {
     const content = (
         <div className="d-flex align-items-center text-white">
             <span className="me-2">{icon}</span>
             <span className={className}>{label}</span>
         </div>
     );
+    const navigate =useNavigate() 
+    const handleLogOut = () => {
+        sessionStorage.removeItem('jwtToken');
+        const token = sessionStorage.getItem("jwtToken");
+        if (!token) {
+            showSuccessToast("Logout success")
+        }
+
+        setTimeout(()=>{
+          navigate("/login")
+        },4500)
+    }
 
     return (
         <li className="sidebar-item mb-3">
@@ -78,9 +95,9 @@ const SidebarItem = ({ icon, label, pageUrl,className }) => {
                 <Link to={pageUrl} className="text-decoration-none">
                     {content}
                 </Link>
-            ) : <button className="btn btn-danger w-100 rounded-pill">
-                   {buttonTxt}
-                </button>}
+            ) : <button className="btn btn-danger w-100 rounded-pill" onClick={handleLogOut}>
+                LogOut
+            </button>}
         </li>
     );
 };
