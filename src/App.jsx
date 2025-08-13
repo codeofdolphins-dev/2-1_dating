@@ -68,6 +68,8 @@ function App() {
       <ToastContainer />
 
       {/* basename="/2-1_dating" */}
+
+      {/* Secure route now removed later it will be added */}
       <BrowserRouter >
         <Routes>
           <Route path="/" element={<Home />} />
