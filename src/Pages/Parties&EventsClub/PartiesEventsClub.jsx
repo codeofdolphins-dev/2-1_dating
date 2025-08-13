@@ -85,7 +85,7 @@ const PartiesEventsClub = () => {
                                             <i className="bi bi-three-dots-vertical text-white"></i>
                                         </div>
                                         <div className="d-flex align-items-center gap-1">
-                                            <i class="bi bi-geo-alt-fill text-white"></i>
+                                            <i className="bi bi-geo-alt-fill text-white"></i>
                                             <p className='text-white mb-0' style={{ fontSize: "14px" }}>94555, CA 94555, USA | 8412 mi</p>
                                         </div>
                                     </div>

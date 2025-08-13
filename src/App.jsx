@@ -50,6 +50,9 @@ import CreateTravelPlan from './Pages/Create Travel Plan/CreateTravelPlan';
 import PartiesEventsClub from './Pages/Parties&EventsClub/PartiesEventsClub';
 import './App.css'
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
+import VacationsRentalDetails from './Pages/VacationsRentalDetails/VacationsRentalDetails';
+import TwoPlusOne from './Pages/2+1/TwoPlusOne';
+import InviteFriend from './Pages/InviteFriend/InviteFriend';
 
 
 
@@ -109,9 +112,12 @@ function App() {
           <Route path="/add-me" element={<ProtectedRoute><AddmePage /></ProtectedRoute>} />
           <Route path="/contests" element={<ProtectedRoute><Contests /></ProtectedRoute>} />
           <Route path="/add-vacations-rental" element={<ProtectedRoute><VacationRentalPage /></ProtectedRoute>} />
-        <Route path="/create-travel-plan" element={<ProtectedRoute><CreateTravelPlan /></ProtectedRoute>} />
+          <Route path="/create-travel-plan" element={<ProtectedRoute><CreateTravelPlan /></ProtectedRoute>} />
+          <Route path="/parties-events-club" element={<PartiesEventsClub />} />
+          <Route path="/vacations-rental-details" element={<VacationsRentalDetails />} />
+          <Route path="/two-plus-one" element={ <TwoPlusOne /> } />
 
-        <Route path="/parties-events-club" element={<ProtectedRoute><PartiesEventsClub /></ProtectedRoute>  } />        
+          <Route path="/invite-friend" element={<ProtectedRoute><InviteFriend /></ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>

@@ -86,7 +86,7 @@ const Groups = ({
               </div>
               <div className="d-flex gap-2">
                 <div className="small text-white">
-                  <i className="bi bi-people-fill"></i>
+                  <i class="bi bi-people-fill"></i>
                 </div>
                 <div className="small text-white">
                   <p> {number2 || "---"} </p>

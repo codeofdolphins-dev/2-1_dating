@@ -41,7 +41,7 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                     <SidebarItem icon={<FaComments />} label="Chatrooms" pageUrl="/chatrooms" />
                     <SidebarItem icon={<FaVideo />} label="Live stream" pageUrl="/livestream" />
                     <SidebarItem icon={<FaUserPlus />} label="New Members" pageUrl="/new-members" />
-                    <SidebarItem icon={<FaCalendarAlt />} label="Parties and Events" pageUrl="#" />
+                    <SidebarItem icon={<FaCalendarAlt />} label="Parties and Events" pageUrl="/parties-events-club" />
                     <SidebarItem icon={<FaFilm />} label="Videos" pageUrl="/videos" />
                     <SidebarItem icon={<FaAward />} label="Travel Date" pageUrl="/traveldate" />
                     <SidebarItem icon={<FaCertificate />} label="Certifications" pageUrl="/certifications" />
@@ -50,8 +50,8 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                     {/* <SidebarItem icon={<FaUserCheck />} label="Admin Verification" pageUrl="/admin-verification" /> */}
                     <SidebarItem icon={<FaStar />} label="Featured Members" pageUrl="/featured-members" />
                     <SidebarItem icon={<FaAddressBook />} label="Contest" pageUrl="/contests" />
-                    <SidebarItem icon={<FaBed />} label="Add Vacations Rental" pageUrl="#" />
-                    <SidebarItem icon={<FaUserFriends />} label="2+1" pageUrl="#" />
+                    <SidebarItem icon={<FaBed />} label="Add Vacations Rental" pageUrl="/vacations-rental-details" />
+                    <SidebarItem icon={<FaUserFriends />} label="2+1" pageUrl="/two-plus-one" />
                     {/* <SidebarItem icon={<FaTags />} label="Classifieds" pageUrl="/classifieds" />
                     <SidebarItem icon={<FaBullhorn />} label="Advertise" pageUrl="/advertise" /> */}
                     <SidebarItem className=" w-100 mt-4 text-center" label="Report" pageUrl="/advertise" />
