@@ -1,80 +1,46 @@
-import React, { useState } from 'react';
-import { FaSearch, FaEllipsisH, FaPhone, FaVideo, FaCog, FaPaperPlane, FaMicrophone, FaPlus, FaSmile } from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './chat.css';
-// import PageWrapper from '../../components/PageWrapper';
-import PageWrapper from '../../components/PageWrapper';
+import React, { useState } from "react";
+import {
+  FaSearch,
+  FaEllipsisH,
+  FaPhone,
+  FaVideo,
+  FaCog,
+  FaPaperPlane,
+  FaMicrophone,
+  FaPlus,
+  FaSmile
+} from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./chat.css";
+import PageWrapper from "../../components/PageWrapper";
+import { Form } from "react-bootstrap"; // ✅ Correct import
+import { BsEmojiSmile, BsSend } from "react-icons/bs";
 
 const Chat = () => {
   const [selectedChat, setSelectedChat] = useState(0);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const contacts = [
-    {
-      id: 1,
-      name: 'JUSTONCE',
-      message: 'Hello guys. We are an easy going couple',
-      time: '40min',
-      online: true,
-      unread: false
-    },
-    {
-      id: 2,
-      name: 'JUSTONCE',
-      message: 'Hello guys. We are an easy going couple',
-      time: '40min',
-      online: true,
-      unread: false
-    },
-    {
-      id: 3,
-      name: 'JUSTONCE',
-      message: 'Hello guys. We are an easy going couple',
-      time: '40min',
-      online: true,
-      unread: false
-    },
-    {
-      id: 4,
-      name: 'JUSTONCE',
-      message: 'Hello guys. We are an easy going couple',
-      time: '40min',
-      online: true,
-      unread: false
-    },
-    {
-      id: 5,
-      name: 'JUSTONCE',
-      message: 'Hello guys. We are an easy going couple',
-      time: '40min',
-      online: true,
-      unread: false
-    },
-    {
-      id: 6,
-      name: 'JUSTONCE',
-      message: 'Hello guys. We are an easy going couple',
-      time: '40min',
-      online: true,
-      unread: false
-    }
+    { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
   ];
 
   return (
-    <>
-      <PageWrapper>
-      <div className="chat-container">
-        <div className="row w-100 g-0">
+    <PageWrapper>
+      <div className="chat-container mt-0">
+        <div className="row p-0 g-0" style={{ height: "100vh" }}>
           {/* Sidebar */}
-          <div className="col-4 sidebar">
+          <div className="col-md-4 col-lg-3 border rounded-4 my-5 d-flex flex-column">
             {/* Header */}
-            <div className="sidebar-header p-3 border-bottom">
+            <div className="p-3 border-bottom">
               <div className="d-flex align-items-center justify-content-between mb-3">
                 <h5 className="text-white mb-0">Messages</h5>
                 <div className="d-flex align-items-center">
-                  <button className="btn btn-primary btn-sm me-2">
-                    Select
-                  </button>
+                  <button className="btn btn-primary btn-sm me-2 rounded-pill mx-2">Select</button>
                   <button className="btn btn-icon me-2">
                     <FaCog className="icon-sm" />
                   </button>
@@ -83,34 +49,45 @@ const Chat = () => {
                   </button>
                 </div>
               </div>
-              
+
               {/* Search */}
               <div className="position-relative mb-3">
-                <FaSearch className="search-icon" />
+                <FaSearch
+                  className="position-absolute"
+                  style={{
+                    top: "50%",
+                    right: "10px",
+                    transform: "translateY(-50%)",
+                    color: "#ccc",
+                    cursor: "pointer"
+                  }}
+                />
                 <input
                   type="text"
-                  className="form-control search-input"
+                  className="form-control chat-search"
                   placeholder="Search"
+                  style={{
+                    paddingRight: "35px",
+                    backgroundColor: "var(--color-border)",
+                    color: "#fff",
+                    border: "1px solid #555"
+                  }}
                 />
               </div>
-              
+
               {/* Tabs */}
-              <div className="nav-tabs-custom">
-                <button className="nav-link active">
-                  Messenger
-                </button>
-                <button className="nav-link">
-                  Group Messenger
-                </button>
+              <div className="nav-tabs-custom d-flex">
+                <button className="nav-link active flex-fill">Messenger</button>
+                <button className="nav-link flex-fill">Group Messenger</button>
               </div>
             </div>
 
             {/* Chat List */}
-            <div className="chat-list">
+            <div className="chat-list flex-grow-1 overflow-auto">
               {contacts.map((contact, index) => (
                 <div
                   key={contact.id}
-                  className={`chat-item p-3 ${selectedChat === index ? 'active' : ''}`}
+                  className={`chat-item p-3 ${selectedChat === index ? "active" : ""}`}
                   onClick={() => setSelectedChat(index)}
                 >
                   <div className="d-flex align-items-center">
@@ -118,9 +95,7 @@ const Chat = () => {
                       <div className="avatar">
                         <span className="text-white fw-bold">J</span>
                       </div>
-                      {contact.online && (
-                        <div className="online-indicator"></div>
-                      )}
+                      {contact.online && <div className="online-indicator"></div>}
                     </div>
                     <div className="flex-grow-1 ms-3">
                       <div className="d-flex justify-content-between align-items-center">
@@ -142,7 +117,7 @@ const Chat = () => {
           </div>
 
           {/* Chat Area */}
-          <div className="col-8 chat-area">
+          <div className="col-md-8 col-lg-9 chat-area d-flex flex-column h-100 px-3 py-5 position-relative">
             {/* Chat Header */}
             <div className="chat-header p-3 border-bottom">
               <div className="d-flex align-items-center justify-content-between">
@@ -165,39 +140,50 @@ const Chat = () => {
                     <FaVideo className="icon-sm" />
                   </button>
                   <button className="btn btn-icon">
-                    <FaEllipsisH className="icon-sm" />
+                    <FaEllipsisH className="icon-sm" style={{ transform: "rotate(90deg)" }} />
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Chat Messages */}
-            <div className="chat-messages p-3">
-              <div className="message-bubble">
-                <p className="mb-1">Please add us to the USA DESI CPL group</p>
-                <span className="message-time">Mar 13, 2024 • 2 days</span>
+            <div style={{ height: "100vh", overflowX: "auto" }}>
+              {/* Receiver Message */}
+              <div className="p-3 d-flex gap-2 align-items-center">
+                <div className="message-bubble bg-success text-dark rounded-pill px-4" style={{ maxWidth: "60%" }}>
+                  <p className="mb-0">Please add us to the USA DESI CPL group</p>
+                  <span className="message-time small text-white">Mar 13, 2024 • 2 days</span>
+                </div>
+                <FaEllipsisH className="icon-sm" style={{ transform: "rotate(90deg)" }} />
+              </div>
+
+              {/* Sender Message */}
+              <div className="p-3 d-flex justify-content-end align-items-center gap-2">
+                <FaEllipsisH className="icon-sm" style={{ transform: "rotate(90deg)" }} />
+                <div className="message-bubble bg-primary text-white rounded-pill px-4" style={{ maxWidth: "60%" }}>
+                  <p className="mb-0">Sure! I’ll add you to the group now.</p>
+                  <span className="message-time small text-light">Mar 13, 2024 • 2 days</span>
+                </div>
               </div>
             </div>
 
             {/* Message Input */}
-            <div className="message-input p-3 border-top">
+            <div className="message-input p-3">
               <div className="d-flex align-items-center">
-                <div className="flex-grow-1 position-relative me-3">
-                  <input
-                    type="text"
-                    className="form-control message-input-field"
-                    placeholder="Type your message here"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                  />
-                  <button className="btn emoji-btn">
-                    <FaSmile />
-                  </button>
+                <div className="flex-grow-1">
+                  <div className="d-flex align-items-center rounded-pill px-3 py-2 bg-light">
+                    <Form.Control
+                      type="text"
+                      placeholder="Type your message here"
+                      className="border-0 bg-transparent flex-grow-1"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <BsEmojiSmile className="text-secondary me-3 fs-5" role="button" title="Emoji" />
+                    <BsSend className="text-primary fs-5" role="button" title="Send" />
+                  </div>
                 </div>
-                <button className="btn btn-primary btn-circle me-2">
-                  <FaPaperPlane />
-                </button>
-                <button className="btn btn-secondary btn-circle me-2">
+                <button className="btn btn-secondary btn-circle mx-2">
                   <FaMicrophone />
                 </button>
                 <button className="btn btn-danger btn-circle">
@@ -208,8 +194,7 @@ const Chat = () => {
           </div>
         </div>
       </div>
-      </PageWrapper>
-    </>
+    </PageWrapper>
   );
 };
 

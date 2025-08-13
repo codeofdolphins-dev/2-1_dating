@@ -34,7 +34,7 @@ const FrontScreenLeftSidebar = ({ visiblity }) => {
                 </div>
                 <ul className="list-unstyled">
                     <SidebarItem icon={<FaHome />} label="2+1 Feed" pageUrl="/feed" />
-                    <SidebarItem icon={<FaEnvelope />} label="Messages" pageUrl="#" />
+                    <SidebarItem icon={<FaEnvelope />} label="Messages" pageUrl="/chat" />
                     <SidebarItem icon={<FaEye />} label="Viewed Me" pageUrl="/view" />
                     <SidebarItem icon={<FaUsers />} label="Online" pageUrl="/online" />
                     <SidebarItem icon={<FaFire />} label="Hot Date" pageUrl="/hotdate" />
