@@ -53,6 +53,7 @@ import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import VacationsRentalDetails from './Pages/VacationsRentalDetails/VacationsRentalDetails';
 import TwoPlusOne from './Pages/2+1/TwoPlusOne';
 import InviteFriend from './Pages/InviteFriend/InviteFriend';
+import CurrentUserProfile from './Pages/CurrentUserProfile/CurrentUserProfile';
 
 
 
@@ -118,8 +119,10 @@ function App() {
           <Route path="/parties-events-club" element={<PartiesEventsClub />} />
           <Route path="/vacations-rental-details" element={<VacationsRentalDetails />} />
           <Route path="/two-plus-one" element={ <TwoPlusOne /> } />
-
           <Route path="/invite-friend" element={<ProtectedRoute><InviteFriend /></ProtectedRoute>  } />
+
+          
+          <Route path="/current-user-profile" element={<ProtectedRoute> <CurrentUserProfile /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>
