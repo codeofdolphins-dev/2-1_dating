@@ -1,0 +1,14 @@
+.parent input:focus{
+    box-shadow: none;
+}
+.parent input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(20%) sepia(5%) saturate(400%) hue-rotate(162deg) brightness(95%) contrast(90%);
+}
+
+.parent input[type="checkbox"]{
+  background-color: transparent !important;
+}
+
+.parent input[type="checkbox"]:checked{
+  background-color: var(--color-primary-green) !important;
+}

@@ -41,7 +41,7 @@ const CurrentUserProfile = () => {
                 <div className="container-fluid pt-5 py-5 px-3 d-flex flex-column align-items-start justify-content-start gap-2 text-white" style={{ backgroundColor: "var(--color-background)", minHeight: "100vh" }}>
 
                     {/* upper mini tab  */}
-                    <div className="miniNav d-flex justify-content-start align-items-center mt-2">
+                    <div className="miniNav d-flex justify-content-start align-items-center flex-wrap mt-2">
                         {
                             miniTabUpper.map((tab, i) => (
                                 <p
