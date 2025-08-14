@@ -31,6 +31,9 @@ const RegistrationForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   // const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [phoneOtpSent, setPhoneOtpSent] = useState(false);
+  const [otpTimer, setOtpTimer] = useState(0);
+  const [oneTimeotpSend, setOneTimeOtpSend] = useState(false);
+
 
   const { username, email, password } = formData
 
@@ -76,14 +79,29 @@ const RegistrationForm = () => {
       return;
     }
 
+    // Disable OTP button for 5 seconds
+    setOtpTimer(20);
+    setOneTimeOtpSend(true);
+    setPhoneOtpSent(true);
+
+    // Start countdown
+    const countdown = setInterval(() => {
+      setOtpTimer(prev => {
+        if (prev <= 1) {
+          clearInterval(countdown);
+          setOneTimeOtpSend(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
     // Simulate OTP sending
     toast.success(`OTP sent to +${formData.countryCode}${formData.phoneNumber}`);
-    setPhoneOtpSent(true); // allow user to enter OTP
 
     axios.post(`${apiUrl}/otp/request`, { target: formData.email, type: "signup" })
       .then((response) => {
         const otp = response.data.data.code;
-
         toast(
           <div style={{
             display: 'flex',
@@ -94,8 +112,6 @@ const RegistrationForm = () => {
             minWidth: '300px',
             maxWidth: '100%',
           }}>
-
-            {/* Close Icon */}
             <button
               onClick={() => toast.dismiss()}
               style={{
@@ -113,13 +129,9 @@ const RegistrationForm = () => {
             >
               &times;
             </button>
-
-            {/* OTP Text */}
             <div style={{ marginBottom: '0.5rem', fontSize: '1rem' }}>
               <strong>Your OTP:</strong> <span style={{ color: '#6c757d' }}>{otp}</span>
             </div>
-
-            {/* Copy Button */}
             <button
               onClick={() => handleCopy(otp)}
               style={{
@@ -134,11 +146,10 @@ const RegistrationForm = () => {
             >
               Copy OTP
             </button>
-          </div>
-          ,
+          </div>,
           {
             position: "top-right",
-            autoClose: false, // Keep it until user interacts
+            autoClose: false,
             theme: "colored",
           }
         );
@@ -151,6 +162,7 @@ const RegistrationForm = () => {
         });
       });
   };
+
 
 
   //Form validation
@@ -321,6 +333,7 @@ const RegistrationForm = () => {
                     placeholder="Password"
                     value={formData.password}
                     onChange={handleChange}
+
                     style={{
                       border: "2px solid #6c757d",
                       color: "#fff",
@@ -469,7 +482,7 @@ const RegistrationForm = () => {
                         type="button"
                         className="btn w-100 py-3"
                         onClick={handleSendPhoneOtp}
-                        // disabled={phoneOtpSent}
+                        disabled={oneTimeotpSend}
                         onMouseEnter={(e) => {
                           e.target.style.backgroundColor = "#6c757d";
                           e.target.style.color = "#fff";
@@ -485,8 +498,9 @@ const RegistrationForm = () => {
                           transition: "all 0.3s ease",
                         }}
                       >
-                        {phoneOtpSent ? 'OTP Sent' : 'Send OTP'}
+                        {otpTimer > 0 ? `Resend in ${otpTimer}s` : phoneOtpSent ? 'OTP Sent' : 'Send OTP'}
                       </button>
+
                     </div>
 
                     {/* OTP Input */}

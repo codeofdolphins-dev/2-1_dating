@@ -177,7 +177,7 @@ const Chatroom = () => {
                                     {
                                         chatRoom?.participants?.map((card, index) => (
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-3 d-flex justify-content-center mb-2" key={index}>
-                                                <ChatRoomPersoncard image={coupleImg1} code={card.username} />
+                                                <ChatRoomPersoncard image={coupleImg1} code={card.username} userId={card._id} adminId={chatRoom?.createdBy?._id}/>
                                             </div>
                                         ))
                                     }

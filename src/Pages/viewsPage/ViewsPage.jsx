@@ -97,6 +97,7 @@ const ViewsPage = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [tomiStampTime, setTimeStampTime] = useState("")
 
     const fetchMembers = async (page, limit) => {
         setLoading(true);
@@ -115,6 +116,15 @@ const ViewsPage = () => {
             const members = response?.data?.data || [];
             console.log("viewd_response", response)
 
+            const rawTimestamp = response?.data?.timestamp;
+            console.log("Timestamp raw value:", response?.data?.timestamp);
+            console.log("Type of timestamp:", typeof response?.data?.timestamp);
+           setTimeStampTime(rawTimestamp)
+
+
+
+
+            console.log(tomiStampTime)
             const totalCount = response?.data?.meta?.pagination?.total || null;
             const apiTotalPages =
                 response?.data?.meta?.pagination?.pageCount || null;
@@ -153,7 +163,7 @@ const ViewsPage = () => {
                                 cards.map((card, index) => (
                                     <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
                                         <ViewPageCard index={index} images={images} timestamp={true}
-                                            card={card?.viewerId}
+                                            card={card?.viewerId} rawTimestamp={card?.timestamp}
                                         />
                                     </div>
                                 ))
