@@ -8,12 +8,13 @@ import FrontScreenTopBar from "./FrontScreenTopBar/FrontScreenTopBar";
 const GlobalPageWrapper = ({ children }) => {
   return (
     <>
+    <div style={{backgroundColor:"var(--color-background)"}}>
       {/* <FrontScreenLeftSidebar /> */}
       <FrontScreenTopBar />
       
       {children}
 
-      
+    </div>
     </>
   );
 };

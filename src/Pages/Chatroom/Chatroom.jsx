@@ -126,7 +126,7 @@ const Chatroom = () => {
 
             <div className='container-fluid'>
                 <div className='row'>
-                    <div className="col-lg-8 mt-2">
+                    <div className="col-lg-8 mt-5">
                         <div className="d-flex justify-content-between align-items-center">
                             {/* Left section: Back + Title + Members */}
                             <div className="d-flex align-items-center gap-2 text-white">
@@ -185,8 +185,8 @@ const Chatroom = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='col-lg-4'>
-                        <ChatroomChatBox />
+                    <div className='col-lg-4 mt-5'>
+                        <ChatroomChatBox room_id={room_id}/>
                     </div>
                 </div>
             </div>
