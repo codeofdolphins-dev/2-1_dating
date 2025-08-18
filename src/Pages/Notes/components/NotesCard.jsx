@@ -134,20 +134,20 @@ const NotesCard = ({ index = "" }) => {
 
                     <hr />
 
-                    <div className="d-flex gap-2">
-                        <div className="d-flex align-items-center gap-2 text-white small py-1">
+                    <div className="d-flex gap-1 py-2" style={{ fontSize: "14px" }}>
+                        <div className="d-flex align-items-center gap-1 text-white small py-1">
                             <i className="bi bi-camera-fill"></i><span>41</span>
                         </div>
-                        <div className="d-flex align-items-center gap-2 text-white small py-1">
+                        <div className="d-flex align-items-center gap-1 text-white small py-1">
                             <i className="bi bi-person-fill"></i><span>12</span>
                         </div>
-                        <div className="d-flex align-items-center gap-2 text-white small py-1">
+                        <div className="d-flex align-items-center gap-1 text-white small py-1">
                             <i className="bi bi-star-fill"></i><span>5</span>
                         </div>
-                        <div className="d-flex align-items-center gap-2 text-white small py-1">
+                        <div className="d-flex align-items-center gap-1 text-white small py-1">
                             <i className="bi bi-hand-thumbs-up-fill"></i><span>29</span>
                         </div>
-                        <div className="d-flex align-items-center gap-2 text-white small py-1">
+                        <div className="d-flex align-items-center gap-1 text-white small py-1">
                             <i className="bi bi-play-fill"></i><span>209</span>
                         </div>
                     </div>
@@ -160,7 +160,7 @@ const NotesCard = ({ index = "" }) => {
 
                     <hr />
 
-                    <div className="text-start text-secondary small mt-3">
+                    <div className="text-start text-secondary small mt-1">
                         <div style={{ color: "#EC5252" }}>Feb 08, 2025</div>
                     </div>
                 </div>

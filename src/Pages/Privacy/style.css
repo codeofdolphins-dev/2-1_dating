@@ -1,0 +1,12 @@
+/* Add this to your CSS file or inside a styled component */
+.custom-switch-order {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* spacing between label and switch */
+  flex-direction: row; /* make sure it's left to right */
+}
+
+.custom-switch-order .form-check-input {
+  margin-left: 0 !important; /* remove Bootstrap's negative margin */
+  margin-right: 0; /* optional: add right margin if needed */
+}
