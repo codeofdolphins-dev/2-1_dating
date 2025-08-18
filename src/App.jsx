@@ -55,6 +55,7 @@ import TwoPlusOne from './Pages/2+1/TwoPlusOne';
 import InviteFriend from './Pages/InviteFriend/InviteFriend';
 import CurrentUserProfile from './Pages/CurrentUserProfile/CurrentUserProfile';
 import ProfileAccount from './Pages/Profile Account/ProfileAccount';
+import ProfileLocation from './Pages/profileLocation/ProfileLocation';
 
 
 
@@ -125,6 +126,7 @@ function App() {
 
           
           <Route path="/profile-account" element={<ProtectedRoute> <ProfileAccount /> </ProtectedRoute>  } />
+          <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>
