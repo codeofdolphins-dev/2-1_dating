@@ -33,7 +33,7 @@ import FriendsCardContainer from '../../components/profileBottomTabSection/Frien
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
-import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast'
+import { showErrorToast, showSuccessToast, showWarningToast } from '../../components/customToast/CustomToast'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
@@ -82,7 +82,7 @@ const ProfilePage = () => {
             }
         }).then(response => {
             console.log(response)
-            showSuccessToast(response?.data?.message)
+            showWarningToast(response?.data?.message)
         })
             .catch(error => {
                 console.error(error);

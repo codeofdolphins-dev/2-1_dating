@@ -7,7 +7,7 @@ const certifications = [1, 2, 3, 4]; // This can be an array of certification ob
 const WallOfFrameBottomTabSection = ({children}) => {
   return (
     <>
-    <div className="d-flex gap-4 flex-wrap justify-content-center py-4">
+    <div className="d-flex gap-2 flex-wrap justify-content-center py-4">
         {children}
     </div>
     </>

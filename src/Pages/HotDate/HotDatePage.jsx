@@ -99,7 +99,7 @@ const HotDatePage = () => {
   }
   return (
     <>
-      <GlobalPageWrapper />
+      <GlobalPageWrapper >
       <FilterBar filter1={map} filter2={filter} filterName1={"Add Hotdate"} filterName2={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} handleSpedDatePopup={handleSpedDateTypePopup}/>
 
       <div className='client-page-background'>
@@ -125,7 +125,7 @@ const HotDatePage = () => {
       <SpeedDatePopup show={showSpeeddate} handleClose={() => setShowSpeddateShow(false)} speedDateModalData={speedDateModalData} />
       <TravelDatePopup show={showTraveldate} handleClose={() => setShowTraveldateShow(false)} travelDateModalData={travelDateModalData} />
       <SpeedDateCheckBoxPopup show={showSpeeddateCheckBox} handleClose={() => setShowSpeeddateCheckBox(false)} SpeedDateCheckBoxPopupOptions={SpeedDateCheckBoxPopupOptions} />
-
+       </GlobalPageWrapper>
     </>
   )
 }

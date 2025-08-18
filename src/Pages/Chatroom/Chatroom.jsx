@@ -9,6 +9,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
+import OverlayLoader from '../../helper/OverlayLoader';
 
 
 
@@ -20,6 +21,7 @@ const Chatroom = () => {
 
     const [chatRoom, setChatRoom] = useState("");
     const [stateChanger, setStateChanger] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const room_id = location?.state?._id
 
@@ -33,8 +35,12 @@ const Chatroom = () => {
         })
             .then((res) => {
                 setChatRoom(res.data.data)
+                if(res?.data?.data)
+                setLoading(false)
             })
-            .catch((error) => { })
+            .catch((error) => { 
+                setLoading(false)
+            })
 
     }, [room_id, stateChanger, apiUrl]);
 
@@ -44,6 +50,7 @@ const Chatroom = () => {
     };
 
     const handleLeave = () => {
+        setLoading(true)
         axios({
             method: "post",
             url: `${apiUrl}/chatrooms/${room_id}/leave`,
@@ -54,7 +61,7 @@ const Chatroom = () => {
             .then(res => {
                 if (res.data.success) {
                     showSuccessToast(res.data.message || "You left the room");
-
+                    setLoading(false)
                     // Small delay so toast is visible before redirect
                     setTimeout(() => {
                         navigate("/chatrooms");
@@ -64,6 +71,7 @@ const Chatroom = () => {
                 }
             })
             .catch((err) => {
+                setLoading(false)
                 showErrorToast("Failed to leave the room");
             });
 
@@ -123,6 +131,7 @@ const Chatroom = () => {
         <div className='mt-5' style={{ backgroundColor: "var(--color-border)", minHeight: "100vh" }}>
             <ToastContainer />
             <GlobalPageWrapper />
+            <OverlayLoader show={loading} text="Please wait..." />
 
             <div className='container-fluid'>
                 <div className='row'>

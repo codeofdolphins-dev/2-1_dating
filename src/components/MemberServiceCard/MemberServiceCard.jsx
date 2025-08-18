@@ -15,8 +15,9 @@ import female from "../../assets/ViwCardImags/img/female.png";
 import phone from "../../assets/ViwCardImags/img/phone.png";
 import star from "../../assets/ViwCardImags/img/star.png";
 import trash from "../../assets/icons/trash.png";
+import clock from "../../assets/ViwCardImags/img/clock_card_bottom.png";
 
-import ActionMenu from "./ActionMenu/Actionmenu";
+import ActionMenu from "../ViewPageCard/ActionMenu/Actionmenu";
 import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
 import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +25,7 @@ import { useNavigate } from "react-router-dom";
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
 
-const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, deleteOption = false,deleteUser,likeIcon=false }) => {
+const MemberServiceCard = ({ index, images, card, rawTimestamp,  showFriendOptions, deleteOption = false,deleteUser,likeIcon=false }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
@@ -122,7 +123,7 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
                   onClick={() => setShowGallery(true)}
                   style={{
                     objectFit: "cover",
-                    height: "250px",
+                    height: "320px",
                     borderRadius: "12px",
                     cursor: "pointer"
                   }}
@@ -178,14 +179,25 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
             </div>
           </div>
 
-          <hr />
-          <div className="mb-2 d-flex align-items-center gap-3 pt-2">
-            <p className="mb-0 fw-semibold fs-5">Interests:</p>
-            <div className="d-flex gap-1">
-              <img src={male} height={20} alt="male" />
-              <img src={female} height={20} alt="female" />
-              <img src={male} height={20} alt="male" />
+          <div className="d-flex justify-content-between mb-2">
+            <div>With</div>
+            <div className="d-flex">
+                <div>
+                    <img src={female} height={16} alt="female" />
+                </div>
+                <div>
+                    <img src={male} height={16} alt="female" />
+                </div>
+                <div>
+                    <img src={female} height={16} alt="female" />
+                </div>
             </div>
+          </div>
+
+          <hr />
+          
+          <div>
+            <h5 className="text-danger mt-2">Alternative Lifestyle Life Coach</h5>
           </div>
 
           <hr />
@@ -195,24 +207,8 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
           </div>
 
           <hr />
-          <div className="d-flex flex-wrap gap-2">
-            <div className="d-flex align-items-center gap-1 text-white small py-2">
-              <i className="bi bi-camera-fill"></i><span>41</span>
-            </div>
-            <div className="d-flex align-items-center gap-1 text-white small py-2">
-              <i className="bi bi-person-fill"></i><span>12</span>
-            </div>
-            <div className="d-flex align-items-center gap-1 text-white small py-2">
-              <i className="bi bi-star-fill"></i><span>5</span>
-            </div>
-            {deleteOption || likeIcon &&
-              <div className="d-flex align-items-center gap-1 text-white small py-2">
-                <i className="bi bi-hand-thumbs-up-fill"></i><span>29</span>
-              </div>
-            }
-            <div className="d-flex align-items-center gap-1 text-white small py-2">
-              <i className="bi bi-play-fill"></i><span>209</span>
-            </div>
+          <div className="mt-1">
+            <p style={{fontSize:"11px"}}>Looking for someone who understands you and does not judge your choices? Someone from the scene. Take a look at my website and drop a line More</p>
           </div>
 
           <div className="d-flex justify-content-between gap-5 align-items-center">
@@ -221,7 +217,8 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
               <img src={pc} alt="" height={30} />
               {!deleteOption &&
                 <img src={chat} alt="" height={30} />
-              }
+            }
+            <img src={clock} alt="" height={30} />
             </div>
 
             {
@@ -288,4 +285,4 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
   );
 };
 
-export default ViewPageCard;
+export default MemberServiceCard;

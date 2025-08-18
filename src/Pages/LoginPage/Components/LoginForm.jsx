@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import UseAlert from '../../alert/UseAlert';
 import axios from 'axios';
+import OverlayLoader from '../../../helper/OverlayLoader';
 
 const LoginForm = () => {
   // Combined form state
@@ -30,6 +31,7 @@ const LoginForm = () => {
   // const [errors, setErrors] = useState({});
   const [mathPuzzle, setMathPuzzle] = useState({ question: '', answer: 0 });
   const [captchaError, setCaptchaError] = useState('');
+  const [loading,setLogin ] =useState(false)
   const navigate = useNavigate();
   // const { showAlert } = UseAlert();
 
@@ -92,6 +94,7 @@ const LoginForm = () => {
   // const { username, password } = formData
   // Form submission
   const handleSubmit = async (e) => {
+    setLogin(true)
     e.preventDefault();
 
     // Basic validation
@@ -124,12 +127,14 @@ const LoginForm = () => {
               theme: "colored",
             });
             console.log("Userdata", data);
+            setLogin(false)
             setTimeout(() => {
               navigate("/feed")
             }, 300);
           }
           console.log("all ok")
         } catch (error) {
+          setLogin(false)
           toast.error(error?.response?.data?.message, {
             position: "top-right",
             autoClose: 3000,
@@ -183,6 +188,7 @@ const LoginForm = () => {
   return (
     <div className="d-flex justify-content-center align-items-center text-white px-3" style={{ height: '90vh', backgroundColor: "var( --color-background)" }}>
       <ToastContainer />
+      <OverlayLoader show={loading} text="Please wait..." />
       <div
         className="text-white rounded-4 p-4 w-100"
         style={{ maxWidth: '500px', backgroundColor: 'var(--color-border)' }}

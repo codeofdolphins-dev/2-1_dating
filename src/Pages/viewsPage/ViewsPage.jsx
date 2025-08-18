@@ -11,6 +11,7 @@ import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
 import Pagination from '../../components/Pagination/Pagination';
 import { showErrorToast } from '../../components/customToast/CustomToast';
 import axios from 'axios';
+import OverlayLoader from '../../helper/OverlayLoader';
 
 
 // const map = [
@@ -96,8 +97,9 @@ const ViewsPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [totalPages, setTotalPages] = useState(0);
     const [cards, setCards] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const [tomiStampTime, setTimeStampTime] = useState("")
+    const [loading, setLoading] = useState(true);
 
     const fetchMembers = async (page, limit) => {
         setLoading(true);
@@ -116,10 +118,11 @@ const ViewsPage = () => {
             const members = response?.data?.data || [];
             console.log("viewd_response", response)
 
+
             const rawTimestamp = response?.data?.timestamp;
             console.log("Timestamp raw value:", response?.data?.timestamp);
             console.log("Type of timestamp:", typeof response?.data?.timestamp);
-           setTimeStampTime(rawTimestamp)
+            setTimeStampTime(rawTimestamp)
 
 
 
@@ -130,7 +133,7 @@ const ViewsPage = () => {
                 response?.data?.meta?.pagination?.pageCount || null;
 
             setCards(members);
-
+            
             if (totalCount !== null) {
                 setTotalPages(Math.ceil(totalCount / limit));
             } else if (apiTotalPages !== null) {
@@ -154,12 +157,15 @@ const ViewsPage = () => {
     return (
         <>
             <GlobalPageWrapper>
+                <OverlayLoader show={loading} text="Please wait..." />
+
                 <div className='client-page-background'>
                     <FilterBar filter2={filter} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"} />
 
                     <div className="container-fluid">
                         <div className="row g-4 pt-4">
                             {
+                                cards.length === 0 ? <div className='text-white'>No Users Found </div> :
                                 cards.map((card, index) => (
                                     <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
                                         <ViewPageCard index={index} images={images} timestamp={true}

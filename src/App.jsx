@@ -63,6 +63,8 @@ import ProfileBlocklist from './Pages/ProfileBlocklist/ProfileBlocklist';
 import Notes from './Pages/Notes/Notes';
 import ProfileRecomended from './Pages/ProfileRecomended/ProfileRecomended';
 import Privacy from './Pages/Privacy/Privacy';
+import LikeDislike from './Pages/LikeDislike/LikeDislike';
+import ProfileMemberService from './Pages/ProfileMemberService/ProfileMemberService';
 
 
 
@@ -149,6 +151,8 @@ function App() {
 
           
           <Route path="/privacy" element={<ProtectedRoute> <Privacy /> </ProtectedRoute>  } />
+          <Route path="/profile-like-dislike" element={<ProtectedRoute> <LikeDislike /> </ProtectedRoute>  } />
+          <Route path="/profile-member-service" element={<ProtectedRoute> <ProfileMemberService /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>

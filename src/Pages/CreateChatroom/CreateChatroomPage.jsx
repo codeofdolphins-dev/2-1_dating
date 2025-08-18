@@ -139,7 +139,7 @@ const CreateChatroomPage = () => {
                         {/* Title Input */}
                         <div className='mt-5'>
                             <label className='fw-semibold mb-2' htmlFor='title'>Title</label>
-                            <div className='' style={{ backgroundColor: "var(--color-border)" }}>
+                            <div className='' >
                                 <input
                                     type="text"
                                     id='title'

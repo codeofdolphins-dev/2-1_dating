@@ -8,6 +8,7 @@ import 'react-phone-input-2/lib/style.css';
 // import PhoneInput from 'react-phone-input-2';
 import CustomPhonenumberInputField from './CustomPhonenumberInputField';
 import axios from 'axios';
+import OverlayLoader from '../../../helper/OverlayLoader';
 
 
 const RegistrationForm = () => {
@@ -33,6 +34,7 @@ const RegistrationForm = () => {
   const [phoneOtpSent, setPhoneOtpSent] = useState(false);
   const [otpTimer, setOtpTimer] = useState(0);
   const [oneTimeotpSend, setOneTimeOtpSend] = useState(false);
+  const [loading,setLoading] = useState(false)
 
 
   const { username, email, password } = formData
@@ -207,6 +209,7 @@ const RegistrationForm = () => {
   const apiUrl = import.meta.env.VITE_BASE_URL;
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
 
     const isValid = validateForm();
 
@@ -226,18 +229,21 @@ const RegistrationForm = () => {
               const token = response?.data?.data?.token;
               sessionStorage.setItem('jwtToken', token);
               toast.success('Account created successfully!');
-
+               
+              setLoading(false)
               // Redirect to next step
               setTimeout(() => navigate('/feed'), 2000);
             })
             .catch((error) => {
               console.log(error);
+              setLoading(false)
               toast.error(error?.response?.data?.message);
             });
         }
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message, `${error?.response?.data?.error?.reason}`);
+        setLoading(false)
       });
   };
 
@@ -245,6 +251,7 @@ const RegistrationForm = () => {
   return (
     <div className="container py-5">
       <ToastContainer />
+      <OverlayLoader show={loading} text="Please wait..." />
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6 col-12">
           <div className="card " style={{ backgroundColor: 'var(--color-border)' }}>

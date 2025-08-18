@@ -1,0 +1,24 @@
+/* Fullscreen overlay */
+.overlay-loader-content {
+  background: none !important;   /* remove modal bg */
+  border: none !important;       /* remove border */
+  box-shadow: none !important;   /* remove shadow */
+  height: 100vh;                 /* full height */
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Loader background layer */
+.loader-container {
+  background-color: rgba(0, 0, 0, 0.6); /* semi-transparent overlay */
+  /* width: 100%;
+  height: 100%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

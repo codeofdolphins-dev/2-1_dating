@@ -35,7 +35,7 @@ const GroupsPage = () => {
 
                 <div className='client-page-background'>
                     <div className="container-fluid">
-                        <div className="row g-4 pt-4">
+                        <div className="row g-4 pt-4 ">
                             {
                                 cards.map((card, index) => (
                                     <div className="col-12 col-sm-12  col-lg-12 col-xl-4 mt-0" key={index}>
