@@ -14,6 +14,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import { toast, ToastContainer } from "react-toastify";
 import { showErrorToast } from "../../components/customToast/CustomToast";
 import { useNavigate } from "react-router-dom";
+import OverlayLoader from "../../helper/OverlayLoader";
 
 const filter = [
   "Couples",
@@ -91,6 +92,7 @@ const OnlinePage = () => {
   return (
     <>
       <GlobalPageWrapper>
+        <OverlayLoader show={loading} text="Please wait..." />
         <FilterBar
           filter2={filter}
           handleSpedDatePopup={true}
@@ -109,7 +111,8 @@ const OnlinePage = () => {
           style={{ minHeight: "100vh" }}
         >
           <div className="row g-4 pt-4">
-            {cards.map((card, index) => (
+            { cards.length === 0 ? <div className="text-white">No one is online now</div>:
+            cards.map((card, index) => (
               <div
                 className="col-12 col-sm-6 col-lg-6 col-xl-4"
                 key={index}

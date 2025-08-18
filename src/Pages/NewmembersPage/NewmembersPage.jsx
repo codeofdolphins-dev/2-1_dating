@@ -15,6 +15,7 @@ import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { showErrorToast } from '../../components/customToast/CustomToast';
+import OverlayLoader from '../../helper/OverlayLoader';
 
 const images = [img1, img2, img3, img4];
 const filter = [
@@ -73,6 +74,7 @@ const NewmembersPage = () => {
     return (
         <div style={{ backgroundColor: "var(--color-background)", minHeight: "100vh" }}>
             <GlobalPageWrapper>
+                <OverlayLoader show={loading} text="Please wait..." />
                 <FilterBar
                     pageName="New Members"
                     filter2={filter}

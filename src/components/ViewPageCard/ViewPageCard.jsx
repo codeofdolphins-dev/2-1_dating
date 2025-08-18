@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
 
-const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) => {
+const ViewPageCard = ({ index, images, card, rawTimestamp, showFriendOptions,deleteUser }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
@@ -160,10 +160,10 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) =
       </div>
 
       {/* Right: Card Info */}
-      <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" onClick={handleNavigateToProfilepage}>
+      <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
         <div>
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <h4 className="fw-bold mb-0">{card?.username}</h4>
+            <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{cursor:"pointer",}}>{card?.username}</h4>
             <div><img src={star} height={30} alt="Star" /></div>
           </div>
 
@@ -219,14 +219,24 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) =
 
             {
               showFriendOptions && <div className="pt-2 pl-5">
-              <div className="d-flex align-items-center gap-2 mt-0">
-                <div className=" mt-2">
-                  <input
-                    className=" mt-0"
-                    type="checkbox"
-                    style={{ height: 20, width: 20, cursor: "pointer" }}
-                  />
+                <div className="d-flex align-items-center gap-2 mt-0">
+                  <div className=" mt-2">
+                    <input
+                      className=" mt-0"
+                      type="checkbox"
+                      style={{ height: 20, width: 20, cursor: "pointer" }}
+                    />
+                  </div>
+                  <div className="d-flex align-items-center">
+                    <img src={trash} alt="delete" height={20} />
+                  </div>
                 </div>
+              </div>
+            }
+
+
+            {deleteUser && <div className="pt-2 pl-5">
+              <div className="d-flex align-items-center gap-2 mt-0">
                 <div className="d-flex align-items-center">
                   <img src={trash} alt="delete" height={20} />
                 </div>
@@ -234,7 +244,7 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) =
             </div>
             }
 
-            
+
 
 
             {/* {
@@ -258,7 +268,7 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) =
       />
 
       {/* 💬 Messenger Popup */}
-      {showMessagePopup && <ViewpageMessengerPopup profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
+      {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
     </div>
   );
 };

@@ -16,6 +16,7 @@ import "./chat.css";
 import PageWrapper from "../../components/PageWrapper";
 import { Form } from "react-bootstrap"; // ✅ Correct import
 import { BsEmojiSmile, BsSend } from "react-icons/bs";
+import GlobalPageWrapper from "../../components/GlobalPageWrapper";
 
 const Chat = () => {
   const [selectedChat, setSelectedChat] = useState(0);
@@ -49,7 +50,7 @@ const Chat = () => {
   ];
 
   return (
-    <PageWrapper>
+    <GlobalPageWrapper>
       <div className="chat-container mt-0">
         <div className="row p-0 g-0" style={{ height: "100vh" }}>
           {/* Sidebar */}
@@ -245,7 +246,7 @@ const Chat = () => {
           </div>
         </div>
       </div>
-    </PageWrapper>
+    </GlobalPageWrapper>
   );
 };
 

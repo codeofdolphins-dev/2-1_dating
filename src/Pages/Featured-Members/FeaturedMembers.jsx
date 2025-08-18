@@ -30,26 +30,27 @@ const FeaturedMembers = () => {
   }
   return (
     <>
-      <div style={{backgroundColor:"var(--color-background)"}}>
-      <GlobalPageWrapper />
-      <FilterBar pageName={"Featured Members"} navigationPageName2={"+Add Me"} navigationToAnotherPage2={handleNavigation} />
+      <div style={{ backgroundColor: "var(--color-background)" }}>
+        <GlobalPageWrapper>
+          <FilterBar pageName={"Featured Members"} navigationPageName2={"+Add Me"} navigationToAnotherPage2={handleNavigation} />
 
-      <div className="container-fluid">
-        <div className="row g-4 pt-4">
-          {
-            cards.map((card, index) => (
-              <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                <ViewPageCard card={card} index={index} images={images} timestamp={false}
-                  {...{
-                    card,
+          <div className="container-fluid">
+            <div className="row g-4 pt-4">
+              {
+                cards.map((card, index) => (
+                  <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
+                    <ViewPageCard card={card} index={index} images={images} timestamp={false}
+                      {...{
+                        card,
 
-                  }}
-                />
-              </div>
-            ))
-          }
-        </div>
-      </div>
+                      }}
+                    />
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </GlobalPageWrapper>
       </div>
     </>
   )

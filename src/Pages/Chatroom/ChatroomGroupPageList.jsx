@@ -8,10 +8,12 @@ import { showErrorToast } from "../../components/customToast/CustomToast";
 import httpService from "../../helper/httpService";
 
 import "react-toastify/dist/ReactToastify.css";
+import OverlayLoader from "../../helper/OverlayLoader";
 
 const ChatroomGroupPageList = () => {
   const navigate = useNavigate();
   const [chatRooms, setChatRooms] = useState([]);
+  const[loading,setLoading]=useState(true)
 
   const handleToAnotherPage = () => {
     navigate("/create_chatroom");
@@ -51,9 +53,11 @@ const ChatroomGroupPageList = () => {
     httpService("/chatrooms", "GET")
       .then((res) => {
         setChatRooms(res.data);
+        setLoading(false)
       })
       .catch((err) => {
         console.error("Failed to fetch chatrooms:", err);
+        setLoading(false)
         showErrorToast(
           `Please login again. ${err?.response?.data?.message || "An error occurred."}`
         );
@@ -62,6 +66,7 @@ const ChatroomGroupPageList = () => {
 
   return (
     <GlobalPageWrapper>
+      <OverlayLoader show={loading} text="Please wait..." />
       <FilterBar
         pageName={"Chatrooms"}
         navigationPageName2={"Chatroom"}
@@ -70,7 +75,9 @@ const ChatroomGroupPageList = () => {
       <div className="client-page-background mt-1 pb-4" style={{ minHeight: "100vh" }}>
         <div className="container-fluid">
           <div className="row g-4 justify-content-left px-2">
-            {chatRooms.map((room) => (
+            {
+            chatRooms.length === 0 ? <div className="text-white">No chatroom Found</div>:  
+            chatRooms.map((room) => (
               <div
                 className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center"
                 style={{ marginBottom: "-25px", padding: "5px" }}

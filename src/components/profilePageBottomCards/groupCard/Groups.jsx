@@ -37,8 +37,8 @@ const Groups = () => {
       style={{
         backgroundColor: "var(--color-border)",
         border: "1px solid #ffffff",
-        width: "540px",
-        minWidth: "540px",
+        width: "520px",
+        minWidth: "520px",
         flexShrink: 0,
       }}
     >

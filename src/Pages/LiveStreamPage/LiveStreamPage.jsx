@@ -26,7 +26,7 @@ const LiveStreamPage = () => {
     return (
         <>
             <div style={{ backgroundColor: "var(--color-background)" }}>
-                <GlobalPageWrapper />
+                <GlobalPageWrapper>
                 <FilterBar navigationToAnotherPage={handleNavigate} navigationPageName1={"Steam"} pageName={pageName} />
                 <div className="container-fluid client-page-background">
                     <div className="row g-2 pt-2">
@@ -45,6 +45,7 @@ const LiveStreamPage = () => {
                 <LiveStreamCard />
                 <LiveStreamCard />
                 <LiveStreamCard /> */}
+                </GlobalPageWrapper>
             </div>
         </>
     )

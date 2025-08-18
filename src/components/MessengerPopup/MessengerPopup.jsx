@@ -9,7 +9,7 @@ import {
 import { FaPaperPlane, FaPlus } from "react-icons/fa";
 import "./style.css"
 
-const MessengerPopup = ({ show, handleClose, profileImg }) => {
+const MessengerPopup = ({ show, handleClose, profileImg,userName }) => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
 
@@ -96,7 +96,7 @@ const MessengerPopup = ({ show, handleClose, profileImg }) => {
                             className="rounded-circle"
                             style={{ width: "40px", height: "40px" }}
                         />
-                        <div className="text-white fw-semibold">JUSTONCE</div>
+                        <div className="text-white fw-semibold">{userName}</div>
                     </div>
                     <div className="text-white d-flex align-items-center gap-3 fs-5">
                         <BsFillTelephoneFill />
