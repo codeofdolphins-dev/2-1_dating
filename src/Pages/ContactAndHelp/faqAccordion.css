@@ -1,0 +1,32 @@
+/* Accordion Item background & text */
+.custom-accordion-item {
+  background-color: #2b2b2b !important; /* dark gray panel */
+  color: #ffffff !important;            /* white text */
+  border: none !important;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Accordion Header button */
+.custom-accordion-item .accordion-button {
+  background-color: var(--color-background) !important; /* slightly lighter gray */
+  color: #ffffff !important;
+  font-weight: 500;
+  box-shadow: none !important;
+}
+
+/* When header is expanded */
+.custom-accordion-item .accordion-button:not(.collapsed) {
+  background-color: var(--color-border) !important; /* slightly lighter gray */
+   
+  color: #ffffff !important;
+}
+
+/* Body text */
+.custom-accordion-body, .accordion-body {
+background-color: var(--color-background) !important; /* slightly lighter gray */
+  color: #b5b5b5 !important;            /* muted gray */
+  font-size: 0.95rem;
+  line-height: 1.6;
+}

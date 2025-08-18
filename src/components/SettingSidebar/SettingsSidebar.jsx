@@ -23,9 +23,9 @@ const SettingSidebar = ({open}) => {
         { icon: <FaLock />, label: "Privacy" },
         { icon: <FaBell />, label: "Notifications" },
         { icon: <FaTools />, label: "Member Service", PageLink:"/profile-member-service" },
-        { icon: <FaBug />, label: "Bug report" },
-        { icon: <FaUserSlash />, label: "Hide profile" },
-        { icon: <FaPhone />, label: "Contact & Help" }
+        { icon: <FaBug />, label: "Bug report",PageLink:"/bug-report" },
+        { icon: <FaUserSlash />, label: "Hide profile", PageLink:"/hide-profile" },
+        { icon: <FaPhone />, label: "Contact & Help",PageLink:"/contact-and-help" }
     ];
 
     const handleNavigate = (pageLink) =>{
