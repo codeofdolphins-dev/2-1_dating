@@ -1,0 +1,48 @@
+import React from 'react'
+
+import FilterBar from "../../components/FilterBar/FilterBar"
+import GlobalPageWrapper from '../../components/GlobalPageWrapper'
+
+import img1 from "../../assets/ViwCardImags/img/couple.avif";
+import img2 from "../../assets/ViwCardImags/img/coupleImg.jpeg";
+import img3 from "../../assets/ViwCardImags/img/profileImg.png";
+import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
+import ViewPageCard from '../../components/ViewPageCard/ViewPageCard';
+
+const cards = [
+    { username: "Card One" },
+    { username: "Card Two" },
+    { username: "Card Three" },
+    { username: "Card Four" },
+    { username: "Card Five" },
+    { username: "Card Six" },
+    { username: "Card Seven" }
+];
+
+const images = [img1, img2, img3, img4];
+
+
+const ProfileBlocklist = () => {
+    return (
+        <>
+            <GlobalPageWrapper>
+                <FilterBar clas pageName={"Blocklist"} filterName2={"Filter"} />
+
+                <div className="container-fluid">
+                    <div className="row g-4 pt-4">
+                        {
+                            cards.map((card, index) => (
+                                <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
+                                    <ViewPageCard card={card} index={index} images={images} showFriendOptions={false} timestamp={false} deleteOption={true}/>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+
+            </GlobalPageWrapper>
+        </>
+    )
+}
+
+export default ProfileBlocklist

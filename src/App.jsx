@@ -59,6 +59,8 @@ import NotFoundPage from './Pages/404NotFound/NotFoundPage';
 import ProfileFriendsPage from './Pages/profileFriends/ProfileFriendsPage';
 import WhoIViewedPage from './Pages/whoIViewed/WhoIViewedPage';
 import ProfileLocation from './Pages/profileLocation/ProfileLocation';
+import ProfileBlocklist from './Pages/ProfileBlocklist/ProfileBlocklist';
+import Notes from './Pages/ProfileRecomended/Notes';
 import LikeDislike from './Pages/LikeDislike/LikeDislike';
 
 
@@ -126,6 +128,11 @@ function App() {
           <Route path="/vacations-rental-details" element={<VacationsRentalDetails />} />
           <Route path="/two-plus-one" element={ <TwoPlusOne /> } />
           <Route path="/invite-friend" element={<ProtectedRoute><InviteFriend /></ProtectedRoute>  } />
+          <Route path="/profile-account" element={<ProtectedRoute> <ProfileAccount /> </ProtectedRoute>  } />
+          <Route path="/profile-friends" element={<ProtectedRoute> <ProfileFriendsPage /> </ProtectedRoute>  } />
+          <Route path="/profile-views" element={<ProtectedRoute> <WhoIViewedPage/> </ProtectedRoute>  } />
+          <Route path="*" element={<NotFoundPage/>} />
+          <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>  } />
           <Route path="/current-user-profile" element={<ProtectedRoute> <CurrentUserProfile /> </ProtectedRoute>  } />
 
           
@@ -134,6 +141,11 @@ function App() {
           <Route path="/profile-views" element={<ProtectedRoute> <WhoIViewedPage/> </ProtectedRoute>  } />
           <Route path="*" element={<NotFoundPage/>} />
           <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>  } />
+          <Route path="/current-user-profile" element={<ProtectedRoute> <CurrentUserProfile /> </ProtectedRoute>  } />
+          <Route path="/blocklist" element={<ProtectedRoute> <ProfileBlocklist /> </ProtectedRoute>  } />
+
+          
+          <Route path="/notes" element={<ProtectedRoute> <Notes /> </ProtectedRoute>  } />
           <Route path="/profile-like-dislike" element={<ProtectedRoute> <LikeDislike /> </ProtectedRoute>  } />
 
         </Routes>
