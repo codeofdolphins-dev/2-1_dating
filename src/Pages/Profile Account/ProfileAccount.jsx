@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PageWrapper from '../../components/PageWrapper';
 import "./profileAccount.css"
 const ProfileAccount = () => {
@@ -9,6 +9,27 @@ const ProfileAccount = () => {
         { title: "Password", type: "password", id: "pass1" },
         { title: "Confirm Password", type: "password", id: "pass2" }
     ]
+
+    const [details, setDetails] = useState({
+        email: "",
+        pass1: "",
+        pass2: "",
+        lang: ""
+    })
+
+    const inputHandler = (e) => {
+
+        const { name, value } = e.target;
+
+        setDetails((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const submitHandler = () => {
+        console.log(details);
+    }
 
     return (
         <>
@@ -52,6 +73,8 @@ const ProfileAccount = () => {
                                                 backgroundColor: "transparent",
                                                 borderBottom: "2px solid #343A40"
                                             }}
+                                            value={details.id}
+                                            onChange={inputHandler}
                                         />
                                         {/* {
                                             i === 0 ? "" : <i className="bi bi-chevron-down" style={{ cursor: "pointer" }}></i>
@@ -65,7 +88,7 @@ const ProfileAccount = () => {
                         <div className="row">
                             <div className='col-lg-4' style={{ borderBottom: "2px solid #343A40" }}>
                                 {/* Label */}
-                                <label className="form-label mb-0" htmlFor=""
+                                <label className="form-label mb-0" htmlFor="lang"
                                     style={{ fontSize: "14px", color: "#B0C3CC" }}> Select site language </label>
 
                                 {/* Input */}
@@ -73,18 +96,22 @@ const ProfileAccount = () => {
                                     <input
                                         type="text"
                                         className="form-control rounded-0 p-0 pb-2 border-0"
+                                        id='lang'
+                                        name='lang'
                                         style={{
                                             fontSize: "16px",
                                             color: "#B0C3CC",
                                             backgroundColor: "transparent"
                                         }}
+                                        value={details.lang}
+                                        onChange={inputHandler}
                                     />
                                     <i className="bi bi-chevron-down" style={{ cursor: "pointer" }}></i>
                                 </div>
                             </div>
-                            <div className='col-lg-4 justify-content-center align-items-center' style={{ margin: "auto 0" }}>
-                                <div className="d-flex justify-content-center align-items-center">
-                                    <button className='custom-button py-1 px-5 rounded-5 border-0'>Subscription</button>
+                            <div className='col-lg-4' style={{ margin: "auto 20px" }}>
+                                <div className="d-flex justify-content-start align-items-center">
+                                    <button onClick={submitHandler} className='custom-button py-1 px-5 rounded-5 border-0'>Submit</button>
                                 </div>
                             </div>
                         </div>

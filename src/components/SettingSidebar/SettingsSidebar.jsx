@@ -17,7 +17,7 @@ const SettingSidebar = ({open}) => {
         { icon: <FaUserPlus />, label: "Invite Friends" },
         { icon: <FaEye />, label: "Views" },
         { icon: <FaThumbsUp />, label: "Likes / Dislike" },
-        { icon: <FaBan />, label: "Blocklist" },
+        { icon: <FaBan />, label: "Blocklist", PageLink: "/blocklist" },
         { icon: <FaStickyNote />, label: "Notes" },
         { icon: <FaClock />, label: "Remembered" },
         { icon: <FaLock />, label: "Privacy" },

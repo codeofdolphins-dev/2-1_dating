@@ -56,6 +56,7 @@ import InviteFriend from './Pages/InviteFriend/InviteFriend';
 import CurrentUserProfile from './Pages/CurrentUserProfile/CurrentUserProfile';
 import ProfileAccount from './Pages/Profile Account/ProfileAccount';
 import ProfileLocation from './Pages/profileLocation/ProfileLocation';
+import ProfileBlocklist from './Pages/ProfileBlocklist/ProfileBlocklist';
 
 
 
@@ -122,11 +123,12 @@ function App() {
           <Route path="/vacations-rental-details" element={<VacationsRentalDetails />} />
           <Route path="/two-plus-one" element={ <TwoPlusOne /> } />
           <Route path="/invite-friend" element={<ProtectedRoute><InviteFriend /></ProtectedRoute>  } />
+          <Route path="/profile-account" element={<ProtectedRoute> <ProfileAccount /> </ProtectedRoute>  } />
+          <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>  } />
           <Route path="/current-user-profile" element={<ProtectedRoute> <CurrentUserProfile /> </ProtectedRoute>  } />
 
           
-          <Route path="/profile-account" element={<ProtectedRoute> <ProfileAccount /> </ProtectedRoute>  } />
-          <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>  } />
+          <Route path="/blocklist" element={<ProtectedRoute> <ProfileBlocklist /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>
