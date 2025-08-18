@@ -11,8 +11,8 @@ const SettingSidebar = ({open}) => {
     const navigate = useNavigate()
     const menuItems = [
         { icon: <FaUser />, label: "Profile",PageLink:"/current-user-profile" },
-        { icon: <FaWrench />, label: "Account" },
-        { icon: <FaMapMarkerAlt />, label: "Location" },
+        { icon: <FaWrench />, label: "Account",PageLink:"/profile-account" },
+        { icon: <FaMapMarkerAlt />, label: "Location", PageLink: "/location" },
         { icon: <FaUserFriends />, label: "Friends",PageLink:"/profile-friends" },
         { icon: <FaUserPlus />, label: "Invite Friends",PageLink:"/invite-friend" },
         { icon: <FaEye />, label: "Views",PageLink:"/profile-views" },

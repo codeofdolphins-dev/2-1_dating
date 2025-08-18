@@ -58,6 +58,7 @@ import ProfileAccount from './Pages/Profile Account/ProfileAccount';
 import NotFoundPage from './Pages/404NotFound/NotFoundPage';
 import ProfileFriendsPage from './Pages/profileFriends/ProfileFriendsPage';
 import WhoIViewedPage from './Pages/whoIViewed/WhoIViewedPage';
+import ProfileLocation from './Pages/profileLocation/ProfileLocation';
 
 
 
@@ -131,6 +132,7 @@ function App() {
           <Route path="/profile-friends" element={<ProtectedRoute> <ProfileFriendsPage /> </ProtectedRoute>  } />
           <Route path="/profile-views" element={<ProtectedRoute> <WhoIViewedPage/> </ProtectedRoute>  } />
           <Route path="*" element={<NotFoundPage/>} />
+          <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>

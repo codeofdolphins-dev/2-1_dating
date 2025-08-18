@@ -417,7 +417,7 @@ const EditTab = () => {
                                                         type="checkbox"
                                                         id="m_curious"
                                                         name='m_curious'
-                                                        checked={female.experience.curious}
+                                                        checked={male.experience.curious}
                                                         onChange={(e) => setMale(
                                                             (prev) => ({
                                                                 ...prev,
@@ -436,7 +436,7 @@ const EditTab = () => {
                                                         type="checkbox"
                                                         id="m_intermediate"
                                                         name='m_intermediate'
-                                                        checked={female.experience.intermediate}
+                                                        checked={male.experience.intermediate}
                                                         onChange={(e) => setMale(
                                                             (prev) => ({
                                                                 ...prev,
@@ -459,7 +459,7 @@ const EditTab = () => {
                                                         type="checkbox"
                                                         id="m_newbie"
                                                         name='m_newbie'
-                                                        checked={female.experience.newbie}
+                                                        checked={male.experience.newbie}
                                                         onChange={(e) => setMale(
                                                             (prev) => ({
                                                                 ...prev,
@@ -478,7 +478,7 @@ const EditTab = () => {
                                                         type="checkbox"
                                                         id="m_advanced"
                                                         name='m_advanced'
-                                                        checked={female.experience.advanced}
+                                                        checked={male.experience.advanced}
                                                         onChange={(e) => setMale(
                                                             (prev) => ({
                                                                 ...prev,
@@ -504,10 +504,10 @@ const EditTab = () => {
                 {/* row 5 */}
                 <div className="d-flex justify-content-between align-items-center flex-wrap mx-4 gap-4">
                     <button className='custom-button py-1 px-5 rounded-4 border-0'>Save</button>
-                    <div className={style.parent} style={{ borderBottom: "2px solid #343A40" }}>
+                    <div className={`w-lg-50 ${style.parent}`} style={{ borderBottom: "2px solid #343A40" }}>
                         {/* Label */}
                         <label className="form-label mb-0" htmlFor='circumcised'
-                            style={{ fontSize: "10px", color: "#B0C3CC" }}> Circumcised </label>
+                            style={{ fontSize: "14px", color: "#B0C3CC" }}> Circumcised </label>
 
                         {/* Input */}
                         <div className="d-flex">
