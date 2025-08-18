@@ -4,9 +4,9 @@ import { Navigation } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import ReactTimeAgo from 'react-time-ago';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en.json';
+// import ReactTimeAgo from 'react-time-ago';
+// import TimeAgo from 'javascript-time-ago';
+// import en from 'javascript-time-ago/locale/en.json';
 
 import pc from "../../assets/ViwCardImags/img/pc.png";
 import chat from "../../assets/ViwCardImags/img/chat.png";
@@ -21,7 +21,7 @@ import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
 import { useNavigate } from "react-router-dom";
 
 // 📌 Add locale setup once
-TimeAgo.addDefaultLocale(en);
+// TimeAgo.addDefaultLocale(en);
 
 const ViewPageCard = ({ index, images, timestamp, card, rawTimestamp }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
