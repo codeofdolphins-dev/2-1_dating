@@ -8,7 +8,8 @@ import {
   FaPaperPlane,
   FaMicrophone,
   FaPlus,
-  FaSmile
+  FaSmile,
+  FaFolderOpen
 } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./chat.css";
@@ -29,6 +30,24 @@ const Chat = () => {
     { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
   ];
 
+  const [showPopup, setShowPopup] = useState(false)
+  const [selected, setSelected] = useState(["Viewed me"]);
+  const handleToggle = (label) => {
+    setSelected((prev) =>
+      prev.includes(label)
+        ? prev.filter((item) => item !== label)
+        : [...prev, label]
+    );
+  };
+
+  const filter = [
+    "Latest",
+    "Online",
+    "Unread",
+    "Sent",
+    "Archive"
+  ];
+
   return (
     <PageWrapper>
       <div className="chat-container mt-0">
@@ -36,7 +55,7 @@ const Chat = () => {
           {/* Sidebar */}
           <div className="col-md-4 col-lg-3 border rounded-4 my-5 d-flex flex-column">
             {/* Header */}
-            <div className="p-3 border-bottom">
+            <div className="p-3 border-bottom position-relative">
               <div className="d-flex align-items-center justify-content-between mb-3">
                 <h5 className="text-white mb-0">Messages</h5>
                 <div className="d-flex align-items-center">
@@ -44,8 +63,40 @@ const Chat = () => {
                   <button className="btn btn-icon me-2">
                     <FaCog className="icon-sm" />
                   </button>
-                  <button className="btn btn-icon">
+                  <button className="btn btn-icon me-2">
+                    <FaFolderOpen className="icon-sm" />
+                  </button>
+                  <button className="btn btn-icon " onClick={() => setShowPopup(!showPopup)}>
                     <FaEllipsisH className="icon-sm" />
+                    {showPopup && (
+                      <div
+                        className="position-absolute left-0 mt-2 p-3"
+                        style={{ zIndex: 1050, width: "250px" }}
+                      >
+                        <div
+                          className="checkbox-dropdown p-3 rounded-2"
+                          style={{
+                            backgroundColor: "var(--color-border)",
+                            border: "2px solid #343A40",
+                          }}
+                        >
+                          {filter.map((label) => (
+                            <div key={label}>
+                              <label className="form-check d-flex align-items-center mb-2">
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input me-2"
+                                  checked={selected.includes(label)}
+                                  onChange={() => handleToggle(label)}
+                                />
+                                <span className="text-white">{label}</span>
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                   </button>
                 </div>
               </div>

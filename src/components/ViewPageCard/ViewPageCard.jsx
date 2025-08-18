@@ -4,6 +4,9 @@ import { Navigation } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import ReactTimeAgo from 'react-time-ago';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 
 import pc from "../../assets/ViwCardImags/img/pc.png";
 import chat from "../../assets/ViwCardImags/img/chat.png";
@@ -17,11 +20,14 @@ import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
 import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
 import { useNavigate } from "react-router-dom";
 
+// 📌 Add locale setup once
+TimeAgo.addDefaultLocale(en);
 
-const ViewPageCard = ({ index, images, timestamp, card  }) => {
+const ViewPageCard = ({ index, images, timestamp, card, rawTimestamp }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
+  const [time, setTime] = useState()
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -36,7 +42,7 @@ const ViewPageCard = ({ index, images, timestamp, card  }) => {
     }
   }, [swiperInstance]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleNavigateToProfilepage = () => {
     navigate("/profile", {
       state: {
@@ -47,12 +53,56 @@ const ViewPageCard = ({ index, images, timestamp, card  }) => {
     });
   };
 
+  // 🕒 Convert timestamp string to Date object
+  // let dateObj = null;
+  // if (typeof rawTimestamp === "string") {
+  //   const parsed = Date.parse(rawTimestamp); // works if timestamp is ISO or similar
+  //   console.log(parsed)
+  //   if (!isNaN(parsed)) {
+  //     dateObj = new Date(parsed);
+  //   }
+  // }
+
+  // timestamp in milliseconds
+
+  useEffect(() => {
+    if (rawTimestamp) {
+      // Ensure timestamp is a number
+      const timestampMs = typeof rawTimestamp === "string"
+        ? Date.parse(rawTimestamp)
+        : rawTimestamp;
+
+      if (!isNaN(timestampMs)) {
+        const now = Date.now();
+        const diffMs = now - timestampMs; // difference in milliseconds
+
+        const diffMinutes = Math.floor(diffMs / (1000 * 60));
+        const diffHours = Math.floor(diffMinutes / 60);
+
+        let timeAgo = '';
+        if (diffMinutes <= 0) {
+          timeAgo = "just now";
+        } else if (diffHours > 0) {
+          timeAgo = `${diffHours} H${diffHours > 1 ? 's' : ''} ${diffMinutes % 60} M${diffMinutes % 60 !== 1 ? '' : ''}`;
+        } else {
+          timeAgo = `${diffMinutes} M${diffMinutes > 1 ? '' : ''}`;
+        }
+
+        setTime(timeAgo);
+        console.log(timeAgo);
+      }
+      else {
+        console.error("Invalid timestamp:", rawTimestamp);
+      }
+    }
+  }, [rawTimestamp])
+
+
 
   return (
     <div className="row g-3 rounded-4 text-white pb-2 ml-3"
       style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}
     >
-
       {/* Left: Image Carousel */}
       <div className="col-lg-6 pe-lg-3 position-relative mt-2">
         <div className="rounded-4 overflow-hidden">
@@ -166,10 +216,15 @@ const ViewPageCard = ({ index, images, timestamp, card  }) => {
               <img src={chat} alt="" height={30} />
             </div>
 
-            {
-              timestamp && <div className="text-danger">8h4m</div>
-            }
+            {/* {
 
+              dateObj && (
+                <div className="text-danger">
+                  <ReactTimeAgo date={dateObj} locale="en-US" />
+                </div>
+              )} */}
+
+            <div className="text-danger">{time}</div>
           </div>
         </div>
       </div>
@@ -188,5 +243,3 @@ const ViewPageCard = ({ index, images, timestamp, card  }) => {
 };
 
 export default ViewPageCard;
-
-
