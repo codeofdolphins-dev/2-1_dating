@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
 
-const ViewPageCard = ({ index, images, timestamp, card, rawTimestamp,showFriendOptions }) => {
+const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
