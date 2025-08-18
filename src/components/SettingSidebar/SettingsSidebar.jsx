@@ -10,12 +10,12 @@ import { useNavigate } from 'react-router-dom';
 const SettingSidebar = ({open}) => {
     const navigate = useNavigate()
     const menuItems = [
-        { icon: <FaUser />, label: "Profile",PageLink:"/profile" },
+        { icon: <FaUser />, label: "Profile",PageLink:"/current-user-profile" },
         { icon: <FaWrench />, label: "Account" },
         { icon: <FaMapMarkerAlt />, label: "Location" },
-        { icon: <FaUserFriends />, label: "Friends" },
-        { icon: <FaUserPlus />, label: "Invite Friends" },
-        { icon: <FaEye />, label: "Views" },
+        { icon: <FaUserFriends />, label: "Friends",PageLink:"/profile-friends" },
+        { icon: <FaUserPlus />, label: "Invite Friends",PageLink:"/invite-friend" },
+        { icon: <FaEye />, label: "Views",PageLink:"/profile-views" },
         { icon: <FaThumbsUp />, label: "Likes / Dislike" },
         { icon: <FaBan />, label: "Blocklist" },
         { icon: <FaStickyNote />, label: "Notes" },

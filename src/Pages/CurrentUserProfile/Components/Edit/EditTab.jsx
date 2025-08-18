@@ -241,7 +241,7 @@ const EditTab = () => {
                                     <div key={i} style={{ borderBottom: "2px solid #343A40" }}>
                                         {/* Label */}
                                         <label className="form-label mb-0" htmlFor={field.id}
-                                            style={{ fontSize: "10px", color: "#B0C3CC" }}> {field.title} </label>
+                                            style={{ fontSize: "14px", color: "#B0C3CC" }}> {field.title} </label>
 
                                         {/* Input */}
                                         <div className="d-flex">
@@ -382,7 +382,7 @@ const EditTab = () => {
                                     <div key={i} style={{ borderBottom: "2px solid #343A40" }}>
                                         {/* Label */}
                                         <label className="form-label mb-0" htmlFor={field.id}
-                                            style={{ fontSize: "10px", color: "#B0C3CC" }}> {field.title} </label>
+                                            style={{ fontSize: "14px", color: "#B0C3CC" }}> {field.title} </label>
 
                                         {/* Input */}
                                         <div className="d-flex">

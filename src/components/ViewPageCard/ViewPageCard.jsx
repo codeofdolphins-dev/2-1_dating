@@ -14,6 +14,7 @@ import male from "../../assets/ViwCardImags/img/male.png";
 import female from "../../assets/ViwCardImags/img/female.png";
 import phone from "../../assets/ViwCardImags/img/phone.png";
 import star from "../../assets/ViwCardImags/img/star.png";
+import trash from "../../assets/icons/trash.png";
 
 import ActionMenu from "./ActionMenu/Actionmenu";
 import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
@@ -23,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 // 📌 Add locale setup once
 TimeAgo.addDefaultLocale(en);
 
-const ViewPageCard = ({ index, images, timestamp, card, rawTimestamp }) => {
+const ViewPageCard = ({ index, images, timestamp, card, rawTimestamp,showFriendOptions }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
@@ -209,12 +210,32 @@ const ViewPageCard = ({ index, images, timestamp, card, rawTimestamp }) => {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between align-items-end">
+          <div className="d-flex justify-content-between gap-5 align-items-center">
             <div className="d-flex gap-3 mt-2">
               <img src={phone} alt="" height={30} />
               <img src={pc} alt="" height={30} />
               <img src={chat} alt="" height={30} />
             </div>
+
+            {
+              showFriendOptions && <div className="pt-2 pl-5">
+              <div className="d-flex align-items-center gap-2 mt-0">
+                <div className=" mt-2">
+                  <input
+                    className=" mt-0"
+                    type="checkbox"
+                    style={{ height: 20, width: 20, cursor: "pointer" }}
+                  />
+                </div>
+                <div className="d-flex align-items-center">
+                  <img src={trash} alt="delete" height={20} />
+                </div>
+              </div>
+            </div>
+            }
+
+            
+
 
             {/* {
 

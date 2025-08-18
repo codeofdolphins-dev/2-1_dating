@@ -55,6 +55,9 @@ import TwoPlusOne from './Pages/2+1/TwoPlusOne';
 import InviteFriend from './Pages/InviteFriend/InviteFriend';
 import CurrentUserProfile from './Pages/CurrentUserProfile/CurrentUserProfile';
 import ProfileAccount from './Pages/Profile Account/ProfileAccount';
+import NotFoundPage from './Pages/404NotFound/NotFoundPage';
+import ProfileFriendsPage from './Pages/profileFriends/ProfileFriendsPage';
+import WhoIViewedPage from './Pages/whoIViewed/WhoIViewedPage';
 
 
 
@@ -125,6 +128,9 @@ function App() {
 
           
           <Route path="/profile-account" element={<ProtectedRoute> <ProfileAccount /> </ProtectedRoute>  } />
+          <Route path="/profile-friends" element={<ProtectedRoute> <ProfileFriendsPage /> </ProtectedRoute>  } />
+          <Route path="/profile-views" element={<ProtectedRoute> <WhoIViewedPage/> </ProtectedRoute>  } />
+          <Route path="*" element={<NotFoundPage/>} />
 
         </Routes>
       </BrowserRouter>
