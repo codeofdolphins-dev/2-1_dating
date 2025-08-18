@@ -24,11 +24,11 @@ import { useNavigate } from "react-router-dom";
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
 
-const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) => {
+const ViewPageCard = ({ index, images, card, rawTimestamp, showFriendOptions, deleteOption = false }) => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
-  const [time, setTime] = useState()
+  const [time, setTime] = useState("")
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -195,7 +195,7 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) =
           </div>
 
           <hr />
-          <div className="d-flex gap-3">
+          <div className="d-flex gap-2">
             <div className="d-flex align-items-center gap-2 text-white small py-2">
               <i className="bi bi-camera-fill"></i><span>41</span>
             </div>
@@ -205,6 +205,11 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) =
             <div className="d-flex align-items-center gap-2 text-white small py-2">
               <i className="bi bi-star-fill"></i><span>5</span>
             </div>
+            {deleteOption &&
+              <div className="d-flex align-items-center gap-2 text-white small py-2">
+                <i className="bi bi-hand-thumbs-up-fill"></i><span>29</span>
+              </div>
+            }
             <div className="d-flex align-items-center gap-2 text-white small py-2">
               <i className="bi bi-play-fill"></i><span>209</span>
             </div>
@@ -214,28 +219,37 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) =
             <div className="d-flex gap-3 mt-2">
               <img src={phone} alt="" height={30} />
               <img src={pc} alt="" height={30} />
-              <img src={chat} alt="" height={30} />
+              {!deleteOption &&
+                <img src={chat} alt="" height={30} />
+              }
             </div>
 
             {
               showFriendOptions && <div className="pt-2 pl-5">
-              <div className="d-flex align-items-center gap-2 mt-0">
-                <div className=" mt-2">
-                  <input
-                    className=" mt-0"
-                    type="checkbox"
-                    style={{ height: 20, width: 20, cursor: "pointer" }}
-                  />
-                </div>
-                <div className="d-flex align-items-center">
-                  <img src={trash} alt="delete" height={20} />
+                <div className="d-flex align-items-center gap-2 mt-0">
+                  <div className=" mt-2">
+                    <input
+                      className=" mt-0"
+                      type="checkbox"
+                      style={{ height: 20, width: 20, cursor: "pointer" }}
+                    />
+                  </div>
+                  <div className="d-flex align-items-center">
+                    <img src={trash} alt="delete" height={20} />
+                  </div>
                 </div>
               </div>
-            </div>
             }
 
-            
-
+            {
+              deleteOption && <div className="pt-2 pl-5">
+                <div className="d-flex align-items-center gap-2 mt-0">
+                  <div className="d-flex align-items-center">
+                    <img src={trash} alt="delete" height={20} />
+                  </div>
+                </div>
+              </div>
+            }
 
             {/* {
 
@@ -245,7 +259,8 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,showFriendOptions }) =
                 </div>
               )} */}
 
-            <div className="text-danger">{time}</div>
+            {time && <div className="text-danger">{time}</div>}
+
           </div>
         </div>
       </div>
