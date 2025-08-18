@@ -22,7 +22,7 @@ const SettingSidebar = ({open}) => {
         { icon: <FaClock />, label: "Remembered", PageLink: "/recomended" },
         { icon: <FaLock />, label: "Privacy" },
         { icon: <FaBell />, label: "Notifications" },
-        { icon: <FaTools />, label: "Member Service" },
+        { icon: <FaTools />, label: "Member Service", PageLink:"/profile-member-service" },
         { icon: <FaBug />, label: "Bug report" },
         { icon: <FaUserSlash />, label: "Hide profile" },
         { icon: <FaPhone />, label: "Contact & Help" }

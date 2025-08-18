@@ -32,7 +32,7 @@ const LikeDislike = () => {
                         {
                             cards.map((card, index) => (
                                 <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                                    <ViewPageCard card={card} index={index} images={images}  
+                                    <ViewPageCard card={card} index={index} images={images}  likeIcon={true} 
                                     />
                                 </div>
                             ))

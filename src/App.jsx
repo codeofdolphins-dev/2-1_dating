@@ -62,6 +62,7 @@ import ProfileLocation from './Pages/profileLocation/ProfileLocation';
 import ProfileBlocklist from './Pages/ProfileBlocklist/ProfileBlocklist';
 import Notes from './Pages/ProfileRecomended/Notes';
 import LikeDislike from './Pages/LikeDislike/LikeDislike';
+import ProfileMemberService from './Pages/ProfileMemberService/ProfileMemberService';
 
 
 
@@ -147,6 +148,7 @@ function App() {
           
           <Route path="/notes" element={<ProtectedRoute> <Notes /> </ProtectedRoute>  } />
           <Route path="/profile-like-dislike" element={<ProtectedRoute> <LikeDislike /> </ProtectedRoute>  } />
+          <Route path="/profile-member-service" element={<ProtectedRoute> <ProfileMemberService /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>
