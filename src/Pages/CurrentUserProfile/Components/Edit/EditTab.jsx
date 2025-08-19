@@ -9,31 +9,50 @@ import style from "./style.module.css";
 
 const EditTab = () => {
 
-    const icons = [
-        { icon: coupleIcon, text: "Couple" },
-        { icon: femaleIcon, text: "Female" },
-        { icon: maleIcon, text: "Male" },
-        { icon: transgenderIcon, text: "Transgender" }
-    ];
+    const [interestOptions, setInterestOptions] = useState([
+        { id: 1, title: "Couples Only", value: false },
+        { id: 2, title: "Threesome", value: false },
+        { id: 3, title: "Full Swap", value: false },
+        { id: 4, title: "Gays", value: false },
+        { id: 5, title: "Lesbian", value: false },
+        { id: 6, title: "Exhibitionist", value: false },
+        { id: 7, title: "Transgender", value: false },
+        { id: 8, title: "BDSM", value: false },
+        { id: 9, title: "Voyeur", value: false },
+        { id: 10, title: "Gang bang", value: false },
+        { id: 11, title: "Wife swap", value: false },
+        { id: 12, title: "Hot wifing", value: false },
+        { id: 13, title: "Bi Couple", value: false },
+        { id: 14, title: "BBC", value: false },
+        { id: 15, title: "Bare fun", value: false },
+        { id: 16, title: "Body Tattoo", value: false },
+        { id: 17, title: "BBW Hot Wives", value: false },
+        { id: 18, title: "Flashing", value: false },
+        { id: 19, title: "Nudism", value: false },
+        { id: 20, title: "Public Sex", value: false },
+        { id: 21, title: "Group Sex", value: false },
+        { id: 22, title: "Interracial", value: false },
+        { id: 23, title: "Beach Sex", value: false },
+        { id: 24, title: "Anal Sex", value: false },
+        { id: 25, title: "cougars and vixens", value: false },
+        { id: 26, title: "Erotic Massage", value: false },
+        { id: 27, title: "Tantra", value: false },
+        { id: 28, title: "Masturbation", value: false },
+        { id: 29, title: "Dildo & Toys", value: false },
+        { id: 30, title: "Girl on Girl", value: false },
+        { id: 31, title: "Soft Swap", value: false },
+        { id: 32, title: "Full Swap", value: false }
+    ]);
+    const [f_name, setF_name] = useState("Aswini");
+    const [m_name, setM_name] = useState("Amit Arora");
+    const [circumcised, setCircumcised] = useState("");
 
-    const [selected1, setSelected1] = useState('Girl on Girl');
-    const buttons1 = ['Girl on Girl', 'Soft Swap', 'Full Swap'];
-
-    const allInterests = ["Couples Only", "Threesome", "Full Swap", "Gays", "Lesbian", "Exhibitionist", "Transgender", "BDSM", "Voyeur", "Gang bang", "Wife swap", "Hot wifing", "Bi Couple", "BBC", "Bare fun", "Body Tattoo", "BBW Hot Wives", "Flashing", "Nudism", "Public Sex", "Group Sex", "Interracial", "Beach  Sex", "Anal Sex", "cougars and vixens", "Erotic Massage", "Tantra", "Masturbation", "Dildo & Toys"];
-
-    const [f_name, setF_name] = useState("Aswini")
-    const [m_name, setM_name] = useState("Amit Arora")
-    const [circumcised, setCircumcised] = useState("")
-
-    const [interests, setInterests] = useState([]);
-
-    const handelInterest = (label) => {
-        if (interests.includes(label)) {
-            setInterests(prev => prev.filter((item) => item != label))
-        } else {
-            setInterests(prev => [...prev, label]);
-        }
-    }
+    const [profileType, setProfileType] = useState([
+        { id: 1, icon: coupleIcon, title: "Couple", value: false },
+        { id: 2, icon: femaleIcon, title: "Female", value: false },
+        { id: 3, icon: maleIcon, title: "Male", value: false },
+        { id: 4, icon: transgenderIcon, title: "Transgender", value: false }
+    ]);
 
     const [female, setFemale] = useState({
         f_dob: "",
@@ -56,7 +75,7 @@ const EditTab = () => {
             intermediate: false,
             advanced: false
         }
-    })
+    });
     const [male, setMale] = useState({
         m_dob: "",
         m_bodyHair: "",
@@ -78,8 +97,7 @@ const EditTab = () => {
             intermediate: false,
             advanced: false
         }
-    })
-
+    });
     const female_input = [
         { title: "Date of birth*", type: "date", id: "f_dob" },
         { title: "Body Hair", id: "f_bodyHair" },
@@ -95,8 +113,7 @@ const EditTab = () => {
         { title: "Intelligence is important?", id: "f_intelligence" },
         { title: "Sexuality", id: "f_sexuality" },
         { title: "Relationship Orientation", id: "f_relationship" },
-    ]
-
+    ];
     const male_input = [
         { title: "Date of birth*", type: "date", id: "m_dob" },
         { title: "Body Hair", id: "m_bodyHair" },
@@ -112,7 +129,9 @@ const EditTab = () => {
         { title: "Intelligence is important?", id: "m_intelligence" },
         { title: "Sexuality", id: "m_sexuality" },
         { title: "Relationship Orientation", id: "m_relationship" },
-    ]
+    ];
+
+    // **********************handlers*************************
 
     const handleFemaleInputData = (e) => {
         const { name, value } = e.target;
@@ -121,13 +140,26 @@ const EditTab = () => {
             [name]: value
         }));
     };
-
     const handleMaleInputData = (e) => {
         const { name, value } = e.target;
         setMale((prev) => ({
             ...prev,
             [name]: value
         }));
+    };
+    const profileHandler = (id) => {
+        setProfileType((prev) => (
+            prev.map(field => (
+                field.id === id ? { ...field, value: !field.value } : { ...field, value: false }
+            ))
+        ));
+    };
+    const handelInterest = (id) => {
+        setInterestOptions((prev) => (
+            prev.map(field => (
+                field.id === id ? { ...field, value: !field.value } : field
+            ))
+        ));
     };
 
 
@@ -141,32 +173,31 @@ const EditTab = () => {
                     {/* Left Side */}
                     <div className="col-lg-7 col-md-6">
                         <h3 style={{ fontSize: "18px" }}>CPLSUEPAUL</h3>
-                        <p className="mb-0" style={{ fontSize: "14px" }}>
-                            What are you looking for on 2+1?*
-                        </p>
+                        <p className="mb-0" style={{ fontSize: "14px" }}> You are a... <span className='text-danger'>*</span> </p>
                     </div>
 
                     {/* Right Side */}
                     <div className="col-lg-5 col-md-6 d-flex flex-column align-items-end gap-3">
                         {/* Icons */}
                         <div className="d-flex gap-1 flex-wrap">
-                            {icons.map((item, i) => (
+                            {profileType.map((item) => (
                                 <div
-                                    key={i}
+                                    key={item.id}
                                     className="d-flex flex-column justify-content-center align-items-center py-2 px-3 rounded-3"
                                     style={{
                                         maxWidth: "120px",
-                                        border: "2px solid #343A40"
+                                        border: item.value ? "2px solid #fff" : "2px solid #343A40"
                                     }}
+                                    onClick={() => profileHandler(item.id)}
                                 >
-                                    <img src={item.icon} alt={item.text} width="50" />
-                                    <p className="mb-0" style={{ fontSize: "10px" }}>{item.text}</p>
+                                    <img src={item.icon} alt={item.title} width="50" />
+                                    <p className="mb-0" style={{ fontSize: "10px" }}>{item.title}</p>
                                 </div>
                             ))}
                         </div>
 
                         {/* Buttons */}
-                        <div
+                        {/* <div
                             className="d-flex justify-content-between align-items-center rounded-3 gap-3` flex-wrap"
                             style={{
                                 border: "2px solid #343A40",
@@ -186,26 +217,28 @@ const EditTab = () => {
                                     {label}
                                 </button>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
-
                 {/* row 2 */}
-                <div className="d-flex flex-wrap gap-2 rounded-3 p-2" style={{ border: "2px solid #343A40" }}>
-                    {allInterests.map((label) => (
-                        <button
-                            key={label}
-                            onClick={() => handelInterest(label)}
-                            className={`border-0 py-2 px-4 rounded-3 ${interests.includes(label) ? 'custom-button' : 'text-white'}`}
-                            style={{
-                                fontSize: '14px',
-                                backgroundColor: interests.includes(label) ? '' : 'transparent',
-                            }}
-                        >
-                            {label}
-                        </button>
-                    ))}
+                <div className="">
+                    <p className="mb-0" style={{ fontSize: "14px" }}> What are you looking for on SDC? <span className='text-danger'>*</span> </p>
+                    <div className="d-flex flex-wrap gap-2 rounded-3 p-2" style={{ border: "2px solid #343A40" }}>
+                        {interestOptions.map((item) => (
+                            <button
+                                key={item.id}
+                                onClick={() => handelInterest(item.id)}
+                                className={`border-0 py-2 px-4 rounded-3 ${item.value ? 'custom-button' : 'text-white'}`}
+                                style={{
+                                    fontSize: '14px',
+                                    backgroundColor: item.value ? '' : 'transparent',
+                                }}
+                            >
+                                {item.title}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* row 3 */}

@@ -13,6 +13,7 @@ import phone from "../../../assets/ViwCardImags/img/phone.png";
 import male from "../../../assets/ViwCardImags/img/male.png";
 import female from "../../../assets/ViwCardImags/img/female.png";
 import ActionMenu from "../../../components/ViewPageCard/ActionMenu/Actionmenu";
+import { numberConversion } from "../../../helper/numberConversion.js";
 
 const images = [img1, img2, img3, img4];
 
@@ -32,6 +33,8 @@ const NotesCard = ({ index = "" }) => {
             swiperInstance.navigation.update();
         }
     }, [swiperInstance]);
+
+    
 
     return (
         <div className="row g-3 rounded-4 text-white pb-2 ml-3 mt-2" style={{ backgroundColor: "var(--color-border)", border: "1px solid #ffffff", maxWidth: "675px" }}>
@@ -129,12 +132,12 @@ const NotesCard = ({ index = "" }) => {
                     <hr />
                     <div className="d-flex align-items-center gap-2 text-secondary small py-1">
                         <i className="bi bi-geo-alt-fill"></i>
-                        <span>94555, CA 94555, USA | 8412 mi</span>
+                        <span className="lh-1">94555, CA 94555, USA | 8412 mi</span>
                     </div>
 
                     <hr />
 
-                    <div className="d-flex gap-1 py-2" style={{ fontSize: "14px" }}>
+                    <div className="d-flex gap-2 py-2" style={{ fontSize: "14px" }}>
                         <div className="d-flex align-items-center gap-1 text-white small py-1">
                             <i className="bi bi-camera-fill"></i><span>41</span>
                         </div>
@@ -145,7 +148,7 @@ const NotesCard = ({ index = "" }) => {
                             <i className="bi bi-star-fill"></i><span>5</span>
                         </div>
                         <div className="d-flex align-items-center gap-1 text-white small py-1">
-                            <i className="bi bi-hand-thumbs-up-fill"></i><span>29</span>
+                            <i className="bi bi-hand-thumbs-up-fill"></i><span> { numberConversion(385475) } </span>
                         </div>
                         <div className="d-flex align-items-center gap-1 text-white small py-1">
                             <i className="bi bi-play-fill"></i><span>209</span>
@@ -154,13 +157,13 @@ const NotesCard = ({ index = "" }) => {
 
                     <hr />
 
-                    <p className="small my-1 text-white">
+                    <p className="small my-1 text-white lh-sm">
                         I hereby certify that the profile from CPLSUEPAUL is for real!
                     </p>
 
                     <hr />
 
-                    <div className="text-start text-secondary small mt-1">
+                    <div className="text-start text-secondary small mt-2">
                         <div style={{ color: "#EC5252" }}>Feb 08, 2025</div>
                     </div>
                 </div>
