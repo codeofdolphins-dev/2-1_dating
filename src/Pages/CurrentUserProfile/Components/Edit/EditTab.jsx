@@ -28,8 +28,6 @@ const EditTab = () => {
   const sexualityOptions = [`Prefer not to say`, `Straight`, `Bi-sexual`, `Bi-curious`, `Gay`, `Pansexual`];
   const relationshipOptions = [`Swinger`, `Prefer not to say`, `Monogamous`, `Open-Minded`, `Polyamorous`];
 
-  const [f_name, setF_name] = useState("Aswini");
-  const [m_name, setM_name] = useState("Amit Arora");
   const [circumcised, setCircumcised] = useState("");
 
 
@@ -47,6 +45,107 @@ const EditTab = () => {
     f_sexuality: sexualityOptions,
     f_relationship: relationshipOptions
   }
+  const maleInputOptions = {
+    m_height: heightOptions,
+    m_weight: weightOptions,
+    m_bodyType: bodyTypeOptions,
+    m_ethnicBackground: ethnicOptions,
+    m_smoking: smokingOptions,
+    m_piercings: piercingsOptions,
+    m_tattoos: tattoosOptions,
+    m_languages: languagesOptions,
+    m_looks: looksOptions,
+    m_intelligence: intelligenceOptions,
+    m_sexuality: sexualityOptions,
+    m_relationship: relationshipOptions
+  }
+
+  const [female, setFemale] = useState({
+    f_name: "",
+    f_dob: "",
+    bodyHair: [],
+    f_height: "",
+    f_weight: "",
+    f_bodyType: "",
+    f_ethnicBackground: "",
+    f_smoking: "",
+    f_piercings: "",
+    f_tattoos: "",
+    f_languages: "",
+    f_looks: "",
+    f_intelligence: "",
+    f_sexuality: "",
+    f_relationship: "",
+    experience: {
+      curious: false,
+      newbie: false,
+      intermediate: false,
+      advanced: false
+    }
+  });
+  const [male, setMale] = useState({
+    m_name: "",
+    m_dob: "",
+    bodyHair: [],
+    m_height: "",
+    m_weight: "",
+    m_bodyType: "",
+    m_ethnicBackground: "",
+    m_smoking: "",
+    m_piercings: "",
+    m_tattoos: "",
+    m_languages: "",
+    m_looks: "",
+    m_intelligence: "",
+    m_sexuality: "",
+    m_relationship: "",
+    experience: {
+      curious: false,
+      newbie: false,
+      intermediate: false,
+      advanced: false
+    }
+  });
+  const female_input = [
+    { title: "Height", id: "f_height" },
+    { title: "Weight", id: "f_weight" },
+    { title: "Body Type", id: "f_bodyType" },
+    { title: "Ethnic background", id: "f_ethnicBackground" },
+    { title: "Smoking", id: "f_smoking" },
+    { title: "Piercings", id: "f_piercings" },
+    { title: "Tattoos", id: "f_tattoos" },
+    { title: "Languages Spoken", id: "f_languages" },
+    { title: "Looks are important?", id: "f_looks" },
+    { title: "Intelligence is important?", id: "f_intelligence" },
+    { title: "Sexuality", id: "f_sexuality" },
+    { title: "Relationship Orientation", id: "f_relationship" }
+  ];
+  const male_input = [
+    { title: "Height", id: "m_height" },
+    { title: "Weight", id: "m_weight" },
+    { title: "Body Type", id: "m_bodyType" },
+    { title: "Ethnic background", id: "m_ethnicBackground" },
+    { title: "Smoking", id: "m_smoking" },
+    { title: "Piercings", id: "m_piercings" },
+    { title: "Tattoos", id: "m_tattoos" },
+    { title: "Languages Spoken", id: "m_languages" },
+    { title: "Looks are important?", id: "m_looks" },
+    { title: "Intelligence is important?", id: "m_intelligence" },
+    { title: "Sexuality", id: "m_sexuality" },
+    { title: "Relationship Orientation", id: "m_relationship" }
+  ];
+  const f_experiance = [
+    { title: "Curious", id: "f_curious" },
+    { title: "Intermediate", id: "f_intermediate" },
+    { title: "Newbie", id: "f_newbie" },
+    { title: "Advanced", id: "f_advanced" }
+  ]
+  const m_experiance = [
+    { title: "Curious", id: "m_curious" },
+    { title: "Intermediate", id: "m_intermediate" },
+    { title: "Newbie", id: "m_newbie" },
+    { title: "Advanced", id: "m_advanced" }
+  ]
 
   const [interestOptions, setInterestOptions] = useState([
     { id: 1, title: "Couples Only", value: false },
@@ -82,7 +181,6 @@ const EditTab = () => {
     { id: 31, title: "Soft Swap", value: false },
     { id: 32, title: "Full Swap", value: false }
   ]);
-
   const [profileType, setProfileType] = useState([
     { id: 1, icon: coupleIcon, title: "Couple", value: true },
     { id: 2, icon: femaleIcon, title: "Female", value: false },
@@ -90,98 +188,8 @@ const EditTab = () => {
     { id: 4, icon: transgenderIcon, title: "Transgender", value: false }
   ]);
 
-  const [female, setFemale] = useState({
-    f_dob: "",
-    bodyHair: [],
-    f_height: "",
-    f_weight: "",
-    f_bodyType: "",
-    f_ethnicBackground: "",
-    f_smoking: "",
-    f_piercings: "",
-    f_tattoos: "",
-    f_languages: "",
-    f_looks: "",
-    f_intelligence: "",
-    f_sexuality: "",
-    f_relationship: "",
-    experience: {
-      curious: false,
-      newbie: false,
-      intermediate: false,
-      advanced: false
-    }
-  });
-
-  const [male, setMale] = useState({
-    m_dob: "",
-    m_bodyHair: "",
-    m_height: "",
-    m_weight: "",
-    m_bodyType: "",
-    m_ethnicBackground: "",
-    m_smoking: "",
-    m_piercings: "",
-    m_tattoos: "",
-    m_languages: "",
-    m_looks: "",
-    m_intelligence: "",
-    m_sexuality: "",
-    m_relationship: "",
-    experience: {
-      curious: false,
-      newbie: false,
-      intermediate: false,
-      advanced: false
-    }
-  });
-  const female_input = [
-    { title: "Height", id: "f_height" },
-    { title: "Weight", id: "f_weight" },
-    { title: "Body Type", id: "f_bodyType" },
-    { title: "Ethnic background", id: "f_ethnicBackground" },
-    { title: "Smoking", id: "f_smoking" },
-    { title: "Piercings", id: "f_piercings" },
-    { title: "Tattoos", id: "f_tattoos" },
-    { title: "Languages Spoken", id: "f_languages" },
-    { title: "Looks are important?", id: "f_looks" },
-    { title: "Intelligence is important?", id: "f_intelligence" },
-    { title: "Sexuality", id: "f_sexuality" },
-    { title: "Relationship Orientation", id: "f_relationship" },
-  ];
-  const male_input = [
-    { title: "Date of birth*", type: "date", id: "m_dob" },
-    { title: "Body Hair", id: "m_bodyHair" },
-    { title: "Height", id: "m_height" },
-    { title: "Weight", id: "m_weight" },
-    { title: "Body Type", id: "m_bodyType" },
-    { title: "Ethnic background", id: "m_ethnicBackground" },
-    { title: "Smoking", id: "m_smoking" },
-    { title: "Piercings", id: "m_piercings" },
-    { title: "Tattoos", id: "m_tattoos" },
-    { title: "Languages Spoken", id: "m_languages" },
-    { title: "Looks are important?", id: "m_looks" },
-    { title: "Intelligence is important?", id: "m_intelligence" },
-    { title: "Sexuality", id: "m_sexuality" },
-    { title: "Relationship Orientation", id: "m_relationship" },
-  ];
-
   // **********************handlers*************************
 
-  const handleFemaleInputData = (e) => {
-    const { name, value } = e.target;
-    setFemale((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-  const handleMaleInputData = (e) => {
-    const { name, value } = e.target;
-    setMale((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-  };
   const profileHandler = (id) => {
     setProfileType((prev) => (
       prev.map(field => (
@@ -197,13 +205,17 @@ const EditTab = () => {
     ));
   };
 
+  const femaleExperienceHandler = (e) => { };
+
+  const maleExperienceHandler = (e) => { };
+
 
 
 
 
 
   // *************testing*******************
-  // useEffect(()=> {
+  // useEffect(() => {
   //   console.log(female);
   // }, [female])
 
@@ -292,8 +304,11 @@ const EditTab = () => {
                       type="text"
                       className="form-control border-0 rounded-0 text-danger px-0" id='f_name'
                       name='f_name'
-                      value={f_name}
-                      onChange={(e) => setF_name(e.target.value)}
+                      value={female.f_name}
+                      onChange={(e) => setFemale((prev) => ({
+                        ...prev,
+                        f_name: e.target.value
+                      }))}
                       style={{
                         fontSize: "20px",
                         backgroundColor: "transparent"
@@ -314,8 +329,11 @@ const EditTab = () => {
                         type="date"
                         className="form-control rounded-0 p-0 pb-2 border-0"
                         id="f_dob"
-                        // value={female[field.id]}
-                        // onChange={(e) => handleFemaleInputData(e)}
+                        value={female.f_dob}
+                        onChange={(e) => setFemale((prev) => ({
+                          ...prev,
+                          f_dob: e.target.value
+                        }))}
                         style={{
                           fontSize: "16px",
                           color: "#B0C3CC",
@@ -367,87 +385,22 @@ const EditTab = () => {
                     <h3 className='text-danger' style={{ fontSize: "20px" }}>Experience Level</h3>
                     <div className="row px-2 mt-3">
                       <div className="col-lg-6">
-                        <div className={`d-flex flex-column gap-3 ${style.parent}`}>
-                          <div className="d-flex gap-2 justify-content-start align-items-center">
-                            <input
-                              className="form-check-input m-0"
-                              type="checkbox"
-                              id="f_curious"
-                              name='f_curious'
-                              checked={female.experience.curious}
-                              onChange={(e) => setFemale(
-                                (prev) => ({
-                                  ...prev,
-                                  experience: {
-                                    ...prev.experience,
-                                    curious: e.target.checked
-                                  }
-                                })
-                              )}
-                            />
-                            <label className="form-check-label" htmlFor="f_curious" style={{ fontSize: "14px" }}>Curious</label>
-                          </div>
-                          <div className="d-flex gap-2 justify-content-start align-items-center">
-                            <input
-                              className="form-check-input m-0"
-                              type="checkbox"
-                              id="f_intermediate"
-                              name='f_intermediate'
-                              checked={female.experience.intermediate}
-                              onChange={(e) => setFemale(
-                                (prev) => ({
-                                  ...prev,
-                                  experience: {
-                                    ...prev.experience,
-                                    intermediate: e.target.checked
-                                  }
-                                })
-                              )}
-                            />
-                            <label className="form-check-label" htmlFor="f_intermediate" style={{ fontSize: "14px" }}>Intermediate</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 mt-3 mt-lg-0">
-                        <div className={`d-flex flex-column gap-3 ${style.parent}`}>
-                          <div className="d-flex gap-2 justify-content-start align-items-center">
-                            <input
-                              className="form-check-input m-0"
-                              type="checkbox"
-                              id="f_newbie"
-                              name='f_newbie'
-                              checked={female.experience.newbie}
-                              onChange={(e) => setFemale(
-                                (prev) => ({
-                                  ...prev,
-                                  experience: {
-                                    ...prev.experience,
-                                    newbie: e.target.checked
-                                  }
-                                })
-                              )}
-                            />
-                            <label className="form-check-label" htmlFor="f_newbie" style={{ fontSize: "14px" }}>Newbie</label>
-                          </div>
-                          <div className="d-flex gap-2 justify-content-start align-items-center">
-                            <input
-                              className="form-check-input m-0"
-                              type="checkbox"
-                              id="f_advanced"
-                              name='f_advanced'
-                              checked={female.experience.advanced}
-                              onChange={(e) => setFemale(
-                                (prev) => ({
-                                  ...prev,
-                                  experience: {
-                                    ...prev.experience,
-                                    advanced: e.target.checked
-                                  }
-                                })
-                              )}
-                            />
-                            <label className="form-check-label" htmlFor="f_advanced" style={{ fontSize: "14px" }}>Advanced</label>
-                          </div>
+                        <div className={`d-flex flex-wrap justify-content-between gap-2 ${style.parent}`}>
+                          {
+                            f_experiance.map((item, i) => (
+                              <div key={i} className="d-flex gap-2 justify-content-start align-items-center">
+                                <input
+                                  className="form-check-input m-0"
+                                  type="checkbox"
+                                  id={item.id}
+                                  name={item.id}
+                                  checked={female.experience[item.title.toLowerCase()]}
+                                  onChange={femaleExperienceHandler}
+                                />
+                                <label className="form-check-label" htmlFor="f_curious" style={{ fontSize: "14px" }}>Curious</label>
+                              </div>
+                            ))
+                          }
                         </div>
                       </div>
                     </div>
@@ -468,138 +421,109 @@ const EditTab = () => {
 
                 <div className={`mx-4 d-flex flex-column gap-4 text-secondary ${style.parent}`}>
 
+                  {/* name field */}
                   <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #096BFF" }}>
                     <input
                       type="text"
                       className="form-control border-0 rounded-0 px-0" id='m_name'
                       name='m_name'
-                      value={m_name}
-                      onChange={(e) => setM_name(e.target.value)}
+                      value={male.m_name}
+                      onChange={(e) => setMale((prev) => ({
+                        ...prev,
+                        m_name: e.target.value
+                      }))}
                       style={{
                         fontSize: "20px",
                         backgroundColor: "transparent",
                         color: "#096BFF"
                       }}
                     />
-
                     <label htmlFor='m_name' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill" style={{ cursor: "pointer", color: "#096BFF" }}></i></label>
+                  </div>
+
+                  {/* male date of birth */}
+                  <div style={{ borderBottom: "2px solid #343A40" }}>
+                    {/* Label */}
+                    <label className="form-label mb-0" htmlFor="m_dob"
+                      style={{ fontSize: "14px", color: "#B0C3CC" }}>Date of Birth</label>
+
+                    {/* Input */}
+                    <div className="d-flex">
+                      <input
+                        type="date"
+                        className="form-control rounded-0 p-0 pb-2 border-0"
+                        id="m_dob"
+                        value={male.m_dob}
+                        onChange={(e) => setMale((prev) => ({
+                          ...prev,
+                          m_dob: e.target.value
+                        }))}
+                        style={{
+                          fontSize: "16px",
+                          color: "#B0C3CC",
+                          backgroundColor: "transparent"
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* for body type */}
+                  <div style={{ borderBottom: "2px solid #343A40" }}>
+                    {/* Label */}
+                    <label className="form-label mb-0" htmlFor="f_bodyHair"
+                      style={{ fontSize: "14px", color: "#B0C3CC" }}> Body Hair </label>
+
+                    {/* Input */}
+                    <div className="d-flex">
+                      <EditProfilePageInputPopup options={bodyHairOptions} bodyHair={male} setbodyHair={setMale} />
+                    </div>
                   </div>
 
                   {male_input.map((field, i) => (
                     <div key={i} style={{ borderBottom: "2px solid #343A40" }}>
                       {/* Label */}
-                      <label className="form-label mb-0" htmlFor={field.id}
-                        style={{ fontSize: "14px", color: "#B0C3CC" }}> {field.title} </label>
+                      <label
+                        className="form-label mb-0"
+                        htmlFor={field.id}
+                        style={{ fontSize: "14px", color: "#B0C3CC" }}
+                      >
+                        {field.title}
+                      </label>
 
                       {/* Input */}
                       <div className="d-flex">
-                        <input
-                          type={field.type ? field.type : "text"}
-                          className="form-control rounded-0 p-0 pb-2 border-0"
-                          id={field.id}
-                          name={field.id}
-                          value={male[field.id]}
-                          onChange={(e) => handleMaleInputData(e)}
-                          style={{
-                            fontSize: "16px",
-                            color: "#B0C3CC",
-                            backgroundColor: "transparent"
-                          }}
+                        <DropdownPopup
+                          name={field.id} // 🧠 key point: pass field ID as 'name'
+                          options={maleInputOptions[field.id]} // options per field
+                          title={field.title}
+                          selectedValue={male}
+                          setSelectedValue={setMale}
                         />
-                        {
-                          i === 0 ? "" : <i className="bi bi-chevron-down" style={{ cursor: "pointer" }}></i>
-                        }
                       </div>
-
-                      {/* <EditProfilePageInputPopup/> */}
                     </div>
                   ))}
 
+                  {/* experience level */}
                   <div className="">
                     <h3 style={{ fontSize: "20px", color: "#096BFF" }}>Experience Level</h3>
                     <div className="row px-2 mt-3">
                       <div className="col-lg-6">
-                        <div className={`d-flex flex-column gap-3 ${style.parent}`}>
-                          <div className="d-flex gap-2 justify-content-start align-items-center">
-                            <input
-                              className="form-check-input m-0"
-                              type="checkbox"
-                              id="m_curious"
-                              name='m_curious'
-                              checked={male.experience.curious}
-                              onChange={(e) => setMale(
-                                (prev) => ({
-                                  ...prev,
-                                  experience: {
-                                    ...prev.experience,
-                                    curious: e.target.checked
-                                  }
-                                })
-                              )}
-                            />
-                            <label className="form-check-label" htmlFor="m_curious" style={{ fontSize: "14px" }}>Curious</label>
-                          </div>
-                          <div className="d-flex gap-2 justify-content-start align-items-center">
-                            <input
-                              className="form-check-input m-0"
-                              type="checkbox"
-                              id="m_intermediate"
-                              name='m_intermediate'
-                              checked={male.experience.intermediate}
-                              onChange={(e) => setMale(
-                                (prev) => ({
-                                  ...prev,
-                                  experience: {
-                                    ...prev.experience,
-                                    intermediate: e.target.checked
-                                  }
-                                })
-                              )}
-                            />
-                            <label className="form-check-label" htmlFor="m_intermediate" style={{ fontSize: "14px" }}>Intermediate</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 mt-3 mt-lg-0">
-                        <div className={`d-flex flex-column gap-3 ${style.parent}`}>
-                          <div className="d-flex gap-2 justify-content-start align-items-center">
-                            <input
-                              className="form-check-input m-0"
-                              type="checkbox"
-                              id="m_newbie"
-                              name='m_newbie'
-                              checked={male.experience.newbie}
-                              onChange={(e) => setMale(
-                                (prev) => ({
-                                  ...prev,
-                                  experience: {
-                                    ...prev.experience,
-                                    newbie: e.target.checked
-                                  }
-                                })
-                              )}
-                            />
-                            <label className="form-check-label" htmlFor="m_newbie" style={{ fontSize: "14px" }}>Newbie</label>
-                          </div>
-                          <div className="d-flex gap-2 justify-content-start align-items-center">
-                            <input
-                              className="form-check-input m-0"
-                              type="checkbox"
-                              id="m_advanced"
-                              name='m_advanced'
-                              checked={male.experience.advanced}
-                              onChange={(e) => setMale(
-                                (prev) => ({
-                                  ...prev,
-                                  experience: {
-                                    ...prev.experience,
-                                    advanced: e.target.checked
-                                  }
-                                })
-                              )}
-                            />
-                            <label className="form-check-label" htmlFor="m_advanced" style={{ fontSize: "14px" }}>Advanced</label>
-                          </div>
+                        <div className={`d-flex flex-wrap justify-content-between gap-2 ${style.parent}`}>
+                          {
+                            m_experiance.map((item, i) => (
+                              <div key={i} className="d-flex gap-2 justify-content-start align-items-center">
+                                <input
+                                  className="form-check-input m-0"
+                                  type="checkbox"
+                                  id={item.id}
+                                  name={item.id}
+                                  checked={male.experience[item.title.toLowerCase()]}
+                                  onChange={maleExperienceHandler}
+                                />
+                                <label className="form-check-label" htmlFor="f_curious" style={{ fontSize: "14px" }}>Curious</label>
+                              </div>
+                            ))
+                          }
                         </div>
                       </div>
                     </div>
@@ -644,10 +568,6 @@ const EditTab = () => {
             </div>
           </div>
         </div>
-
-        <EditProfilePageInputPopup />
-        <EditProfilePageInputPopup />
-        <EditProfilePageInputPopup />
       </div>
     </>
   )
