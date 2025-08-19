@@ -68,6 +68,7 @@ import ProfileMemberService from './Pages/ProfileMemberService/ProfileMemberServ
 import BugReport from './Pages/BugReport/BugReport';
 import HideProfile from './Pages/HideProfile/HideProfile';
 import ContactAndHelp from './Pages/ContactAndHelp/ContactAndHelp';
+import ChatComponent from './services/ChatComponent';
 
 
 
@@ -159,6 +160,8 @@ function App() {
           <Route path="/bug-report" element={<ProtectedRoute> <BugReport /> </ProtectedRoute>  } />
           <Route path="/hide-profile" element={<ProtectedRoute> <HideProfile /> </ProtectedRoute>  } />
           <Route path="/contact-and-help" element={<ProtectedRoute> <ContactAndHelp /> </ProtectedRoute>  } />
+          
+          <Route path="/test-chat" element={<ProtectedRoute> <ChatComponent /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>
