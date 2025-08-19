@@ -10,7 +10,7 @@
 
 /* Accordion Header button */
 .custom-accordion-item .accordion-button {
-  background-color: var(--color-background) !important; /* slightly lighter gray */
+  background-color: var(--color-background) !important;
   color: #ffffff !important;
   font-weight: 500;
   box-shadow: none !important;
@@ -29,4 +29,16 @@ background-color: var(--color-background) !important; /* slightly lighter gray *
   color: #b5b5b5 !important;            /* muted gray */
   font-size: 0.95rem;
   line-height: 1.6;
+}
+
+.accordion-white-btn {
+  background-color: white !important;
+  color: black !important;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.accordion-white-btn:not(.collapsed) {
+  background-color: #f8f9fa !important; /* slightly gray when expanded */
+  color: #000 !important;
 }

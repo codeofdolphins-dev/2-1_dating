@@ -59,7 +59,7 @@ const BugReport = () => {
 
                     {/* Submit Button */}
                     <div className="mt-4 text-end">
-                        <button className="btn btn-primary px-4 py-2 fw-semibold">
+                        <button className="btn btn-primary text-black border-0 px-5 rounded-pill fw-semibold" style={{backgroundColor:"var( --color-primary-green)"}}>
                             Submit Report
                         </button>
                     </div>

@@ -11,7 +11,7 @@ const HideProfile = () => {
                         {/* Header */}
                         <div className="d-flex justify-content-between align-items-center mb-4">
                             <h4 className="fw-semibold text-white m-0">Hide Profile</h4>
-                            <button className="btn btn-primary px-5 rounded-pill fw-semibold">Hide Profile</button>
+                            <button className="btn btn-primary text-black border-0 px-5 rounded-pill fw-semibold" style={{backgroundColor:"var( --color-primary-green)"}}>Hide Profile</button>
                         </div>
 
                         {/* Description */}
