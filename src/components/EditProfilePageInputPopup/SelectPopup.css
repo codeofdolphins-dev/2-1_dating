@@ -3,12 +3,8 @@
   /* max-width: 400px; */
   font-family: Arial, sans-serif;
   position: relative;
-  z-index: 9999; /* very high priority */
 }
 
-.popup-options{
-    
-}
 
 .select-box {
   /* background: #1d1d1d; */
@@ -37,11 +33,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10000; /* ensure on top */
+  z-index: 999999999;
 }
 
 .modal-content {
@@ -50,7 +46,8 @@
   width: 90%;
   max-width: 400px;
   padding: 20px;
-  z-index: 10001;
+  z-index: 999999999;
+  
 }
 
 .modal-title {
@@ -164,5 +161,17 @@
 .option-text {
   flex: 1; /* pushes checkbox to right */
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
