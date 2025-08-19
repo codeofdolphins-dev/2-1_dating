@@ -1,0 +1,168 @@
+.select-popup {
+  width: 100%;
+  /* max-width: 400px; */
+  font-family: Arial, sans-serif;
+  position: relative;
+  z-index: 9999; /* very high priority */
+}
+
+.popup-options{
+    
+}
+
+.select-box {
+  /* background: #1d1d1d; */
+  /* border-bottom: 1px solid rgb(176, 195, 204) !important; */
+  /* border-radius: 5px; */
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+}
+
+.chevron.rotate {
+  transform: rotate(180deg);
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; /* ensure on top */
+}
+
+.modal-content {
+  background-color: var(--color-border) !important;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  z-index: 10001;
+}
+
+.modal-title {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-options {
+  max-height: 250px;
+  overflow-y: auto;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+
+  /* Add space top & bottom for scrollbar */
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.popup-item {
+    padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.popup-item:hover {
+  background: var(--color-background);
+}
+
+/* .popup-item input {
+  accent-color: var(--color-primary-green);
+
+  transform: scale(1.2);
+} */
+
+.close-btn {
+  background: var(--color-primary-green);
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  float: right;
+}
+
+.close-btn:hover {
+  background: var(--color-primary-green);
+}
+
+.clear-btn{
+    background: var(--color-primary-green);
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  float: left;
+}
+
+/* CheckBox round */
+/* Make checkboxes circular */
+.popup-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-primary-green);
+  border-radius: 50%; /* makes it circular */
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/* Checked state */
+.popup-item input[type="checkbox"]:checked {
+  background-color: var(--color-primary-green);
+  border-color: var(--color-primary-green);
+}
+
+/* Add inner dot for checked */
+.popup-item input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+
+.popup-item {
+  display: flex;
+  justify-content: space-between; /* text left, checkbox right */
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+
+
+.option-text {
+  flex: 1; /* pushes checkbox to right */
+}
+
+

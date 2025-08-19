@@ -6,6 +6,7 @@ import coupleIcon from "../../../../assets/icons/couple.png";
 import transgenderIcon from "../../../../assets/icons/transgender.png";
 
 import style from "./style.module.css";
+import EditProfilePageInputPopup from '../../../../components/EditProfilePageInputPopup/EditProfilePageInputPopup';
 
 const EditTab = () => {
 
@@ -403,6 +404,8 @@ const EditTab = () => {
                                                 i === 0 ? "" : <i className="bi bi-chevron-down" style={{ cursor: "pointer" }}></i>
                                             }
                                         </div>
+
+                                        {/* <EditProfilePageInputPopup/> */}
                                     </div>
                                 ))}
 
@@ -530,7 +533,9 @@ const EditTab = () => {
                         </div>
                     </div>
                 </div>
-
+               <EditProfilePageInputPopup/>
+               <EditProfilePageInputPopup/>
+               <EditProfilePageInputPopup/>
             </div>
         </>
     )
