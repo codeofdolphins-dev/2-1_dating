@@ -2,11 +2,12 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 import img1 from "./img/coupleImg.jpeg"; // Your image import
 import "./viewPagePhotoGalleryCSS/viewPagePhotoGallery.css"
+import defaultImages from "../../assets/ViwCardImags/img/profileImg.png";
 
 
 
 const ViewpagePhotoGallery = ({ show, handleClose, images }) => {
-  const galleryImages = images && images.length > 0 ? images : defaultImages;
+  const galleryImages = images && images.length > 0 ? images : [defaultImages];
 
   return (
     <Modal

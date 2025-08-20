@@ -9,7 +9,7 @@ import ProfilePageFollowingCardContainerTab from '../../../../components/profile
 import FriendsCardContainerTab from '../../../../components/profileBottomTabSection/FriendsCardContainer';
 
 
-const ProfileTab = () => {
+const ProfileTab = ({ changeTab }) => {
 
     const [activeTabLower, setActiveTabLower] = useState("Certifications");
     const miniTabLower = [
@@ -49,7 +49,7 @@ const ProfileTab = () => {
                     <div className="">
                         <div className="d-flex justify-content-between align-items-center border px-4 py-2 rounded-4 mb-4" style={{ backgroundColor: "var(--color-border)", }}>
                             <p className='mb-0'>Looking for:</p>
-                            <button className='custom-button rounded-4 px-3 py-1 border-0'>Edit Profile</button>
+                            <button className='custom-button rounded-4 px-3 py-1 border-0' onClick={() => { changeTab("Edit") }}>Edit Profile</button>
                         </div>
                         <div className="d-flex flex-column align-items-start justify-content-center">
                             <p>all desi couples join the group "usa-desi-couples" </p>
