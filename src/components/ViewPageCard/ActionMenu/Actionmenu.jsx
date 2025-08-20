@@ -11,7 +11,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 // import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
 
-const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011" }) => {
+const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011",handleFriendRequest }) => {
 
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
   const [isLiked, setIsLiked] = useState({ id: "", status: false });
@@ -161,7 +161,7 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
           )}
         </div>
 
-        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white">
+        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white" onClick={handleFriendRequest}>
           <BsPersonPlus />
           <span>Friend request</span>
         </div>

@@ -21,14 +21,41 @@ import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
 import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
 import { useNavigate } from "react-router-dom";
 
+import httpService from "../../helper/httpService";
+import OverlayLoader from "../../helper/OverlayLoader"
+import { ToastContainer } from "react-toastify";
+import { showErrorToast, showSuccessToast } from "../customToast/CustomToast";
+
+
+import img1 from "../../assets/ViwCardImags/img/couple.avif";
+import img2 from "../../assets/ViwCardImags/img/coupleImg.jpeg";
+import img3 from "../../assets/ViwCardImags/img/profileImg.png";
+import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
+
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
 
-const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, deleteOption = false,deleteUser,likeIcon=false }) => {
+
+const cardList = [
+    { username: "Card One" },
+    { username: "Card Two" },
+    { username: "Card Three" },
+    { username: "Card Four" },
+    { username: "Card Five" },
+    { username: "Card Six" },
+    { username: "Card Seven" },
+    // ...
+];
+
+const imageList = [img1, img2, img3, img4];
+
+const ViewPageCard = ({ index,userData, images=imageList, card=cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false }) => {
+  console.log(userData)
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
   const [time, setTime] = useState("")
+  // const[loading,setLoading] = useState(true)
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -99,8 +126,23 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
   }, [rawTimestamp])
 
 
+  // handle friend request send
+  const handleFriendRequest = async () => {
+    try {
+      const response = await httpService("/friend-requests", "POST",{receiverId:card._id});
+      console.log(response)
+      showSuccessToast(response?.message)
+      
+    } catch (err) {
+      console.error("Failed to send friend request:", err);
+      showErrorToast(err?.response?.data?.message)
+    } 
+  };
+
 
   return (
+    <>
+      <ToastContainer/>
     <div className="row g-3 rounded-4 text-white pb-2 ml-3"
       style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}
     >
@@ -155,6 +197,7 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
             index={index}
             showMeessagePopup={showMessagePopup}
             setshowMeessagePopup={setShowMessagePopup}
+            handleFriendRequest={handleFriendRequest}
           />
         </div>
       </div>
@@ -163,7 +206,7 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
       <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
         <div>
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{cursor:"pointer",}}>{card?.username}</h4>
+            <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username :card?.username}</h4>
             <div><img src={star} height={30} alt="Star" /></div>
           </div>
 
@@ -226,15 +269,15 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
 
             {
               showFriendOptions && <div className="pt-2 pl-5">
-                  <div className="d-flex align-items-center gap-2 mt-0">
-                    <div className=" mt-2">
-                      <input
-                        className=" mt-0"
-                        type="checkbox"
-                        style={{ height: 20, width: 20, cursor: "pointer" }}
-                      />
-                    </div>
-                    <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center gap-2 mt-0">
+                  <div className=" mt-2">
+                    <input
+                      className=" mt-0"
+                      type="checkbox"
+                      style={{ height: 20, width: 20, cursor: "pointer" }}
+                    />
+                  </div>
+                  <div className="d-flex align-items-center">
                     <img src={trash} alt="delete" height={20} />
                   </div>
                 </div>
@@ -245,10 +288,10 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
             {deleteUser && <div className="pt-2 pl-5">
               <div className="d-flex align-items-center gap-2 mt-0">
                 <div className="d-flex align-items-center">
-                    <img src={trash} alt="delete" height={20} />
-                  </div>
+                  <img src={trash} alt="delete" height={20} />
                 </div>
               </div>
+            </div>
             }
 
             {
@@ -284,7 +327,9 @@ const ViewPageCard = ({ index, images, card, rawTimestamp,  showFriendOptions, d
 
       {/* 💬 Messenger Popup */}
       {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
+
     </div>
+    </>
   );
 };
 
