@@ -1,28 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import FilterBar from "../../components/FilterBar/FilterBar"
 import GlobalPageWrapper from '../../components/GlobalPageWrapper'
 
-import img1 from "../../assets/ViwCardImags/img/couple.avif";
-import img2 from "../../assets/ViwCardImags/img/coupleImg.jpeg";
-import img3 from "../../assets/ViwCardImags/img/profileImg.png";
-import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
+
 import ViewPageCard from '../../components/ViewPageCard/ViewPageCard';
+import httpService from '../../helper/httpService';
+import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
 
-const cards = [
-    { username: "Card One" },
-    { username: "Card Two" },
-    { username: "Card Three" },
-    { username: "Card Four" },
-    { username: "Card Five" },
-    { username: "Card Six" },
-    { username: "Card Seven" },
-    // ...
-];
 
-const images = [img1, img2, img3, img4];
+
 
 const ProfileFriendsPage = () => {
+
+    const [user,setUser]=useState([])
+    useEffect(() => {
+        httpService("/friend-requests", "GET")
+            .then((response) => {
+                console.log("Friend request sent:", response);
+                showSuccessToast(response?.message);
+                setUser(response?.data)
+            })
+            .catch((err) => {
+                console.error("Failed to send friend request:", err);
+                showErrorToast(err?.response?.data?.message);
+            });
+    }, []); // dependency on card._id
+
     return (
         <>
             <GlobalPageWrapper>
@@ -31,13 +35,9 @@ const ProfileFriendsPage = () => {
                 <div className="container-fluid">
                     <div className="row g-4 pt-4">
                         {
-                            cards.map((card, index) => (
+                            user.map((userData, index) => (
                                 <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                                    <ViewPageCard card={card} index={index} images={images} showFriendOptions={true} timestamp={false}
-                                        {...{
-                                            card,
-
-                                        }}
+                                    <ViewPageCard userData={userData} index={index} showFriendOptions={true} timestamp={false}
                                     />
                                 </div>
                             ))
