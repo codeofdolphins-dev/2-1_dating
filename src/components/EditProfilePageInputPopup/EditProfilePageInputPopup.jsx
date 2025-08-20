@@ -4,22 +4,6 @@ import "./SelectPopup.css";
 
 const EditProfilePageInputPopup = ({ options = [], bodyHair, setbodyHair }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState([]);
-
-    // const options = [
-    //     "Prefer not to say",
-    //     "Arms",
-    //     "Bikini",
-    //     "Buns",
-    //     "Tummy",
-    //     "Legs",
-    //     "Everywhere",
-    //     "Chest",
-    //     "Treasure",
-    //     "Arm Pits",
-    //     "Shave",
-    //     "Smooth",
-    // ];
 
     const handleSelect = (option) => {
         setbodyHair((prev) => {
@@ -62,7 +46,7 @@ const EditProfilePageInputPopup = ({ options = [], bodyHair, setbodyHair }) => {
 
     // Format selected items for display
     const displaySelected = () => {
-        if (bodyHair?.bodyHair?.length === 0) return "Select Body Hair";
+        if (bodyHair?.bodyHair?.length === 0) return "";
         if (bodyHair?.bodyHair?.length <= 4) return bodyHair?.bodyHair?.join(", ");
         return `${bodyHair?.bodyHair?.slice(0, 4).join(", ")} ...`;
     };

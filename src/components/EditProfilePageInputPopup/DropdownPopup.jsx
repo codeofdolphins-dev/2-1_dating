@@ -14,7 +14,7 @@ const DropdownPopup = ({ options = [], title = "", name, selectedValue, setSelec
     };
 
     const displaySelected = () => {
-        return selectedValue?.[name] || `Select ${title}`;
+        return selectedValue?.[name] || '';
     };
 
     return (

@@ -27,8 +27,10 @@ const EditTab = () => {
   const intelligenceOptions = [`No`, `Prefer not to say`, `Low Importance`, `Medium Importance`, `Very Important`];
   const sexualityOptions = [`Prefer not to say`, `Straight`, `Bi-sexual`, `Bi-curious`, `Gay`, `Pansexual`];
   const relationshipOptions = [`Swinger`, `Prefer not to say`, `Monogamous`, `Open-Minded`, `Polyamorous`];
+  const circumcisedOptions = [`Prefer not to say`, `No`, `Yes`];
 
   const [circumcised, setCircumcised] = useState("");
+  const [desc, setDesc] = useState("");
 
 
   const femaleInputOptions = {
@@ -77,10 +79,10 @@ const EditTab = () => {
     f_sexuality: "",
     f_relationship: "",
     experience: {
-      curious: false,
-      newbie: false,
-      intermediate: false,
-      advanced: false
+      f_curious: false,
+      f_newbie: false,
+      f_intermediate: false,
+      f_advanced: false
     }
   });
   const [male, setMale] = useState({
@@ -100,10 +102,10 @@ const EditTab = () => {
     m_sexuality: "",
     m_relationship: "",
     experience: {
-      curious: false,
-      newbie: false,
-      intermediate: false,
-      advanced: false
+      m_curious: false,
+      m_newbie: false,
+      m_intermediate: false,
+      m_advanced: false
     }
   });
   const female_input = [
@@ -205,9 +207,38 @@ const EditTab = () => {
     ));
   };
 
-  const femaleExperienceHandler = (e) => { };
+  const femaleExperienceHandler = (e) => {
 
-  const maleExperienceHandler = (e) => { };
+    const { name, checked } = e.target;
+
+    const resetObj = Object.fromEntries(
+      Object.keys(female.experience).map(key => [key, false])
+    );
+
+    setFemale((prev) => ({
+      ...prev,
+      experience: {
+        ...resetObj,
+        [name]: checked
+      }
+    }))
+  };
+
+  const maleExperienceHandler = (e) => {
+    const { name, checked } = e.target;
+
+    const resetObj = Object.fromEntries(
+      Object.keys(male.experience).map(key => [key, false])
+    );
+
+    setMale((prev) => ({
+      ...prev,
+      experience: {
+        ...resetObj,
+        [name]: checked
+      }
+    }))
+  };
 
 
 
@@ -216,8 +247,8 @@ const EditTab = () => {
 
   // *************testing*******************
   // useEffect(() => {
-  //   console.log(female);
-  // }, [female])
+  //   console.log(interestOptions);
+  // }, [interestOptions])
 
 
   return (
@@ -276,10 +307,14 @@ const EditTab = () => {
         </div>
 
         {/* row 3 */}
-        <div className="py-3 px-4 rounded-4" style={{ backgroundColor: "var(--color-border)", fontSize: "14px" }}>
-          <p>all desi couples join the group "usa-desi-couples" </p>
-          <p>well educated couple from nc , looking to meet decent, respectful couple friends</p>
-          <p>Desi married couples ....</p>
+        <div style={{ fontSize: "14px" }}>
+          <textarea
+            rows={'5'}
+            className='py-3 px-4 rounded-4 w-100 text-white border-0'
+            style={{ backgroundColor: "var(--color-border)" }}
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
         </div>
 
         {/* row 4 */}
@@ -384,8 +419,8 @@ const EditTab = () => {
                   <div className="">
                     <h3 className='text-danger' style={{ fontSize: "20px" }}>Experience Level</h3>
                     <div className="row px-2 mt-3">
-                      <div className="col-lg-6">
-                        <div className={`d-flex flex-wrap justify-content-between gap-2 ${style.parent}`}>
+                      <div className="col-lg-6 w-100 ">
+                        <div className={`d-flex flex-wrap align-items-center gap-5 ${style.parent}`}>
                           {
                             f_experiance.map((item, i) => (
                               <div key={i} className="d-flex gap-2 justify-content-start align-items-center">
@@ -394,10 +429,10 @@ const EditTab = () => {
                                   type="checkbox"
                                   id={item.id}
                                   name={item.id}
-                                  checked={female.experience[item.title.toLowerCase()]}
+                                  checked={female.experience[item.id]}
                                   onChange={femaleExperienceHandler}
                                 />
-                                <label className="form-check-label" htmlFor="f_curious" style={{ fontSize: "14px" }}>Curious</label>
+                                <label className="form-check-label" htmlFor={item.id} style={{ fontSize: "14px" }}> {item.title} </label>
                               </div>
                             ))
                           }
@@ -507,8 +542,8 @@ const EditTab = () => {
                   <div className="">
                     <h3 style={{ fontSize: "20px", color: "#096BFF" }}>Experience Level</h3>
                     <div className="row px-2 mt-3">
-                      <div className="col-lg-6">
-                        <div className={`d-flex flex-wrap justify-content-between gap-2 ${style.parent}`}>
+                      <div className="col-lg-6 w-100">
+                        <div className={`d-flex flex-wrap align-items-center gap-5 ${style.parent}`}>
                           {
                             m_experiance.map((item, i) => (
                               <div key={i} className="d-flex gap-2 justify-content-start align-items-center">
@@ -517,10 +552,10 @@ const EditTab = () => {
                                   type="checkbox"
                                   id={item.id}
                                   name={item.id}
-                                  checked={male.experience[item.title.toLowerCase()]}
+                                  checked={male.experience[item.id]}
                                   onChange={maleExperienceHandler}
                                 />
-                                <label className="form-check-label" htmlFor="f_curious" style={{ fontSize: "14px" }}>Curious</label>
+                                <label className="form-check-label" htmlFor={item.id} style={{ fontSize: "14px" }}> {item.title} </label>
                               </div>
                             ))
                           }
@@ -532,7 +567,6 @@ const EditTab = () => {
                 </div>
               </div>
             }
-
           </div>
         </div>
 
@@ -549,21 +583,12 @@ const EditTab = () => {
 
               {/* Input */}
               <div className="d-flex">
-                <input
-                  type="text"
-                  className="form-control rounded-0 p-0 pb-2 border-0"
-                  id='circumcised'
-                  name='circumcised'
-                  value={circumcised}
-                  onChange={(e) => setCircumcised(e.target.value)}
-                  style={{
-                    fontSize: "16px",
-                    color: "#B0C3CC",
-                    backgroundColor: "transparent",
-                    width: "100%"
-                  }}
+                <DropdownPopup
+                  options={circumcisedOptions} // options per field
+                  title={"Circumcised"}
+                  selectedValue={circumcised}
+                  setSelectedValue={setCircumcised}
                 />
-                <i className="bi bi-chevron-down" style={{ cursor: "pointer" }}></i>
               </div>
             </div>
           </div>
