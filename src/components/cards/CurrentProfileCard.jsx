@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import starIcon from "./Images/star.png";
 import femaleIcon from "./Images/female.png";
@@ -10,6 +10,8 @@ import folder from "../../assets/icons/folder.png";
 import video from "../../assets/icons/video.png";
 import share from "../../assets/icons/share.png";
 import invite from "../../assets/icons/invite.png";
+import httpService from '../../helper/httpService';
+import { showErrorToast, showSuccessToast } from '../customToast/CustomToast';
 
 const icons = [
     { icon: camera, text: "Adult" },
@@ -22,6 +24,19 @@ const icons = [
 ]
 
 const CurrentProfileCard = () => {
+
+    const [user, setUser] = useState([])
+    useEffect(() => {
+        httpService("/auth/me", "GET")
+            .then((response) => {
+                console.log("Friend request sent:", response);
+                setUser(response?.data)
+            })
+            .catch((err) => {
+                console.error("Failed to send friend request:", err);
+            });
+    }, []); // dependency on card._id
+
     return (
         <>
             <div className="d-flex flex-column gap-3 px-3 py-3 rounded-4" style={{ width: "422px", backgroundColor: "var(--color-border)", }}>
@@ -29,7 +44,7 @@ const CurrentProfileCard = () => {
                 <div className="ms-2">
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="d-flex justify-content-center align-items-center gap-2">
-                            <h3 className="mb-0" style={{ fontSize: "18px" }}>CPLSUEPAUL</h3>
+                            <h3 className="mb-0" style={{ fontSize: "18px" }}>{user?.username}</h3>
                             <img src={starIcon} alt="star" width="24px" />
                             <i className="bi bi-three-dots-vertical"></i>
                         </div>

@@ -6,8 +6,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import UseAlert from '../../alert/UseAlert';
 import axios from 'axios';
 import OverlayLoader from '../../../helper/OverlayLoader';
+import { useAuth } from "../../../context/AuthContextAPI";
 
 const LoginForm = () => {
+  const { login } = useAuth();
   // Combined form state
   const [formData, setFormData] = useState({
     username: '',
@@ -131,6 +133,7 @@ const LoginForm = () => {
             setTimeout(() => {
               navigate("/feed")
             }, 300);
+            login(data,token);
           }
           console.log("all ok")
         } catch (error) {

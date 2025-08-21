@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaSearch,
   FaEllipsisH,
@@ -17,19 +17,23 @@ import PageWrapper from "../../components/PageWrapper";
 import { Form } from "react-bootstrap"; // ✅ Correct import
 import { BsEmojiSmile, BsSend } from "react-icons/bs";
 import GlobalPageWrapper from "../../components/GlobalPageWrapper";
+import httpService from "../../helper/httpService";
+
+import ChatComponent from "../../services/ChatComponent"
 
 const Chat = () => {
   const [selectedChat, setSelectedChat] = useState(0);
   const [message, setMessage] = useState("");
+  const [users, Setusers] = useState([])
 
-  const contacts = [
-    { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
-  ];
+  // const contacts = [
+  //   { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+  //   { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+  //   { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+  //   { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+  //   { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+  //   { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
+  // ];
 
   const [showPopup, setShowPopup] = useState(false)
   const [selected, setSelected] = useState(["Viewed me"]);
@@ -41,13 +45,26 @@ const Chat = () => {
     );
   };
 
-  const filter = [
-    "Latest",
-    "Online",
-    "Unread",
-    "Sent",
-    "Archive"
-  ];
+  // const filter = [
+  //   "Latest",
+  //   "Online",
+  //   "Unread",
+  //   "Sent",
+  //   "Archive"
+  // ];
+
+  useEffect(() => {
+    httpService(`/users`, "GET")
+      .then((response) => {
+        console.log(response)
+        Setusers(response?.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+
 
   return (
     <GlobalPageWrapper>
@@ -136,11 +153,11 @@ const Chat = () => {
 
             {/* Chat List */}
             <div className="chat-list flex-grow-1 overflow-auto">
-              {contacts.map((contact, index) => (
+              {users.map((contact, index) => (
                 <div
                   key={contact.id}
                   className={`chat-item p-3 ${selectedChat === index ? "active" : ""}`}
-                  onClick={() => setSelectedChat(index)}
+                  onClick={() => setSelectedChat(contact?._id)}
                 >
                   <div className="d-flex align-items-center">
                     <div className="position-relative">
@@ -151,7 +168,7 @@ const Chat = () => {
                     </div>
                     <div className="flex-grow-1 ms-3">
                       <div className="d-flex justify-content-between align-items-center">
-                        <h6 className="text-white mb-0">{contact.name}</h6>
+                        <h6 className="text-white mb-0">{contact.username}</h6>
                         <span className="time-text">{contact.time}</span>
                       </div>
                       <p className="message-preview mb-0">{contact.message}</p>
@@ -170,8 +187,8 @@ const Chat = () => {
 
           {/* Chat Area */}
           <div className="col-md-8 col-lg-9 chat-area d-flex flex-column h-100 px-3 py-5 position-relative">
-            {/* Chat Header */}
-            <div className="chat-header p-3 border-bottom">
+
+            {/* <div className="chat-header p-3 border-bottom">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
                   <div className="position-relative">
@@ -198,9 +215,9 @@ const Chat = () => {
               </div>
             </div>
 
-            {/* Chat Messages */}
+            
             <div style={{ height: "100vh", overflowX: "auto" }}>
-              {/* Receiver Message */}
+              
               <div className="p-3 d-flex gap-2 align-items-center">
                 <div className="message-bubble bg-success text-dark rounded-pill px-4" style={{ maxWidth: "60%" }}>
                   <p className="mb-0">Please add us to the USA DESI CPL group</p>
@@ -209,7 +226,7 @@ const Chat = () => {
                 <FaEllipsisH className="icon-sm" style={{ transform: "rotate(90deg)" }} />
               </div>
 
-              {/* Sender Message */}
+              
               <div className="p-3 d-flex justify-content-end align-items-center gap-2">
                 <FaEllipsisH className="icon-sm" style={{ transform: "rotate(90deg)" }} />
                 <div className="message-bubble bg-primary text-white rounded-pill px-4" style={{ maxWidth: "60%" }}>
@@ -219,7 +236,7 @@ const Chat = () => {
               </div>
             </div>
 
-            {/* Message Input */}
+            
             <div className="message-input p-3">
               <div className="d-flex align-items-center">
                 <div className="flex-grow-1">
@@ -242,8 +259,10 @@ const Chat = () => {
                   <FaPlus />
                 </button>
               </div>
-            </div>
+            </div> */}
+            <ChatComponent otherUserId={selectedChat}/>
           </div>
+
         </div>
       </div>
     </GlobalPageWrapper>

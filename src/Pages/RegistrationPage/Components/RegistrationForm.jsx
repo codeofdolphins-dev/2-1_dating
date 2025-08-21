@@ -9,9 +9,11 @@ import 'react-phone-input-2/lib/style.css';
 import CustomPhonenumberInputField from './CustomPhonenumberInputField';
 import axios from 'axios';
 import OverlayLoader from '../../../helper/OverlayLoader';
+import { useAuth } from '../../../context/AuthContextAPI';
 
 
 const RegistrationForm = () => {
+  const { registration } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -227,12 +229,14 @@ const RegistrationForm = () => {
           axios.post(`${apiUrl}/auth/signup`, { username, email, password })
             .then((response) => {
               const token = response?.data?.data?.token;
+              const data = response?.data
               sessionStorage.setItem('jwtToken', token);
               toast.success('Account created successfully!');
                
               setLoading(false)
               // Redirect to next step
               setTimeout(() => navigate('/feed'), 2000);
+              registration(data,token);
             })
             .catch((error) => {
               console.log(error);

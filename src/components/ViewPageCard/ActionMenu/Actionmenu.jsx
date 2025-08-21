@@ -9,9 +9,10 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
+import { showSuccessToast } from "../../customToast/CustomToast";
 // import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
 
-const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011",handleFriendRequest }) => {
+const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011", handleFriendRequest }) => {
 
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
   const [isLiked, setIsLiked] = useState({ id: "", status: false });
@@ -73,7 +74,7 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
         'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
         'Content-Type': 'application/json'
       },
-      data: { 
+      data: {
         targetUserId,
         interactionType: "like"
       }
@@ -82,6 +83,10 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
         setIsLiked({ id: res.data._id, status: true });
         // Optionally re-fetch
         fetchLikeStatus();
+        console.log(res)
+        if (res?.status === 200) {
+          showSuccessToast("You liked");
+        }
       })
       .catch(console.error);
   }, [targetUserId, fetchLikeStatus]);
@@ -89,7 +94,7 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
   // Dislike post
   const handleDisLike = useCallback(() => {
     if (!isLiked.id) return;
-
+    console.log(isLiked._id)
     axios({
       method: 'delete',
       url: `${import.meta.env.VITE_BASE_URL}/interactions/${isLiked.id}`,
@@ -101,12 +106,16 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
         setIsLiked({ id: "", status: false });
         // Optionally re-fetch
         fetchLikeStatus();
+        console.log(res)
+        if (res?.status === 200) {
+          showSuccessToast("You disliked");
+        }
       })
       .catch(console.error);
   }, [isLiked.id, fetchLikeStatus]);
 
   const handelLikeDislike = () => {
-    if(isLiked.status) handleDisLike();
+    if (isLiked.status) handleDisLike();
     else handleLike();
   }
 
@@ -152,7 +161,7 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
                 <i className="bi bi-hand-thumbs-up"></i>
                 <span>Like</span>
               </div>
-              <div  className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
+              <div className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
                 <i className="bi bi-hand-thumbs-down"></i>
                 <span>Not Interested</span>
               </div>

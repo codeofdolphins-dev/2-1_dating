@@ -142,7 +142,7 @@ const ChatroomChatBox = ({ room_id }) => {
                                                 right: "-5px",
                                                 cursor: "pointer",
                                             }}
-                                            onClick={() => setPreviewImage(null)} // ✅ Enable upload again
+                                            onClick={() => setPreviewImage(null)} 
                                         />
                                     </div>
                                 )}
