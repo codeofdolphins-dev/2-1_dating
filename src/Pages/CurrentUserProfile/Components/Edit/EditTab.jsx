@@ -30,7 +30,7 @@ const EditTab = () => {
   const circumcisedOptions = [`Prefer not to say`, `No`, `Yes`];
 
   const [circumcised, setCircumcised] = useState("");
-  const [desc, setDesc] = useState("");
+  const [desc, setDesc] = useState(`all desi couples join the group "usa-desi-couples" \n\nwell educated couple from nc , looking to meet decent, respectful couple friends \n\nDesi married couples ....`);
 
 
   const femaleInputOptions = {

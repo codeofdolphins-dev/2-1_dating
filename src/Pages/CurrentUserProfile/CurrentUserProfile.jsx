@@ -21,7 +21,7 @@ const CurrentUserProfile = () => {
     const renderUpperContent = () => {
         switch (activeTabUpper) {
             case "Profile":
-                return <ProfileTab />;
+                return <ProfileTab changeTab={setActiveTabUpper} />;
             case "Edit":
                 return <EditTab />;
             case "Pictures":
