@@ -117,7 +117,7 @@ const OnlinePage = () => {
                 className="col-12 col-sm-6 col-lg-6 col-xl-4"
                 key={index}
               >
-                <ViewPageCard index={index} images={images} card={card} />
+                <ViewPageCard  index={index} images={images} card={card} />
               </div>
             ))}
           </div>

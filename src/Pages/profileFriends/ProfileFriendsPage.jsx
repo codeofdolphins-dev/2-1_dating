@@ -13,7 +13,8 @@ import { showErrorToast, showSuccessToast } from '../../components/customToast/C
 
 const ProfileFriendsPage = () => {
 
-    const [user,setUser]=useState([])
+    const [user, setUser] = useState([])
+    const [refresh, setrefresh] = useState(false)
     useEffect(() => {
         httpService("/friend-requests", "GET")
             .then((response) => {
@@ -25,7 +26,10 @@ const ProfileFriendsPage = () => {
                 console.error("Failed to send friend request:", err);
                 showErrorToast(err?.response?.data?.message);
             });
-    }, []); // dependency on card._id
+    }, [refresh]); // dependency on card._id
+
+
+
 
     return (
         <>
@@ -34,16 +38,31 @@ const ProfileFriendsPage = () => {
 
                 <div className="container-fluid">
                     <div className="row g-4 pt-4">
-                        {
-                            user.map((userData, index) => (
-                                <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                                    <ViewPageCard userData={userData} index={index} showFriendOptions={true} timestamp={false}
-                                    />
-                                </div>
-                            ))
-                        }
+                        {user.length > 0 ? (
+                            user.map((userData, index) =>
+                                userData.status !== "declined"  && (
+                                    <div
+                                        className="col-12 col-sm-6 col-lg-6 col-xl-4"
+                                        key={index}
+                                    >
+                                        <ViewPageCard
+                                            userData={userData}
+                                            index={index}
+                                            showFriendOptions={true}
+                                            timestamp={false}
+                                            // handleDeclineFriendRequest={() => handleDeclineFriendRequest(userData._id)}
+                                            refresh={refresh}
+                                            setrefresh={setrefresh}
+                                        />
+                                    </div>
+                                )
+                            )
+                        ) : (
+                            <h1>No Friend request</h1>
+                        )}
                     </div>
                 </div>
+
 
             </GlobalPageWrapper>
         </>

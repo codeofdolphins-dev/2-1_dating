@@ -140,13 +140,6 @@ function App() {
           <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>  } />
           <Route path="/current-user-profile" element={<ProtectedRoute> <CurrentUserProfile /> </ProtectedRoute>  } />
 
-          
-          <Route path="/profile-account" element={<ProtectedRoute> <ProfileAccount /> </ProtectedRoute>  } />
-          <Route path="/profile-friends" element={<ProtectedRoute> <ProfileFriendsPage /> </ProtectedRoute>  } />
-          <Route path="/profile-views" element={<ProtectedRoute> <WhoIViewedPage/> </ProtectedRoute>  } />
-          <Route path="*" element={<NotFoundPage/>} />
-          <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>  } />
-          <Route path="/current-user-profile" element={<ProtectedRoute> <CurrentUserProfile /> </ProtectedRoute>  } />
           <Route path="/blocklist" element={<ProtectedRoute> <ProfileBlocklist /> </ProtectedRoute>  } />
           <Route path="/notes" element={<ProtectedRoute> <Notes /> </ProtectedRoute>  } />
           <Route path="/remembered" element={<ProtectedRoute> <ProfileRecomended /> </ProtectedRoute>  } />

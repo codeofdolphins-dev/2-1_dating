@@ -1,123 +1,185 @@
-import { useEffect, useRef, useState } from "react";
+// services/websocket.js
 import { io } from "socket.io-client";
 
-const useWebSocket = (token) => {
-    const apiUrl = import.meta.env.VITE_BASE_URL;
-    const socketRef = useRef(null);
-    const [isConnected, setIsConnected] = useState(false);
+function createWebSocketService() {
+  let socket = null;
+  let isConnected = false;
 
-    
+  // Initialize connection with JWT token
+  const connect = (token) => {
+    socket = io("http://46.202.189.73:88", {
+      auth: { token },
+      transports: ["websocket", "polling"],
+    });
 
-    useEffect(() => {
-        if (!token) return;
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket server");
+      isConnected = true;
+    });
 
-        // Connect socket with JWT
-        const socket = io(apiUrl, {
-            auth: { token },
-            transports: [ "polling"],
-        });
+    socket.on("disconnect", () => {
+      console.log("Disconnected from WebSocket server");
+      isConnected = false;
+    });
 
-        socketRef.current = socket;
+    socket.on("connect_error", (error) => {
+      console.error("WebSocket connection error:", error);
+    });
 
-        socket.on("connect", () => {
-            console.log("✅ Connected to WebSocket server");
-            setIsConnected(true);
-        });
+    setupEventListeners();
+  };
 
-        socket.on("disconnect", () => {
-            console.log("❌ Disconnected from WebSocket server");
-            setIsConnected(false);
-        });
+  const setupEventListeners = () => {
+    if (!socket) return;
 
-        socket.on("connect_error", (error) => {
-            console.error("⚠️ WebSocket connection error:", error);
-        });
+    // Real-time notifications
+    socket.on("notification", (notification) => {
+      console.log("New notification:", notification);
+    });
 
-        // Setup event listeners
-        socket.on("notification", (n) => console.log("📢 Notification:", n));
-        socket.on("new_personal_message", (m) => console.log("💬 New message:", m));
-        socket.on("message_sent", (m) => console.log("✅ Message sent:", m));
-        socket.on("message_read", (d) => console.log("👀 Message read:", d));
-        socket.on("user_typing", (d) => console.log("⌨️ Typing:", d));
-        socket.on("friend_status_change", (d) => console.log("🟢 Friend status:", d));
-        socket.on("new_room_message", (m) => console.log("🏠 Room message:", m));
-        socket.on("user_joined_room", (d) => console.log("➕ Joined room:", d));
-        socket.on("user_left_room", (d) => console.log("➖ Left room:", d));
-        socket.on("user_joined_conversation", (d) => console.log("👥 Joined convo:", d));
-        socket.on("user_left_conversation", (d) => console.log("🚪 Left convo:", d));
-        socket.on("error", (e) => console.error("❌ Socket error:", e));
-        socket.on("message_error", (e) => console.error("⚠️ Message error:", e));
+    // Personal messaging
+    socket.on("new_personal_message", (message) => {
+      console.log("New personal message:", message);
+    });
 
-        return () => {
-            socket.disconnect();
-            socketRef.current = null;
-            setIsConnected(false);
-        };
-    }, [token]);
+    socket.on("message_sent", (message) => {
+      console.log("Message sent confirmation:", message);
+    });
 
-    // Messaging functions
-    const joinConversation = (otherUserId) =>
-        socketRef.current?.emit("join_conversation", { otherUserId });
+    socket.on("message_read", (data) => {
+      console.log("Message read:", data);
+    });
 
-    const leaveConversation = (otherUserId) =>
-        socketRef.current?.emit("leave_conversation", { otherUserId });
+    // Typing indicators
+    socket.on("user_typing", (data) => {
+      console.log("User typing:", data);
+    });
 
-    const sendPersonalMessage = (
-        receiverId,
-        content,
-        messageType = "text",
-        mediaUrl = null,
-        replyTo = null
-    ) =>
-        socketRef.current?.emit("send_personal_message", {
-            receiverId,
-            content,
-            messageType,
-            mediaUrl,
-            replyTo,
-        });
+    // Friend status
+    socket.on("friend_status_change", (data) => {
+      console.log("Friend status change:", data);
+    });
 
-    const startTyping = (otherUserId) =>
-        socketRef.current?.emit("typing_start", { otherUserId });
+    // Chat room
+    socket.on("new_room_message", (message) => {
+      console.log("New room message:", message);
+    });
 
-    const stopTyping = (otherUserId) =>
-        socketRef.current?.emit("typing_stop", { otherUserId });
+    socket.on("user_joined_room", (data) => {
+      console.log("User joined room:", data);
+    });
 
-    const markMessageAsRead = (messageId, otherUserId) =>
-        socketRef.current?.emit("message_read", { messageId, otherUserId });
+    socket.on("user_left_room", (data) => {
+      console.log("User left room:", data);
+    });
 
-    // Chat room methods
-    const joinChatroom = (roomId) =>
-        socketRef.current?.emit("join_chatroom", { roomId });
+    // Conversation
+    socket.on("user_joined_conversation", (data) => {
+      console.log("User joined conversation:", data);
+    });
 
-    const leaveChatroom = (roomId) =>
-        socketRef.current?.emit("leave_chatroom", { roomId });
+    socket.on("user_left_conversation", (data) => {
+      console.log("User left conversation:", data);
+    });
 
-    const sendRoomMessage = (
-        roomId,
-        content,
-        messageType = "text",
-        mediaUrl = null
-    ) =>
-        socketRef.current?.emit("send_room_message", {
-            roomId,
-            content,
-            messageType,
-            mediaUrl,
-        });
+    // Errors
+    socket.on("error", (error) => {
+      console.error("Socket error:", error);
+    });
 
-    return {
-        isConnected,
-        joinConversation,
-        leaveConversation,
-        sendPersonalMessage,
-        startTyping,
-        stopTyping,
-        markMessageAsRead,
-        joinChatroom,
-        leaveChatroom,
-        sendRoomMessage,
-    };
-};
+    socket.on("message_error", (error) => {
+      console.error("Message error:", error);
+    });
+  };
 
-export default useWebSocket;
+  // === Personal Messaging Methods ===
+  const joinConversation = (otherUserId) => {
+    console.log(otherUserId)
+    socket?.emit("join_conversation", { otherUserId });
+  };
+
+  const leaveConversation = (otherUserId) => {
+    socket?.emit("leave_conversation", { otherUserId });
+  };
+
+  const sendPersonalMessage = (
+    receiverId,
+    content,
+    messageType = "text",
+    mediaUrl = null,
+    replyTo = null
+  ) => {
+    socket?.emit("send_personal_message", {
+      receiverId,
+      content,
+      messageType,
+      mediaUrl,
+      replyTo,
+    });
+  };
+
+  const startTyping = (otherUserId) => {
+    socket?.emit("typing_start", { otherUserId });
+  };
+
+  const stopTyping = (otherUserId) => {
+    socket?.emit("typing_stop", { otherUserId });
+  };
+
+  const markMessageAsRead = (messageId, otherUserId) => {
+    socket?.emit("message_read", { messageId, otherUserId });
+  };
+
+  // === Chat Room Methods ===
+  const joinChatroom = (roomId) => {
+    socket?.emit("join_chatroom", { roomId });
+  };
+
+  const leaveChatroom = (roomId) => {
+    socket?.emit("leave_chatroom", { roomId });
+  };
+
+  const sendRoomMessage = (
+    roomId,
+    content,
+    messageType = "text",
+    mediaUrl = null
+  ) => {
+    socket?.emit("send_room_message", {
+      roomId,
+      content,
+      messageType,
+      mediaUrl,
+    });
+  };
+
+  // === Disconnect ===
+  const disconnect = () => {
+    if (socket) {
+      socket.disconnect();
+      socket = null;
+      isConnected = false;
+    }
+  };
+
+  return {
+    connect,
+    joinConversation,
+    leaveConversation,
+    sendPersonalMessage,
+    startTyping,
+    stopTyping,
+    markMessageAsRead,
+    joinChatroom,
+    leaveChatroom,
+    sendRoomMessage,
+    disconnect,
+    get isConnected() {
+      return isConnected;
+    },
+  };
+}
+
+// Export a singleton instance (like class version)
+const WebSocketService = createWebSocketService();
+export default WebSocketService;

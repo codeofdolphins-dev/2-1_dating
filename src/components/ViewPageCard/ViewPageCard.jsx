@@ -31,30 +31,33 @@ import img1 from "../../assets/ViwCardImags/img/couple.avif";
 import img2 from "../../assets/ViwCardImags/img/coupleImg.jpeg";
 import img3 from "../../assets/ViwCardImags/img/profileImg.png";
 import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
+import { FaCheckCircle } from "react-icons/fa";
 
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
 
 
 const cardList = [
-    { username: "Card One" },
-    { username: "Card Two" },
-    { username: "Card Three" },
-    { username: "Card Four" },
-    { username: "Card Five" },
-    { username: "Card Six" },
-    { username: "Card Seven" },
-    // ...
+  { username: "Card One" },
+  { username: "Card Two" },
+  { username: "Card Three" },
+  { username: "Card Four" },
+  { username: "Card Five" },
+  { username: "Card Six" },
+  { username: "Card Seven" },
+  // ...
 ];
 
 const imageList = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index,userData, images=imageList, card=cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false }) => {
-  console.log(userData)
+const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, setrefresh, refresh }) => {
+  // console.log(card._id)
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
   const [time, setTime] = useState("")
+  // const [isCheckedFriendrequest, setIsCheckedFriendrequest] = useState(false);
+  // console.log(isCheckedFriendrequest)
   // const[loading,setLoading] = useState(true)
 
   const prevRef = useRef(null);
@@ -129,182 +132,239 @@ const ViewPageCard = ({ index,userData, images=imageList, card=cardList, rawTime
   // handle friend request send
   const handleFriendRequest = async () => {
     try {
-      const response = await httpService("/friend-requests", "POST",{receiverId:card._id});
+      const response = await httpService("/friend-requests", "POST", { receiverId: card._id });
       console.log(response)
       showSuccessToast(response?.message)
-      
+
     } catch (err) {
       console.error("Failed to send friend request:", err);
       showErrorToast(err?.response?.data?.message)
-    } 
+    }
   };
+
+  // handle friend request decline
+  const handleDeclineFriendRequest = async () => {
+    console.log("all ok")
+    try {
+      const response = await httpService(`/friend-requests/${userData._id}/respond`, "PUT", { "action": "decline" })
+      if (response) {
+        console.log(response)
+        showSuccessToast(response?.message);
+        setrefresh(!refresh)
+      }
+    } catch (err) {
+      console.log(err)
+      showErrorToast(err?.response?.data?.message);
+      setrefresh(!refresh)
+    }
+  }
+
+  // useEffect(() => {
+  //   httpService(`/friend-requests/${userData._id}/respond`, "PUT", { "action": "accept" })
+  //     .then((response) => {
+  //       console.log("Friend request sent:", response);
+  //       showSuccessToast(response?.message);
+  //       setrefresh(!refresh)
+  //     })
+  //     .catch((err) => {
+  //       console.error("Failed to send friend request:", err);
+  //       showErrorToast(err?.response?.data?.message);
+  //       setrefresh(!refresh)
+  //     });
+  // }, []); // dependency on card._id
+
+  const handleAcceptFriendrequest = async () => {
+    console.log("all ok")
+    try {
+      const response = await httpService(`/friend-requests/${userData._id}/respond`, "PUT", { "action": "accept" })
+      if (response) {
+        console.log(response)
+        showSuccessToast(response?.message);
+        setrefresh(!refresh)
+      }
+    } catch (err) {
+      console.log(err)
+      showErrorToast(err?.response?.data?.message);
+      setrefresh(!refresh)
+    }
+  }
+
 
 
   return (
     <>
-      <ToastContainer/>
-    <div className="row g-3 rounded-4 text-white pb-2 ml-3"
-      style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}
-    >
-      {/* Left: Image Carousel */}
-      <div className="col-lg-6 pe-lg-3 position-relative mt-2">
-        <div className="rounded-4 overflow-hidden">
-          <Swiper
-            modules={[Navigation]}
-            spaceBetween={10}
-            slidesPerView={1}
-            onSwiper={setSwiperInstance}
-          >
-            {images.map((img, idx) => (
-              <SwiperSlide key={idx}>
-                <img
-                  src={img}
-                  alt={`Slide ${idx}`}
-                  className="w-100"
-                  onClick={() => setShowGallery(true)}
-                  style={{
-                    objectFit: "cover",
-                    height: "250px",
-                    borderRadius: "12px",
-                    cursor: "pointer"
-                  }}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+      <ToastContainer />
+      <div className="row g-3 rounded-4 text-white pb-2 ml-3"
+        style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}
+      >
+        {/* Left: Image Carousel */}
+        <div className="col-lg-6 pe-lg-3 position-relative mt-2">
+          <div className="rounded-4 overflow-hidden">
+            <Swiper
+              modules={[Navigation]}
+              spaceBetween={10}
+              slidesPerView={1}
+              onSwiper={setSwiperInstance}
+            >
+              {images.map((img, idx) => (
+                <SwiperSlide key={idx}>
+                  <img
+                    src={img}
+                    alt={`Slide ${idx}`}
+                    className="w-100"
+                    onClick={() => setShowGallery(true)}
+                    style={{
+                      objectFit: "cover",
+                      height: "250px",
+                      borderRadius: "12px",
+                      cursor: "pointer"
+                    }}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+
+          {/* Carousel Controls + ActionMenu */}
+          <div className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2" style={{ zIndex: 55 }}>
+            <div className="d-flex gap-2">
+              <button
+                ref={prevRef}
+                className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
+                style={{ width: "32px", height: "32px" }}
+              >
+                <i className="bi bi-chevron-left"></i>
+              </button>
+              <button
+                ref={nextRef}
+                className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
+                style={{ width: "32px", height: "32px" }}
+              >
+                <i className="bi bi-chevron-right"></i>
+              </button>
+            </div>
+
+            <ActionMenu
+              index={index}
+              showMeessagePopup={showMessagePopup}
+              setshowMeessagePopup={setShowMessagePopup}
+              handleFriendRequest={handleFriendRequest}
+              targetUserId={card._id}
+            />
+          </div>
         </div>
 
-        {/* Carousel Controls + ActionMenu */}
-        <div className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2" style={{ zIndex: 55 }}>
-          <div className="d-flex gap-2">
-            <button
-              ref={prevRef}
-              className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
-              style={{ width: "32px", height: "32px" }}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-            <button
-              ref={nextRef}
-              className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
-              style={{ width: "32px", height: "32px" }}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </div>
-
-          <ActionMenu
-            index={index}
-            showMeessagePopup={showMessagePopup}
-            setshowMeessagePopup={setShowMessagePopup}
-            handleFriendRequest={handleFriendRequest}
-          />
-        </div>
-      </div>
-
-      {/* Right: Card Info */}
-      <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
-        <div>
-          <div className="d-flex justify-content-between align-items-center mb-2">
-            <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username :card?.username}</h4>
-            <div><img src={star} height={30} alt="Star" /></div>
-          </div>
-
-          <div className="d-flex align-items-center flex-wrap gap-3 fw-semibold mb-2">
-            <div className="d-flex align-items-center gap-2">
-              <img src={female} height={16} alt="female" />
-              <span className="text-danger">57</span>
+        {/* Right: Card Info */}
+        <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
+          <div>
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.username}</h4>
+              <div><img src={star} height={30} alt="Star" /></div>
             </div>
-            <div className="d-flex align-items-center gap-2">
-              <img src={male} height={16} alt="male" />
-              <span className="text-primary">57</span>
-            </div>
-          </div>
 
-          <hr />
-          <div className="mb-2 d-flex align-items-center gap-3 pt-2">
-            <p className="mb-0 fw-semibold fs-5">Interests:</p>
-            <div className="d-flex gap-1">
-              <img src={male} height={20} alt="male" />
-              <img src={female} height={20} alt="female" />
-              <img src={male} height={20} alt="male" />
+            <div className="d-flex align-items-center flex-wrap gap-3 fw-semibold mb-2">
+              <div className="d-flex align-items-center gap-2">
+                <img src={female} height={16} alt="female" />
+                <span className="text-danger">57</span>
+              </div>
+              <div className="d-flex align-items-center gap-2">
+                <img src={male} height={16} alt="male" />
+                <span className="text-primary">57</span>
+              </div>
             </div>
-          </div>
 
-          <hr />
-          <div className="d-flex align-items-center gap-2 text-white small py-2">
-            <i className="bi bi-geo-alt-fill"></i>
-            <span>Altedo, ITA | 4256 mi</span>
-          </div>
+            <hr />
+            <div className="mb-2 d-flex align-items-center gap-3 pt-2">
+              <p className="mb-0 fw-semibold fs-5">Interests:</p>
+              <div className="d-flex gap-1">
+                <img src={male} height={20} alt="male" />
+                <img src={female} height={20} alt="female" />
+                <img src={male} height={20} alt="male" />
+              </div>
+            </div>
 
-          <hr />
-          <div className="d-flex flex-wrap gap-2">
-            <div className="d-flex align-items-center gap-1 text-white small py-2">
-              <i className="bi bi-camera-fill"></i><span>41</span>
+            <hr />
+            <div className="d-flex align-items-center gap-2 text-white small py-2">
+              <i className="bi bi-geo-alt-fill"></i>
+              <span>Altedo, ITA | 4256 mi</span>
             </div>
-            <div className="d-flex align-items-center gap-1 text-white small py-2">
-              <i className="bi bi-person-fill"></i><span>12</span>
-            </div>
-            <div className="d-flex align-items-center gap-1 text-white small py-2">
-              <i className="bi bi-star-fill"></i><span>5</span>
-            </div>
-            {deleteOption || likeIcon &&
+
+            <hr />
+            <div className="d-flex flex-wrap gap-2">
               <div className="d-flex align-items-center gap-1 text-white small py-2">
-                <i className="bi bi-hand-thumbs-up-fill"></i><span>29</span>
+                <i className="bi bi-camera-fill"></i><span>41</span>
               </div>
-            }
-            <div className="d-flex align-items-center gap-1 text-white small py-2">
-              <i className="bi bi-play-fill"></i><span>209</span>
-            </div>
-          </div>
-
-          <div className="d-flex justify-content-between gap-5 align-items-center">
-            <div className="d-flex gap-3 mt-2">
-              <img src={phone} alt="" height={30} />
-              <img src={pc} alt="" height={30} />
-              {!deleteOption &&
-                <img src={chat} alt="" height={30} />
+              <div className="d-flex align-items-center gap-1 text-white small py-2">
+                <i className="bi bi-person-fill"></i><span>12</span>
+              </div>
+              <div className="d-flex align-items-center gap-1 text-white small py-2">
+                <i className="bi bi-star-fill"></i><span>5</span>
+              </div>
+              {deleteOption || likeIcon &&
+                <div className="d-flex align-items-center gap-1 text-white small py-2">
+                  <i className="bi bi-hand-thumbs-up-fill"></i><span>29</span>
+                </div>
               }
+              <div className="d-flex align-items-center gap-1 text-white small py-2">
+                <i className="bi bi-play-fill"></i><span>209</span>
+              </div>
             </div>
 
-            {
-              showFriendOptions && <div className="pt-2 pl-5">
+            <div className="d-flex justify-content-between gap-1 align-items-center">
+              <div className="d-flex gap-3 mt-2">
+                <img src={phone} alt="" height={30} />
+                <img src={pc} alt="" height={30} />
+                {!deleteOption &&
+                  <img src={chat} alt="" height={30} />
+                }
+              </div>
+
+              {
+                showFriendOptions && <div className="pt-2 pl-5">
+                  {
+                    userData.status === "accepted" ? "Friends" :
+                      <div className="d-flex align-items-center gap-3 mt-2">
+                        {/* Accept Friend Request Icon */}
+                        <FaCheckCircle
+                          size={24}
+                          style={{ cursor: "pointer",color:"var(--color-primary-green)" }}
+                          onClick={handleAcceptFriendrequest}
+                        />
+
+                        {/* Decline Friend Request Icon */}
+                        <img
+                          src={trash}
+                          alt="delete"
+                          height={22}
+                          style={{ cursor: "pointer" }}
+                          onClick={handleDeclineFriendRequest}
+                        />
+                      </div>
+                  }
+                </div>
+              }
+
+
+              {deleteUser && <div className="pt-2 pl-5" >
                 <div className="d-flex align-items-center gap-2 mt-0">
-                  <div className=" mt-2">
-                    <input
-                      className=" mt-0"
-                      type="checkbox"
-                      style={{ height: 20, width: 20, cursor: "pointer" }}
-                    />
-                  </div>
                   <div className="d-flex align-items-center">
                     <img src={trash} alt="delete" height={20} />
                   </div>
                 </div>
               </div>
-            }
+              }
 
-
-            {deleteUser && <div className="pt-2 pl-5">
-              <div className="d-flex align-items-center gap-2 mt-0">
-                <div className="d-flex align-items-center">
-                  <img src={trash} alt="delete" height={20} />
-                </div>
-              </div>
-            </div>
-            }
-
-            {
-              deleteOption && <div className="pt-2 pl-5">
-                <div className="d-flex align-items-center gap-2 mt-0">
-                  <div className="d-flex align-items-center">
-                    <img src={trash} alt="delete" height={20} />
+              {
+                deleteOption && <div className="pt-2 pl-5" >
+                  <div className="d-flex align-items-center gap-2 mt-0">
+                    <div className="d-flex align-items-center">
+                      <img src={trash} alt="delete" height={20} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            }
+              }
 
-            {/* {
+              {/* {
 
               dateObj && (
                 <div className="text-danger">
@@ -312,23 +372,23 @@ const ViewPageCard = ({ index,userData, images=imageList, card=cardList, rawTime
                 </div>
               )} */}
 
-            {time && <div className="text-danger">{time}</div>}
+              {time && <div className="text-danger">{time}</div>}
 
+            </div>
           </div>
         </div>
+
+        {/* 📷 Image Gallery Popup */}
+        <ViewpagePhotoGallery
+          show={showGallery}
+          handleClose={() => setShowGallery(false)}
+          images={images}
+        />
+
+        {/* 💬 Messenger Popup */}
+        {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
+
       </div>
-
-      {/* 📷 Image Gallery Popup */}
-      <ViewpagePhotoGallery
-        show={showGallery}
-        handleClose={() => setShowGallery(false)}
-        images={images}
-      />
-
-      {/* 💬 Messenger Popup */}
-      {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
-
-    </div>
     </>
   );
 };

@@ -1,10 +1,11 @@
 // hooks/useWebSocket.js
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import WebSocketService from '../services/websocket';
-import { AuthContext } from '../contexts/AuthContext';
+import { useAuth } from '../context/AuthContextAPI';
 
 export const useWebSocket = () => {
-  const { token, user } = useContext(AuthContext);
+  const { user,token } = useAuth();
+  console.log("current user Id",user?.data?.user?._id)
 
   useEffect(() => {
     if (token && user) {
