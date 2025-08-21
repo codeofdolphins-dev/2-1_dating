@@ -47,16 +47,6 @@ const VideoCard = ({
                     {/* Image */}
                     <img src={videocardImg} alt="" className="h-100 w-100" style={{ objectFit: "fill" }} />
 
-                    {/* Dark overlay */}
-                    {/* <div
-                        className="position-absolute top-0 start-0 w-100 h-100"
-                        style={{
-                            background: "rgba(0, 0, 0, 0.0)",
-                            backdropFilter: "blur(2px)",
-                            zIndex: 1
-                        }}
-                    /> */}
-
                     {/* Play Button */}
                     <div
                         className="position-absolute top-50 start-50 translate-middle"

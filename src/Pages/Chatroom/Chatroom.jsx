@@ -10,6 +10,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
 import OverlayLoader from '../../helper/OverlayLoader';
+import ReportPopup from '../../components/ReportPopup/ReportPopup';
 
 
 
@@ -20,8 +21,10 @@ const Chatroom = () => {
 
 
     const [chatRoom, setChatRoom] = useState("");
-    const [stateChanger, setStateChanger] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [stateChanger, setStateChanger] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const [showReportPopup, setShowReportPopup] = useState(false);
 
     const room_id = location?.state?._id
 
@@ -58,22 +61,22 @@ const Chatroom = () => {
                 'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
             }
         })
-            .then(res => {
-                if (res.data.success) {
-                    showSuccessToast(res.data.message || "You left the room");
-                    setLoading(false)
-                    // Small delay so toast is visible before redirect
-                    setTimeout(() => {
-                        navigate("/chatrooms");
-                    }, 500);
-
-                    setStateChanger(false); // ✅ Correct state update
-                }
-            })
-            .catch((err) => {
+        .then(res => {
+            if (res.data.success) {
+                showSuccessToast(res.data.message || "You left the room");
                 setLoading(false)
-                showErrorToast("Failed to leave the room");
-            });
+                // Small delay so toast is visible before redirect
+                setTimeout(() => {
+                    navigate("/chatrooms");
+                }, 500);
+
+                setStateChanger(false); // ✅ Correct state update
+            }
+        })
+        .catch((err) => {
+            setLoading(false)
+            showErrorToast("Failed to leave the room");
+        });
 
         //remove live status 
         axios({
@@ -112,19 +115,21 @@ const Chatroom = () => {
                 "action": "start"
             }
         })
-            .then(res => {
-                if (res.data.success) {
-                    console.log("chatroom live status", res)
-                    showSuccessToast("Chatroom lived")
-                    setStateChanger(!stateChanger)
-                }
-            })
-            .catch((err) => {
-                console.log("chatroom live status", err)
-                showErrorToast("Chatroom lived")
+        .then(res => {
+            if (res.data.success) {
+                console.log("chatroom live status", res)
+                showSuccessToast("Chatroom lived")
                 setStateChanger(!stateChanger)
-            })
+            }
+        })
+        .catch((err) => {
+            console.log("chatroom live status", err)
+            showErrorToast("Chatroom lived")
+            setStateChanger(!stateChanger)
+        })
     }
+
+    
 
     console.log(chatRoom)
     return (
@@ -132,6 +137,12 @@ const Chatroom = () => {
             <ToastContainer />
             <GlobalPageWrapper />
             <OverlayLoader show={loading} text="Please wait..." />
+
+            <ReportPopup 
+                show={showReportPopup}
+                handleClose={() => setShowReportPopup(false)}
+                room_id={chatRoom._id}
+            />
 
             <div className='container-fluid'>
                 <div className='row'>
@@ -176,9 +187,7 @@ const Chatroom = () => {
                             <div className='text-white fs-5 pl-5'>
                                 &nbsp; &nbsp; &nbsp; &nbsp; {chatRoom?.createdBy?.username}
                             </div>
-                            <button className="btn btn-outline-light btn-sm rounded-pill px-3">
-                                Report
-                            </button>
+                            <button className="btn btn-outline-light btn-sm rounded-pill px-3" onClick={() => setShowReportPopup(true)}> Report </button>
                         </div>
                         <div className='mt-5'>
                             <div className="container-fluid client-page-background overflow-auto" style={{ height: "555px" }}>

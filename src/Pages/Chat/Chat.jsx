@@ -17,20 +17,11 @@ import PageWrapper from "../../components/PageWrapper";
 import { Form } from "react-bootstrap"; // ✅ Correct import
 import { BsEmojiSmile, BsSend } from "react-icons/bs";
 import GlobalPageWrapper from "../../components/GlobalPageWrapper";
+import MessangerTab from "./components/MessangerTab/MessangerTab";
+import GroupMessangerTab from "./components/GroupMessangerTab/GroupMessangerTab";
 
 const Chat = () => {
-  const [selectedChat, setSelectedChat] = useState(0);
   const [message, setMessage] = useState("");
-
-  const contacts = [
-    { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
-  ];
-
   const [showPopup, setShowPopup] = useState(false)
   const [selected, setSelected] = useState(["Viewed me"]);
   const handleToggle = (label) => {
@@ -48,6 +39,18 @@ const Chat = () => {
     "Sent",
     "Archive"
   ];
+
+  const [activeTab, setActiveTab] = useState("messanger");
+  const renderContent = () => {
+    switch (activeTab) {
+      case "messanger":
+        return <MessangerTab />
+      case "group":
+        return <GroupMessangerTab />
+      default:
+        return null;
+    }
+  };
 
   return (
     <GlobalPageWrapper>
@@ -129,43 +132,20 @@ const Chat = () => {
 
               {/* Tabs */}
               <div className="nav-tabs-custom d-flex">
-                <button className="nav-link active flex-fill">Messenger</button>
-                <button className="nav-link flex-fill">Group Messenger</button>
+                <button
+                  className={`nav-link flex-fill ${activeTab === "messanger" ? "active" : ""}`}
+                  onClick={() => setActiveTab("messanger")}
+                  >Messenger</button>
+                <button
+                  className={`nav-link flex-fill ${activeTab === "group" ? "active" : ""}`}
+                  onClick={() => setActiveTab("group")}
+                >Group Messenger</button>
               </div>
             </div>
 
-            {/* Chat List */}
-            <div className="chat-list flex-grow-1 overflow-auto">
-              {contacts.map((contact, index) => (
-                <div
-                  key={contact.id}
-                  className={`chat-item p-3 ${selectedChat === index ? "active" : ""}`}
-                  onClick={() => setSelectedChat(index)}
-                >
-                  <div className="d-flex align-items-center">
-                    <div className="position-relative">
-                      <div className="avatar">
-                        <span className="text-white fw-bold">J</span>
-                      </div>
-                      {contact.online && <div className="online-indicator"></div>}
-                    </div>
-                    <div className="flex-grow-1 ms-3">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <h6 className="text-white mb-0">{contact.name}</h6>
-                        <span className="time-text">{contact.time}</span>
-                      </div>
-                      <p className="message-preview mb-0">{contact.message}</p>
-                    </div>
-                    <div className="d-flex flex-column align-items-end">
-                      <button className="btn btn-icon-sm mb-1">
-                        <FaEllipsisH className="icon-xs" />
-                      </button>
-                      <div className="status-dot"></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* render optional component */}
+            <div className="mt-3 w-100">{renderContent()}</div>
+
           </div>
 
           {/* Chat Area */}
