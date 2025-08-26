@@ -35,6 +35,7 @@ import SpeedDatePopup from '../../components/SpeedDatePopUp/SpeedDatePopUp';
 import { Button } from 'bootstrap/dist/js/bootstrap.bundle.min';
 import TravelDatePopup from '../../components/TravelDatePopup/TravelDatePopup';
 import SpeedDateCheckBoxPopup from '../../components/SpeedDateCheckBoxPopup/SpeedDateCheckBoxPopup';
+import { useNavigate } from 'react-router-dom';
 
 const images = [img5, img6, img7, img1];
 const cards = [
@@ -80,6 +81,7 @@ const HotDatePage = () => {
   const [showTraveldate, setShowTraveldateShow] = useState(false);
   const [showSpeeddate, setShowSpeddateShow] = useState(false);
   const [showSpeeddateCheckBox, setShowSpeeddateCheckBox] = useState(false);
+  const navigate = useNavigate()
 
 
 
@@ -97,10 +99,14 @@ const HotDatePage = () => {
     setShowTraveldateShow(true)
     console.log(showSpeeddate)
   }
+
+  const navigationpage = () =>{
+    navigate("/create-speeddate")
+  }
   return (
     <>
       <GlobalPageWrapper >
-      <FilterBar filter1={map} filter2={filter} filterName1={"Add Hotdate"} filterName2={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} handleSpedDatePopup={handleSpedDateTypePopup} checkbox={false}/>
+      <FilterBar filter1={map} navigationPageName2={"+ Speed Date"} navigationToAnotherPage2={navigationpage} filter2={filter} filterName1={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} handleSpedDatePopup={handleSpedDateTypePopup} checkbox={false} />
 
       <div className='client-page-background'>
         <div className="container-fluid">

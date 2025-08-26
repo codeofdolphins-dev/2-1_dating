@@ -8,9 +8,14 @@ import axios from "axios";
 const ChatroomChatBox = ({ room_id }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
-    const [previewImage, setPreviewImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null); // file object
+    const [previewUrl, setPreviewUrl] = useState(null); // base64 string
+    const [toggle, setToggle] = useState(false)
+
     const chatEndRef = useRef(null);
     const navigate = useNavigate();
+
+    console.log("Preview Image Base64:", previewUrl);
 
     const apiUrl = import.meta.env.VITE_BASE_URL;
 
@@ -21,6 +26,7 @@ const ChatroomChatBox = ({ room_id }) => {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setMessages(data.data || []);
+            console.log(room_id)
         } catch (error) {
             console.error("Error fetching messages:", error);
         }
@@ -32,10 +38,10 @@ const ChatroomChatBox = ({ room_id }) => {
         try {
             const token = sessionStorage.getItem("jwtToken");
 
-            // If sending image
+            // If sending image (upload to Cloudinary)
             if (previewImage) {
                 const cloudFormData = new FormData();
-                cloudFormData.append("file", previewImage);
+                cloudFormData.append("file", previewImage); // send file object
                 cloudFormData.append("upload_preset", "chat_media_upload");
 
                 const cloudinaryRes = await axios.post(
@@ -52,7 +58,8 @@ const ChatroomChatBox = ({ room_id }) => {
                 );
 
                 setMessages((prev) => [...prev, data.message]);
-                setPreviewImage(null); // ✅ Re-enable upload after send
+                setPreviewImage(null);
+                setPreviewUrl(null);
             }
 
             // If sending text
@@ -65,21 +72,26 @@ const ChatroomChatBox = ({ room_id }) => {
 
                 setMessages((prev) => [...prev, data.message]);
                 setNewMessage("");
+
+
             }
+
         } catch (error) {
             console.error("Error sending message:", error);
         }
+
+        setToggle(!toggle)
     };
 
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    // useEffect(() => {
-    //     fetchMessages();
-    //     const interval = setInterval(fetchMessages, 3000);
-    //     return () => clearInterval(interval);
-    // }, [room_id]);
+    useEffect(() => {
+        fetchMessages()
+    }, [toggle]);
+
+    console.log(toggle)
 
     return (
         <Container fluid className="mt-2">
@@ -121,10 +133,10 @@ const ChatroomChatBox = ({ room_id }) => {
                         <div className="flex-grow-1">
                             <div className="d-flex align-items-center rounded-pill px-3 py-2 bg-light position-relative">
                                 {/* Preview Image */}
-                                {previewImage && (
+                                {previewUrl && (
                                     <div className="me-2 position-relative">
                                         <img
-                                            src={URL.createObjectURL(previewImage)}
+                                            src={previewUrl}
                                             alt="preview"
                                             style={{
                                                 height: "40px",
@@ -142,7 +154,10 @@ const ChatroomChatBox = ({ room_id }) => {
                                                 right: "-5px",
                                                 cursor: "pointer",
                                             }}
-                                            onClick={() => setPreviewImage(null)} 
+                                            onClick={() => {
+                                                setPreviewImage(null);
+                                                setPreviewUrl(null);
+                                            }}
                                         />
                                     </div>
                                 )}
@@ -167,22 +182,32 @@ const ChatroomChatBox = ({ room_id }) => {
                                 id="mediaUpload"
                                 accept="image/*"
                                 style={{ display: "none" }}
-                                disabled={!!previewImage} // ✅ Disable when image selected
+                                disabled={!!previewImage}
                                 onChange={(e) => {
                                     const file = e.target.files[0];
                                     if (file) {
-                                        setPreviewImage(file);
+                                        setPreviewImage(file); // keep file object
+                                        // ✅ Convert to Base64 string
+                                        const reader = new FileReader();
+                                        reader.onloadend = () => {
+                                            setPreviewUrl(reader.result); // base64 string
+                                        };
+                                        reader.readAsDataURL(file);
                                     }
                                 }}
                             />
                             <div
                                 className={`p-2 rounded-circle d-flex align-items-center justify-content-center ${previewImage ? "bg-secondary" : "bg-danger"}`}
                                 role="button"
-                                style={{ opacity: previewImage ? 0.6 : 1, cursor: previewImage ? "not-allowed" : "pointer" }}
+                                style={{
+                                    opacity: previewImage ? 0.6 : 1,
+                                    cursor: previewImage ? "not-allowed" : "pointer",
+                                }}
                                 onClick={() => {
                                     if (!previewImage) {
                                         document.getElementById("mediaUpload").click();
                                     }
+
                                 }}
                             >
                                 <FaPlus className="fs-5" style={{ color: "var(--color-border)" }} title="Add Media" />

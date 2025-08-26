@@ -8,6 +8,9 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [showNotification, setShowNotification] = useState("feed");
 
+  const [filterOption, setFilterOption] = useState(""); // <-- just a string
+  
+
   // Restore from localStorage on reload
   useEffect(() => {
     const savedToken = localStorage.getItem("jwtToken");
@@ -48,7 +51,8 @@ export function AuthProvider({ children }) {
     setShowNotification("notification");
   };
 
-  console.log(showNotification)
+  // console.log(showNotification)
+  console.log(filterOption)
 
   // Send both user + token
   const dataSend = () => {
@@ -65,7 +69,9 @@ export function AuthProvider({ children }) {
         registration,
         logout,
         setNotificationHandler,
-        dataSend
+        dataSend,
+        filterOption, 
+        setFilterOption
       }}
     >
       {children}

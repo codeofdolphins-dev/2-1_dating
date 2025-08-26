@@ -14,6 +14,7 @@ import male from "../../Pages/ScondRegistrationPage/Images/male.png"
 import transgender from "../../Pages/ScondRegistrationPage/Images/transgender.png"
 import ChoosePartnerGenderselector from "../../components/ChoosePartnerGenderselector/ChoosePartnerGenderselector";
 import "../../App.css"
+import { useNavigate } from "react-router-dom";
 
 
 const CreateSpeeddatepage = () => {
@@ -22,6 +23,7 @@ const CreateSpeeddatepage = () => {
   const Value = ValuePiece | [ValuePiece, ValuePiece];
   const [type, setType] = useState("Private");
   const [lookingFor, setLookingFor] = useState(["Couple"]);
+  const navigate = useNavigate()
 
 
   const characterLimit = 250;
@@ -67,12 +69,17 @@ const CreateSpeeddatepage = () => {
     );
   };
 
+  const pagenavigate = () =>{
+    // console.log("all ok")
+    navigate("/hotdate")
+  }
+
   return (
     <div className="client-page-background text-white">
       <GlobalPageWrapper>
         <div className="container-fluid mt-5">
           <div className="d-flex gap-5">
-            <div><i class="bi bi-chevron-left text-white fs-2"></i></div>
+            <div><i class="bi bi-chevron-left text-white fs-2" style={{cursor:"pointer"}} onClick={pagenavigate}></i></div>
             <div className="text-white fs-2"><p>Speed Date</p></div>
           </div>
 

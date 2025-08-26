@@ -260,7 +260,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
           <div>
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.username}</h4>
+              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.targetUserId?.username ? card?.targetUserId?.username : card?.username}</h4>
+              
               <div><img src={star} height={30} alt="Star" /></div>
             </div>
 

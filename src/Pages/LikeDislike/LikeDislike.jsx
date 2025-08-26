@@ -9,6 +9,7 @@ import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
 import ViewPageCard from '../../components/ViewPageCard/ViewPageCard';
 import httpService from '../../helper/httpService';
 import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
+import { useAuth } from '../../context/AuthContextAPI';
 
 const cards = [
     { username: "Card One" },
@@ -23,26 +24,71 @@ const cards = [
 
 const images = [img1, img2, img3, img4];
 
+const filterName = [
+    "Likes given",
+    "Mutual",
+    "Received",
+    "Not Interested",
+    "Latest",
+    "Distance",
+    "All",
+    "Couple & Females",
+    "Couples",
+    "Females",
+    "Males",
+    "Transgender",
+    "Business"
+];
 
 
 const LikeDislike = () => {
-    const[user,setUser]=useState([])
+    const { filterOption } = useAuth();
+
+
+    const [user, setUser] = useState([])
     useEffect(() => {
-        httpService("/interactions/likes", "GET")
-            .then((response) => {
-                console.log("Like dislike fetched:", response);
-                showSuccessToast(response?.message);
-                setUser(response)
-            })
-            .catch((err) => {
-                console.error("Failed to ftched Like dislike:", err);
-                showErrorToast(err?.response?.data?.message);
-            });
-    }, []); // dependency on card._id
+        if (filterOption === "Not Interested") {
+            httpService("/interactions/my-dislikes", "GET")
+                .then((response) => {
+                    console.log("Like dislike fetched:", response);
+                    showSuccessToast(response?.message);
+                    setUser(response?.data)
+                })
+                .catch((err) => {
+                    console.error("Failed to ftched Like dislike:", err);
+                    showErrorToast(err?.response?.data?.message);
+                });
+        } else if (filterOption === "Likes given") {
+            httpService("/interactions/my-likes", "GET")
+                .then((response) => {
+                    console.log("Like dislike fetched:", response);
+                    showSuccessToast(response?.message);
+                    setUser(response?.data)
+                })
+                .catch((err) => {
+                    console.error("Failed to ftched Like dislike:", err);
+                    showErrorToast(err?.response?.data?.message);
+                });
+        } else {
+            httpService("/interactions", "GET")
+                .then((response) => {
+                    console.log("Like dislike fetched:", response);
+                    showSuccessToast(response?.message);
+                    setUser(response?.data)
+                })
+                .catch((err) => {
+                    console.error("Failed to ftched Like dislike:", err);
+                    showErrorToast(err?.response?.data?.message);
+                });
+        }
+    }, [filterOption]); // dependency on card._id
+
+
+
     return (
         <>
             <GlobalPageWrapper>
-                <FilterBar pageName={"Likes / Dislikes"} filterName2={"Filter"} />
+                <FilterBar pageName={"Likes / Dislikes"} filterName2={"Filter"} filter2={filterName} okButton={true} />
                 <div className="container-fluid">
                     <div className="row g-4 pt-4">
                         {

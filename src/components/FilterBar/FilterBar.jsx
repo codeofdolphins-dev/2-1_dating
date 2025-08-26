@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import "../../Pages/Front-screen-feed/Feed/feedStyle.css";
 
 
@@ -8,7 +8,8 @@ import FeedScreen from '../../Pages/Front-screen-feed/componeents/FeedScreen.Fee
 import NotificationScreen from '../../Pages/Front-screen-feed/componeents/NotificationScreen.Feed';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useAuth } from '../../context/AuthContextAPI';
+import { AuthProvider, useAuth } from '../../context/AuthContextAPI';
+import {FilterOptionselect} from "../../context/FilterOptionSelectAPI"
 
 const filter = [
     "Likes given",
@@ -22,7 +23,7 @@ const filter = [
     "New Friends / Followers"
 ];
 
-const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup = null, okButton = null }) => {
+const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, filterName2, showTab, pageName, distanceSlider = false, bottomForm, width = "250px", showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup = null, okButton = null, age, friendsFilterTopSearchBar }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
@@ -32,9 +33,12 @@ const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filte
     const [location, setLocation] = useState('');
     const [minAge, setMinAge] = useState(20);
     const [maxAge, setMaxAge] = useState(30);
+    const [topSearch, setTopSearch] = useState("")
 
     const { showNotification } = useAuth();
-    console.log("sdsadsdfs", showNotification)
+    console.log("sdsadsdfs", selected)
+
+     const { filterOption, setFilterOption } = useAuth();
 
     // Whenever showNotification changes to true → switch tab
     useEffect(() => {
@@ -53,20 +57,25 @@ const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filte
         if (showGeneralFilter) setShowGeneralFilter(false);
     };
 
+    // const handleToggle = (label) => {
+    //     setSelected((prev) =>
+    //         prev.includes(label)
+    //             ? prev.filter((item) => item !== label)
+    //             : [...prev, label]
+    //     );
+    // };
+
     const handleToggle = (label) => {
-        setSelected((prev) =>
-            prev.includes(label)
-                ? prev.filter((item) => item !== label)
-                : [...prev, label]
-        );
+        setSelected(label); // only one selected at a time
     };
+
 
     const handleSubmit = () => {
-        console.log('Location:', location);
-        console.log('Age Range:', minAge, '-', maxAge);
+        
+    setFilterOption(selected); // ✅ just a string
     };
 
-    
+
 
     return (
         <PageWrapper>
@@ -136,19 +145,39 @@ const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filte
                             <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: `${width}` }}
                             >
                                 <div className="checkbox-dropdown p-3 rounded-2" style={{ backgroundColor: "var(--color-border)", border: "2px solid #343A40" }}>
-                                    {/* {
+                                    {
                                         filterTypeName && <div className='filterTypeName fs-5 text-decoration-underline pb-2' style={{ cursor: "pointer" }} onClick={handleSpedDatePopup}>{filterTypeName}</div>
-                                    } */}
+                                    }
                                     {filter1.map((label) => (
-                                        <label key={label} className="form-check d-flex align-items-center mb-2">
-                                            <input
-                                                type="checkbox"
-                                                className="form-check-input me-2"
-                                                checked={selected.includes(label)}
-                                                onChange={() => handleToggle(label)}
-                                            />
-                                            <span className="text-white">{label}</span>
-                                        </label>
+                                        checkbox ? (
+                                            <div key={label}>
+                                                <label className="form-check d-flex align-items-center mb-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input me-2"
+                                                        checked={selected.includes(label)}
+                                                        onChange={() => handleToggle(label)}
+                                                    />
+                                                    <span className="text-white">{label}</span>
+                                                </label>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <label
+                                                    key={label}
+                                                    className="form-check form-switch d-flex align-items-center mb-2"
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input me-2"
+                                                        checked={selected.includes(label)}
+                                                        onChange={() => handleToggle(label)}
+                                                    />
+                                                    <span className="text-white">{label}</span>
+                                                </label>
+                                            </div>
+
+                                        )
                                     ))}
                                     {/* Distance slider */}
                                     {
@@ -238,10 +267,6 @@ const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filte
                                             </button>
                                         </div>)
                                     }
-
-
-
-
                                 </div>
                             </div>
                         )}
@@ -259,11 +284,21 @@ const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filte
 
                         {/* Friend Filter Dropdown */}
                         {showFriendsFilter && (
-                            <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: "250px" }}>
+                            <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: width }}>
                                 <div className="checkbox-dropdown p-3 rounded-2" style={{ backgroundColor: "var(--color-border)", border: "2px solid #343A40" }}>
+
                                     {
-                                        filterTypeName && <div className='filterTypeName fs-5 text-decoration-underline pb-2' style={{ cursor: "pointer" }} onClick={handleSpedDatePopup}>{filterTypeName}</div>
+                                        friendsFilterTopSearchBar && <div className='mb-3'>
+                                            <input
+                                                type="text"
+                                                className="form-control bg-white border-0 text-black rounded-pill px-3"
+                                                placeholder="Name, Title, City"
+                                                value={topSearch}
+                                                onChange={(e) => setTopSearch(e.target.value)}
+                                            />
+                                        </div>
                                     }
+
                                     {filter2.map((label) => (
                                         checkbox ? (
                                             <div key={label}>
@@ -271,12 +306,13 @@ const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filte
                                                     <input
                                                         type="checkbox"
                                                         className="form-check-input me-2"
-                                                        checked={selected.includes(label)}
+                                                        checked={selected === label}
                                                         onChange={() => handleToggle(label)}
                                                     />
                                                     <span className="text-white">{label}</span>
                                                 </label>
                                             </div>
+
                                         ) : (
                                             <div>
                                                 <label
@@ -320,6 +356,101 @@ const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filte
                                                     onChange={(e) => setLocation(e.target.value)}
                                                 />
                                             </div>
+
+
+                                            <button
+                                                className="w-100 rounded-pill border-0 py-2 finter-bottom-button"
+                                                onClick={handleSubmit}
+                                            >
+                                                Ok
+                                            </button>
+                                        </div>)
+                                    }
+
+
+                                    {/* ------Updated */}
+                                    {/* Distance slider */}
+                                    {
+                                        distanceSlider && (<div className="text-white mb-3 pt-3" style={{ width: '250px' }}>
+                                            <div className="d-flex justify-content-between mb-1">
+                                                <label className="text-secondary">Distance</label>
+                                                <span>{distance}mi</span>
+                                            </div>
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="500"
+                                                value={distance}
+                                                onChange={(e) => setDistance(e.target.value)}
+                                                className="form-range custom-slider"
+                                            />
+                                        </div>)
+                                    }
+                                    {/* date Picker */}
+                                    {
+                                        showDatePicker && (<div className="text-white" style={{ width: 'fit-content' }}>
+                                            <label className="text-secondary mb-2">Date</label>
+                                            <DatePicker
+                                                selected={selectedDate}
+                                                onChange={(date) => setSelectedDate(date)}
+                                                inline
+                                                calendarClassName="dark-calendar"
+                                            />
+                                        </div>)
+                                    }
+
+
+                                    {/* Bottom Form */}
+                                    {
+                                        bottomForm && (<div className="d-flex flex-column align-items-start gap-2 pt-3 ">
+                                            <input
+                                                type="text"
+                                                className="form-control rounded-pill px-3"
+                                                placeholder="Enter value"
+                                            />
+                                            <button className="w-100 rounded-pill text-white fs-5 px-3 py-1 finter-bottom-button border-0">
+                                                OK
+                                            </button>
+                                        </div>)
+                                    }
+
+                                    {/* Location Form */}
+                                    {
+                                        showLocationForm && (<div
+                                            className="p-3 d-flex flex-column gap-3"
+
+                                        >
+                                            <div>
+                                                <label className="text-secondary mb-1 d-block">Location</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control bg-white border-0 text-black rounded-pill px-3"
+                                                    placeholder="Search by country"
+                                                    value={location}
+                                                    onChange={(e) => setLocation(e.target.value)}
+                                                />
+                                            </div>
+
+                                            {
+                                                age && <div>
+                                                    <label className="text-secondary mb-1 d-block">Age</label>
+                                                    <div className="d-flex gap-2">
+                                                        <input
+                                                            type="number"
+                                                            className="form-control bg-white border-0 text-black rounded-pill text-center"
+                                                            value={minAge}
+                                                            onChange={(e) => setMinAge(e.target.value)}
+                                                        />
+                                                        <input
+                                                            type="number"
+                                                            className="form-control bg-white border-0 text-black rounded-pill text-center"
+                                                            value={maxAge}
+                                                            onChange={(e) => setMaxAge(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            }
+
 
 
                                             <button

@@ -26,7 +26,7 @@ const Videos = () => {
     <>
       <PageWrapper >
         <div className="container-fluid pt-0 pb-5 d-flex flex-column align-items-start justify-content-start gap-2" style={{ backgroundColor: "var(--color-background)", minHeight: "100vh" }}>
-          <FilterBar pageName={"Videos"} navigationPageName1={"Add Videos"}  filterName2={"Filter"} navigationToAnotherPage={navigationToAnotherPage} />
+          <FilterBar pageName={"Videos"} navigationPageName1={"Add Videos"}  filterName2={"Filter"} navigationToAnotherPage={navigationToAnotherPage} checkbox={false} okButton={true}/>
           <div className='client-page-background'>
             <div className="container-fluid">
               <div className="row g-4 pt-4">

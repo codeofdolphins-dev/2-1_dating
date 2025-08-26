@@ -1,215 +1,430 @@
-import React from 'react'
-import "../BusinessProfileCss/BusinessProfile.css"
+import React, { useEffect, useState } from "react";
+import "../BusinessProfileCss/BusinessProfile.css";
+import axios from "axios";
+import "./dropdownStyle.css"
+import httpService from "../../../helper/httpService"
+import { showErrorToast, showSuccessToast } from "../../../components/customToast/CustomToast";
+import { ToastContainer } from "react-toastify";
 
 const BusinessProfileForm = () => {
-    const options = [
-        "Promote events / parties",
-        "Build an audience / community",
-        "Promote your club",
-        "Promote your BNB / Hotel / Resort",
-        "Sell a product / service",
-        "Interest in paid advertising",
-    ];
+    const goalMapping = {
+        "Promote events / parties": "promoteEvents",
+        "Build an audience / community": "buildAudience",
+        "Promote your club": "promoteClub",
+        "Promote your BNB / Hotel / Resort": "promoteBnbHotel",
+        "Sell a product / service": "sellProduct",
+        "Interest in paid advertising": "paidAdvertising",
+    };
+
+    const [countries, setCountries] = useState([]);
+    const [states, setStates] = useState([]);
+
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        companyName: "",
+        location: {
+            country: "",
+            state: "",
+        },
+        webUrl: "",
+        isMember: false, // boolean
+        goals: {
+            promoteEvents: false,
+            buildAudience: false,
+            promoteClub: false,
+            promoteBnbHotel: false,
+            sellProduct: false,
+            paidAdvertising: false,
+        },
+        referralSource: "",
+        additionalInfo: "",
+    });
+
+    // handle text / select
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    // handle radio for boolean
+    const handleMembership = (value) => {
+        setFormData((prev) => ({
+            ...prev,
+            isMember: value,
+        }));
+    };
+
+    // handle checkboxes
+    // handle checkboxes
+    const handleCheckbox = (option) => {
+        const key = goalMapping[option];
+        setFormData((prev) => ({
+            ...prev,
+            goals: {
+                ...prev.goals,
+                [key]: !prev.goals[key], // toggle true/false
+            },
+        }));
+    };
+
+    // Fetch country 
+    useEffect(() => {
+        const fetchCountries = async () => {
+            try {
+                const res = await axios.get("https://countriesnow.space/api/v0.1/countries/positions");
+                setCountries(res.data.data); // API returns { name, iso2, iso3, lat, long }
+                // setFormData((prev) => ({
+                //     ...prev,
+                //     country: value,
+                // }));
+
+            } catch (err) {
+                console.error("Error fetching countries:", err);
+            }
+        };
+        fetchCountries();
+    }, []);
+
+    // Fetch states when country changes
+    // ✅ FIX: handle country change updates nested location
+    const handleCountryChange = async (e) => {
+        const selectedCountry = e.target.value;
+
+        setFormData((prev) => ({
+            ...prev,
+            location: {
+                ...prev.location,
+                country: selectedCountry,
+                state: "", // reset state when country changes
+            },
+        }));
+
+        try {
+            const res = await axios.post(
+                "https://countriesnow.space/api/v0.1/countries/states",
+                {
+                    country: selectedCountry,
+                }
+            );
+            setStates(res.data.data.states);
+        } catch (err) {
+            console.error("Error fetching states:", err);
+        }
+    };
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // --- Validation Checks ---
+        if (!formData.firstName.trim()) return showErrorToast("First name is required");
+        if (!formData.lastName.trim()) return showErrorToast("Last name is required");
+        if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            return showErrorToast("Enter a valid email address");
+        }
+        if (!formData.phoneNumber.trim() || formData.phoneNumber.length < 7) {
+            return showErrorToast("Enter a valid phone number");
+        }
+        if (!formData.companyName.trim()) return showErrorToast("Company name is required");
+
+        if (!formData.location.country) return showErrorToast("Please select a country");
+        if (!formData.location.state) return showErrorToast("Please select a state");
+
+        // At least one goal must be true
+        const hasGoal = Object.values(formData.goals).some((val) => val === true);
+        if (!hasGoal) return showErrorToast("Please select at least one goal");
+
+        // --- Submit Data ---
+        console.log("Form Submitted ✅", formData);
+        try {
+            const response = await httpService(`/business-request`, "POST", formData);
+            if (response) {
+                console.log(response);
+                showSuccessToast(response?.message);
+
+                // reset form after success
+                setFormData({
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    phoneNumber: "",
+                    companyName: "",
+                    location: { country: "", state: "" },
+                    webUrl: "",
+                    isMember: false,
+                    goals: {
+                        promoteEvents: false,
+                        buildAudience: false,
+                        promoteClub: false,
+                        promoteBnbHotel: false,
+                        sellProduct: false,
+                        paidAdvertising: false,
+                    },
+                    referralSource: "",
+                    additionalInfo: "",
+                });
+            }
+        } catch (err) {
+            console.log(err);
+            showErrorToast(err?.response?.data?.error[0]?.message || "Something went wrong");
+        }
+    };
+
+
+
     return (
         <>
-
-            <div className="container my-5 text-white" >
+            <div className="container my-5 text-white">
                 <h3 className="mb-4 fw-bold">REQUEST YOUR 2+1 BUSINESS PROFILE!</h3>
-                <p>Please provide us with some details below to help us determine if you qualify for a 2+1 business profile.</p>
-                <p className="text-danger">Fields with * are mandatory.</p>
+                <p>Please provide details below. Fields with * are mandatory.</p>
 
-                {/* 1st Form  */}
-                <form action="" className='mt-5'>
-                    <div className='row'>
-                        <div className='col-lg-4 col-sm-6 mb-3'>
+                <form className="mt-4" onSubmit={handleSubmit}>
+                    <div className="row">
+                        <div className="col-md-4 mb-3">
                             <input
                                 type="text"
-                                placeholder="First Name"
+                                name="firstName"
+                                placeholder="First Name *"
                                 className="form-control custom-input-dark"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                required
                             />
                         </div>
 
-                        <div className='col-lg-4 col-sm-6 mb-3'>
+                        <div className="col-md-4 mb-3">
                             <input
                                 type="text"
-                                placeholder="Last Name"
+                                name="lastName"
+                                placeholder="Last Name *"
                                 className="form-control custom-input-dark"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
                             />
                         </div>
 
-                        <div className='col-lg-4 col-sm-6 mb-3'>
+                        <div className="col-md-4 mb-3">
                             <input
                                 type="email"
-                                placeholder="Email Address"
+                                name="email"
+                                placeholder="Email Address *"
                                 className="form-control custom-input-dark"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
                             />
                         </div>
 
-                        <div className='col-lg-4 col-sm-6 mb-3'>
+                        <div className="col-md-4 mb-3">
                             <input
                                 type="text"
-                                placeholder="Phone Number"
+                                name="phoneNumber"
+                                placeholder="Phone Number *"
                                 className="form-control custom-input-dark"
+                                value={formData.phoneNumber}
+                                onChange={handleChange}
+                                required
                             />
                         </div>
 
-                        <div className='col-lg-4 col-sm-6 mb-3'>
+                        <div className="col-md-4 mb-3">
                             <input
                                 type="text"
-                                placeholder="Company Name"
+                                name="companyName"
+                                placeholder="Company Name *"
                                 className="form-control custom-input-dark"
+                                value={formData.companyName}
+                                onChange={handleChange}
+                                required
                             />
                         </div>
 
-                        <div className='col-lg-4 col-sm-6 mb-3'>
+                        <div className="col-md-4 mb-3">
                             <input
                                 type="text"
+                                name="webUrl"
                                 placeholder="Web URL"
                                 className="form-control custom-input-dark"
+                                value={formData.webUrl}
+                                onChange={handleChange}
                             />
-                        </div>
-
-                    </div>
-                </form>
-
-                <h4 className="mt-5 fw-semibold">Where are you located? *</h4>
-                {/* 2nd form */}
-                <form action="" className='mt-4'>
-                    <div className="row">
-                        <div className="col-lg-4 col-sm-6 mb-3">
-                            <select className="form-select custom-input-dark" defaultValue="">
-                                <option value="" disabled>Select Country</option>
-                                <option value="india">India</option>
-                                <option value="usa">USA</option>
-                                <option value="uk">UK</option>
-                                {/* Add more countries here */}
-                            </select>
-                        </div>
-
-                        <div className="col-lg-4 col-sm-6">
-                            <select className="form-select custom-input-dark" defaultValue="">
-                                <option value="" disabled>Select State</option>
-                                <option value="maharashtra">Maharashtra</option>
-                                <option value="california">California</option>
-                                <option value="london">London</option>
-                                {/* Add more states here */}
-                            </select>
                         </div>
                     </div>
 
-                </form>
-
-                <div className="form-group text-white d-flex flex-column flex-md-row align-items-start gap-5 mt-3">
-                    <label className="fw-semibold me-3">
-                        Are you already a member of 2+1?
-                    </label>
-
-                    <div className="d-flex align-items-center gap-3">
-                        <div className="form-check form-check-inline">
-                            <input
-                                className="form-check-input custom-radio"
-                                type="radio"
-                                name="membership"
-                                id="no"
-                                value="no"
-                            />
-                            <label className="form-check-label" htmlFor="no">No</label>
-                        </div>
-
-                        <div className="form-check form-check-inline">
-                            <input
-                                className="form-check-input custom-radio"
-                                type="radio"
-                                name="membership"
-                                id="yes"
-                                value="yes"
-                            />
-                            <label className="form-check-label" htmlFor="yes">Yes</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="form-group text-white mt-5">
-                    <label className="fw-semibold mb-4">
-                        What would you like to achieve? (Check all that apply)*
-                    </label>
-                    <div className="row">
-                        {options.map((option, index) => (
-                            <div className="col-md-3 mb-2 mt-1" key={index}>
-                                <div className="form-check">
-                                    <input
-                                        className="form-check-input custom-checkbox"
-                                        type="checkbox"
-                                        id={`option${index}`}
-                                    />
-                                    <label className="form-check-label" htmlFor={`option${index}`}>
-                                        {option}
-                                    </label>
-                                </div>
+                    {/* Location */}
+                    <h4 className="mt-4 fw-semibold">Where are you located? *</h4>
+                    <div className="row mt-3">
+                        {/* Country Dropdown */}
+                        <div className="col-md-4 mb-3">
+                            <div className="custom-select-wrapper">
+                                <select
+                                    name="country"
+                                    className="form-control custom-input-dark custom-select"
+                                    value={formData?.location?.country}
+                                    onChange={handleCountryChange}
+                                    required
+                                >
+                                    <option value="">Select Country</option>
+                                    {countries.map((c, i) => (
+                                        <option key={i} value={c.name}>
+                                            {c.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <span className="custom-arrow">▼</span>
                             </div>
-                        ))}
-                    </div>
-                </div>
+                        </div>
 
-                <div className="form-group text-white mt-4">
-                    <label className="fw-semibold mb-2">
-                        How did you find out about 2+1?*
-                    </label>
-                    <div className='row mt-2'>
-                        <div className='col-lg-3'>
-                            <select className="form-select custom-input-dark" required>
-                                <option value="">A friend</option>
-                                <option value="social">Social Media</option>
-                                <option value="ad">Online Advertisement</option>
-                                <option value="event">An Event</option>
-                                <option value="other">Other</option>
-                            </select>
+                        {/* State Dropdown */}
+                        {/* State Dropdown */}
+                        <div className="col-md-4 mb-3">
+                            <div className="custom-select-wrapper">
+                                <select
+                                    name="state"
+                                    className="form-control custom-input-dark custom-select"
+                                    value={formData?.location?.state}
+                                    onChange={(e) =>
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            location: {
+                                                ...prev.location,
+                                                state: e.target.value,
+                                            },
+                                        }))
+                                    }
+                                    required
+                                >
+                                    <option value="">Select State</option>
+                                    {states.map((s, i) => (
+                                        <option key={i} value={s.name}>
+                                            {s.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <span className="custom-arrow">▼</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    {/* Membership */}
+                    <div className="form-group mt-3">
+                        <label className="fw-semibold">Are you already a member of 2+1?</label>
+                        <div className="d-flex gap-3 mt-2">
+                            <div className="form-check">
+                                <input
+                                    type="radio"
+                                    className="form-check-input custom-radio"
+                                    id="memberNo"
+                                    checked={formData.isMember === false}
+                                    onChange={() => handleMembership(false)}
+                                />
+                                <label htmlFor="memberNo" className="form-check-label">No</label>
+                            </div>
+
+                            <div className="form-check">
+                                <input
+                                    type="radio"
+                                    className="form-check-input custom-radio"
+                                    id="memberYes"
+                                    checked={formData.isMember === true}
+                                    onChange={() => handleMembership(true)}
+                                />
+                                <label htmlFor="memberYes" className="form-check-label">Yes</label>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="mb-3 text-white mt-4">
-                    <label htmlFor="howFound" className="form-label pb-2">
-                        Tell us more about how you found us!
-                    </label>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <textarea
-                                id="howFound"
-                                name="howFound"
-                                rows="4"
-                                className="form-control custom-textarea-dark"
-                                placeholder="Type here..."
-                            ></textarea>
+
+                    {/* Goals */}
+                    <div className="form-group mt-5">
+                        <label className="fw-semibold mb-3">What would you like to achieve? *</label>
+                        <div className="row">
+                            {Object.keys(goalMapping).map((option, index) => {
+                                const key = goalMapping[option];
+                                return (
+                                    <div className="col-md-4 mb-2" key={index}>
+                                        <div className="form-check">
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input custom-checkbox"
+                                                id={`goal${index}`}
+                                                checked={formData.goals[key]}
+                                                onChange={() => handleCheckbox(option)}
+                                            />
+                                            <label className="form-check-label" htmlFor={`goal${index}`}>
+                                                {option}
+                                            </label>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
-                </div>
 
-                <div className="mb-3 text-white ">
-                    <label htmlFor="howFound" className="form-label pb-2">
-                        Tell us more about how you found us!
-                    </label>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <textarea
-                                id="howFound"
-                                name="howFound"
-                                rows="4"
-                                className="form-control custom-textarea-dark"
-                                placeholder="Type here..."
-                            ></textarea>
-                        </div>
+
+                    {/* Referral Source */}
+                    <div className="form-group mt-4">
+                        <label className="fw-semibold mb-2">
+                            How did you find out about us?
+                        </label>
+                        <select
+                            name="referralSource"
+                            className="form-control custom-input-dark"
+                            value={formData.referralSource}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Select an option</option>
+                            <option value="friend">Friend / Word of Mouth</option>
+                            <option value="social_media">Social Media (Facebook, Instagram, etc.)</option>
+                            <option value="google">Google Search</option>
+                            <option value="event">Event / Conference</option>
+                            <option value="advertisement">Advertisement</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
-                </div>
 
-                <button className="btn custom-submit-btn mt-2">
-                    Request your 2+1 business profile!
-                </button>
 
+                    {/* Additional Info */}
+                    <div className="form-group mt-4">
+                        <label className="fw-semibold mb-2">Tell us more about how you found us</label>
+                        <textarea
+                            name="additionalInfo"
+                            rows="4"
+                            className="form-control custom-textarea-dark"
+                            placeholder="Type here..."
+                            value={formData.additionalInfo}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <button className="btn custom-submit-btn mt-3" type="submit">
+                        Request your 2+1 business profile!
+                    </button>
+                </form>
             </div>
-
+            {/* ✅ Mount ToastContainer here */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                pauseOnHover
+                draggable
+                theme="dark"
+            />
         </>
-    )
-}
+    );
+};
 
-export default BusinessProfileForm
+export default BusinessProfileForm;

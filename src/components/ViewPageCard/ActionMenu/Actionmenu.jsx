@@ -50,7 +50,8 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
       }
     })
       .then(res => {
-        const liked = res.data.find(like => like.targetUserId === targetUserId);
+        console.log(res)
+        const liked = res.data?.data?.find(like => like.targetUserId === targetUserId);
         if (liked) {
           setIsLiked({ id: liked._id, status: true });
         } else {
@@ -80,13 +81,13 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
       }
     })
       .then(res => {
-        setIsLiked({ id: res.data._id, status: true });
+        setIsLiked({ id: res?.data?.data?._id, status: true });
         // Optionally re-fetch
         fetchLikeStatus();
-        console.log(res)
-        if (res?.status === 200) {
-          showSuccessToast("You liked");
-        }
+        console.log(res?.data?.message)
+        showSuccessToast(`You Liked The User`);
+        // if (res?.status === 200) {
+        // }
       })
       .catch(console.error);
   }, [targetUserId, fetchLikeStatus]);
@@ -134,9 +135,9 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
         // Optionally re-fetch
         fetchLikeStatus();
         console.log(res)
-        if (res?.status === 200) {
-          showSuccessToast("You disliked");
-        }
+        showSuccessToast("You disliked");
+        // if (res?.status === 200) {
+        // }
       })
       .catch(console.error);
   }, [targetUserId, fetchLikeStatus]);

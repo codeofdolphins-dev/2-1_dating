@@ -99,7 +99,7 @@ const PartiesAndEventPage = () => {
     return (
         <>
             <GlobalPageWrapper>
-                <FilterBar pageName={"Parties & Events"} navigationPageName1={"Private Party"} navigationToAnotherPage={handlePagenavigate} filterName2={"Filter"} />
+                <FilterBar pageName={"Parties & Events"} navigationPageName1={"Private Party"} navigationToAnotherPage={handlePagenavigate} filterName2={"Filter"} checkbox={false} showDatePicker={true} distanceSlider={true} showLocationForm={true} age={false} friendsFilterTopSearchBar={true}/>
 
                 <div className="container-fluid client-page-background">
                     <div className="row g-4 py-3">

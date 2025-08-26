@@ -1,0 +1,15 @@
+  const handleAcceptFriendrequest = async () => {
+    console.log("all ok")
+    try {
+      const response = await httpService(`/friend-requests/${userData._id}/respond`, "PUT", { "action": "accept" })
+      if (response) {
+        console.log(response)
+        showSuccessToast(response?.message);
+        setrefresh(!refresh)
+      }
+    } catch (err) {
+      console.log(err)
+      showErrorToast(err?.response?.data?.message);
+      setrefresh(!refresh)
+    }
+  }

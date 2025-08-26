@@ -1,0 +1,26 @@
+.custom-select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.custom-select {
+  appearance: none; /* removes default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2rem; /* space for arrow */
+}
+
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.custom-textarea-dark{
+  color: #ffffff !important;
+}
