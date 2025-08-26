@@ -92,10 +92,14 @@ const PartiesAndEventPage = () => {
     const handlEtakeToEventInfo = (card) => {
         navigate("/event-info", { state: card })
     }
+
+    const handlePagenavigate = () =>{
+      navigate("/create-private-party")
+    }
     return (
         <>
             <GlobalPageWrapper>
-                <FilterBar pageName={"Parties & Events"} filterName1={"Private Party"} filterName2={"Filter"} />
+                <FilterBar pageName={"Parties & Events"} navigationPageName1={"Private Party"} navigationToAnotherPage={handlePagenavigate} filterName2={"Filter"} />
 
                 <div className="container-fluid client-page-background">
                     <div className="row g-4 py-3">

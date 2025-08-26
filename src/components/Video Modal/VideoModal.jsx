@@ -5,9 +5,9 @@ import demoVideo from "../../assets/PopupDemoVideo/243647_small.mp4";
 
 const VideoModal = ({ show, handleClose, onClick }) => {
     return (
-        <Modal show={show} onHide={handleClose} centered size="lg" className="mt-5 ">
+        <Modal show={show} onHide={handleClose} centered size="lg" className="mt-5">
             <Modal.Header closeButton className="border-0 py-2">
-                <Modal.Title>SHALURISHI</Modal.Title>
+                <Modal.Title className="mb-0">SHALURISHI</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="px-4 pt-2 pb-3" style={{ maxHeight: "62vh", overflow: "hidden" }}>

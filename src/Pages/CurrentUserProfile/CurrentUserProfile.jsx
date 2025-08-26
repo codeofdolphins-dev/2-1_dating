@@ -60,7 +60,7 @@ const CurrentUserProfile = () => {
                             ))
                         }
                     </div>
-                    <div className="mt-3 w-100">{renderUpperContent()}</div>                    
+                    <div className="mt-3 w-100">{renderUpperContent()}</div>
 
                 </div>
             </PageWrapper>

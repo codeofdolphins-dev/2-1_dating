@@ -75,11 +75,11 @@ const ChatroomChatBox = ({ room_id }) => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    useEffect(() => {
-        fetchMessages();
-        const interval = setInterval(fetchMessages, 3000);
-        return () => clearInterval(interval);
-    }, [room_id]);
+    // useEffect(() => {
+    //     fetchMessages();
+    //     const interval = setInterval(fetchMessages, 3000);
+    //     return () => clearInterval(interval);
+    // }, [room_id]);
 
     return (
         <Container fluid className="mt-2">

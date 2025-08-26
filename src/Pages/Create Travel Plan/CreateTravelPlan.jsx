@@ -297,9 +297,7 @@ const CreateTravelPlan = () => {
           <div className={`${style.custome_row}`}>
             <button type="submit" className='custom-button'>Post</button>
           </div>
-
-
-
+          
         </div>
       </PageWrapper>
     </>

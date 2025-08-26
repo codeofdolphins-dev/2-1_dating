@@ -69,6 +69,7 @@ import BugReport from './Pages/BugReport/BugReport';
 import HideProfile from './Pages/HideProfile/HideProfile';
 import ContactAndHelp from './Pages/ContactAndHelp/ContactAndHelp';
 import ChatComponent from './services/ChatComponent';
+import CreatePrivateParty from './Pages/CreatePrivateParty/CreatePrivateParty';
 
 
 
@@ -112,16 +113,13 @@ function App() {
           <Route path="/new-members" element={<ProtectedRoute><NewmembersPage /></ProtectedRoute>} />
           <Route path="/messages" element={<ProtectedRoute > <Chat /> </ProtectedRoute> } />
           <Route path="/events" element={<ProtectedRoute > <PartiesAndEventPage /> </ProtectedRoute> } />
-
           <Route path="/event-info" element={<ProtectedRoute><PartiesAndEventInfo /> </ProtectedRoute> } />
           <Route path="/search" element={<ProtectedRoute><Search /> </ProtectedRoute>} />
           <Route path="/advance-search" element={<ProtectedRoute><AdvanceMemberSearch /> </ProtectedRoute> } />
           <Route path="/traveldate" element={<ProtectedRoute><TravelDatespage /> </ProtectedRoute>} />
           <Route path="/createtraveldate" element={<ProtectedRoute ><CreateTravelDatePage /> </ProtectedRoute>} />
           <Route path="/certifications" element={<ProtectedRoute><CertificationPage /> </ProtectedRoute>} />
-
           <Route path="/videos" element={<ProtectedRoute><Videos /> </ProtectedRoute>} />
-
           <Route path="/add-video" element={<ProtectedRoute><AddVideo /> </ProtectedRoute>} />
           <Route path="/wall-of-fame" element={<ProtectedRoute><WallOfFramePage /></ProtectedRoute>} />
           <Route path="/groups" element={<ProtectedRoute><GroupsPage /></ProtectedRoute>} />
@@ -153,8 +151,9 @@ function App() {
           <Route path="/bug-report" element={<ProtectedRoute> <BugReport /> </ProtectedRoute>  } />
           <Route path="/hide-profile" element={<ProtectedRoute> <HideProfile /> </ProtectedRoute>  } />
           <Route path="/contact-and-help" element={<ProtectedRoute> <ContactAndHelp /> </ProtectedRoute>  } />
-          
           <Route path="/test-chat" element={<ProtectedRoute> <ChatComponent /> </ProtectedRoute>  } />
+          
+          <Route path="/create-private-party" element={<ProtectedRoute> <CreatePrivateParty /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>
