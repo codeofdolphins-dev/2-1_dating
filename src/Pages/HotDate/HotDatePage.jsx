@@ -100,7 +100,7 @@ const HotDatePage = () => {
   return (
     <>
       <GlobalPageWrapper >
-      <FilterBar filter1={map} filter2={filter} filterName1={"Add Hotdate"} filterName2={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} handleSpedDatePopup={handleSpedDateTypePopup}/>
+      <FilterBar filter1={map} filter2={filter} filterName1={"Add Hotdate"} filterName2={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} handleSpedDatePopup={handleSpedDateTypePopup} checkbox={false}/>
 
       <div className='client-page-background'>
         <div className="container-fluid">

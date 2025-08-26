@@ -73,6 +73,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     }
   }, [swiperInstance]);
 
+  console.log("card",card._id)
+
   const navigate = useNavigate();
   const handleNavigateToProfilepage = () => {
     navigate("/profile", {

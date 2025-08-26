@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
-import "./SelectPopup.css";
+import Styles from "./SelectPopup.module.css";
 
 const EditProfilePageInputPopup = ({ options = [], bodyHair, setbodyHair }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -52,20 +52,20 @@ const EditProfilePageInputPopup = ({ options = [], bodyHair, setbodyHair }) => {
     };
 
     return (
-        <div className="select-popup">
-            <div className="select-box" onClick={() => setIsOpen(true)} style={{ zIndex: "1" }}>
+        <div className={Styles.selectPopup}>
+            <div className={Styles.selectBox} onClick={() => setIsOpen(true)} style={{ zIndex: "1" }}>
                 <span>{displaySelected()}</span>
-                <FaChevronDown className={`chevron ${isOpen ? "rotate" : ""}`} />
+                <FaChevronDown className={`${Styles.chevron} ${isOpen ? "rotate" : ""}`} />
             </div>
 
             {isOpen && (
-                <div className="modal-overlay" onClick={() => setIsOpen(false)} style={{ zIndex: "999" }}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <h5 className="modal-title">Body Hair</h5>
-                        <div className="modal-options">
+                <div className={Styles.modalOverlay} onClick={() => setIsOpen(false)} style={{ zIndex: "999" }}>
+                    <div className={Styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                        <h5 className={Styles.modalTitle}>Body Hair</h5>
+                        <div className={Styles.modalOptions}>
                             {options.map((option, index) => (
-                                <label key={index} className="popup-item">
-                                    <span className="option-text">{option}</span>
+                                <label key={index} className={Styles.popupItem}>
+                                    <span className={Styles.optionText}>{option}</span>
                                     <input
                                         type="checkbox"
                                         checked={bodyHair?.bodyHair?.includes(option)}
@@ -76,10 +76,10 @@ const EditProfilePageInputPopup = ({ options = [], bodyHair, setbodyHair }) => {
                         </div>
 
                         <div className="modal-actions">
-                            <button className="clear-btn" onClick={handleClear}>
+                            <button className={Styles.clearBtn} onClick={handleClear}>
                                 Clear All
                             </button>
-                            <button className="close-btn" onClick={() => setIsOpen(false)}>
+                            <button className={Styles.closeBtn} onClick={() => setIsOpen(false)}>
                                 Done
                             </button>
                         </div>

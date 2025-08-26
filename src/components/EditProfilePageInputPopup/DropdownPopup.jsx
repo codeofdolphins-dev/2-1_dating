@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
-import "./SelectPopup.css";
+import Styles from  "./SelectPopup.module.css";
 
 const DropdownPopup = ({ options = [], title = "", name, selectedValue, setSelectedValue }) => {
     const [isOpen, setIsOpen] = useState(false);

@@ -5,7 +5,7 @@ import femaleIcon from "../../../../assets/icons/female.png";
 import coupleIcon from "../../../../assets/icons/couple.png";
 import transgenderIcon from "../../../../assets/icons/transgender.png";
 
-import style from "./style.module.css";
+import style from "./style.module.css";  
 import EditProfilePageInputPopup from '../../../../components/EditProfilePageInputPopup/EditProfilePageInputPopup';
 import DropdownPopup from '../../../../components/EditProfilePageInputPopup/DropdownPopup';
 

@@ -19,8 +19,8 @@ import OverlayLoader from '../../helper/OverlayLoader';
 
 const images = [img1, img2, img3, img4];
 const filter = [
-    "Likes given", "Joined group", "Photos & Videos", "Validations", "Speed Date",
-    "Travel Plans", "Parties & Events", "Member Services", "New Friends / Followers"
+    "Couples", "Female", "Male", "Business", "Transgender",
+    "Looking for me / us"
 ];
 
 const NewmembersPage = () => {
@@ -83,6 +83,8 @@ const NewmembersPage = () => {
                     distanceSlider={false}
                     bottomForm={false}
                     width="280px"
+                    checkbox={false}
+                    okButton={true}
                 />
 
                 <div className="container-fluid">

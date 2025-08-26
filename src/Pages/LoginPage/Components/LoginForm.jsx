@@ -33,7 +33,7 @@ const LoginForm = () => {
   // const [errors, setErrors] = useState({});
   const [mathPuzzle, setMathPuzzle] = useState({ question: '', answer: 0 });
   const [captchaError, setCaptchaError] = useState('');
-  const [loading,setLogin ] =useState(false)
+  const [loading, setLogin] = useState(false)
   const navigate = useNavigate();
   // const { showAlert } = UseAlert();
 
@@ -128,13 +128,13 @@ const LoginForm = () => {
               autoClose: 3000,
               theme: "colored",
             });
-            console.log("Userdata", data);
-            setLogin(false)
+            console.log("Userdata", data)
             setTimeout(() => {
               navigate("/feed")
             }, 300);
-            login(data,token);
+            login(data, token);
           }
+          setLogin(false)
           console.log("all ok")
         } catch (error) {
           setLogin(false)

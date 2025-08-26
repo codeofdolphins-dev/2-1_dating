@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../../Pages/Front-screen-feed/Feed/feedStyle.css";
 
 
@@ -8,6 +8,7 @@ import FeedScreen from '../../Pages/Front-screen-feed/componeents/FeedScreen.Fee
 import NotificationScreen from '../../Pages/Front-screen-feed/componeents/NotificationScreen.Feed';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useAuth } from '../../context/AuthContextAPI';
 
 const filter = [
     "Likes given",
@@ -21,7 +22,7 @@ const filter = [
     "New Friends / Followers"
 ];
 
-const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup=null  }) => {
+const FilterBar = ({ filter1, filter2 = filter,checkbox=true, filterName1, filterName2, showTab, pageName, distanceSlider, bottomForm, width, showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup = null, okButton = null }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
@@ -31,6 +32,16 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
     const [location, setLocation] = useState('');
     const [minAge, setMinAge] = useState(20);
     const [maxAge, setMaxAge] = useState(30);
+
+    const { showNotification } = useAuth();
+    console.log("sdsadsdfs", showNotification)
+
+    // Whenever showNotification changes to true → switch tab
+    useEffect(() => {
+        if (showNotification) {
+            setActiveTab(showNotification);
+        }
+    }, [showNotification]);
 
     const handleGeneralFilter = () => {
         setShowGeneralFilter(!showGeneralFilter);
@@ -54,6 +65,8 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
         console.log('Location:', location);
         console.log('Age Range:', minAge, '-', maxAge);
     };
+
+    
 
     return (
         <PageWrapper>
@@ -123,9 +136,9 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                             <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: `${width}` }}
                             >
                                 <div className="checkbox-dropdown p-3 rounded-2" style={{ backgroundColor: "var(--color-border)", border: "2px solid #343A40" }}>
-                                    {
+                                    {/* {
                                         filterTypeName && <div className='filterTypeName fs-5 text-decoration-underline pb-2' style={{ cursor: "pointer" }} onClick={handleSpedDatePopup}>{filterTypeName}</div>
-                                    }
+                                    } */}
                                     {filter1.map((label) => (
                                         <label key={label} className="form-check d-flex align-items-center mb-2">
                                             <input
@@ -248,20 +261,49 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                         {showFriendsFilter && (
                             <div className="position-absolute end-0 top-100 mt-2 p-3" style={{ zIndex: 1050, width: "250px" }}>
                                 <div className="checkbox-dropdown p-3 rounded-2" style={{ backgroundColor: "var(--color-border)", border: "2px solid #343A40" }}>
+                                    {
+                                        filterTypeName && <div className='filterTypeName fs-5 text-decoration-underline pb-2' style={{ cursor: "pointer" }} onClick={handleSpedDatePopup}>{filterTypeName}</div>
+                                    }
                                     {filter2.map((label) => (
-                                        <div>
-                                            <label key={label} className="form-check d-flex align-items-center mb-2">
-                                                <input
-                                                    type="checkbox"
-                                                    className="form-check-input me-2"
-                                                    checked={selected.includes(label)}
-                                                    onChange={() => handleToggle(label)}
-                                                />
-                                                <span className="text-white">{label}</span>
-                                            </label>
-                                        </div>
+                                        checkbox ? (
+                                            <div key={label}>
+                                                <label className="form-check d-flex align-items-center mb-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input me-2"
+                                                        checked={selected.includes(label)}
+                                                        onChange={() => handleToggle(label)}
+                                                    />
+                                                    <span className="text-white">{label}</span>
+                                                </label>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <label
+                                                    key={label}
+                                                    className="form-check form-switch d-flex align-items-center mb-2"
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input me-2"
+                                                        checked={selected.includes(label)}
+                                                        onChange={() => handleToggle(label)}
+                                                    />
+                                                    <span className="text-white">{label}</span>
+                                                </label>
+                                            </div>
+
+                                        )
                                     ))}
                                     <hr className='my-3 text-white' />
+                                    {
+                                        okButton && <button
+                                            className="w-100 rounded-pill border-0 py-2 finter-bottom-button"
+                                            onClick={handleSubmit}
+                                        >
+                                            Ok
+                                        </button>
+                                    }
                                     {/* Location Form */}
                                     {
                                         showLocationForm && (<div
@@ -269,7 +311,7 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
 
                                         >
                                             <div>
-                                                <div className="mb-1 text-decoration-underline d-block" onClick={handleFeaturePopup} style={{color:"var(--color-primary-green)"}}>Features</div>
+                                                <div className="mb-1 text-decoration-underline d-block" onClick={handleFeaturePopup} style={{ color: "var(--color-primary-green)" }}>Features</div>
                                                 <input
                                                     type="text"
                                                     className="form-control bg-white border-0 text-black rounded-pill px-3"
@@ -279,7 +321,7 @@ const FilterBar = ({ filter1, filter2 = filter, filterName1, filterName2, showTa
                                                 />
                                             </div>
 
-                                            
+
                                             <button
                                                 className="w-100 rounded-pill border-0 py-2 finter-bottom-button"
                                                 onClick={handleSubmit}

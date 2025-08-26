@@ -217,6 +217,7 @@ const RegistrationForm = () => {
 
     if (!isValid) {
       toast.error('Please fix the errors in the form');
+       setLoading(false)
       return;
     }
 

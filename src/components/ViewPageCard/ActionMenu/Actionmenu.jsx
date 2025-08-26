@@ -108,11 +108,38 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
         fetchLikeStatus();
         console.log(res)
         if (res?.status === 200) {
-          showSuccessToast("You disliked");
+          showSuccessToast("You removed like");
         }
       })
       .catch(console.error);
   }, [isLiked.id, fetchLikeStatus]);
+
+
+  // Not interested
+  const handleNotInterested = useCallback(() => {
+    axios({
+      method: 'post',
+      url: `${import.meta.env.VITE_BASE_URL}/interactions`,
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+        'Content-Type': 'application/json'
+      },
+      data: {
+        targetUserId,
+        interactionType: "dislike"
+      }
+    })
+      .then(res => {
+        setIsLiked({ id: res.data._id, status: true });
+        // Optionally re-fetch
+        fetchLikeStatus();
+        console.log(res)
+        if (res?.status === 200) {
+          showSuccessToast("You disliked");
+        }
+      })
+      .catch(console.error);
+  }, [targetUserId, fetchLikeStatus]);
 
   const handelLikeDislike = () => {
     if (isLiked.status) handleDisLike();
@@ -161,7 +188,7 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
                 <i className="bi bi-hand-thumbs-up"></i>
                 <span>Like</span>
               </div>
-              <div className="d-flex align-items-center text-white gap-2 p-2 hover-bg">
+              <div className="d-flex align-items-center text-white gap-2 p-2 hover-bg" onClick={handleNotInterested}>
                 <i className="bi bi-hand-thumbs-down"></i>
                 <span>Not Interested</span>
               </div>

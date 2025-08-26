@@ -1,15 +1,14 @@
 // contexts/AuthContext.jsx
 import { createContext, useState, useContext, useEffect } from "react";
 
-// Create Context
 const AuthContext = createContext();
 
-// Provider Component
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [showNotification, setShowNotification] = useState("feed");
 
-  // Restore from localStorage when page reloads
+  // Restore from localStorage on reload
   useEffect(() => {
     const savedToken = localStorage.getItem("jwtToken");
     const savedUser = localStorage.getItem("user");
@@ -20,7 +19,7 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  // for logIn data
+  // Login
   const login = (userData, jwtToken) => {
     setUser(userData);
     setToken(jwtToken);
@@ -28,16 +27,16 @@ export function AuthProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  //For registration data
-   const registration = (userData, jwtToken) => {
+  // Registration
+  const registration = (userData, jwtToken) => {
     setUser(userData);
     setToken(jwtToken);
     localStorage.setItem("jwtToken", jwtToken);
     localStorage.setItem("user", JSON.stringify(userData));
-    console.log("authcontext regsitartion user",user,token)
+    console.log("authcontext registration user", userData, jwtToken);
   };
 
-  //For logout data
+  // Logout
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -45,18 +44,36 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user");
   };
 
-  const dataSend = () =>{
-    return user,token
-  }
+  const setNotificationHandler = () => {
+    setShowNotification("notification");
+  };
+
+  console.log(showNotification)
+
+  // Send both user + token
+  const dataSend = () => {
+    return { user, token };
+  };
 
   return (
-    <AuthContext.Provider value={{ user, token,dataSend, login,registration, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        showNotification,
+        login,
+        registration,
+        logout,
+        setNotificationHandler,
+        dataSend
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-// Custom Hook (must be outside the component)
+// Custom Hook
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used within AuthProvider");

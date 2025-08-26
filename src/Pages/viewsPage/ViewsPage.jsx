@@ -32,15 +32,19 @@ import OverlayLoader from '../../helper/OverlayLoader';
 // ];
 
 const filter = [
-    "Likes given",
-    "Joined group",
-    "Photos & Videos",
-    "Validations",
-    "Speed Date",
-    "Travel Plans",
-    "Parties & Events",
-    "Member Services",
-    "New Friends / Followers"
+    "Viewed Me",
+    "Viewed Each Other",
+    "Who I viewed",
+    "Remembered",
+    "Latest",
+    "Distance",
+    "All",
+    "Couples & Females",
+    "Couples",
+    "Female",
+    "Male",
+    "Transgender",
+    "Business",
 ];
 
 // const cards = [
@@ -160,7 +164,7 @@ const ViewsPage = () => {
                 <OverlayLoader show={loading} text="Please wait..." />
 
                 <div className='client-page-background'>
-                    <FilterBar filter2={filter} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"} />
+                    <FilterBar filter2={filter} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"} okButton={true}/>
 
                     <div className="container-fluid">
                         <div className="row g-4 pt-4">

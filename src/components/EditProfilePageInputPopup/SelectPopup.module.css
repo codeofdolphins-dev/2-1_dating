@@ -1,4 +1,4 @@
-.select-popup {
+.selectPopup {
   width: 100%;
   /* max-width: 400px; */
   font-family: Arial, sans-serif;
@@ -6,7 +6,7 @@
 }
 
 
-.select-box {
+.selectBox {
   /* background: #1d1d1d; */
   /* border-bottom: 1px solid rgb(176, 195, 204) !important; */
   /* border-radius: 5px; */
@@ -27,7 +27,7 @@
 }
 
 /* Modal styles */
-.modal-overlay {
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -40,7 +40,7 @@
   z-index: 999999999;
 }
 
-.modal-content {
+.modalContent {
   background-color: var(--color-border) !important;
   border-radius: 8px;
   width: 90%;
@@ -50,13 +50,13 @@
   
 }
 
-.modal-title {
+.modalTitle {
   margin-bottom: 15px;
   font-size: 18px;
   font-weight: bold;
 }
 
-.modal-options {
+.modalOptions {
   max-height: 250px;
   overflow-y: auto;
   border-top: 1px solid #ddd;
@@ -68,7 +68,7 @@
   padding-bottom: 10px;
 }
 
-.popup-item {
+.popupItem {
     padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@
   transition: background 0.2s;
 }
 
-.popup-item:hover {
+.popupItem:hover {
   background: var(--color-background);
 }
 
@@ -88,7 +88,7 @@
   transform: scale(1.2);
 } */
 
-.close-btn {
+.closeBtn {
   background: var(--color-primary-green);
   color: #000000;
   border: none;
@@ -98,11 +98,11 @@
   float: right;
 }
 
-.close-btn:hover {
+.closeBtn:hover {
   background: var(--color-primary-green);
 }
 
-.clear-btn{
+.clearBtn{
     background: var(--color-primary-green);
   color: #000000;
   border: none;
@@ -114,7 +114,7 @@
 
 /* CheckBox round */
 /* Make checkboxes circular */
-.popup-item input[type="checkbox"] {
+.popupItem input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -129,13 +129,13 @@
 }
 
 /* Checked state */
-.popup-item input[type="checkbox"]:checked {
+.popupItem input[type="checkbox"]:checked {
   background-color: var(--color-primary-green);
   border-color: var(--color-primary-green);
 }
 
 /* Add inner dot for checked */
-.popup-item input[type="checkbox"]:checked::after {
+.popupItem input[type="checkbox"]:checked::after {
   content: "";
   position: absolute;
   top: 3px;
@@ -147,7 +147,7 @@
 }
 
 
-.popup-item {
+.popupItem {
   display: flex;
   justify-content: space-between; /* text left, checkbox right */
   align-items: center;
@@ -158,7 +158,7 @@
 
 
 
-.option-text {
+.optionText {
   flex: 1; /* pushes checkbox to right */
 }
 
