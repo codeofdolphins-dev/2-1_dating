@@ -83,8 +83,6 @@ const ReportPopup = ({ show, handleClose, room_id }) => {
                                 style={{
                                     backgroundColor: "var(--color-border)",
                                     fontSize: "14px",
-                                    backgroundColor: "var(--color-border)"
-
                                 }}
                             >
                                 <option style={{ color: "grey" }}>Select report type</option>
