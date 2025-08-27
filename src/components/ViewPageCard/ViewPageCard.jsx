@@ -32,6 +32,13 @@ import img2 from "../../assets/ViwCardImags/img/coupleImg.jpeg";
 import img3 from "../../assets/ViwCardImags/img/profileImg.png";
 import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
 import { FaCheckCircle } from "react-icons/fa";
+import { IoIosStar } from "react-icons/io";
+import { FaMale } from "react-icons/fa";
+import { FaFemale } from "react-icons/fa";
+import { MdOutlinePhoneIphone } from "react-icons/md";
+import { HiMiniComputerDesktop } from "react-icons/hi2";
+import { BsChatDots } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
 
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
@@ -50,7 +57,7 @@ const cardList = [
 
 const imageList = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, setrefresh, refresh }) => {
+const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true }) => {
   // console.log(card._id)
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
@@ -59,6 +66,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   // const [isCheckedFriendrequest, setIsCheckedFriendrequest] = useState(false);
   // console.log(isCheckedFriendrequest)
   // const[loading,setLoading] = useState(true)
+
+  console.log(setrefresh, refresh)
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -73,7 +82,9 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     }
   }, [swiperInstance]);
 
-  console.log("card",card._id)
+  // console.log("card",card._id)
+  console.log(userData)
+  const senderId = userData?.senderId?._id
 
   const navigate = useNavigate();
   const handleNavigateToProfilepage = () => {
@@ -134,7 +145,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   // handle friend request send
   const handleFriendRequest = async () => {
     try {
-      const response = await httpService("/friend-requests", "POST", { receiverId: card._id });
+      const response = await httpService("/friend-requests", "POST", { receiverId: card._id ? card._id : senderId });
       console.log(response)
       showSuccessToast(response?.message)
 
@@ -252,6 +263,9 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               setshowMeessagePopup={setShowMessagePopup}
               handleFriendRequest={handleFriendRequest}
               targetUserId={card._id}
+              showRemembered={showRemembered}
+              showlikeDislike={showlikeDislike}
+              receaverId={userData?.receiverId?._id}
             />
           </div>
         </div>
@@ -260,31 +274,34 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
           <div>
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.targetUserId?.username ? card?.targetUserId?.username : card?.username}</h4>
-              
-              <div><img src={star} height={30} alt="Star" /></div>
+              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.targetUserId?.username ? card?.targetUserId?.username : card?.receiverId?.username ? card?.receiverId?.username : card?.username}</h4>
+
+              {/* <div><img src={star} height={30} alt="Star" /></div> */}
+              <div className="mb-0"><IoIosStar className="h3 text-warning" /></div>
             </div>
 
             <div className="d-flex align-items-center flex-wrap gap-3 fw-semibold mb-2">
               <div className="d-flex align-items-center gap-2">
-                <img src={female} height={16} alt="female" />
+                <FaFemale className="text-danger fs-6" />
                 <span className="text-danger">57</span>
               </div>
               <div className="d-flex align-items-center gap-2">
-                <img src={male} height={16} alt="male" />
+                <FaMale className="text-primary fs-6" />
                 <span className="text-primary">57</span>
               </div>
             </div>
 
+
             <hr />
             <div className="mb-2 d-flex align-items-center gap-3 pt-2">
-              <p className="mb-0 fw-semibold fs-5">Interests:</p>
-              <div className="d-flex gap-1">
-                <img src={male} height={20} alt="male" />
-                <img src={female} height={20} alt="female" />
-                <img src={male} height={20} alt="male" />
+              <span className="fw-semibold fs-5">Interests:</span>
+              <div className="d-flex align-items-center gap-1">
+                <FaMale className="fs-5 text-primary" />
+                <FaFemale className="fs-5 text-danger" />
+                <FaMale className="fs-5 text-primary" />
               </div>
             </div>
+
 
             <hr />
             <div className="d-flex align-items-center gap-2 text-white small py-2">
@@ -315,10 +332,19 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
             <div className="d-flex justify-content-between gap-1 align-items-center">
               <div className="d-flex gap-3 mt-2">
-                <img src={phone} alt="" height={30} />
-                <img src={pc} alt="" height={30} />
+
+                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
+                  <MdOutlinePhoneIphone className="text-primary fs-5" />
+                </div>
+
+                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
+                  <HiMiniComputerDesktop className="text-primary fs-5" />
+                </div>
+
                 {!deleteOption &&
-                  <img src={chat} alt="" height={30} />
+                  <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
+                    <BsChatDots className="text-primary fs-6" />
+                  </div>
                 }
               </div>
 
@@ -326,22 +352,28 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 showFriendOptions && <div className="pt-2 pl-5">
                   {
                     userData.status === "accepted" ? "Friends" :
-                      <div className="d-flex align-items-center gap-3 mt-2">
+                      <div className="d-flex align-items-center gap-2 mt-0">
                         {/* Accept Friend Request Icon */}
                         <FaCheckCircle
                           size={24}
-                          style={{ cursor: "pointer",color:"var(--color-primary-green)" }}
+                          style={{ cursor: "pointer", color: "var(--color-primary-green)" }}
                           onClick={handleAcceptFriendrequest}
                         />
 
                         {/* Decline Friend Request Icon */}
-                        <img
+                        {/* <img
                           src={trash}
                           alt="delete"
                           height={22}
                           style={{ cursor: "pointer" }}
                           onClick={handleDeclineFriendRequest}
-                        />
+                        /> */}
+
+                        <MdDelete
+                      className="text-danger"
+                      onClick={handleDeclineFriendRequest}
+                      style={{ fontSize: "28px", cursor: "pointer" }}
+                    />
                       </div>
                   }
                 </div>
@@ -358,13 +390,18 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               }
 
               {
-                deleteOption && <div className="pt-2 pl-5" >
-                  <div className="d-flex align-items-center gap-2 mt-0">
-                    <div className="d-flex align-items-center">
-                      <img src={trash} alt="delete" height={20} />
-                    </div>
+                deleteOption && <div className="pt-2 ps-5" onClick={() => handleeDeleteFunction(card)}>
+                  <div className="d-flex align-items-center gap-2">
+                    <MdDelete
+                      className="text-danger"
+                      style={{ fontSize: "28px", cursor: "pointer" }}
+                    />
+                    {/* <img src={trash} alt="delete" height={20} style={{ cursor: "pointer" }} /> */}
                   </div>
                 </div>
+
+
+
               }
 
               {/* {

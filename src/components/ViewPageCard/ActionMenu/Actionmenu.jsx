@@ -9,13 +9,16 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
-import { showSuccessToast } from "../../customToast/CustomToast";
+import { showErrorToast, showSuccessToast } from "../../customToast/CustomToast";
 // import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
+import httpService from "../../../helper/httpService"
 
-const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011", handleFriendRequest }) => {
+const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011", handleFriendRequest,showRemembered,showlikeDislike,receiverId }) => {
 
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
   const [isLiked, setIsLiked] = useState({ id: "", status: false });
+  const [isRemembered, setIsRemembered] = useState({ id: "", status: false });
+
 
 
   const likeRef = useRef(null);
@@ -82,12 +85,9 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
     })
       .then(res => {
         setIsLiked({ id: res?.data?.data?._id, status: true });
-        // Optionally re-fetch
         fetchLikeStatus();
         console.log(res?.data?.message)
         showSuccessToast(`You Liked The User`);
-        // if (res?.status === 200) {
-        // }
       })
       .catch(console.error);
   }, [targetUserId, fetchLikeStatus]);
@@ -148,6 +148,30 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
   }
 
 
+  // remember me
+  const handleRememberMe = async () => {
+    console.log("all ok");
+    try {
+      const res = await httpService(`/remember-me`, "POST", { receiverId: targetUserId });
+
+      if (res) {
+        console.log(res);
+
+        // ✅ if backend sends a success message
+        showSuccessToast(res?.message || "Profile remembered!");
+
+        // ✅ toggle local remember state (so bell highlights)
+        setIsRemembered(prev => !prev);
+      }
+    } catch (err) {
+      console.error(err);
+      showErrorToast(err?.response?.data?.message || "Failed to remember");
+    }
+  };
+
+
+
+  console.log("profil remembered card id", targetUserId)
 
 
   const popover = (
@@ -164,7 +188,8 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
         </div>
 
         {/* Like with submenu */}
-        <div
+        {
+          showlikeDislike && <div
           className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white position-relative"
           ref={likeRef}
           onClick={() => setShowLikeSubmenu((prev) => !prev)}
@@ -197,15 +222,24 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
             </div>
           )}
         </div>
+        }
+        
 
         <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white" onClick={handleFriendRequest}>
           <BsPersonPlus />
           <span>Friend request</span>
         </div>
-        <div className="d-flex align-items-center gap-2 p-2 rounded-2 hover-bg text-white">
+
+        {
+          showRemembered && <div
+          className={`d-flex align-items-center gap-2 p-2 rounded-2 hover-bg ${!isRemembered ? "text-primary" : "text-white"}`}
+          onClick={handleRememberMe}
+        >
           <BsBell />
           <span>Remember</span>
         </div>
+        }
+        
       </Popover.Body>
 
     </Popover>

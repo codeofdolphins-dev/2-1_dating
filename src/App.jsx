@@ -61,7 +61,7 @@ import WhoIViewedPage from './Pages/whoIViewed/WhoIViewedPage';
 import ProfileLocation from './Pages/profileLocation/ProfileLocation';
 import ProfileBlocklist from './Pages/ProfileBlocklist/ProfileBlocklist';
 import Notes from './Pages/Notes/Notes';
-import ProfileRecomended from './Pages/ProfileRecomended/ProfileRecomended';
+import ProfileRecomended from './Pages/ProfileRemembered/ProfileRemembered';
 import Privacy from './Pages/Privacy/Privacy';
 import LikeDislike from './Pages/LikeDislike/LikeDislike';
 import ProfileMemberService from './Pages/ProfileMemberService/ProfileMemberService';
@@ -70,6 +70,7 @@ import HideProfile from './Pages/HideProfile/HideProfile';
 import ContactAndHelp from './Pages/ContactAndHelp/ContactAndHelp';
 import ChatComponent from './services/ChatComponent';
 import CreatePrivateParty from './Pages/CreatePrivateParty/CreatePrivateParty';
+import ProfileRemembered from './Pages/ProfileRemembered/ProfileRemembered';
 
 
 
@@ -142,7 +143,7 @@ function App() {
 
           <Route path="/blocklist" element={<ProtectedRoute> <ProfileBlocklist /> </ProtectedRoute>  } />
           <Route path="/notes" element={<ProtectedRoute> <Notes /> </ProtectedRoute>  } />
-          <Route path="/remembered" element={<ProtectedRoute> <ProfileRecomended /> </ProtectedRoute>  } />
+          <Route path="/remembered" element={<ProtectedRoute> <ProfileRemembered /> </ProtectedRoute>  } />
 
           
           <Route path="/privacy" element={<ProtectedRoute> <Privacy /> </ProtectedRoute>  } />

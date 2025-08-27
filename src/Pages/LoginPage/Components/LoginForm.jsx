@@ -184,6 +184,7 @@ const LoginForm = () => {
     //   icon: 'success',
     //   confirmButtonText: 'OK',
     // });
+    setLogin(false)
   };
 
 
