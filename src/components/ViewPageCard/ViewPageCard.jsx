@@ -351,7 +351,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
                 {!deleteOption &&
                   <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
-                    <BsChatDots className="text-primary fs-6" />
+                    <BsChatDots className="text-primary fs-6" style={{cursor:"pointer"}} onClick={()=>{setShowMessagePopup(!showMessagePopup)}}/>
                   </div>
                 }
               </div>

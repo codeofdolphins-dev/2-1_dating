@@ -34,6 +34,8 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
 import { showErrorToast, showSuccessToast, showWarningToast } from '../../components/customToast/CustomToast'
+import { BsThreeDotsVertical } from "react-icons/bs";
+import ProfileReportPopup from '../../components/ProfileReportPopup/ProfileReportPopup'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
@@ -64,6 +66,7 @@ const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("Certifications");
     // const [userData, setUserData] = useState(null)
     // const [chckToken, setCheckToken] = useState(null)
+      const [show, setShow] = useState(false);
     const location = useLocation();
     const { userId, username, role } = location.state || {};
     console.log("profileId", userId)
@@ -109,7 +112,9 @@ const ProfilePage = () => {
                                     <div className="mb-4">
                                         <h5 className="fw-bold fs-2 d-flex align-items-center gap-2">
                                             {username} <span className="text-warning">★</span>
+                                            <BsThreeDotsVertical style={{cursor:"pointer"}}  onClick={()=>setShow(true)}/>
                                         </h5>
+                                        <ProfileReportPopup username={username} show={show} setShow={setShow}/>
                                         <div className="d-flex gap-3 my-2 fw-bold">
                                             <div className="d-flex align-items-center gap-1">
                                                 <img src={femaleIcon} alt="female" height={15} />
