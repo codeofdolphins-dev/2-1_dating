@@ -1,109 +1,143 @@
-import React, { useEffect, useState } from 'react'
-import GlobalPageWrapper from "../../components/GlobalPageWrapper"
-import FilterBar from "../../components/FilterBar/FilterBar"
+import React, { useEffect, useState } from "react";
+import GlobalPageWrapper from "../../components/GlobalPageWrapper";
+import FilterBar from "../../components/FilterBar/FilterBar";
 
 import img1 from "../../assets/ViwCardImags/img/couple.avif";
 import img2 from "../../assets/ViwCardImags/img/coupleImg.jpeg";
 import img3 from "../../assets/ViwCardImags/img/profileImg.png";
 import img4 from "../../assets/ViwCardImags/img/profileImg.webp";
-import ViewPageCard from '../../components/ViewPageCard/ViewPageCard';
-import httpService from '../../helper/httpService';
-import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
-import { useAuth } from '../../context/AuthContextAPI';
-
-const cards = [
-    { username: "Card One" },
-    { username: "Card Two" },
-    { username: "Card Three" },
-    { username: "Card Four" },
-    { username: "Card Five" },
-    { username: "Card Six" },
-    { username: "Card Seven" },
-    // ...
-];
+import ViewPageCard from "../../components/ViewPageCard/ViewPageCard";
+import httpService from "../../helper/httpService";
+import {
+  showErrorToast,
+  showSuccessToast,
+} from "../../components/customToast/CustomToast";
+import { useAuth } from "../../context/AuthContextAPI";
+import ItemsPerPageSelector from "../../components/Pagination/ItemsPerPageSelector";
+import Pagination from "../../components/Pagination/Pagination";
+import DeviceInfoPopup from "../../components/DeviceInfoPopup/DeviceInfoPopup";
 
 const images = [img1, img2, img3, img4];
 
 const filterName = [
-    "Likes given",
-    "Mutual",
-    "Received",
-    "Not Interested",
-    "Latest",
-    "Distance",
-    "All",
-    "Couple & Females",
-    "Couples",
-    "Females",
-    "Males",
-    "Transgender",
-    "Business"
+  "Likes given",
+  "Mutual",
+  "Received",
+  "Not Interested",
+  "Latest",
+  "Distance",
+  "All",
+  "Couple & Females",
+  "Couples",
+  "Females",
+  "Males",
+  "Transgender",
+  "Business",
 ];
 
-
 const LikeDislike = () => {
-    const { filterOption } = useAuth();
+  const { filterOption } = useAuth();
 
+  const [user, setUser] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-    const [user, setUser] = useState([])
-    useEffect(() => {
+  // Fetch data based on filter, page, and limit
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        let endpoint = "/interactions";
+
         if (filterOption === "Not Interested") {
-            httpService("/interactions/my-dislikes", "GET")
-                .then((response) => {
-                    console.log("Like dislike fetched:", response);
-                    showSuccessToast(response?.message);
-                    setUser(response?.data)
-                })
-                .catch((err) => {
-                    console.error("Failed to ftched Like dislike:", err);
-                    showErrorToast(err?.response?.data?.message);
-                });
+          endpoint = "/interactions/my-dislikes";
         } else if (filterOption === "Likes given") {
-            httpService("/interactions/my-likes", "GET")
-                .then((response) => {
-                    console.log("Like dislike fetched:", response);
-                    showSuccessToast(response?.message);
-                    setUser(response?.data)
-                })
-                .catch((err) => {
-                    console.error("Failed to ftched Like dislike:", err);
-                    showErrorToast(err?.response?.data?.message);
-                });
-        } else {
-            httpService("/interactions", "GET")
-                .then((response) => {
-                    console.log("Like dislike fetched:", response);
-                    showSuccessToast(response?.message);
-                    setUser(response?.data)
-                })
-                .catch((err) => {
-                    console.error("Failed to ftched Like dislike:", err);
-                    showErrorToast(err?.response?.data?.message);
-                });
+          endpoint = "/interactions/my-likes";
         }
-    }, [filterOption]); // dependency on card._id
 
+        const response = await httpService(endpoint, "GET", {}, {
+          page: currentPage,
+          limit: itemsPerPage,
+        });
 
+        console.log("Fetched Data:", response);
 
-    return (
-        <>
-            <GlobalPageWrapper>
-                <FilterBar pageName={"Likes / Dislikes"} filterName2={"Filter"} filter2={filterName} okButton={true} />
-                <div className="container-fluid">
-                    <div className="row g-4 pt-4">
-                        {
-                            user.map((card, index) => (
-                                <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                                    <ViewPageCard card={card} index={index} images={images} likeIcon={true}
-                                    showlikeDislike={false}/>
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
-            </GlobalPageWrapper>
-        </>
-    )
-}
+        showSuccessToast(response?.message);
 
-export default LikeDislike
+        setUser(response?.data || []); // adjust if API returns different structure
+
+        const totalCount = response?.data?.meta?.pagination?.total ?? null;
+        const apiTotalPages =
+          response?.data?.meta?.pagination?.pageCount ?? null;
+
+        if (totalCount !== null) {
+          setTotalPages(Math.ceil(totalCount / itemsPerPage));
+        } else if (apiTotalPages !== null) {
+          setTotalPages(apiTotalPages);
+        } else {
+          setTotalPages(1);
+        }
+      } catch (err) {
+        console.error("Failed to fetch Like/Dislike:", err);
+        showErrorToast(err?.response?.data?.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [filterOption, currentPage, itemsPerPage]); // watch for pagination + filter changes
+
+  return (
+    <GlobalPageWrapper>
+      <FilterBar
+        pageName={"Likes / Dislikes"}
+        filterName2={"Filter"}
+        filter2={filterName}
+        okButton={true}
+      />
+
+      <div className="container-fluid">
+        <div className="row g-4 pt-4">
+          {user.length > 0 ? (
+            user.map((card, index) => (
+              <div
+                className="col-12 col-sm-6 col-lg-6 col-xl-4"
+                key={index}
+              >
+                <ViewPageCard
+                  card={card}
+                  index={index}
+                  images={images}
+                  likeIcon={true}
+                  showlikeDislike={false}
+                />
+              </div>
+            ))
+          ) : (
+            <p className="text-white">No results found.</p>
+          )}
+        </div>
+
+        {/* Items per page selector */}
+        <ItemsPerPageSelector
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          setCurrentPage={setCurrentPage}
+        />
+
+        {/* Pagination */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      </div>
+      <DeviceInfoPopup/>
+    </GlobalPageWrapper>
+  );
+};
+
+export default LikeDislike;

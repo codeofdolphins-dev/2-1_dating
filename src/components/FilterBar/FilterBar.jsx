@@ -39,6 +39,7 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
     console.log("sdsadsdfs", selected)
 
      const { filterOption, setFilterOption } = useAuth();
+     console.log(filterOption)
 
     // Whenever showNotification changes to true → switch tab
     useEffect(() => {
@@ -73,6 +74,7 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
     const handleSubmit = () => {
         
     setFilterOption(selected); // ✅ just a string
+    setShowFriendsFilter(!showFriendsFilter)
     };
 
 

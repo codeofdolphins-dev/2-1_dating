@@ -99,7 +99,7 @@ const ProfileRemembered = () => {
     return (
         <>
             <GlobalPageWrapper>
-                <FilterBar clas pageName={"Remembered"} filterName2={"Filter"} />
+                <FilterBar clas pageName={"Remembered"} />
 
                 <div className="container-fluid">
                     <div className="row g-4 pt-4">

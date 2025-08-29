@@ -39,6 +39,7 @@ import { MdOutlinePhoneIphone } from "react-icons/md";
 import { HiMiniComputerDesktop } from "react-icons/hi2";
 import { BsChatDots } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
+import DeviceInfoPopup from "../DeviceInfoPopup/DeviceInfoPopup";
 
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
@@ -71,6 +72,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (swiperInstance && prevRef.current && nextRef.current) {
@@ -203,6 +205,12 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   }
 
 
+  // handleDeviceInfo show popup
+
+  const handleDeviceShowPopup = () =>{
+    console.log("all ok")
+    setShow(true)
+  }
 
   return (
     <>
@@ -333,11 +341,11 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
             <div className="d-flex justify-content-between gap-1 align-items-center">
               <div className="d-flex gap-3 mt-2">
 
-                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
-                  <MdOutlinePhoneIphone className="text-primary fs-5" />
+                <div  className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px",cursor:"pointer" }}>
+                  <MdOutlinePhoneIphone className="text-primary fs-5" onClick={handleDeviceShowPopup}/>
                 </div>
 
-                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
+                <div onClick={handleDeviceShowPopup} className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px",cursor:"pointer" }}>
                   <HiMiniComputerDesktop className="text-primary fs-5" />
                 </div>
 
@@ -354,11 +362,16 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                     userData.status === "accepted" ? "Friends" :
                       <div className="d-flex align-items-center gap-2 mt-0">
                         {/* Accept Friend Request Icon */}
-                        <FaCheckCircle
-                          size={24}
-                          style={{ cursor: "pointer", color: "var(--color-primary-green)" }}
-                          onClick={handleAcceptFriendrequest}
-                        />
+
+                        {
+                          userData?.status === "pending" &&
+                          <FaCheckCircle
+                            size={24}
+                            style={{ cursor: "pointer", color: "var(--color-primary-green)" }}
+                            onClick={handleAcceptFriendrequest}
+                          />
+                        }
+
 
                         {/* Decline Friend Request Icon */}
                         {/* <img
@@ -369,12 +382,19 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                           onClick={handleDeclineFriendRequest}
                         /> */}
 
-                        <MdDelete
-                      className="text-danger"
-                      onClick={handleDeclineFriendRequest}
-                      style={{ fontSize: "28px", cursor: "pointer" }}
-                    />
+                        {
+                          userData?.status === "pending" && <MdDelete
+                            className="text-danger"
+                            onClick={handleDeclineFriendRequest}
+                            style={{ fontSize: "28px", cursor: "pointer" }}
+                          />
+                        }
                       </div>
+                  }
+
+                  {
+                    userData.status === "declined" && "declined" 
+                      
                   }
                 </div>
               }
@@ -427,7 +447,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
         {/* 💬 Messenger Popup */}
         {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
-
+         
+         <DeviceInfoPopup show={show} setShow={setShow}/>
       </div>
     </>
   );

@@ -1,0 +1,3 @@
+.btn-close {
+  filter: invert(1);   /* makes black icon white */
+}

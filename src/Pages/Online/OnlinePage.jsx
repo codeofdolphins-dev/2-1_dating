@@ -15,6 +15,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { showErrorToast } from "../../components/customToast/CustomToast";
 import { useNavigate } from "react-router-dom";
 import OverlayLoader from "../../helper/OverlayLoader";
+import ItemsPerPageSelector from "../../components/Pagination/ItemsPerPageSelector";
 
 const filter = [
   "Couples",
@@ -60,7 +61,7 @@ const OnlinePage = () => {
 
       const response = await axios.get(`${apiUrl}/users`, config);
       const members = response?.data?.data || [];
-      console.log("onlnile response",response)
+      console.log("onlnile response", response)
 
       const totalCount = response?.data?.meta?.pagination?.total || null;
       const apiTotalPages =
@@ -112,17 +113,17 @@ const OnlinePage = () => {
           style={{ minHeight: "100vh" }}
         >
           <div className="row g-4 pt-4">
-            { cards.length === 0 ? <div className="text-white">No one is online now</div>:
-            cards.map((card, index) => (
-              <div
-                className="col-12 col-sm-6 col-lg-6 col-xl-4"
-                key={index}
-              >
-                {
-                  card?.settings?.showOnline && <ViewPageCard  index={index} images={images} card={card} />
-                }
-              </div>
-            ))}
+            {cards.length === 0 ? <div className="text-white">No one is online now</div> :
+              cards.map((card, index) => (
+                <div
+                  className="col-12 col-sm-6 col-lg-6 col-xl-4"
+                  key={index}
+                >
+                  {
+                    card?.settings?.showOnline && <ViewPageCard index={index} images={images} card={card} />
+                  }
+                </div>
+              ))}
           </div>
 
           <SpeedDateCheckBoxPopup
@@ -132,23 +133,12 @@ const OnlinePage = () => {
           />
 
           {/* Items per page selector */}
-          <div className="d-flex justify-content-start align-items-center gap-2 my-3">
-            <label className="text-white mb-0">Items per page:</label>
-            <select
-              className="form-select form-select-sm w-auto"
-              value={itemsPerPage}
-              onChange={(e) => {
-                setItemsPerPage(Number(e.target.value));
-                setCurrentPage(1);
-              }}
-            >
-              {[3, 6, 9].map((num) => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
-              ))}
-            </select>
-          </div>
+
+          <ItemsPerPageSelector
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+            setCurrentPage={setCurrentPage}
+          />
 
           {/* Capsule-style Pagination */}
           <Pagination

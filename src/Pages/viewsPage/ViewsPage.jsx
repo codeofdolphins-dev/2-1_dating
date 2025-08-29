@@ -12,6 +12,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import { showErrorToast } from '../../components/customToast/CustomToast';
 import axios from 'axios';
 import OverlayLoader from '../../helper/OverlayLoader';
+import ItemsPerPageSelector from '../../components/Pagination/ItemsPerPageSelector';
 
 
 // const map = [
@@ -137,7 +138,7 @@ const ViewsPage = () => {
                 response?.data?.meta?.pagination?.pageCount || null;
 
             setCards(members);
-            
+
             if (totalCount !== null) {
                 setTotalPages(Math.ceil(totalCount / limit));
             } else if (apiTotalPages !== null) {
@@ -164,41 +165,29 @@ const ViewsPage = () => {
                 <OverlayLoader show={loading} text="Please wait..." />
 
                 <div className='client-page-background'>
-                    <FilterBar filter2={filter} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"} okButton={true}/>
+                    <FilterBar filter2={filter} filterName2={"Filter"} showTab={false} pageName={"Viewed Me"} distanceSlider={false} bottomForm={true} width={"280px"} okButton={true} />
 
                     <div className="container-fluid">
                         <div className="row g-4 pt-4">
                             {
                                 cards.length === 0 ? <div className='text-white'>No Users Found </div> :
-                                cards.map((card, index) => (
-                                    <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                                        <ViewPageCard index={index} images={images} timestamp={true}
-                                            card={card?.viewerId} rawTimestamp={card?.timestamp}
-                                        />
-                                    </div>
-                                ))
+                                    cards.map((card, index) => (
+                                        <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
+                                            <ViewPageCard index={index} images={images} timestamp={true}
+                                                card={card?.viewerId} rawTimestamp={card?.timestamp}
+                                            />
+                                        </div>
+                                    ))
                             }
                         </div>
                     </div>
 
                     {/* Items per page selector */}
-                    <div className="d-flex justify-content-start align-items-center gap-2 my-3">
-                        <label className="text-white mb-0">Items per page:</label>
-                        <select
-                            className="form-select form-select-sm w-auto"
-                            value={itemsPerPage}
-                            onChange={(e) => {
-                                setItemsPerPage(Number(e.target.value));
-                                setCurrentPage(1);
-                            }}
-                        >
-                            {[3, 6, 9].map((num) => (
-                                <option key={num} value={num}>
-                                    {num}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    
+                    <ItemsPerPageSelector
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                    />
 
                     {/* Capsule-style Pagination */}
                     <Pagination

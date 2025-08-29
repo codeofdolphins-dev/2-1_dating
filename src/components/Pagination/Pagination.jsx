@@ -4,7 +4,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <nav>
+    <nav style={{marginTop:0}}>
       <ul className="pagination pagination-sm justify-start-center mt-3 mb-0 gap-2 pb-5">
         
         {/* Prev Button */}
