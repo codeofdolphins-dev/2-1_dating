@@ -236,7 +236,7 @@ const RegistrationForm = () => {
                
               setLoading(false)
               // Redirect to next step
-              setTimeout(() => navigate('/feed'), 2000);
+              setTimeout(() => navigate('/second_registration'), 100);
               registration(data,token);
             })
             .catch((error) => {

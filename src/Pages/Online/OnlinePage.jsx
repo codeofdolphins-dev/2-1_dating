@@ -88,7 +88,7 @@ const OnlinePage = () => {
     fetchMembers(currentPage, itemsPerPage);
   }, [currentPage, itemsPerPage]);
 
-
+   console.log("friends",cards)
 
   return (
     <>

@@ -250,7 +250,7 @@ const Chat = () => {
                 </button>
               </div>
             </div> */}
-            <ChatComponent otherUserId={selectedChat}/>
+            <ChatComponent otherUserId={"68b2cc5d9742323daa6b5079"}/>
           </div>
 
         </div>

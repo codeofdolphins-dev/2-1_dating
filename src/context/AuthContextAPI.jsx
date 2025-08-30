@@ -7,9 +7,9 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [showNotification, setShowNotification] = useState("feed");
-
-  const [filterOption, setFilterOption] = useState(""); // <-- just a string
-  
+  const [userNameFromFriendListPage, setUserNameFromFriendListPage] = useState("");
+  const [userNameFromFriendList, setUserNameFromFriendList] = useState([]);
+  const [filterOption, setFilterOption] = useState(""); 
 
   // Restore from localStorage on reload
   useEffect(() => {
@@ -51,13 +51,7 @@ export function AuthProvider({ children }) {
     setShowNotification("notification");
   };
 
-  // console.log(showNotification)
-  console.log(filterOption)
-
-  // Send both user + token
-  const dataSend = () => {
-    return { user, token };
-  };
+  console.log("friemdListUsername",userNameFromFriendListPage)
 
   return (
     <AuthContext.Provider
@@ -69,9 +63,12 @@ export function AuthProvider({ children }) {
         registration,
         logout,
         setNotificationHandler,
-        dataSend,
         filterOption, 
-        setFilterOption
+        setFilterOption,
+        userNameFromFriendListPage,
+        setUserNameFromFriendListPage,
+        userNameFromFriendList, 
+        setUserNameFromFriendList
       }}
     >
       {children}

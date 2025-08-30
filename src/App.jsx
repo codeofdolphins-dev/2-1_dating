@@ -71,6 +71,7 @@ import ContactAndHelp from './Pages/ContactAndHelp/ContactAndHelp';
 import ChatComponent from './services/ChatComponent';
 import CreatePrivateParty from './Pages/CreatePrivateParty/CreatePrivateParty';
 import ProfileRemembered from './Pages/ProfileRemembered/ProfileRemembered';
+import OtherUserFriendListpage from './Pages/OtherUserFriendListpage/OtherUserFriendListpage';
 
 
 
@@ -155,6 +156,7 @@ function App() {
           <Route path="/test-chat" element={<ProtectedRoute> <ChatComponent /> </ProtectedRoute>  } />
           
           <Route path="/create-private-party" element={<ProtectedRoute> <CreatePrivateParty /> </ProtectedRoute>  } />
+          <Route path="/other-user-friendlist" element={<ProtectedRoute> <OtherUserFriendListpage /> </ProtectedRoute>  } />
 
         </Routes>
       </BrowserRouter>

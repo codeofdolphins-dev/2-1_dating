@@ -5,14 +5,16 @@ import "../SecondRegistrationPageCSS/SecondRegistrationPage.css";
 import "./secondregistrationFormCss/style.css";
 import ChoosePartnerGenderselector from "../../../components/ChoosePartnerGenderselector/ChoosePartnerGenderselector";
 
-import {showSuccessToast, showErrorToast } from "../../../components/customToast/CustomToast"
+import { showSuccessToast, showErrorToast } from "../../../components/customToast/CustomToast"
 import httpService from "../../../helper/httpService"
+import { useNavigate } from "react-router-dom";
 
 const SecondRegistrationForm = () => {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         gender: "couple",
         sexuality: "",
-        interestedIn:[],
+        interestedIn: [],
         sexualityPartner: "",
         dobDay: "",
         dobMonth: "",
@@ -77,7 +79,7 @@ const SecondRegistrationForm = () => {
     const handleLookingFor = (gender) => {
         setFormData((prev) => ({
             ...prev,
-            interestedIn:gender,
+            interestedIn: gender,
         }));
     };
 
@@ -110,6 +112,10 @@ const SecondRegistrationForm = () => {
                     "country": formData?.country,
                     "zipcode": formData?.zipcode
                 },
+                "partner": {
+                    "dateOfBirth": formData?.partnerDob,
+                    "sexuality": formData?.sexualityPartner
+                },
                 "bio": formData.profileText,
                 "mainPhoto": formData?.profileImage,
                 // "photos": [
@@ -121,6 +127,7 @@ const SecondRegistrationForm = () => {
             if (response) {
                 console.log(response)
                 showSuccessToast(response?.message);
+                navigate("/feed")
             }
         } catch (err) {
             console.log(err)
@@ -183,7 +190,7 @@ const SecondRegistrationForm = () => {
                                 <Form.Label>Partner Sexuality *</Form.Label>
                                 <Form.Select
                                     name="sexualityPartner"
-                                    value={formData.sexualityPartner}
+                                    value={formData?.partner?.sexualityPartner}
                                     onChange={handleInputChange}
                                     className="border-secondary border-2 border-top-0 border-start-0 border-end-0 rounded-0"
                                     style={{ backgroundColor: "var(--color-border)", color: "#b0c3cc" }}
@@ -278,7 +285,7 @@ const SecondRegistrationForm = () => {
                     )}
 
                     {/* Partner Gender Selector */}
-                    <ChoosePartnerGenderselector handleLookingFor={handleLookingFor}/>
+                    <ChoosePartnerGenderselector handleLookingFor={handleLookingFor} />
 
                     {/* Address */}
                     <Form.Group className="mb-3">

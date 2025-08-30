@@ -42,6 +42,9 @@ import { MdDelete } from "react-icons/md";
 import DeviceInfoPopup from "../DeviceInfoPopup/DeviceInfoPopup";
 import { timeAgo } from "../../helper/timeAgo";
 
+import { useAuth } from "../../context/AuthContextAPI";
+import AgeCalculator from "../../helper/DobCalculator";
+
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
 
@@ -59,12 +62,13 @@ const cardList = [
 
 const imageList = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true,showTime }) => {
+const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime }) => {
   // console.log(card._id)
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
   const [time, setTime] = useState("")
+  const { setUserNameFromFriendListPage, setUserNameFromFriendList } = useAuth()
   // const [isCheckedFriendrequest, setIsCheckedFriendrequest] = useState(false);
   // console.log(isCheckedFriendrequest)
   // const[loading,setLoading] = useState(true)
@@ -183,9 +187,16 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     setShow(true)
   }
 
-  console.log("userData",card)
 
-  console.log("showTime",showTime)
+  const handleOtherFriendlistPageNav = () => {
+    setUserNameFromFriendListPage(card?.username)
+    setUserNameFromFriendList(card?.friends)
+    navigate("/other-user-friendlist")
+  }
+
+  console.log("Interest In", card?.profile)
+
+  // console.log("card friends",card?.friends?.length)
 
   return (
     <>
@@ -211,7 +222,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                     onClick={() => setShowGallery(true)}
                     style={{
                       objectFit: "cover",
-                      height: "250px",
+                      height: "260px",
                       borderRadius: "12px",
                       cursor: "pointer"
                     }}
@@ -260,18 +271,48 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.targetUserId?.username ? card?.targetUserId?.username : card?.receiverId?.username ? card?.receiverId?.username : card?.viewedUserId?.username ? card?.viewedUserId?.username : card?.username}</h4>
 
               {/* <div><img src={star} height={30} alt="Star" /></div> */}
-              <div className="mb-0"><IoIosStar className="h3 text-warning" /></div>
+              {
+                card?.profile?.onboardingCompleted && <div className="mb-0"><IoIosStar className="h3 text-warning" /></div>
+              }
             </div>
 
             <div className="d-flex align-items-center flex-wrap gap-3 fw-semibold mb-2">
-              <div className="d-flex align-items-center gap-2">
+              {
+                card?.profile?.gender === "female" ? (
+                  <div className="d-flex align-items-center gap-2">
+                    <FaFemale className="text-danger fs-6" />
+                    <span className="text-danger"><AgeCalculator birthDate={card?.profile?.dateOfBirth} /></span>
+                  </div>
+                ) : card?.profile?.gender === "male" ? (
+                  <div className="d-flex align-items-center gap-2">
+                    <FaMale className="text-primary fs-6" />
+                    <span className="text-primary"><AgeCalculator birthDate={card?.profile?.dateOfBirth} /></span>
+                  </div>
+                ) : card?.profile?.gender === "couple" ? (
+                  <>
+                    <div className="d-flex align-items-center gap-2">
+                      <FaFemale className="text-danger fs-6" />
+                      <span className="text-danger"><AgeCalculator birthDate={card?.profile?.dateOfBirth} /></span>
+                    </div>
+                    <div className="d-flex align-items-center gap-2">
+                      <FaMale className="text-primary fs-6" />
+                      <span className="text-primary"><AgeCalculator birthDate={card?.profile?.partner?.dateOfBirth} /></span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="mb-0">unknown</p>
+                  </>
+                )
+              }
+              {/* <div className="d-flex align-items-center gap-2">
                 <FaFemale className="text-danger fs-6" />
-                <span className="text-danger">57</span>
-              </div>
-              <div className="d-flex align-items-center gap-2">
+                <span className="text-danger"><AgeCalculator birthDate={card?.profile?.dateOfBirth} /></span>
+              </div> */}
+              {/* <div className="d-flex align-items-center gap-2">
                 <FaMale className="text-primary fs-6" />
                 <span className="text-primary">57</span>
-              </div>
+              </div> */}
             </div>
 
 
@@ -279,9 +320,30 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
             <div className="mb-2 d-flex align-items-center gap-3 pt-2">
               <span className="fw-semibold fs-5">Interests:</span>
               <div className="d-flex align-items-center gap-1">
-                <FaMale className="fs-5 text-primary" />
-                <FaFemale className="fs-5 text-danger" />
-                <FaMale className="fs-5 text-primary" />
+                {card?.profile?.interestedIn?.map((interest, i) => (
+                  <span key={i} className="text-light small">
+                    {interest === "male" ? (
+                      <FaMale className="fs-5 text-primary" />
+                    ) : interest === "female" ? (
+                      <FaFemale className="fs-5 text-danger" />
+                    ) : interest === "couple" ? (
+                      <>
+                        <div className="d-flex gap-0">
+                          <div>
+                            <FaFemale className="fs-5 text-danger" />
+                          </div>
+                          <div>
+                            <FaMale className="fs-5 text-primary" />
+                          </div>
+                        </div>
+                      </>
+                    ) : null}
+                  </span>
+                ))}
+
+                {/* <AgeCalculator /> */}
+                {/* <FaFemale className="fs-5 text-danger" />
+                <FaMale className="fs-5 text-primary" /> */}
               </div>
             </div>
 
@@ -289,7 +351,15 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
             <hr />
             <div className="d-flex align-items-center gap-2 text-white small py-2">
               <i className="bi bi-geo-alt-fill"></i>
-              <span>Altedo, ITA | 4256 mi</span>
+              <div
+                className="d-block text-light small"
+                style={{
+                  height: "30px",
+                  overflowY: "auto"
+                }}
+              >
+                {card?.profile?.address?.fullAddress ? card?.profile?.address?.fullAddress : "No address found"}
+              </div>
             </div>
 
             <hr />
@@ -297,8 +367,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               <div className="d-flex align-items-center gap-1 text-white small py-2">
                 <i className="bi bi-camera-fill"></i><span>41</span>
               </div>
-              <div className="d-flex align-items-center gap-1 text-white small py-2">
-                <i className="bi bi-person-fill"></i><span>12</span>
+              <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }} onClick={handleOtherFriendlistPageNav ? handleOtherFriendlistPageNav : 0}>
+                <i className="bi bi-person-fill" ></i><span>{card?.friends?.length}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2">
                 <i className="bi bi-star-fill"></i><span>5</span>
@@ -410,7 +480,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 </div>
               )} */}
 
-              {showTime && <div className="text-danger">{card?.createdAt ? timeAgo(card?.createdAt) :  timeAgo(card?.timestamp)}</div>}
+              {showTime && <div className="text-danger">{card?.createdAt ? timeAgo(card?.createdAt) : timeAgo(card?.timestamp)}</div>}
               <div className="text-danger">{timeAgo(card?.timestamp)}</div>
             </div>
           </div>
