@@ -178,7 +178,7 @@ const SecondRegistrationForm = () => {
                                 <option value="pansexual">Pansexual</option>
                             </Form.Select>
                         </Col>
-                        {formData.gender === "Couple" && (
+                        {formData.gender === "couple" && (
                             <Col>
                                 <Form.Label>Partner Sexuality *</Form.Label>
                                 <Form.Select
@@ -238,7 +238,7 @@ const SecondRegistrationForm = () => {
                     </div>
 
                     {/* Partner DOB */}
-                    {formData.gender === "Couple" && (
+                    {formData.gender === "couple" && (
                         <div className="mb-3">
                             <label className="form-label text-white">Partner Date of Birth *</label>
                             <div className="d-flex gap-3">

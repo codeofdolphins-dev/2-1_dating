@@ -94,6 +94,9 @@ const ProfilePage = () => {
     }, [])
 
 
+    console.log("profile userId",userId)
+
+
     return (
         <>
             <PageWrapper>
@@ -114,7 +117,7 @@ const ProfilePage = () => {
                                             {username} <span className="text-warning">★</span>
                                             <BsThreeDotsVertical style={{cursor:"pointer"}}  onClick={()=>setShow(true)}/>
                                         </h5>
-                                        <ProfileReportPopup username={username} show={show} setShow={setShow}/>
+                                        <ProfileReportPopup userId={userId} username={username} show={show} setShow={setShow}/>
                                         <div className="d-flex gap-3 my-2 fw-bold">
                                             <div className="d-flex align-items-center gap-1">
                                                 <img src={femaleIcon} alt="female" height={15} />

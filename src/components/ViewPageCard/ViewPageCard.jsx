@@ -40,6 +40,7 @@ import { HiMiniComputerDesktop } from "react-icons/hi2";
 import { BsChatDots } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import DeviceInfoPopup from "../DeviceInfoPopup/DeviceInfoPopup";
+import { timeAgo } from "../../helper/timeAgo";
 
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
@@ -58,7 +59,7 @@ const cardList = [
 
 const imageList = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true }) => {
+const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true,showTime }) => {
   // console.log(card._id)
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
@@ -111,37 +112,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
   // timestamp in milliseconds
 
-  useEffect(() => {
-    if (rawTimestamp) {
-      // Ensure timestamp is a number
-      const timestampMs = typeof rawTimestamp === "string"
-        ? Date.parse(rawTimestamp)
-        : rawTimestamp;
 
-      if (!isNaN(timestampMs)) {
-        const now = Date.now();
-        const diffMs = now - timestampMs; // difference in milliseconds
-
-        const diffMinutes = Math.floor(diffMs / (1000 * 60));
-        const diffHours = Math.floor(diffMinutes / 60);
-
-        let timeAgo = '';
-        if (diffMinutes <= 0) {
-          timeAgo = "just now";
-        } else if (diffHours > 0) {
-          timeAgo = `${diffHours} H${diffHours > 1 ? 's' : ''} ${diffMinutes % 60} M${diffMinutes % 60 !== 1 ? '' : ''}`;
-        } else {
-          timeAgo = `${diffMinutes} M${diffMinutes > 1 ? '' : ''}`;
-        }
-
-        setTime(timeAgo);
-        console.log(timeAgo);
-      }
-      else {
-        console.error("Invalid timestamp:", rawTimestamp);
-      }
-    }
-  }, [rawTimestamp])
 
 
   // handle friend request send
@@ -207,10 +178,14 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
   // handleDeviceInfo show popup
 
-  const handleDeviceShowPopup = () =>{
+  const handleDeviceShowPopup = () => {
     console.log("all ok")
     setShow(true)
   }
+
+  console.log("userData",card)
+
+  console.log("showTime",showTime)
 
   return (
     <>
@@ -282,7 +257,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
           <div>
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.targetUserId?.username ? card?.targetUserId?.username : card?.receiverId?.username ? card?.receiverId?.username : card?.username}</h4>
+              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.targetUserId?.username ? card?.targetUserId?.username : card?.receiverId?.username ? card?.receiverId?.username : card?.viewedUserId?.username ? card?.viewedUserId?.username : card?.username}</h4>
 
               {/* <div><img src={star} height={30} alt="Star" /></div> */}
               <div className="mb-0"><IoIosStar className="h3 text-warning" /></div>
@@ -341,17 +316,17 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
             <div className="d-flex justify-content-between gap-1 align-items-center">
               <div className="d-flex gap-3 mt-2">
 
-                <div  className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px",cursor:"pointer" }}>
-                  <MdOutlinePhoneIphone className="text-primary fs-5" onClick={handleDeviceShowPopup}/>
+                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px", cursor: "pointer" }}>
+                  <MdOutlinePhoneIphone className="text-primary fs-5" onClick={handleDeviceShowPopup} />
                 </div>
 
-                <div onClick={handleDeviceShowPopup} className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px",cursor:"pointer" }}>
+                <div onClick={handleDeviceShowPopup} className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px", cursor: "pointer" }}>
                   <HiMiniComputerDesktop className="text-primary fs-5" />
                 </div>
 
                 {!deleteOption &&
                   <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
-                    <BsChatDots className="text-primary fs-6" style={{cursor:"pointer"}} onClick={()=>{setShowMessagePopup(!showMessagePopup)}}/>
+                    <BsChatDots className="text-primary fs-6" style={{ cursor: "pointer" }} onClick={() => { setShowMessagePopup(!showMessagePopup) }} />
                   </div>
                 }
               </div>
@@ -393,8 +368,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                   }
 
                   {
-                    userData.status === "declined" && "declined" 
-                      
+                    userData.status === "declined" && "declined"
+
                   }
                 </div>
               }
@@ -409,20 +384,23 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               </div>
               }
 
-              {
-                deleteOption && <div className="pt-2 ps-5" onClick={() => handleeDeleteFunction(card)}>
-                  <div className="d-flex align-items-center gap-2">
+              {deleteOption && (
+                <div className="pt-2 ps-5">
+                  <div
+                    className="d-flex align-items-center gap-2"
+                    onClick={() => {
+                      handleeDeleteFunction(card)
+                    }} // ✅ consistent
+                    style={{ cursor: "pointer" }}
+                  >
                     <MdDelete
                       className="text-danger"
-                      style={{ fontSize: "28px", cursor: "pointer" }}
+                      style={{ fontSize: "28px" }}
                     />
-                    {/* <img src={trash} alt="delete" height={20} style={{ cursor: "pointer" }} /> */}
                   </div>
                 </div>
+              )}
 
-
-
-              }
 
               {/* {
 
@@ -432,8 +410,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 </div>
               )} */}
 
-              {time && <div className="text-danger">{time}</div>}
-
+              {showTime && <div className="text-danger">{card?.createdAt ? timeAgo(card?.createdAt) :  timeAgo(card?.timestamp)}</div>}
+              <div className="text-danger">{timeAgo(card?.timestamp)}</div>
             </div>
           </div>
         </div>
@@ -447,8 +425,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
         {/* 💬 Messenger Popup */}
         {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
-         
-         <DeviceInfoPopup show={show} setShow={setShow}/>
+
+        <DeviceInfoPopup show={show} setShow={setShow} />
       </div>
     </>
   );

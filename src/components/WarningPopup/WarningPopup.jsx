@@ -7,8 +7,13 @@ const WarningPopup = ({
   setWarningShowPopup,
   warningShowPopup,
   onConfirm, // <-- add callback for YES
+  setIsBlock
 }) => {
   const handleClose = () => setWarningShowPopup(false);
+
+  const handlSubmit = () =>{
+    setIsBlock(true)
+  }
 
   return (
     <Modal show={warningShowPopup} onHide={handleClose} centered>
@@ -28,7 +33,7 @@ const WarningPopup = ({
         style={{
           backgroundColor: "var(--color-border)",
           color: "white",
-        //   border: 0,
+          //   border: 0,
         }}
         className="text-center"
       >
@@ -59,7 +64,8 @@ const WarningPopup = ({
             variant="link"
             onClick={() => {
               if (onConfirm) onConfirm();
-              handleClose();
+              handlSubmit();
+              handleClose()
             }}
             className="flex-fill rounded-0 text-primary"
             style={{ textDecoration: "none" }}

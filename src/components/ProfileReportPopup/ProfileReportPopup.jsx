@@ -1,23 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import ReportMessagePopup from "../ReportMessagePopup/ReportMessagePopup";
 import WarningPopup from "../WarningPopup/WarningPopup";
+import httpService from "../../helper/httpService"
+import { showErrorToast, showSuccessToast } from "../customToast/CustomToast";
 
-const ProfileReportPopup = ({ username = "RDUSTAGVIXEN", show, setShow }) => {
+const ProfileReportPopup = ({ username = "RDUSTAGVIXEN", show, setShow,userId }) => {
   const [reportMessagePopupShow, setReportMessagePopupShow] = useState(false);
   const [warningShowPopup, setWarningShowPopup] = useState(false);
+  const [isSendBlock,setIsBlock]=useState(false)
 
   const handleReportClick = () => {
     setReportMessagePopupShow(true);
     setShow(false); // close dropdown when opening modal
   };
 
-  const handleBlockClick = () => {
-    alert(`Blocked ${username}`);
-    setShow(false); // close dropdown
-  };
+  useEffect(()=>{
+    if(isSendBlock){
+      httpService(`/interactions`, "POST", { "targetUserId": userId,"interactionType": "block" })
+      .then((res)=>{
+        if(res?.message ==="Interaction created successfully"){
+          showSuccessToast(`You successfuly blocked ${username}`)
+        }
+      })
+      .catch((err)=>{
+        console.log("block response",err)
+        showErrorToast(err?.message)
+      })
+    }
 
+  },[isSendBlock])
+
+  
   return (
     <>
       <Dropdown show={show} onToggle={(isOpen) => setShow(isOpen)}>
@@ -58,7 +73,7 @@ const ProfileReportPopup = ({ username = "RDUSTAGVIXEN", show, setShow }) => {
         setReportMessagePopupShow={setReportMessagePopupShow}
       />
 
-      <WarningPopup warningShowPopup={warningShowPopup} setWarningShowPopup={setWarningShowPopup}/>
+      <WarningPopup warningShowPopup={warningShowPopup} setWarningShowPopup={setWarningShowPopup} setIsBlock={setIsBlock}/>
     </>
   );
 };
