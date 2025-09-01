@@ -34,9 +34,9 @@ const WhoIViewedPage = () => {
     useEffect(() => {
         httpService(`/users/my-profile-views`, "GET")
             .then((res) => {
-                console.log(res)
                 setUser(res?.data)
                 showSuccessToast(res?.message)
+                console.log(res?.data[0]?.viewedUserId)
                 setLoading(false)
             })
             .catch((err) => {
@@ -54,9 +54,9 @@ const WhoIViewedPage = () => {
                 <div className="container-fluid">
                     <div className="row g-4 pt-4">
                         {
-                            user.map((card, index) => (
+                           user?.length === 0 ? <div className='text-white'>No Users Found </div> :  user.map((card, index) => (
                                 <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                                    <ViewPageCard card={card} index={index} images={images} showFriendOptions={false} rawTimestamp={1723974645000}
+                                    <ViewPageCard showTime={true} card={card} index={index} images={images} showFriendOptions={false} rawTimestamp={1723974645000}
                                     />
                                 </div>
                             ))

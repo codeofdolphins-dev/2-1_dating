@@ -64,7 +64,7 @@ const ProfileBlocklist = () => {
         <FilterBar clas pageName={"Blocklist"} filterName2={"Filter"} />
         <div className="container-fluid">
           <div className="row g-4 pt-4">
-            {user.map((card, index) => (
+            { user?.length === 0 ? <div className='text-white'>No Users Found </div> :user.map((card, index) => (
               <div className="col-12 col-sm-6 col-lg-6 col-xl-4" key={index}>
                 <ViewPageCard
                   card={card}
@@ -74,6 +74,7 @@ const ProfileBlocklist = () => {
                   timestamp={false}
                   deleteOption={true}
                   handleeDeleteFunction={handleeDeleteFunction}
+                  showTime={false}
                 />
               </div>
             ))}

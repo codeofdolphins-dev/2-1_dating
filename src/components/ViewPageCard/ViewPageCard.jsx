@@ -15,6 +15,7 @@ import female from "../../assets/ViwCardImags/img/female.png";
 import phone from "../../assets/ViwCardImags/img/phone.png";
 import star from "../../assets/ViwCardImags/img/star.png";
 import trash from "../../assets/icons/trash.png";
+import transgender from "../../assets/icons/custom_transgender.png";
 
 import ActionMenu from "./ActionMenu/Actionmenu";
 import ViewpagePhotoGallery from "../viewPagePhotovallery/ViewpagePhotoGallery";
@@ -44,6 +45,7 @@ import { timeAgo } from "../../helper/timeAgo";
 
 import { useAuth } from "../../context/AuthContextAPI";
 import AgeCalculator from "../../helper/DobCalculator";
+import CustomCouple from "../../assets/icons/couple_custom.png"
 
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
@@ -62,7 +64,7 @@ const cardList = [
 
 const imageList = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime }) => {
+const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime = false }) => {
   // console.log(card._id)
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
@@ -194,7 +196,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     navigate("/other-user-friendlist")
   }
 
-  console.log("Interest In", card?.profile)
+  console.log("Interest In", card?.profile?.data)
 
   // console.log("card friends",card?.friends?.length)
 
@@ -213,27 +215,41 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               slidesPerView={1}
               onSwiper={setSwiperInstance}
             >
-              {images.map((img, idx) => (
-                <SwiperSlide key={idx}>
-                  <img
-                    src={img}
-                    alt={`Slide ${idx}`}
-                    className="w-100"
-                    onClick={() => setShowGallery(true)}
-                    style={{
-                      objectFit: "cover",
-                      height: "260px",
-                      borderRadius: "12px",
-                      cursor: "pointer"
-                    }}
-                  />
-                </SwiperSlide>
-              ))}
+              {(() => {
+                // Pick correct photo source in priority order
+                let photos =
+                  (card?.profile?.photos && card?.profile?.photos.length > 0 && card?.profile?.photos) ||
+                  (card?.viewedUserId?.profile?.photos && card?.viewedUserId?.profile?.photos.length > 0 && card?.viewedUserId?.profile?.photos) ||
+                  (card?.targetUserId?.profile?.photos && card?.targetUserId?.profile?.photos.length > 0 && card?.targetUserId?.profile?.photos) || 
+                  (card?.senderId?.profile?.photos && card?.senderId?.profile?.photos.length > 0 && card?.senderId?.profile?.photos) ||
+                  (card?.receiverId?.profile?.photos && card?.receiverId?.profile?.photos.length > 0 && card?.receiverId?.profile?.photos) ||
+                  imageList;
+
+                return photos.map((img, idx) => (
+                  <SwiperSlide key={idx}>
+                    <img
+                      src={img}
+                      alt={`Slide ${idx}`}
+                      className="w-100"
+                      onClick={() => setShowGallery(true)}
+                      style={{
+                        objectFit: "cover",
+                        height: "260px",
+                        borderRadius: "12px",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </SwiperSlide>
+                ));
+              })()}
             </Swiper>
           </div>
 
           {/* Carousel Controls + ActionMenu */}
-          <div className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2" style={{ zIndex: 55 }}>
+          <div
+            className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2"
+            style={{ zIndex: 55 }}
+          >
             <div className="d-flex gap-2">
               <button
                 ref={prevRef}
@@ -264,6 +280,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
           </div>
         </div>
 
+
         {/* Right: Card Info */}
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
           <div>
@@ -277,75 +294,104 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
             </div>
 
             <div className="d-flex align-items-center flex-wrap gap-3 fw-semibold mb-2">
-              {
-                card?.profile?.gender === "female" ? (
-                  <div className="d-flex align-items-center gap-2">
-                    <FaFemale className="text-danger fs-6" />
-                    <span className="text-danger"><AgeCalculator birthDate={card?.profile?.dateOfBirth} /></span>
-                  </div>
-                ) : card?.profile?.gender === "male" ? (
-                  <div className="d-flex align-items-center gap-2">
-                    <FaMale className="text-primary fs-6" />
-                    <span className="text-primary"><AgeCalculator birthDate={card?.profile?.dateOfBirth} /></span>
-                  </div>
-                ) : card?.profile?.gender === "couple" ? (
-                  <>
+              {/* Card Owner */}
+              {(() => {
+                const gender =
+                  card?.profile?.gender ||
+                  card?.viewedUserId?.profile?.gender ||
+                  card?.targetUserId?.profile?.gender ||
+                  card?.receiverId?.profile?.gender ||
+                  card?.senderId?.profile?.gender;
+
+                const dob =
+                  card?.profile?.dateOfBirth ||
+                  card?.viewedUserId?.profile?.dateOfBirth ||
+                  card?.targetUserId?.profile?.dateOfBirth ||
+                  card?.receiverId?.profile?.dateOfBirth ||
+                  card?.senderId?.profile?.dateOfBirth;
+
+                const partnerDob =
+                  card?.profile?.partner?.dateOfBirth ||
+                  card?.viewedUserId?.profile?.partner?.dateOfBirth ||
+                  card?.targetUserId?.profile?.partner?.dateOfBirth ||
+                  card?.receiverId?.profile?.partner?.dateOfBirth ||
+                  card?.senderId?.profile?.partner?.dateOfBirth
+                if (gender === "female") {
+                  return (
                     <div className="d-flex align-items-center gap-2">
                       <FaFemale className="text-danger fs-6" />
-                      <span className="text-danger"><AgeCalculator birthDate={card?.profile?.dateOfBirth} /></span>
+                      <span className="text-danger">
+                        <AgeCalculator birthDate={dob} />
+                      </span>
                     </div>
+                  );
+                }
+
+                if (gender === "male") {
+                  return (
                     <div className="d-flex align-items-center gap-2">
                       <FaMale className="text-primary fs-6" />
-                      <span className="text-primary"><AgeCalculator birthDate={card?.profile?.partner?.dateOfBirth} /></span>
+                      <span className="text-primary">
+                        <AgeCalculator birthDate={dob} />
+                      </span>
                     </div>
-                  </>
-                ) : (
-                  <>
-                    <p className="mb-0">unknown</p>
-                  </>
-                )
-              }
-              {/* <div className="d-flex align-items-center gap-2">
-                <FaFemale className="text-danger fs-6" />
-                <span className="text-danger"><AgeCalculator birthDate={card?.profile?.dateOfBirth} /></span>
-              </div> */}
-              {/* <div className="d-flex align-items-center gap-2">
-                <FaMale className="text-primary fs-6" />
-                <span className="text-primary">57</span>
-              </div> */}
+                  );
+                }
+
+                if (gender === "couple") {
+                  return (
+                    <>
+                      <div className="d-flex align-items-center gap-2">
+                        <FaFemale className="text-danger fs-6" />
+                        <span className="text-danger">
+                          <AgeCalculator birthDate={dob} />
+                        </span>
+                      </div>
+                      <div className="d-flex align-items-center gap-2">
+                        <FaMale className="text-primary fs-6" />
+                        <span className="text-primary">
+                          <AgeCalculator birthDate={partnerDob} />
+                        </span>
+                      </div>
+                    </>
+                  );
+                }
+
+                return <p className="mb-0">Unknown</p>;
+              })()}
             </div>
+
+
 
 
             <hr />
             <div className="mb-2 d-flex align-items-center gap-3 pt-2">
               <span className="fw-semibold fs-5">Interests:</span>
               <div className="d-flex align-items-center gap-1">
-                {card?.profile?.interestedIn?.map((interest, i) => (
+                {(card?.profile?.interestedIn ||
+                  card?.viewedUserId?.profile?.interestedIn ||
+                  card?.targetUserId?.profile?.interestedIn ||
+                  card?.receiverId?.profile?.interestedIn || []
+                ).map((interest, i) => (
                   <span key={i} className="text-light small">
                     {interest === "male" ? (
                       <FaMale className="fs-5 text-primary" />
                     ) : interest === "female" ? (
                       <FaFemale className="fs-5 text-danger" />
+                    ) : interest === "transgender" ? (
+                      <div className="d-flex gap-0">
+                        <img src={transgender} height={21} alt="transgender" />
+                      </div>
                     ) : interest === "couple" ? (
-                      <>
-                        <div className="d-flex gap-0">
-                          <div>
-                            <FaFemale className="fs-5 text-danger" />
-                          </div>
-                          <div>
-                            <FaMale className="fs-5 text-primary" />
-                          </div>
-                        </div>
-                      </>
+                      <div className="d-flex gap-0">
+                        <img src={CustomCouple} height={21} alt="couple" />
+                      </div>
                     ) : null}
                   </span>
                 ))}
-
-                {/* <AgeCalculator /> */}
-                {/* <FaFemale className="fs-5 text-danger" />
-                <FaMale className="fs-5 text-primary" /> */}
               </div>
             </div>
+
 
 
             <hr />
@@ -358,7 +404,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                   overflowY: "auto"
                 }}
               >
-                {card?.profile?.address?.fullAddress ? card?.profile?.address?.fullAddress : "No address found"}
+                {card?.viewedUserId?.profile?.address?.fullAddress || card?.profile?.address?.fullAddress || card?.profile?.address?.fullAddress || card?.targetUserId?.profile?.address?.fullAddress || card?.receiverId?.profile?.address?.fullAddress}
               </div>
             </div>
 
@@ -368,7 +414,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 <i className="bi bi-camera-fill"></i><span>41</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }} onClick={handleOtherFriendlistPageNav ? handleOtherFriendlistPageNav : 0}>
-                <i className="bi bi-person-fill" ></i><span>{card?.friends?.length}</span>
+                <i className="bi bi-person-fill" ></i><span>{card?.friends?.length || 0}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2">
                 <i className="bi bi-star-fill"></i><span>5</span>
@@ -401,48 +447,32 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 }
               </div>
 
-              {
-                showFriendOptions && <div className="pt-2 pl-5">
-                  {
-                    userData.status === "accepted" ? "Friends" :
-                      <div className="d-flex align-items-center gap-2 mt-0">
-                        {/* Accept Friend Request Icon */}
+              {showFriendOptions && (
+                <div className="pt-2 pl-5">
+                  {userData?.status === "accepted" && "Friends"}
 
-                        {
-                          userData?.status === "pending" &&
-                          <FaCheckCircle
-                            size={24}
-                            style={{ cursor: "pointer", color: "var(--color-primary-green)" }}
-                            onClick={handleAcceptFriendrequest}
-                          />
-                        }
+                  {userData?.status === "pending" && (
+                    <div className="d-flex align-items-center gap-2 mt-0">
+                      {/* ✅ Accept Friend Request */}
+                      <FaCheckCircle
+                        size={24}
+                        style={{ cursor: "pointer", color: "var(--color-primary-green)" }}
+                        onClick={handleAcceptFriendrequest}
+                      />
 
+                      {/* ❌ Decline Friend Request */}
+                      <MdDelete
+                        className="text-danger"
+                        onClick={handleDeclineFriendRequest}
+                        style={{ fontSize: "28px", cursor: "pointer" }}
+                      />
+                    </div>
+                  )}
 
-                        {/* Decline Friend Request Icon */}
-                        {/* <img
-                          src={trash}
-                          alt="delete"
-                          height={22}
-                          style={{ cursor: "pointer" }}
-                          onClick={handleDeclineFriendRequest}
-                        /> */}
-
-                        {
-                          userData?.status === "pending" && <MdDelete
-                            className="text-danger"
-                            onClick={handleDeclineFriendRequest}
-                            style={{ fontSize: "28px", cursor: "pointer" }}
-                          />
-                        }
-                      </div>
-                  }
-
-                  {
-                    userData.status === "declined" && "declined"
-
-                  }
+                  {userData?.status === "declined" && "Declined"}
                 </div>
-              }
+              )}
+
 
 
               {deleteUser && <div className="pt-2 pl-5" >
@@ -480,8 +510,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 </div>
               )} */}
 
-              {showTime && <div className="text-danger">{card?.createdAt ? timeAgo(card?.createdAt) : timeAgo(card?.timestamp)}</div>}
-              <div className="text-danger">{timeAgo(card?.timestamp)}</div>
+              {/* {showTime && <div className="text-danger">{card?.createdAt ? timeAgo(card?.createdAt) : timeAgo(card?.timestamp)}</div>} */}
+              {showTime && card?.timestamp && <div className="text-danger">{timeAgo(card?.timestamp)}</div>}
             </div>
           </div>
         </div>
@@ -490,7 +520,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         <ViewpagePhotoGallery
           show={showGallery}
           handleClose={() => setShowGallery(false)}
-          images={images}
+          images={card?.profile?.photos}
         />
 
         {/* 💬 Messenger Popup */}

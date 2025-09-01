@@ -12,6 +12,8 @@ import share from "../../assets/icons/share.png";
 import invite from "../../assets/icons/invite.png";
 import httpService from '../../helper/httpService';
 import { showErrorToast, showSuccessToast } from '../customToast/CustomToast';
+import DobCalculator from "../../helper/DobCalculator"
+import AgeCalculator from '../../helper/DobCalculator';
 
 const icons = [
     { icon: camera, text: "Adult" },
@@ -23,19 +25,9 @@ const icons = [
     { icon: invite, text: "Invite" },
 ]
 
-const CurrentProfileCard = () => {
+const CurrentProfileCard = ({user}) => {
 
-    const [user, setUser] = useState([])
-    useEffect(() => {
-        httpService("/auth/me", "GET")
-            .then((response) => {
-                console.log("Friend request sent:", response);
-                setUser(response?.data)
-            })
-            .catch((err) => {
-                console.error("Failed to send friend request:", err);
-            });
-    }, []); // dependency on card._id
+   
 
     return (
         <>
@@ -51,29 +43,32 @@ const CurrentProfileCard = () => {
                         <div className="d-flex justify-content-center align-items-center gap-3">
                             <div className="d-flex justify-content-center align-items-center">
                                 <img src={femaleIcon} alt="female" width="12px" height="12px" />
-                                <p className="mb-0 text-danger" style={{ fontSize: "14px" }}>58</p>
+                                <p className="mb-0 text-danger" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.dateOfBirth} /></p>
                             </div>
-                            <div className="d-flex justify-content-center align-items-center">
+                            {
+                              user?.profile?.partner &&  <div className="d-flex justify-content-center align-items-center">
                                 <img src={maleIcon} alt="male" width="12px" height="12px" />
-                                <p className="mb-0 text-danger" style={{ fontSize: "14px" }}>58</p>
-                            </div>
+                                <p className="mb-0 text-primary" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.partner?.dateOfBirth} /></p>
+                            </div> 
+                            }
+                            
                         </div>
                     </div>
                     <div className="mt-3">
                         <div className="d-flex gap-1">
                             <i className="bi bi-geo-alt-fill"></i>
-                            <p className="mb-0" style={{ fontSize: "14px" }}>94555, CA 94555, USA | 8412 mi</p>
+                            <p className="mb-0" style={{ fontSize: "14px" }}>{user?.profile?.address?.fullAddress}</p>
                         </div>
-                        <div className="d-flex gap-1">
+                        {/* <div className="d-flex gap-1">
                             <i className="bi bi-geo-alt-fill"></i>
                             <p className="mb-0" style={{ fontSize: "14px" }}>Vancouver, CAN | 7645 mi</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 {/* Body */}
                 <div className="profile-body" style={{ width: "389px", height: "380px" }}>
-                    <ProfileImageCarousel />
+                    <ProfileImageCarousel images={user?.profile?.photos}/>
                 </div>
 
                 {/* Footer */}

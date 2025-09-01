@@ -11,9 +11,9 @@ import profileImg3 from "./img/profileImg.webp";
 import profileImg4 from "./img/couple.avif";
 import "./profileCarouselCss/style.css";
 
-const images = [profileImg, profileImg2, profileImg3,profileImg4];
+const testImages = [profileImg, profileImg2, profileImg3,profileImg4];
 
-export default function ProfileImageCarousel() {
+export default function ProfileImageCarousel({images=testImages}) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 

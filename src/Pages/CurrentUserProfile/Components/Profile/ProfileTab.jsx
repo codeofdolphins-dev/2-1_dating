@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CurrentProfileCard from '../../../../components/cards/CurrentProfileCard';
 import Table from '../Table/Table';
 
@@ -7,6 +7,11 @@ import ProfilePageGroupCardContainerTab from '../../../../components/profileBott
 import PartiesAndeventCardContainerTab from '../../../../components/profileBottomTabSection/PartiesAndeventCardContainer';
 import ProfilePageFollowingCardContainerTab from '../../../../components/profileBottomTabSection/ProfilePageFollowingCardContainer';
 import FriendsCardContainerTab from '../../../../components/profileBottomTabSection/FriendsCardContainer';
+import httpService from '../../../../helper/httpService';
+import { FaFemale, FaMale } from 'react-icons/fa';
+import transgender from "../../../../assets/icons/custom_transgender.png";
+import CustomCouple from "../../../../assets/icons/couple_custom.png"
+import OverlayLoader from '../../../../helper/OverlayLoader';
 
 
 const ProfileTab = ({ changeTab }) => {
@@ -37,24 +42,66 @@ const ProfileTab = ({ changeTab }) => {
     };
 
 
+    const [user, setUser] = useState([])
+    const[loader,setloader] = useState(true)
+    useEffect(() => {
+        httpService("/auth/me", "GET")
+            .then((response) => {
+                console.log("user profile fetch", response);
+                setUser(response?.data)
+                setloader(false)
+            })
+            .catch((err) => {
+                console.error("Failed to send friend request:", err);
+            });
+    }, []); // dependency on card._id
+
+    // console.log("dob",user?.profile?.dateOfBirth)
+
+
     return (
         <>
+        {
+            <OverlayLoader show={loader} text="Please wait..." />
+        }
             <div className="row">
                 <div className="col-lg-6">
                     <div className="">
-                        <CurrentProfileCard />
+                        <CurrentProfileCard user={user} />
                     </div>
                 </div>
                 <div className="col-lg-6">
                     <div className="">
                         <div className="d-flex justify-content-between align-items-center border px-4 py-2 rounded-4 mb-4" style={{ backgroundColor: "var(--color-border)", }}>
-                            <p className='mb-0'>Looking for:</p>
+                            <div className='d-flex gap-2'>
+                            <div className='mb-0'>Looking for:</div>
+                                {user?.profile?.interestedIn?.map((interest, i) => (
+                                <div key={i} className="text-light small">
+                                    {interest === "male" ? (
+                                        <FaMale className="fs-5 text-primary" />
+                                    ) : interest === "female" ? (
+                                        <FaFemale className="fs-5 text-danger" />
+                                    ) : interest === "transgender" ? (
+                                        <>
+                                            <div className="d-flex gap-0">
+                                                <img src={transgender} height={21} alt="" srcset="" />
+                                            </div>
+                                        </>
+                                    ) : interest === "couple" ? (
+                                        <>
+                                            <div className="d-flex gap-0">
+                                                <img src={CustomCouple} height={21} alt="" srcset="" />
+                                            </div>
+                                        </>
+                                    ) : null}
+                                </div>
+                            ))}
+
+                            </div>
                             <button className='custom-button rounded-4 px-3 py-1 border-0' onClick={() => { changeTab("Edit") }}>Edit Profile</button>
                         </div>
                         <div className="d-flex flex-column align-items-start justify-content-center">
-                            <p>all desi couples join the group "usa-desi-couples" </p>
-                            <p> well educated couple from nc , looking to meet decent, respectful couple friends</p>
-                            <p>Desi married couples ....</p>
+                            <p>{user?.profile?.bio}</p>
                         </div>
                     </div>
                 </div>

@@ -62,7 +62,7 @@ const LikeDislike = () => {
           limit: itemsPerPage,
         });
 
-        console.log("Fetched Data:", response);
+        console.log("Fetched Data:", response?.targetUserId?.profile?.photos);
 
         showSuccessToast(response?.message);
 

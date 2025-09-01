@@ -56,7 +56,7 @@ const ProfileFriendsPage = () => {
 
         httpService("/friend-requests", "GET", {}, { params })
             .then((response) => {
-                console.log("Friend requests fetched:", response);
+                console.log("Friend requests fetched:", response?.data);
 
                 showSuccessToast(response?.message);
 
@@ -113,7 +113,7 @@ const ProfileFriendsPage = () => {
                                 key={index}
                             >
                                 <ViewPageCard
-                                    userData={userData}
+                                    card={userData}
                                     index={index}
                                     showFriendOptions={true}
                                     timestamp={false}

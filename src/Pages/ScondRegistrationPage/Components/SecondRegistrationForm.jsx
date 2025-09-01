@@ -14,7 +14,7 @@ const SecondRegistrationForm = () => {
     const [formData, setFormData] = useState({
         gender: "couple",
         sexuality: "",
-        interestedIn: [],
+        interestedIn: ["couple"],
         sexualityPartner: "",
         dobDay: "",
         dobMonth: "",
@@ -90,7 +90,7 @@ const SecondRegistrationForm = () => {
             setPreview(imageUrl);
             setFormData((prev) => ({
                 ...prev,
-                profileImage: "https://avatar.iran.liara.run/public",
+                profileImage: "https://dummyimage.com/300",
             }));
         }
     };
@@ -100,34 +100,62 @@ const SecondRegistrationForm = () => {
         console.log("Form submitted:", formData);
 
         try {
-            const response = await httpService(`/onboarding/update`, "PUT", {
-                "gender": formData?.gender,
-                "sexuality": formData?.sexuality,
-                "dateOfBirth": formData?.dob,
-                "interestedIn": formData?.interestedIn,
-                "address": {
-                    "street": formData?.street,
-                    "city": formData?.city,
-                    "state": formData?.state,
-                    "country": formData?.country,
-                    "zipcode": formData?.zipcode
-                },
-                "partner": {
-                    "dateOfBirth": formData?.partnerDob,
-                    "sexuality": formData?.sexualityPartner
-                },
-                "bio": formData.profileText,
-                "mainPhoto": formData?.profileImage,
-                // "photos": [
-                //     "https://example.com/updated-photo1.jpg",
-                //     "https://example.com/updated-photo2.jpg",
-                //     "https://example.com/updated-photo3.jpg"
-                // ]
-            })
-            if (response) {
-                console.log(response)
-                showSuccessToast(response?.message);
-                navigate("/feed")
+            if (formData.gender === "couple") {
+                const response = await httpService(`/onboarding/update`, "PUT", {
+                    "gender": formData?.gender,
+                    "sexuality": formData?.sexuality,
+                    "dateOfBirth": formData?.dob,
+                    "interestedIn": formData?.interestedIn,
+                    "address": {
+                        "street": formData?.street,
+                        "city": formData?.city,
+                        "state": formData?.state,
+                        "country": formData?.country,
+                        "zipcode": formData?.zipcode
+                    },
+                    "partner": {
+                        "dateOfBirth": formData?.partnerDob,
+                        "sexuality": formData?.sexualityPartner
+                    },
+                    "bio": formData.profileText,
+                    "mainPhoto": formData?.profileImage,
+                    // "photos": [
+                    //     "https://example.com/updated-photo1.jpg",
+                    //     "https://example.com/updated-photo2.jpg",
+                    //     "https://example.com/updated-photo3.jpg"
+                    // ]
+                })
+                if (response) {
+                    console.log(response)
+                    showSuccessToast(response?.message);
+                    navigate("/feed")
+                }
+            } else {
+                const response = await httpService(`/onboarding/update`, "PUT", {
+                    "gender": formData?.gender,
+                    "sexuality": formData?.sexuality,
+                    "dateOfBirth": formData?.dob,
+                    "interestedIn": formData?.interestedIn,
+                    "address": {
+                        "street": formData?.street,
+                        "city": formData?.city,
+                        "state": formData?.state,
+                        "country": formData?.country,
+                        "zipcode": formData?.zipcode
+                    },
+                    "bio": formData.profileText,
+                    "mainPhoto": formData?.profileImage,
+                    // "photos": [
+                    //     "https://example.com/updated-photo1.jpg",
+                    //     "https://example.com/updated-photo2.jpg",
+                    //     "https://example.com/updated-photo3.jpg"
+                    // ]
+                })
+                if (response) {
+                    console.log(response)
+                    showSuccessToast(response?.message);
+                    navigate("/feed")
+                }
             }
         } catch (err) {
             console.log(err)

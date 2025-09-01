@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal } from "react-bootstrap";
 import httpService from '../../helper/httpService';
 import { showErrorToast, showSuccessToast } from '../customToast/CustomToast';
+import { ToastContainer } from 'react-toastify';
 
 const ReportPopup = ({ show, handleClose, room_id }) => {
 
@@ -53,6 +54,7 @@ const ReportPopup = ({ show, handleClose, room_id }) => {
 
     return (
         <>
+        <ToastContainer/>
             <Modal
                 show={show}
                 onHide={handleClose}
