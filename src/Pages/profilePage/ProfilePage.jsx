@@ -7,7 +7,7 @@ import couple from "./img/couple.png"
 import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
 import cameraxxx from "./img/camera-xxx.png";
 // import camera from "./img/camera-xxx.png"
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, ToastBody } from "react-bootstrap";
 import {
     FaMapMarkerAlt,
     FaUserFriends,
@@ -20,6 +20,7 @@ import {
     FaHeart,
     FaCamera
 } from "react-icons/fa";
+import { AiFillFileText } from "react-icons/ai";
 // import { MdLocalMovies, MdAdultContent } from "react-icons/md";
 import { BsChatDots, BsBookmark } from "react-icons/bs";
 // import ProfilePageTable from '../../components/profilePageTable/ProfilePageTable'
@@ -36,6 +37,9 @@ import { useLocation } from 'react-router-dom'
 import { showErrorToast, showSuccessToast, showWarningToast } from '../../components/customToast/CustomToast'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ProfileReportPopup from '../../components/ProfileReportPopup/ProfileReportPopup'
+import NotesModal from '../../components/NotesModal/NotesModal'
+import NotesPopup from '../../components/NotesModal/NotesModal'
+import httpService from '../../helper/httpService'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
@@ -51,7 +55,7 @@ const actionIcons = [
     { icon: <FaShareAlt />, label: "Share" },
     { icon: <FaEnvelope />, label: "Invite" },
     { icon: <BsBookmark />, label: "Remember" },
-    { icon: <FaHeart />, label: "Kiss" }
+    { icon: <AiFillFileText />, label: "Notes" }
 ];
 
 const tabs = [
@@ -66,7 +70,9 @@ const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("Certifications");
     // const [userData, setUserData] = useState(null)
     // const [chckToken, setCheckToken] = useState(null)
-      const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const [notsPopup, setNotesPopup] = useState(false)
     const location = useLocation();
     const { userId, username, role } = location.state || {};
     console.log("profileId", userId)
@@ -94,7 +100,43 @@ const ProfilePage = () => {
     }, [])
 
 
-    console.log("profile userId",userId)
+    console.log("profile userId", userId)
+
+    const handleActionClick = async (label) => {
+        if (label === "Notes") {
+            setNotesPopup(true);
+        } else if (label === "Remember") {
+            console.log("Remember clicked");
+            try {
+                const res = await httpService(`/remember-me`, "POST", {
+                    receiverId: userId,
+                });
+
+                if (res) {
+                    showSuccessToast(res?.message || "Profile remembered!");
+                }
+            } catch (err) {
+                console.error(err);
+                showErrorToast(err?.response?.data?.message || "Failed to remember");
+            }
+        } else if (label === "Likes") {
+            console.log("Remember clicked");
+            try {
+                const res = await httpService(`/interactions`, "POST", {
+                    targetUserId: userId,
+                    interactionType: "like"
+                });
+
+                if (res) {
+                    showSuccessToast(res?.message || "Profile remembered!");
+                }
+            } catch (err) {
+                console.error(err);
+                showErrorToast(err?.response?.data?.message || "Failed to remember");
+            }
+        }
+    };
+
 
 
     return (
@@ -115,9 +157,9 @@ const ProfilePage = () => {
                                     <div className="mb-4">
                                         <h5 className="fw-bold fs-2 d-flex align-items-center gap-2">
                                             {username} <span className="text-warning">★</span>
-                                            <BsThreeDotsVertical style={{cursor:"pointer"}}  onClick={()=>setShow(true)}/>
+                                            <BsThreeDotsVertical style={{ cursor: "pointer" }} onClick={() => setShow(true)} />
                                         </h5>
-                                        <ProfileReportPopup userId={userId} username={username} show={show} setShow={setShow}/>
+                                        <ProfileReportPopup userId={userId} username={username} show={show} setShow={setShow} />
                                         <div className="d-flex gap-3 my-2 fw-bold">
                                             <div className="d-flex align-items-center gap-1">
                                                 <img src={femaleIcon} alt="female" height={15} />
@@ -144,7 +186,7 @@ const ProfilePage = () => {
                                     {/* Action Icons */}
                                     <div className="d-flex flex-wrap gap-3 text-center mb-3">
                                         {actionIcons.map((item, index) => (
-                                            <div key={index} className="d-flex flex-column align-items-center">
+                                            <div key={index} className="d-flex flex-column align-items-center" style={{ cursor: "pointer" }} onClick={() => handleActionClick(item.label)}>
                                                 <div
                                                     className="border border-1 rounded-circle fs-6 d-flex align-items-center justify-content-center"
                                                     style={{ width: "40px", height: "40px" }}
@@ -156,6 +198,14 @@ const ProfilePage = () => {
                                                 <small className="mt-1">{item.label}</small>
                                             </div>
                                         ))}
+                                        <NotesPopup
+                                            show={notsPopup}
+                                            handleClose={() => setNotesPopup(false)}
+                                            onSubmit={(note) => {
+                                                console.log("Saved Note:", note);
+                                                // you can call API here
+                                            }}
+                                        />
                                     </div>
 
                                     {/* Bottom Info Strip */}
@@ -284,9 +334,11 @@ const ProfilePage = () => {
 
                     {activeTab === "Certifications" ? <ProfilePageCertificationCardContainer /> : activeTab === "Groups" ? <ProfilePageGroupCardContainer /> : activeTab === "Parties & Events" ? <PartiesAndeventCardContainer /> : activeTab === "Following" ? <ProfilePageFollowingCardContainer /> : activeTab === "Friends" && <FriendsCardContainer />}
                     {/* <ProfilePageCertificationCard/> */}
+
+
                 </div>
 
-             <ToastContainer/>
+                <ToastContainer />
 
             </PageWrapper>
         </>

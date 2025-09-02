@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
   const [userNameFromFriendListPage, setUserNameFromFriendListPage] = useState("");
   const [userNameFromFriendList, setUserNameFromFriendList] = useState([]);
   const [filterOption, setFilterOption] = useState(""); 
+  const [messagereceiverId,setMessageReceiverId]=useState("")
 
   // Restore from localStorage on reload
   useEffect(() => {
@@ -52,6 +53,7 @@ export function AuthProvider({ children }) {
   };
 
   console.log("friemdListUsername",userNameFromFriendListPage)
+  console.log("receiverMessageId",messagereceiverId)
 
   return (
     <AuthContext.Provider
@@ -68,13 +70,18 @@ export function AuthProvider({ children }) {
         userNameFromFriendListPage,
         setUserNameFromFriendListPage,
         userNameFromFriendList, 
-        setUserNameFromFriendList
+        setUserNameFromFriendList,
+
+        setMessageReceiverId,
+        messagereceiverId
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 }
+
+
 
 // Custom Hook
 export function useAuth() {

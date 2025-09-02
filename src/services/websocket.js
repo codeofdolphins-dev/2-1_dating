@@ -177,6 +177,9 @@ function createWebSocketService() {
     get isConnected() {
       return isConnected;
     },
+    get socket() {
+      return socket;
+    }
   };
 }
 

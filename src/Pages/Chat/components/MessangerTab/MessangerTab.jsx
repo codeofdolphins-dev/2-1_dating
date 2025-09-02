@@ -1,18 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaPhone, FaVideo, FaEllipsisH } from 'react-icons/fa'
+import httpService from '../../../../helper/httpService';
+import { useAuth } from '../../../../context/AuthContextAPI';
 
 const MessangerTab = () => {
+    const {setMessageReceiverId} =useAuth()
 
-    const [selectedChat, setSelectedChat] = useState(0);
-    const contacts = [
-        { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-        { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-        { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-        { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-        { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-        { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
-    ];
+    const [selectedChat, setSelectedChat] = useState("");
+    const [contacts, setContacts] = useState([]);
+    // const contacts = [
+    //     { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    //     { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    //     { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    //     { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    //     { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
+    //     { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
+    // ];
 
+    useEffect(() => {
+        httpService(`/users`, "GET")
+            .then((response) => {
+                console.log(response)
+                setContacts(response?.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [])
+
+    console.log("senderId",selectedChat)
+    setMessageReceiverId(selectedChat)
     return (
         <>
             <div className="chat-list flex-grow-1 overflow-auto">
@@ -20,7 +37,7 @@ const MessangerTab = () => {
                     <div
                         key={contact.id}
                         className={`chat-item p-3 ${selectedChat === index ? "active" : ""}`}
-                        onClick={() => setSelectedChat(index)}
+                        onClick={() => setSelectedChat(contact._id)}
                     >
                         <div className="d-flex align-items-center">
                             <div className="position-relative">
@@ -31,7 +48,7 @@ const MessangerTab = () => {
                             </div>
                             <div className="flex-grow-1 ms-3">
                                 <div className="d-flex justify-content-between align-items-center">
-                                    <h6 className="text-white mb-0">{contact.name}</h6>
+                                    <h6 className="text-white mb-0">{contact.username}</h6>
                                     <span className="time-text">{contact.time}</span>
                                 </div>
                                 <p className="message-preview mb-0">{contact.message}</p>

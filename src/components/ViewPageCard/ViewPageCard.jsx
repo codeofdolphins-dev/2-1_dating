@@ -138,7 +138,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   const handleDeclineFriendRequest = async () => {
     console.log("all ok")
     try {
-      const response = await httpService(`/friend-requests/${userData._id}/respond`, "PUT", { "action": "decline" })
+      const response = await httpService(`/friend-requests/${card._id}/respond`, "PUT", { "action": "decline" })
       if (response) {
         console.log(response)
         showSuccessToast(response?.message);
@@ -166,9 +166,9 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   // }, []); // dependency on card._id
 
   const handleAcceptFriendrequest = async () => {
-    console.log("all ok")
+    console.log("all ok",)
     try {
-      const response = await httpService(`/friend-requests/${userData._id}/respond`, "PUT", { "action": "accept" })
+      const response = await httpService(`/friend-requests/${card._id}/respond`, "PUT", { "action": "accept" })
       if (response) {
         console.log(response)
         showSuccessToast(response?.message);
@@ -410,22 +410,25 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
             <hr />
             <div className="d-flex flex-wrap gap-2">
+              <div className="d-flex align-items-center gap-1 text-white small py-2" style={{cursor:"pointer"}}  onClick={() => setShowGallery(true)}>
+                <i className="bi bi-camera-fill"></i><span>{card?.profile?.photos.length || `_`}</span>
+              </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2">
-                <i className="bi bi-camera-fill"></i><span>41</span>
+                <i className="bi bi-hand-thumbs-up-fill"></i><span>{ `_`}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }} onClick={handleOtherFriendlistPageNav ? handleOtherFriendlistPageNav : 0}>
-                <i className="bi bi-person-fill" ></i><span>{card?.friends?.length || 0}</span>
+                <i className="bi bi-person-fill" ></i><span>{card?.friends?.length || "_"}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2">
-                <i className="bi bi-star-fill"></i><span>5</span>
+                <i className="bi bi-check-lg"></i><span>{`_`}</span>
               </div>
-              {deleteOption || likeIcon &&
+              {/* {deleteOption || likeIcon &&
                 <div className="d-flex align-items-center gap-1 text-white small py-2">
                   <i className="bi bi-hand-thumbs-up-fill"></i><span>29</span>
                 </div>
-              }
+              } */}
               <div className="d-flex align-items-center gap-1 text-white small py-2">
-                <i className="bi bi-play-fill"></i><span>209</span>
+                <i className="bi bi-play-fill"></i><span>{`_`}</span>
               </div>
             </div>
 
@@ -449,9 +452,9 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
               {showFriendOptions && (
                 <div className="pt-2 pl-5">
-                  {userData?.status === "accepted" && "Friends"}
+                  {card?.status === "accepted" && "Friends"}
 
-                  {userData?.status === "pending" && (
+                  {card?.status === "pending" && (
                     <div className="d-flex align-items-center gap-2 mt-0">
                       {/* ✅ Accept Friend Request */}
                       <FaCheckCircle

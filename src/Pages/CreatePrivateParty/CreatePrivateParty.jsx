@@ -211,154 +211,204 @@ const CreatePrivateParty = () => {
 
                             {/* female */}
                             {
-                                (openFor[0].value || openFor[1].value) &&
+                                (openFor[0].value || openFor[1].value) && (
+                                    <div className="col-md-4">
+                                        <p className="mb-1">Females Age</p>
+                                        <div className="d-flex gap-3">
+                                            {/* From */}
+                                            <select
+                                                className="form-select border-0 rounded-5 py-2 px-3 text-white"
+                                                style={{ backgroundColor: "var(--color-border)", width: "120px" }}
+                                                value={ages.female.start}
+                                                onChange={(e) =>
+                                                    setAges((prev) => ({
+                                                        ...prev,
+                                                        female: {
+                                                            ...prev.female,
+                                                            start: e.target.value,
+                                                        },
+                                                    }))
+                                                }
+                                            >
+                                                <option value="" disabled style={{ color: "grey" }}>
+                                                    From
+                                                </option>
+                                                {Array.from({ length: 71 }, (_, i) => {
+                                                    const value = (i + 20).toString().padStart(2, "0");
+                                                    return (
+                                                        <option key={value} value={value}>
+                                                            {value}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
 
-                                <div className="col-md-4">
-                                    <p className='mb-1'>Females Age</p>
-                                    <div className="d-flex gap-3">
-                                        <select
-                                            class="form-select border-0 rounded-5 py-2 px-3 text-white"
-                                            style={{ backgroundColor: "var(--color-border)", width: "120px" }}
-                                            value={ages.female.start}
-                                            onChange={(e) => setAges(prev => ({
-                                                ...prev,
-                                                female: {
-                                                    ...prev.female,
-                                                    start: e.target.value
+                                            {/* Until */}
+                                            <select
+                                                className="form-select border-0 rounded-5 py-2 px-3 text-white"
+                                                style={{ backgroundColor: "var(--color-border)", width: "120px" }}
+                                                value={ages.female.end}
+                                                onChange={(e) =>
+                                                    setAges((prev) => ({
+                                                        ...prev,
+                                                        female: {
+                                                            ...prev.female,
+                                                            end: e.target.value,
+                                                        },
+                                                    }))
                                                 }
-                                            }))}
-                                        >
-                                            <option selected style={{ color: "grey" }}>From</option>
-                                            {
-                                                Array.from({ length: 71 }, (_, i) => {
-                                                    const value = (i + 20).toString().padStart(2, '0');
-                                                    return <option key={value} value={value}>{value}</option>;
-                                                })
-                                            }
-                                        </select>
-                                        <select
-                                            class="form-select border-0 rounded-5 py-2 px-3 text-white"
-                                            style={{ backgroundColor: "var(--color-border)", width: "120px" }}
-                                            value={ages.female.start}
-                                            onChange={(e) => setAges(prev => ({
-                                                ...prev,
-                                                female: {
-                                                    ...prev.female,
-                                                    end: e.target.value
-                                                }
-                                            }))}
-                                        >
-                                            <option selected style={{ color: "grey" }}>Until</option>
-                                            {
-                                                Array.from({ length: 71 }, (_, i) => {
-                                                    const value = (i + 20).toString().padStart(2, '0');
-                                                    return <option key={value} value={value}>{value}</option>;
-                                                })
-                                            }
-                                        </select>
+                                            >
+                                                <option value="" disabled style={{ color: "grey" }}>
+                                                    Until
+                                                </option>
+                                                {Array.from({ length: 71 }, (_, i) => {
+                                                    const value = (i + 20).toString().padStart(2, "0");
+                                                    return (
+                                                        <option key={value} value={value}>
+                                                            {value}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                )
                             }
+
 
                             {/* male */}
                             {
-                                (openFor[0].value || openFor[2].value) &&
-                                <div className="col-md-4 mt-md-0 mt-4">
-                                    <p className='mb-1'>Males Age</p>
-                                    <div className="d-flex gap-3">
-                                        <select
-                                            class="form-select border-0 rounded-5 py-2 px-3 text-white"
-                                            style={{ backgroundColor: "var(--color-border)", width: "120px" }}
-                                            value={ages.male.start}
-                                            onChange={(e) => setAges(prev => ({
-                                                ...prev,
-                                                male: {
-                                                    ...prev.male,
-                                                    start: e.target.value
+                                (openFor[0].value || openFor[2].value) && (
+                                    <div className="col-md-4 mt-md-0 mt-4">
+                                        <p className="mb-1">Males Age</p>
+                                        <div className="d-flex gap-3">
+                                            {/* From */}
+                                            <select
+                                                className="form-select border-0 rounded-5 py-2 px-3 text-white"
+                                                style={{ backgroundColor: "var(--color-border)", width: "120px" }}
+                                                value={ages.male.start}
+                                                onChange={(e) =>
+                                                    setAges((prev) => ({
+                                                        ...prev,
+                                                        male: {
+                                                            ...prev.male,
+                                                            start: e.target.value,
+                                                        },
+                                                    }))
                                                 }
-                                            }))}
-                                        >
-                                            <option selected style={{ color: "grey" }}>From</option>
-                                            {
-                                                Array.from({ length: 71 }, (_, i) => {
-                                                    const value = (i + 20).toString().padStart(2, '0');
-                                                    return <option key={value} value={value}>{value}</option>;
-                                                })
-                                            }
-                                        </select>
-                                        <select
-                                            class="form-select border-0 rounded-5 py-2 px-3 text-white"
-                                            style={{ backgroundColor: "var(--color-border)", width: "120px" }}
-                                            value={ages.male.start}
-                                            onChange={(e) => setAges(prev => ({
-                                                ...prev,
-                                                male: {
-                                                    ...prev.male,
-                                                    end: e.target.value
+                                            >
+                                                <option value="" disabled style={{ color: "grey" }}>
+                                                    From
+                                                </option>
+                                                {Array.from({ length: 71 }, (_, i) => {
+                                                    const value = (i + 20).toString().padStart(2, "0");
+                                                    return (
+                                                        <option key={value} value={value}>
+                                                            {value}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+
+                                            {/* Until */}
+                                            <select
+                                                className="form-select border-0 rounded-5 py-2 px-3 text-white"
+                                                style={{ backgroundColor: "var(--color-border)", width: "120px" }}
+                                                value={ages.male.end}
+                                                onChange={(e) =>
+                                                    setAges((prev) => ({
+                                                        ...prev,
+                                                        male: {
+                                                            ...prev.male,
+                                                            end: e.target.value,
+                                                        },
+                                                    }))
                                                 }
-                                            }))}
-                                        >
-                                            <option selected style={{ color: "grey" }}>Until</option>
-                                            {
-                                                Array.from({ length: 71 }, (_, i) => {
-                                                    const value = (i + 20).toString().padStart(2, '0');
-                                                    return <option key={value} value={value}>{value}</option>;
-                                                })
-                                            }
-                                        </select>
+                                            >
+                                                <option value="" disabled style={{ color: "grey" }}>
+                                                    Until
+                                                </option>
+                                                {Array.from({ length: 71 }, (_, i) => {
+                                                    const value = (i + 20).toString().padStart(2, "0");
+                                                    return (
+                                                        <option key={value} value={value}>
+                                                            {value}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                )
                             }
+
 
                             {/* transgender */}
                             {
-                                openFor[3].value &&
-                                <div className="col-md-4 mt-md-0 mt-4">
-                                    <p className='mb-1'>Transgender age</p>
-                                    <div className="d-flex gap-3">
-                                        <select
-                                            class="form-select border-0 rounded-5 py-2 px-3 text-white"
-                                            style={{ backgroundColor: "var(--color-border)", width: "120px" }}
-                                            value={ages.trans.start}
-                                            onChange={(e) => setAges(prev => ({
-                                                ...prev,
-                                                trans: {
-                                                    ...prev.trans,
-                                                    start: e.target.value
+                                openFor[3].value && (
+                                    <div className="col-md-4 mt-md-0 mt-4">
+                                        <p className="mb-1">Transgender Age</p>
+                                        <div className="d-flex gap-3">
+                                            {/* From */}
+                                            <select
+                                                className="form-select border-0 rounded-5 py-2 px-3 text-white"
+                                                style={{ backgroundColor: "var(--color-border)", width: "120px" }}
+                                                value={ages.trans.start}
+                                                onChange={(e) =>
+                                                    setAges((prev) => ({
+                                                        ...prev,
+                                                        trans: {
+                                                            ...prev.trans,
+                                                            start: e.target.value,
+                                                        },
+                                                    }))
                                                 }
-                                            }))}
-                                        >
-                                            <option selected style={{ color: "grey" }}>From</option>
-                                            {
-                                                Array.from({ length: 71 }, (_, i) => {
-                                                    const value = (i + 20).toString().padStart(2, '0');
-                                                    return <option key={value} value={value}>{value}</option>;
-                                                })
-                                            }
-                                        </select>
-                                        <select
-                                            class="form-select border-0 rounded-5 py-2 px-3 text-white"
-                                            style={{ backgroundColor: "var(--color-border)", width: "120px" }}
-                                            value={ages.trans.start}
-                                            onChange={(e) => setAges(prev => ({
-                                                ...prev,
-                                                trans: {
-                                                    ...prev.trans,
-                                                    end: e.target.value
+                                            >
+                                                <option value="" disabled style={{ color: "grey" }}>
+                                                    From
+                                                </option>
+                                                {Array.from({ length: 71 }, (_, i) => {
+                                                    const value = (i + 20).toString().padStart(2, "0");
+                                                    return (
+                                                        <option key={value} value={value}>
+                                                            {value}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+
+                                            {/* Until */}
+                                            <select
+                                                className="form-select border-0 rounded-5 py-2 px-3 text-white"
+                                                style={{ backgroundColor: "var(--color-border)", width: "120px" }}
+                                                value={ages.trans.end}
+                                                onChange={(e) =>
+                                                    setAges((prev) => ({
+                                                        ...prev,
+                                                        trans: {
+                                                            ...prev.trans,
+                                                            end: e.target.value,
+                                                        },
+                                                    }))
                                                 }
-                                            }))}
-                                        >
-                                            <option selected style={{ color: "grey" }}>Until</option>
-                                            {
-                                                Array.from({ length: 71 }, (_, i) => {
-                                                    const value = (i + 20).toString().padStart(2, '0');
-                                                    return <option key={value} value={value}>{value}</option>;
-                                                })
-                                            }
-                                        </select>
+                                            >
+                                                <option value="" disabled style={{ color: "grey" }}>
+                                                    Until
+                                                </option>
+                                                {Array.from({ length: 71 }, (_, i) => {
+                                                    const value = (i + 20).toString().padStart(2, "0");
+                                                    return (
+                                                        <option key={value} value={value}>
+                                                            {value}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                )
                             }
+
                         </div>
                     </section>
 
@@ -418,8 +468,8 @@ const CreatePrivateParty = () => {
                         <p className='mb-1'>Incognito Party<span className='text-danger'>*</span></p>
                         <div className="d-flex gap-5">
                             <div className='d-flex gap-2'>
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     id="incognito_y"
                                     className="form-check-input customCheckBox"
                                     checked={incognito}
@@ -445,8 +495,8 @@ const CreatePrivateParty = () => {
                         <p className='mb-1'>Promote my private party to members in the area<span className='text-danger'>*</span></p>
                         <div className="d-flex gap-5">
                             <div className='d-flex gap-2'>
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     id="promote_y"
                                     className="form-check-input customCheckBox"
                                     checked={promote}
@@ -472,8 +522,8 @@ const CreatePrivateParty = () => {
                         <p className='mb-1'>Invite my friends to this party<span className='text-danger'>*</span></p>
                         <div className="d-flex gap-5">
                             <div className='d-flex gap-2'>
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     id="invite_y"
                                     className="form-check-input customCheckBox"
                                     checked={inviteFriend}
@@ -499,8 +549,8 @@ const CreatePrivateParty = () => {
                         <p className='mb-1'>Show Guestlist to ALL 2+1 members<span className='text-danger'>*</span></p>
                         <div className="d-flex gap-5">
                             <div className='d-flex gap-2'>
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     id="showList_y"
                                     className="form-check-input customCheckBox"
                                     checked={showList}

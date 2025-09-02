@@ -22,8 +22,10 @@ import GroupMessangerTab from "./components/GroupMessangerTab/GroupMessangerTab"
 import httpService from "../../helper/httpService";
 
 import ChatComponent from "../../services/ChatComponent"
+import { useAuth } from "../../context/AuthContextAPI";
 
 const Chat = () => {
+  const {messagereceiverId} =useAuth()
   const [message, setMessage] = useState("");
   const [users, Setusers] = useState([])
 
@@ -66,17 +68,8 @@ const Chat = () => {
     }
   };
 
-  useEffect(() => {
-    httpService(`/users`, "GET")
-      .then((response) => {
-        console.log(response)
-        Setusers(response?.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
-
+ 
+  console.log("taking user id for message",messagereceiverId)
 
 
   return (
@@ -176,9 +169,9 @@ const Chat = () => {
           </div>
 
           {/* Chat Area */}
-          <div className="col-md-8 col-lg-9 chat-area d-flex flex-column h-100 px-3 py-5 position-relative">
+          {/* <div className="col-md-8 col-lg-9 chat-area d-flex flex-column h-100 px-3 py-5 position-relative">
 
-            {/* <div className="chat-header p-3 border-bottom">
+            <div className="chat-header p-3 border-bottom">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
                   <div className="position-relative">
@@ -249,9 +242,9 @@ const Chat = () => {
                   <FaPlus />
                 </button>
               </div>
-            </div> */}
-            <ChatComponent otherUserId={"68b2cc5d9742323daa6b5079"}/>
-          </div>
+            </div>
+          </div> */}
+            <ChatComponent receiverId={messagereceiverId}/>
 
         </div>
       </div>
