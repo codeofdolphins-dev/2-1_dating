@@ -55,11 +55,11 @@ export function AuthProvider({ children }) {
     setShowNotification("notification");
   };
 
-  console.log("friemdListUsername",userNameFromFriendListPage)
-  console.log("receiverMessageId",messagereceiverId)
-  console.log("receiverMessageName",messagereceiverName)
-  console.log("selectedGroupId",groupMessageId)
-  console.log("selectedGroupId",groupMessageName)
+  // console.log("friemdListUsername",userNameFromFriendListPage)
+  // console.log("receiverMessageId",messagereceiverId)
+  // console.log("receiverMessageName",messagereceiverName)
+  // console.log("selectedGroupId",groupMessageId)
+  // console.log("selectedGroupId",groupMessageName)
 
   return (
     <AuthContext.Provider

@@ -36,10 +36,10 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
     const [topSearch, setTopSearch] = useState("")
 
     const { showNotification } = useAuth();
-    console.log("sdsadsdfs", selected)
+    // console.log("sdsadsdfs", selected)
 
      const { filterOption, setFilterOption } = useAuth();
-     console.log(filterOption)
+    //  console.log(filterOption)
 
     // Whenever showNotification changes to true → switch tab
     useEffect(() => {
