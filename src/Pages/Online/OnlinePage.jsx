@@ -64,8 +64,7 @@ const OnlinePage = () => {
       console.log("onlnile response", response?.data)
 
       const totalCount = response?.data?.meta?.pagination?.total || null;
-      const apiTotalPages =
-        response?.data?.meta?.pagination?.pageCount || null;
+      const apiTotalPages = response?.data?.meta?.pagination?.pageCount || null;
 
       setCards(members);
 

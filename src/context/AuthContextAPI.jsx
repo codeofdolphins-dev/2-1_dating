@@ -52,8 +52,8 @@ export function AuthProvider({ children }) {
     setShowNotification("notification");
   };
 
-  console.log("friemdListUsername",userNameFromFriendListPage)
-  console.log("receiverMessageId",messagereceiverId)
+  // console.log("friemdListUsername",userNameFromFriendListPage)
+  // console.log("receiverMessageId",messagereceiverId)
 
   return (
     <AuthContext.Provider

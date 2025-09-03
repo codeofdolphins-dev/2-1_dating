@@ -53,7 +53,7 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
       }
     })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         const liked = res.data?.data?.find(like => like.targetUserId === targetUserId);
         if (liked) {
           setIsLiked({ id: liked._id, status: true });
@@ -171,7 +171,7 @@ const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "5
 
 
 
-  console.log("profil remembered card id", targetUserId)
+  // console.log("profil remembered card id", targetUserId)
 
 
   const popover = (

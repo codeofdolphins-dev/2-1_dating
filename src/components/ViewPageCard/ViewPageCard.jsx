@@ -65,17 +65,23 @@ const cardList = [
 const imageList = [img1, img2, img3, img4];
 
 const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime = false }) => {
-  // console.log(card._id)
+  const navigate = useNavigate();
+
+  console.log(card);
+
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
-  const [time, setTime] = useState("")
-  const { setUserNameFromFriendListPage, setUserNameFromFriendList } = useAuth()
+  const [time, setTime] = useState("");
+  const { setUserNameFromFriendListPage, setUserNameFromFriendList } = useAuth();
+
+
+
   // const [isCheckedFriendrequest, setIsCheckedFriendrequest] = useState(false);
   // console.log(isCheckedFriendrequest)
   // const[loading,setLoading] = useState(true)
 
-  console.log(setrefresh, refresh)
+  // console.log(setrefresh, refresh)
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -91,11 +97,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     }
   }, [swiperInstance]);
 
-  // console.log("card",card._id)
-  console.log(userData)
   const senderId = userData?.senderId?._id
 
-  const navigate = useNavigate();
   const handleNavigateToProfilepage = () => {
     navigate("/profile", {
       state: {
@@ -117,9 +120,6 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   // }
 
   // timestamp in milliseconds
-
-
-
 
   // handle friend request send
   const handleFriendRequest = async () => {
@@ -183,7 +183,6 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
 
   // handleDeviceInfo show popup
-
   const handleDeviceShowPopup = () => {
     console.log("all ok")
     setShow(true)
@@ -191,12 +190,10 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
 
   const handleOtherFriendlistPageNav = () => {
-    setUserNameFromFriendListPage(card?.username)
-    setUserNameFromFriendList(card?.friends)
-    navigate("/other-user-friendlist")
+    setUserNameFromFriendListPage(card?.username);
+    setUserNameFromFriendList(card?.friends);
+    navigate(`/other-user-friendlist?i=${card?._id}`);
   }
-
-  console.log("Interest In", card?.profile?.data)
 
   // console.log("card friends",card?.friends?.length)
 
@@ -220,7 +217,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 let photos =
                   (card?.profile?.photos && card?.profile?.photos.length > 0 && card?.profile?.photos) ||
                   (card?.viewedUserId?.profile?.photos && card?.viewedUserId?.profile?.photos.length > 0 && card?.viewedUserId?.profile?.photos) ||
-                  (card?.targetUserId?.profile?.photos && card?.targetUserId?.profile?.photos.length > 0 && card?.targetUserId?.profile?.photos) || 
+                  (card?.targetUserId?.profile?.photos && card?.targetUserId?.profile?.photos.length > 0 && card?.targetUserId?.profile?.photos) ||
                   (card?.senderId?.profile?.photos && card?.senderId?.profile?.photos.length > 0 && card?.senderId?.profile?.photos) ||
                   (card?.receiverId?.profile?.photos && card?.receiverId?.profile?.photos.length > 0 && card?.receiverId?.profile?.photos) ||
                   imageList;
@@ -410,14 +407,14 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
             <hr />
             <div className="d-flex flex-wrap gap-2">
-              <div className="d-flex align-items-center gap-1 text-white small py-2" style={{cursor:"pointer"}}  onClick={() => setShowGallery(true)}>
+              <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }} onClick={() => setShowGallery(true)}>
                 <i className="bi bi-camera-fill"></i><span>{card?.profile?.photos.length || `_`}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2">
-                <i className="bi bi-hand-thumbs-up-fill"></i><span>{ `_`}</span>
+                <i className="bi bi-hand-thumbs-up-fill"></i><span>{`_`}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }} onClick={handleOtherFriendlistPageNav ? handleOtherFriendlistPageNav : 0}>
-                <i className="bi bi-person-fill" ></i><span>{card?.friends?.length || "_"}</span>
+                <i className="bi bi-person-fill" ></i><span>{(card?.friends?.length || card?.friendCount) ?? "_"}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2">
                 <i className="bi bi-check-lg"></i><span>{`_`}</span>
