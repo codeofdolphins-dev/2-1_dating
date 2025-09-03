@@ -25,7 +25,7 @@ import ChatComponent from "../../services/ChatComponent"
 import { useAuth } from "../../context/AuthContextAPI";
 
 const Chat = () => {
-  const {messagereceiverId} =useAuth()
+  const {messagereceiverId,groupMessageId} =useAuth()
   const [message, setMessage] = useState("");
   const [users, Setusers] = useState([])
 
@@ -244,7 +244,7 @@ const Chat = () => {
               </div>
             </div>
           </div> */}
-            <ChatComponent receiverId={messagereceiverId}/>
+            <ChatComponent receiverId={messagereceiverId || groupMessageId}/>
 
         </div>
       </div>

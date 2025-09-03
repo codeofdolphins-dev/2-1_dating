@@ -8,6 +8,7 @@ import ChoosePartnerGenderselector from "../../../components/ChoosePartnerGender
 import { showSuccessToast, showErrorToast } from "../../../components/customToast/CustomToast"
 import httpService from "../../../helper/httpService"
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const SecondRegistrationForm = () => {
     const navigate = useNavigate()
@@ -35,6 +36,7 @@ const SecondRegistrationForm = () => {
 
     const fileInputRef = useRef(null);
     const [preview, setPreview] = useState(null);
+    const [loader, SetLoader] = useState(false)
 
     // Auto-update dob & partnerDob when fields change
     useEffect(() => {
@@ -97,74 +99,131 @@ const SecondRegistrationForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        SetLoader(true);
         console.log("Form submitted:", formData);
 
         try {
+            // ✅ Validation rules
+            const yearRegex = /^\d{4}$/;
+            const day = parseInt(formData.dobDay, 10);
+            const month = parseInt(formData.dobMonth, 10);
+            const year = formData.dobYear;
+
+            if (!yearRegex.test(year)) {
+                throw new Error("Your birth year must be 4 digits (YYYY).");
+            }
+            if (day < 1 || day > 31) {
+                throw new Error("Day must be between 1 and 31.");
+            }
+            if (month < 1 || month > 12) {
+                throw new Error("Month must be between 1 and 12.");
+            }
+
+            // ✅ Age validation for main user
+            const userDob = new Date(`${year}-${month}-${day}`);
+            const today = new Date();
+            const userAge =
+                today.getFullYear() - userDob.getFullYear() -
+                (today.getMonth() < userDob.getMonth() ||
+                    (today.getMonth() === userDob.getMonth() && today.getDate() < userDob.getDate()) ? 1 : 0);
+
+            if (userAge < 18) {
+                throw new Error("You must be at least 18 years old.");
+            }
+
+            // ✅ Partner validation (only if couple)
             if (formData.gender === "couple") {
-                const response = await httpService(`/onboarding/update`, "PUT", {
-                    "gender": formData?.gender,
-                    "sexuality": formData?.sexuality,
-                    "dateOfBirth": formData?.dob,
-                    "interestedIn": formData?.interestedIn,
-                    "address": {
-                        "street": formData?.street,
-                        "city": formData?.city,
-                        "state": formData?.state,
-                        "country": formData?.country,
-                        "zipcode": formData?.zipcode
-                    },
-                    "partner": {
-                        "dateOfBirth": formData?.partnerDob,
-                        "sexuality": formData?.sexualityPartner
-                    },
-                    "bio": formData.profileText,
-                    "mainPhoto": formData?.profileImage,
-                    // "photos": [
-                    //     "https://example.com/updated-photo1.jpg",
-                    //     "https://example.com/updated-photo2.jpg",
-                    //     "https://example.com/updated-photo3.jpg"
-                    // ]
-                })
-                if (response) {
-                    console.log(response)
-                    showSuccessToast(response?.message);
-                    navigate("/feed")
+                const partnerDay = parseInt(formData.partnerDobDay, 10);
+                const partnerMonth = parseInt(formData.partnerDobMonth, 10);
+                const partnerYear = formData.partnerDobYear;
+
+                if (!yearRegex.test(partnerYear)) {
+                    throw new Error("Partner's birth year must be 4 digits (YYYY).");
                 }
-            } else {
-                const response = await httpService(`/onboarding/update`, "PUT", {
-                    "gender": formData?.gender,
-                    "sexuality": formData?.sexuality,
-                    "dateOfBirth": formData?.dob,
-                    "interestedIn": formData?.interestedIn,
-                    "address": {
-                        "street": formData?.street,
-                        "city": formData?.city,
-                        "state": formData?.state,
-                        "country": formData?.country,
-                        "zipcode": formData?.zipcode
-                    },
-                    "bio": formData.profileText,
-                    "mainPhoto": formData?.profileImage,
-                    // "photos": [
-                    //     "https://example.com/updated-photo1.jpg",
-                    //     "https://example.com/updated-photo2.jpg",
-                    //     "https://example.com/updated-photo3.jpg"
-                    // ]
-                })
-                if (response) {
-                    console.log(response)
-                    showSuccessToast(response?.message);
-                    navigate("/feed")
+                if (partnerDay < 1 || partnerDay > 31) {
+                    throw new Error("Partner's day must be between 1 to 31.");
+                }
+                if (partnerMonth < 1 || partnerMonth > 12) {
+                    throw new Error("Partner's month must be between 1 to 12.");
+                }
+
+                // ✅ Age validation for partner
+                const partnerDob = new Date(`${partnerYear}-${partnerMonth}-${partnerDay}`);
+                const partnerAge =
+                    today.getFullYear() - partnerDob.getFullYear() -
+                    (today.getMonth() < partnerDob.getMonth() ||
+                        (today.getMonth() === partnerDob.getMonth() && today.getDate() < partnerDob.getDate()) ? 1 : 0);
+
+                if (partnerAge < 18) {
+                    throw new Error("Partner must also be at least 18 years old.");
                 }
             }
+
+            // ✅ Prepare payload
+            const payload =
+                formData.gender === "couple"
+                    ? {
+                        gender: formData?.gender,
+                        sexuality: formData?.sexuality,
+                        dateOfBirth: formData?.dob,
+                        interestedIn: formData?.interestedIn,
+                        address: {
+                            street: formData?.street,
+                            city: formData?.city,
+                            state: formData?.state,
+                            country: formData?.country,
+                            zipcode: formData?.zipcode,
+                        },
+                        partner: {
+                            dateOfBirth: formData?.partnerDob,
+                            sexuality: formData?.sexualityPartner,
+                        },
+                        bio: formData.profileText,
+                        mainPhoto: formData?.profileImage,
+                    }
+                    : {
+                        gender: formData?.gender,
+                        sexuality: formData?.sexuality,
+                        dateOfBirth: formData?.dob,
+                        interestedIn: formData?.interestedIn,
+                        address: {
+                            street: formData?.street,
+                            city: formData?.city,
+                            state: formData?.state,
+                            country: formData?.country,
+                            zipcode: formData?.zipcode,
+                        },
+                        bio: formData.profileText,
+                        mainPhoto: formData?.profileImage,
+                    };
+
+            // ✅ API Call
+            const response = await httpService(`/onboarding/update`, "PUT", payload);
+
+            if (response && response?.message) {
+                showSuccessToast(response?.message);
+                navigate("/feed");
+            } else {
+                showErrorToast("Something went wrong. Please try again.");
+            }
         } catch (err) {
-            console.log(err)
-            showErrorToast(err?.response?.data?.message);
+            console.error(err);
+            const errorMsg =
+                err?.response?.data?.error?.[0]?.message ||
+                err?.response?.data?.message ||
+                err?.message ||
+                "An unexpected error occurred.";
+            showErrorToast(errorMsg);
+        } finally {
+            SetLoader(false); // ✅ Always stop loader
         }
     };
 
+
+
     return (
         <div className="container py-5 text-white" style={{ maxWidth: "500px" }}>
+            <ToastContainer/>
             <div className="card text-white p-4 rounded-4" style={{ backgroundColor: "var(--color-border)" }}>
                 <form onSubmit={handleSubmit}>
 

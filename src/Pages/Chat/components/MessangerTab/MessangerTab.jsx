@@ -1,70 +1,76 @@
-import React, { useEffect, useState } from 'react'
-import { FaPhone, FaVideo, FaEllipsisH } from 'react-icons/fa'
-import httpService from '../../../../helper/httpService';
-import { useAuth } from '../../../../context/AuthContextAPI';
+import React, { useEffect, useState } from "react";
+import { FaPhone, FaVideo, FaEllipsisH } from "react-icons/fa";
+import httpService from "../../../../helper/httpService";
+import { useAuth } from "../../../../context/AuthContextAPI";
 
 const MessangerTab = () => {
-    const {setMessageReceiverId} =useAuth()
+  const { setMessageReceiverId, setMessageReceiverName } = useAuth();
 
-    const [selectedChat, setSelectedChat] = useState("");
-    const [contacts, setContacts] = useState([]);
-    // const contacts = [
-    //     { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    //     { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    //     { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    //     { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    //     { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-    //     { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
-    // ];
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [contacts, setContacts] = useState([]);
 
-    useEffect(() => {
-        httpService(`/users`, "GET")
-            .then((response) => {
-                console.log(response)
-                setContacts(response?.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }, [])
+  /** 🔹 Fetch contacts */
+  useEffect(() => {
+    httpService(`/users`, "GET")
+      .then((response) => {
+        setContacts(response?.data || []);
+      })
+      .catch((err) => {
+        console.error("❌ Failed to load contacts:", err);
+      });
+  }, []);
 
-    console.log("senderId",selectedChat)
-    setMessageReceiverId(selectedChat)
-    return (
-        <>
-            <div className="chat-list flex-grow-1 overflow-auto">
-                {contacts.map((contact, index) => (
-                    <div
-                        key={contact.id}
-                        className={`chat-item p-3 ${selectedChat === index ? "active" : ""}`}
-                        onClick={() => setSelectedChat(contact._id)}
-                    >
-                        <div className="d-flex align-items-center">
-                            <div className="position-relative">
-                                <div className="avatar">
-                                    <span className="text-white fw-bold">J</span>
-                                </div>
-                                {contact.online && <div className="online-indicator"></div>}
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <h6 className="text-white mb-0">{contact.username}</h6>
-                                    <span className="time-text">{contact.time}</span>
-                                </div>
-                                <p className="message-preview mb-0">{contact.message}</p>
-                            </div>
-                            <div className="d-flex flex-column align-items-end">
-                                <button className="btn btn-icon-sm mb-1">
-                                    <FaEllipsisH className="icon-xs" />
-                                </button>
-                                <div className="status-dot"></div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+  /** 🔹 Update context when chat changes */
+  useEffect(() => {
+    if (selectedChat) {
+      setMessageReceiverId(selectedChat._id);
+      setMessageReceiverName(selectedChat.username);
+    }
+  }, [selectedChat, setMessageReceiverId, setMessageReceiverName]);
+
+  return (
+    <div className="chat-list flex-grow-1 overflow-auto">
+      {contacts.map((contact) => (
+        <div
+          key={contact._id}
+          className={`chat-item p-3 ${selectedChat?._id === contact._id ? "active" : ""}`}
+          onClick={() => setSelectedChat(contact)}
+          style={{ cursor: "pointer" }}
+        >
+          <div className="d-flex align-items-center">
+            {/* Avatar */}
+            <div className="position-relative">
+              <div className="avatar">
+                <span className="text-white fw-bold">
+                  {contact.username?.charAt(0).toUpperCase() || "U"}
+                </span>
+              </div>
+              {contact.online && <div className="online-indicator"></div>}
             </div>
-        </>
-    )
-}
 
-export default MessangerTab
+            {/* Contact info */}
+            <div className="flex-grow-1 ms-3">
+              <div className="d-flex justify-content-between align-items-center">
+                <h6 className="text-white mb-0">{contact.username}</h6>
+                {/* <span className="time-text">{contact.time || "now"}</span> */}
+              </div>
+              <p className="message-preview mb-0">
+                {contact.message || "Click to start chat"}
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="d-flex flex-column align-items-end">
+              <button className="btn btn-icon-sm mb-1">
+                <FaEllipsisH className="icon-xs" />
+              </button>
+              <div className="status-dot"></div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default MessangerTab;

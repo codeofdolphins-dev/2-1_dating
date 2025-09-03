@@ -241,6 +241,10 @@ const RegistrationForm = () => {
             })
             .catch((error) => {
               console.log(error);
+              if(!error?.response?.data?.success)
+              {
+                navigate("/login")
+              }
               setLoading(false)
               toast.error(error?.response?.data?.message);
             });

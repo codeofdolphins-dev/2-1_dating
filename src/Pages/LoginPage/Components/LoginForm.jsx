@@ -33,7 +33,7 @@ const LoginForm = () => {
   // const [errors, setErrors] = useState({});
   const [mathPuzzle, setMathPuzzle] = useState({ question: '', answer: 0 });
   const [captchaError, setCaptchaError] = useState('');
-  const [loading, setLogin] = useState(false)
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   // const { showAlert } = UseAlert();
 
@@ -96,7 +96,7 @@ const LoginForm = () => {
   // const { username, password } = formData
   // Form submission
   const handleSubmit = async (e) => {
-    setLogin(true)
+    setLoading(true); // ✅ start loader
     e.preventDefault();
 
     // Basic validation
@@ -110,6 +110,7 @@ const LoginForm = () => {
         draggable: true,
         theme: "colored",
       });
+       setLoading(false); // ✅ stop loader
       return;
     } else {
       // API CALL WILL BE HERE
@@ -134,16 +135,16 @@ const LoginForm = () => {
             }, 300);
             login(data, token);
           }
-          setLogin(false)
+           setLoading(false); // ✅ stop loader
           console.log("all ok")
         } catch (error) {
-          setLogin(false)
           toast.error(error?.response?.data?.message, {
             position: "top-right",
             autoClose: 3000,
             theme: "colored",
           });
           console.error("Login Error:", error);
+          setLoading(false); // ✅ stop loader
         }
       }
 
@@ -162,6 +163,7 @@ const LoginForm = () => {
         draggable: true,
         theme: "colored",
       });
+       setLoading(false); // ✅ stop loader
       return;
     }
 
@@ -185,6 +187,7 @@ const LoginForm = () => {
     //   confirmButtonText: 'OK',
     // });
     setLogin(false)
+    
   };
 
 

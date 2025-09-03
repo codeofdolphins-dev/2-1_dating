@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import ProfileTab from './Components/Profile/ProfileTab';
 import AlbumTab from './Components/Album/AlbumTab';
 import EditTab from './Components/Edit/EditTab';

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import maleIcon from "../../../../assets/icons/male.png";
 import femaleIcon from "../../../../assets/icons/female.png";
 import coupleIcon from "../../../../assets/icons/couple.png";
 import transgenderIcon from "../../../../assets/icons/transgender.png";
 
-import style from "./style.module.css";  
+import style from "./style.module.css";
 import EditProfilePageInputPopup from '../../../../components/EditProfilePageInputPopup/EditProfilePageInputPopup';
 import DropdownPopup from '../../../../components/EditProfilePageInputPopup/DropdownPopup';
+import httpService from '../../../../helper/httpService';
 
 const EditTab = () => {
 
@@ -32,6 +33,62 @@ const EditTab = () => {
   const [circumcised, setCircumcised] = useState("");
   const [desc, setDesc] = useState(`all desi couples join the group "usa-desi-couples" \n\nwell educated couple from nc , looking to meet decent, respectful couple friends \n\nDesi married couples ....`);
 
+//   const [payload, setPayload] = useState(
+//     {
+//   "firstName": "Sarah",
+//   "lastName": "Smith",
+//   "dateOfBirth": "1988-03-15",
+//   "gender": "couple",
+//   "sexuality": "bi-sexual",
+//   "interestedIn": ["female", "couple"],
+//   "bio": "We are a fun-loving couple exploring new experiences together!",
+//   "photos": ["https://example.com/couple-photo1.jpg"],
+//   "bodyHair": "natural",
+//   "eyeColor": "blue",
+//   "height": "5'6",
+//   "weight": "140 lbs",
+//   "bodyType": "curvy",
+//   "ethnicBackground": "mixed",
+//   "smoking": "occasionally",
+//   "piercings": "ears",
+//   "tattoos": "some",
+//   "languagesSpoken": ["English", "French"],
+//   "looksAreImportant": false,
+//   "intelligenceIsImportant": true,
+//   "relationshipOrientation": "open",
+//   "experienceLevel": {
+//     "curious": true,
+//     "intermediate": false,
+//     "advanced": false,
+//     "newbie": true
+//   },
+//   "partner": {
+//     "firstName": "Mike",
+//     "lastName": "Smith",
+//     "dateOfBirth": "1985-07-20",
+//     "sexuality": "straight",
+//     "bodyHair": "trimmed",
+//     "eyeColor": "green",
+//     "height": "6'0",
+//     "weight": "180 lbs",
+//     "bodyType": "muscular",
+//     "ethnicBackground": "white",
+//     "smoking": "never",
+//     "piercings": "none",
+//     "tattoos": "many",
+//     "languagesSpoken": ["English"],
+//     "looksAreImportant": true,
+//     "intelligenceIsImportant": true,
+//     "relationshipOrientation": "open",
+//     "experienceLevel": {
+//       "curious": false,
+//       "intermediate": true,
+//       "advanced": true,
+//       "newbie": false
+//     }
+//   }
+// }
+//   )
 
   const femaleInputOptions = {
     f_height: heightOptions,
@@ -238,6 +295,76 @@ const EditTab = () => {
         [name]: checked
       }
     }))
+  };
+
+
+  const handleSubmit = async () => {
+    try {
+      // helper to lowercase only if it's a string
+      const toLowerSafe = (val) =>
+        typeof val === "string" ? val.toLowerCase() : val;
+
+      const payload = {
+        firstName: toLowerSafe(male.m_name || female.f_name || ""),
+        dateOfBirth: male.m_dob || female.f_dob,
+        gender: toLowerSafe(profileType.find((p) => p.value)?.title || ""), // male/female/couple/transgender
+        // sexuality: toLowerSafe(male.m_sexuality || female.f_sexuality || ""),
+        // interestedIn: interestOptions
+        //   .filter((opt) => opt.value)
+        //   .map((opt) => toLowerSafe(opt.title)),
+        bio: toLowerSafe(desc || ""),
+        photos: [], // add photo upload feature later
+        location: {
+          type: "Point",
+          coordinates: [-73.935242, 40.73061], // you can set dynamically
+        },
+        bodyHair: Array.isArray(male.bodyHair) && male.bodyHair.length
+          ? male.bodyHair.map(toLowerSafe)
+          : Array.isArray(female.bodyHair) && female.bodyHair.length
+            ? female.bodyHair.map(toLowerSafe)
+            : [],
+        eyeColor: "", // add if you create input
+        height: male.m_height || female.f_height,
+        weight: male.m_weight || female.f_weight,
+        bodyType: toLowerSafe(male.m_bodyType || female.f_bodyType || ""),
+        ethnicBackground: toLowerSafe(male.m_ethnicBackground || female.f_ethnicBackground || ""),
+        smoking: toLowerSafe(male.m_smoking || female.f_smoking || ""),
+        piercings: toLowerSafe(male.m_piercings || female.f_piercings || ""),
+        tattoos: toLowerSafe(male.m_tattoos || female.f_tattoos || ""),
+        languagesSpoken: [
+          ...(male.m_languages ? [toLowerSafe(male.m_languages)] : []),
+          ...(female.f_languages ? [toLowerSafe(female.f_languages)] : []),
+        ],
+        looksAreImportant:
+          toLowerSafe(male.m_looks) === "very important" ||
+          toLowerSafe(female.f_looks) === "very important",
+        intelligenceIsImportant:
+          toLowerSafe(male.m_intelligence) === "very important" ||
+          toLowerSafe(female.f_intelligence) === "very important",
+        relationshipOrientation: toLowerSafe(male.m_relationship || female.f_relationship || ""),
+        experienceLevel: {
+          curious: male.experience.m_curious || female.experience.f_curious,
+          intermediate: male.experience.m_intermediate || female.experience.f_intermediate,
+          advanced: male.experience.m_advanced || female.experience.f_advanced,
+          newbie: male.experience.m_newbie || female.experience.f_newbie,
+        },
+        circumcised: toLowerSafe(circumcised || ""),
+      };
+
+      console.log("Submitting payload:", payload);
+      console.log("male input", male_input)
+
+      const response = await httpService(`/profile`, "PUT", payload);
+
+      if (response.success) {
+        alert("Profile updated successfully!");
+      } else {
+        alert("Failed to update profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Something went wrong!");
+    }
   };
 
 
@@ -573,7 +700,7 @@ const EditTab = () => {
         {/* row 5 */}
         <div className="row">
           <div className="col-lg-6" style={{ margin: "auto" }}>
-            <button className='custom-button py-1 px-5 rounded-4 border-0'>Save</button>
+            <button className='custom-button py-1 px-5 rounded-4 border-0' onClick={handleSubmit} >Save</button>
           </div>
           <div className="col-lg-6 mt-md-4">
             <div className={`w-lg-50 ${style.parent}`} style={{ borderBottom: "2px solid #343A40" }}>

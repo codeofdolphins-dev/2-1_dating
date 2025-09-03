@@ -11,6 +11,9 @@ export function AuthProvider({ children }) {
   const [userNameFromFriendList, setUserNameFromFriendList] = useState([]);
   const [filterOption, setFilterOption] = useState(""); 
   const [messagereceiverId,setMessageReceiverId]=useState("")
+  const [messagereceiverName,setMessageReceiverName]=useState("")
+  const [groupMessageId,setGroupMessageId]=useState("")
+  const [groupMessageName,setGroupMessageName]=useState("")
 
   // Restore from localStorage on reload
   useEffect(() => {
@@ -54,6 +57,9 @@ export function AuthProvider({ children }) {
 
   console.log("friemdListUsername",userNameFromFriendListPage)
   console.log("receiverMessageId",messagereceiverId)
+  console.log("receiverMessageName",messagereceiverName)
+  console.log("selectedGroupId",groupMessageId)
+  console.log("selectedGroupId",groupMessageName)
 
   return (
     <AuthContext.Provider
@@ -73,7 +79,16 @@ export function AuthProvider({ children }) {
         setUserNameFromFriendList,
 
         setMessageReceiverId,
-        messagereceiverId
+        messagereceiverId,
+
+        setMessageReceiverName,
+        messagereceiverName,
+
+        groupMessageId,
+        setGroupMessageId,
+
+        groupMessageName,
+        setGroupMessageName
       }}
     >
       {children}

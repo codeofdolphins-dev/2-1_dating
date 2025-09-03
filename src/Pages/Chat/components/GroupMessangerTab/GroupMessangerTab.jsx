@@ -1,39 +1,98 @@
 import React, { useEffect, useState } from 'react'
 import { FaPhone, FaVideo, FaEllipsisH, FaSlack } from 'react-icons/fa'
+import { useAuth } from '../../../../context/AuthContextAPI';
 
 
 const GroupMessangerTab = () => {
+    const {setGroupMessageId,setGroupMessageName} = useAuth()
 
-    const [selectedChat, setSelectedChat] = useState(0);
+    const [selectedChat, setSelectedChat] = useState("");
 
     const [contacts, setContacts] = useState([
-        { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: false, unread: false, pin: false, mute: false },
-        { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false, pin: false, mute: false },
-        { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: false, unread: false, pin: false, mute: false },
-        { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false, pin: false, mute: false },
-        { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false, pin: false, mute: false },
-        { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false, pin: false, mute: false }
+        {
+            id: "64f3c1e7a9d8c2a5f1b9e301",
+            name: "Travel Buddies",
+            message: "Who’s ready for the next trip? 🏖️",
+            time: "10min",
+            online: true,
+            unread: true,
+            pin: true,
+            mute: false
+        },
+        {
+            id: "64f3c1e7a9d8c2a5f1b9e302",
+            name: "Foodies Club",
+            message: "Pizza party tonight! 🍕",
+            time: "25min",
+            online: false,
+            unread: false,
+            pin: false,
+            mute: false
+        },
+        {
+            id: "64f3c1e7a9d8c2a5f1b9e303",
+            name: "Gym Squad",
+            message: "Leg day tomorrow 💪",
+            time: "1h",
+            online: true,
+            unread: false,
+            pin: false,
+            mute: true
+        },
+        {
+            id: "64f3c1e7a9d8c2a5f1b9e304",
+            name: "Study Group",
+            message: "Assignment deadline coming soon 📚",
+            time: "2h",
+            online: true,
+            unread: true,
+            pin: false,
+            mute: false
+        },
+        {
+            id: "64f3c1e7a9d8c2a5f1b9e305",
+            name: "Music Lovers",
+            message: "Check out this new playlist 🎶",
+            time: "5h",
+            online: false,
+            unread: false,
+            pin: false,
+            mute: false
+        },
+        {
+            id: "64f3c1e7a9d8c2a5f1b9e306",
+            name: "Movie Nights",
+            message: "Which movie this weekend? 🎬",
+            time: "1d",
+            online: true,
+            unread: false,
+            pin: false,
+            mute: false
+        }
     ]);
+
 
     const handelPin = (id) => {
         console.log(id);
-        
-        setContacts(prev => 
+
+        setContacts(prev =>
             prev.map(item => {
                 return item.id === id ? { ...item, pin: !item.pin } : item;
             })
         )
     };
-    
+
     const handelMute = (id) => {
-        setContacts(prev => 
+        setContacts(prev =>
             prev.map(item =>
                 item.id === id ? { ...item, mute: !item.mute } : item
             )
         )
     };
 
-    
+    setGroupMessageId(selectedChat)
+
+
     return (
         <>
             <div className="chat-list flex-grow-1 overflow-auto">
@@ -41,7 +100,10 @@ const GroupMessangerTab = () => {
                     <div
                         key={contact.id}
                         className={`chat-item p-3 ${selectedChat === index ? "active" : ""}`}
-                        onClick={() => setSelectedChat(index)}
+                        onClick={() => {
+                        setSelectedChat(contact?.id)
+                        setGroupMessageName(contact?.name)
+                        }}
                     >
                         <div className="d-flex align-items-center">
                             {/* left part dp */}
