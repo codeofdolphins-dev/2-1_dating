@@ -74,6 +74,8 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   const [showMessagePopup, setShowMessagePopup] = useState(false);
   const [time, setTime] = useState("");
   const { setUserNameFromFriendListPage, setUserNameFromFriendList } = useAuth();
+  const { user } = useAuth()
+  const senderMssageId = user?.data?.user?._id;
 
 
 
@@ -523,7 +525,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         />
 
         {/* 💬 Messenger Popup */}
-        {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
+        {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} receiverId={card._id} senderId={senderMssageId} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)}/>}
 
         <DeviceInfoPopup show={show} setShow={setShow} />
       </div>
