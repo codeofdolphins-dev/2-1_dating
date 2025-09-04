@@ -7,7 +7,7 @@ function createWebSocketService() {
 
   // Initialize connection with JWT token
   const connect = (token) => {
-    socket = io("http://46.202.189.73:88", {
+    socket = io(import.meta.env.VITE_BASE_URL, {
       auth: { token },
       transports: ["websocket", "polling"],
     });
