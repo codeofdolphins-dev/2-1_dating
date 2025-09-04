@@ -195,7 +195,6 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     navigate(`/other-user-friendlist?i=${card?._id}`);
   }
 
-  // console.log("card friends",card?.friends?.length)
 
   return (
     <>
