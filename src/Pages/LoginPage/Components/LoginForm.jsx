@@ -7,6 +7,8 @@ import UseAlert from '../../alert/UseAlert';
 import axios from 'axios';
 import OverlayLoader from '../../../helper/OverlayLoader';
 import { useAuth } from "../../../context/AuthContextAPI";
+import ForgotPasswordModal from '../../../components/ForgotPasswordModal/ForgotPasswordModal';
+import {showErrorToast,showSuccessToast} from "../../../components/customToast/CustomToast"
 
 const LoginForm = () => {
   const { login } = useAuth();
@@ -35,9 +37,12 @@ const LoginForm = () => {
   const [captchaError, setCaptchaError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showForgot, setShowForgot] = useState(false);
+  const [puzzleeReloader,SetPuzzleLoadeer] = useState(false)
   // const { showAlert } = UseAlert();
 
   // Generate a new math puzzle
+  
   const generateMathPuzzle = () => {
     const operations = ['+', '-', '*'];
     const operation = operations[Math.floor(Math.random() * operations.length)];
@@ -76,7 +81,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     generateMathPuzzle();
-  }, []);
+  }, [puzzleeReloader]);
 
   const handleJoin = () => {
     navigate("/registration");
@@ -110,7 +115,7 @@ const LoginForm = () => {
         draggable: true,
         theme: "colored",
       });
-       setLoading(false); // ✅ stop loader
+      setLoading(false); // ✅ stop loader
       return;
     } else {
       // API CALL WILL BE HERE
@@ -135,16 +140,13 @@ const LoginForm = () => {
             }, 300);
             login(data, token);
           }
-           setLoading(false); // ✅ stop loader
+          setLoading(false); // ✅ stop loader
           console.log("all ok")
         } catch (error) {
-          toast.error(error?.response?.data?.message, {
-            position: "top-right",
-            autoClose: 3000,
-            theme: "colored",
-          });
-          console.error("Login Error:", error);
+          showErrorToast(error?.response?.data?.message)
+          console.error("Login Error:", error?.response?.data?.message);
           setLoading(false); // ✅ stop loader
+          SetPuzzleLoadeer(!puzzleeReloader)
         }
       }
 
@@ -163,7 +165,7 @@ const LoginForm = () => {
         draggable: true,
         theme: "colored",
       });
-       setLoading(false); // ✅ stop loader
+      setLoading(false); // ✅ stop loader
       return;
     }
 
@@ -186,15 +188,15 @@ const LoginForm = () => {
     //   icon: 'success',
     //   confirmButtonText: 'OK',
     // });
-    setLogin(false)
-    
+    setLoading(false)
+
   };
 
 
 
   return (
+    <>
     <div className="d-flex justify-content-center align-items-center text-white px-3" style={{ height: '90vh', backgroundColor: "var( --color-background)" }}>
-      <ToastContainer />
       <OverlayLoader show={loading} text="Please wait..." />
       <div
         className="text-white rounded-4 p-4 w-100"
@@ -281,8 +283,13 @@ const LoginForm = () => {
 
         {/* Forgot Password */}
         <div className="text-center mb-3">
-          <a href="#" className="text-white small text-decoration-underline">Forgot Password</a>
+          <a href="#" className="text-white small text-decoration-underline" onClick={() => setShowForgot(true)}>Forgot Password</a>
         </div>
+
+        <ForgotPasswordModal
+          show={showForgot}
+          onHide={() => setShowForgot(false)}
+        />
 
         {/* Login Button */}
         <div className="mb-3 d-flex justify-content-center">
@@ -314,6 +321,8 @@ const LoginForm = () => {
         </div>
       </div>
     </div>
+    <ToastContainer />
+    </>
   );
 };
 

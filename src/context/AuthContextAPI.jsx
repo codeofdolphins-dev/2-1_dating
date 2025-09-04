@@ -1,5 +1,6 @@
 // contexts/AuthContext.jsx
 import { createContext, useState, useContext, useEffect } from "react";
+import WebSocketService from "../services/websocket";
 
 const AuthContext = createContext();
 
@@ -9,11 +10,11 @@ export function AuthProvider({ children }) {
   const [showNotification, setShowNotification] = useState("feed");
   const [userNameFromFriendListPage, setUserNameFromFriendListPage] = useState("");
   const [userNameFromFriendList, setUserNameFromFriendList] = useState([]);
-  const [filterOption, setFilterOption] = useState(""); 
-  const [messagereceiverId,setMessageReceiverId]=useState("")
-  const [messagereceiverName,setMessageReceiverName]=useState("")
-  const [groupMessageId,setGroupMessageId]=useState("")
-  const [groupMessageName,setGroupMessageName]=useState("")
+  const [filterOption, setFilterOption] = useState("");
+  const [messagereceiverId, setMessageReceiverId] = useState("")
+  const [messagereceiverName, setMessageReceiverName] = useState("")
+  const [groupMessageId, setGroupMessageId] = useState("")
+  const [groupMessageName, setGroupMessageName] = useState("")
 
   // Restore from localStorage on reload
   useEffect(() => {
@@ -25,6 +26,8 @@ export function AuthProvider({ children }) {
       setUser(JSON.parse(savedUser));
     }
   }, []);
+
+  
 
   // Login
   const login = (userData, jwtToken) => {
@@ -71,11 +74,11 @@ export function AuthProvider({ children }) {
         registration,
         logout,
         setNotificationHandler,
-        filterOption, 
+        filterOption,
         setFilterOption,
         userNameFromFriendListPage,
         setUserNameFromFriendListPage,
-        userNameFromFriendList, 
+        userNameFromFriendList,
         setUserNameFromFriendList,
 
         setMessageReceiverId,
