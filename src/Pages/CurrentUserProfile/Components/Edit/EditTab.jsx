@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import maleIcon from "../../../../assets/icons/male.png";
 import femaleIcon from "../../../../assets/icons/female.png";
@@ -31,8 +31,7 @@ const EditTab = () => {
   const circumcisedOptions = [`Prefer not to say`, `No`, `Yes`];
 
   const [circumcised, setCircumcised] = useState("");
-  const [desc, setDesc] = useState(`all desi couples join the group "usa-desi-couples" \n\nwell educated couple from nc , looking to meet decent, respectful couple friends \n\nDesi married couples ....`);
-
+  const [desc, setDesc] = useState("");
 
   const femaleInputOptions = {
     f_height: heightOptions,
@@ -249,7 +248,7 @@ const EditTab = () => {
 
   // for single type
   const singlePayload = {
-    firstName: female.f_name || male.m_name || "",
+    fullName: female.f_name || male.m_name || "",
     dateOfBirth: female.f_dob || male.m_dob || "",
     gender: profilePayload,
     sexuality: female.f_sexuality || male.m_sexuality || "",
@@ -265,7 +264,7 @@ const EditTab = () => {
     tattoos: female.f_tattoos || male.m_tattoos || "",
     languagesSpoken: female.f_languages
       ? female.f_languages.split(',').map(lang => lang.trim())
-      : male.m_languages ? male.m_languages.split(',').map(lang => lang.trim()) : [] ,
+      : male.m_languages ? male.m_languages.split(',').map(lang => lang.trim()) : [],
     looksAreImportant: female.f_looks || male.m_looks || "",
     intelligenceIsImportant: female.f_intelligence || male.m_intelligence || "",
     relationshipOrientation: female.f_relationship || male.m_relationship || "",
@@ -280,15 +279,13 @@ const EditTab = () => {
 
   // for couple
   const couplePayload = {
-    firstName: female.f_name || "",
+    fullName: female.f_name || "",
     dateOfBirth: female.f_dob || "",
     gender: profilePayload,
     sexuality: female.f_sexuality || "",
     interestedIn: intrestPayload || [],
     bio: desc,
-    photos: [],
     bodyHair: female.bodyHair || [],
-    eyeColor: "",
     height: female.f_height || "",
     weight: female.f_weight || "",
     bodyType: female.f_bodyType || "",
@@ -296,7 +293,7 @@ const EditTab = () => {
     smoking: female.f_smoking || "",
     piercings: female.f_piercings || "",
     tattoos: female.f_tattoos || "",
-    languagesSpoken: female.f_languages || "",
+    languagesSpoken: female.f_languages ? female.f_languages.split(',').map(lang => lang.trim()) : [],
     looksAreImportant: female.f_looks || "",
     intelligenceIsImportant: female.f_intelligence || "",
     relationshipOrientation: female.f_relationship || "",
@@ -308,16 +305,13 @@ const EditTab = () => {
       newbie: female.experience.f_newbie || "",
     },
     partner: {
-      firstName: male.m_name || "",
-      lastName: "",
+      fullName: male.m_name || "",
       dateOfBirth: male.m_dob || "",
       gender: profilePayload,
       sexuality: male.m_sexuality || "",
       interestedIn: intrestPayload || [],
       bio: desc,
-      photos: [],
       bodyHair: male.bodyHair || [],
-      eyeColor: "",
       height: male.m_height || "",
       weight: male.m_weight || "",
       bodyType: male.m_bodyType || "",
@@ -325,7 +319,7 @@ const EditTab = () => {
       smoking: male.m_smoking || "",
       piercings: male.m_piercings || "",
       tattoos: male.m_tattoos || "",
-      languagesSpoken: male.m_languages || "",
+      languagesSpoken: male.m_languages ? male.m_languages.split(',').map(lang => lang.trim()) : [],
       looksAreImportant: male.m_looks || "",
       intelligenceIsImportant: male.m_intelligence || "",
       relationshipOrientation: male.m_relationship || "",
@@ -341,30 +335,109 @@ const EditTab = () => {
 
 
   const handleSubmit = async () => {
-
     if (["Transgender", "Male", "Female"].includes(profileType.find(element => element.value)?.title || "")) {
-      console.log(singlePayload);
+      await sendUpdation(singlePayload);
     } else {
-      console.log(couplePayload);
+      await sendUpdation(couplePayload);
     }
   };
 
-  function sendUpdation(payload) {
-    httpService(`/profile`, "PUT", payload);
+  async function sendUpdation(payload) {
+    const response = await httpService(`/profile`, "PUT", payload);
 
     if (response.success) {
       alert("Profile updated successfully!");
     } else {
       alert("Failed to update profile");
     }
-  }
+  };
 
+  const [profileDetails, setProfileDetails] = useState({});
 
-  // *************testing*******************
-  // useEffect(() => {
-  //   console.log(interestOptions);
-  // }, [interestOptions])
+  useEffect(() => {
+    httpService(`/profile`)
+      .then((response) => {
+        if (!response.success) throw new Error("Profile details retrieved failed!!!");
+        setProfileDetails(response.data);
 
+      })
+      .catch(error => {
+        error.log(error.message);
+      })
+  }, []);
+
+  useEffect(() => {
+
+    // profile type
+    const gender = profileType.map(ele => {
+      return {
+        ...ele,
+        value: ele.title?.toLocaleLowerCase() === profileDetails.gender?.toLocaleLowerCase()
+      }
+    });
+
+    // for interest option
+    const interest = profileDetails?.interestedIn;
+    const updateOption = interestOptions.map(ele => ({
+      ...ele,
+      value: interest?.includes(ele.title)
+    }))
+
+    // for date
+    const dateObj = new Date(profileDetails.dateOfBirth);
+    const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${dateObj.getFullYear()}`;
+
+    setInterestOptions(updateOption);
+    setDesc(profileDetails?.bio);
+    setProfileType(gender);
+
+    setFemale(prev => ({
+      ...prev,
+      f_name: profileDetails.firstName,
+      f_dob: formattedDate,
+      f_sexuality: profileDetails.sexuality,
+      f_height: profileDetails.height,
+      f_weight: profileDetails.weight,
+      f_bodyType: profileDetails.bodyType,
+      f_ethnicBackground: profileDetails.ethnicBackground,
+      f_smoking: profileDetails.smoking,
+      f_piercings: profileDetails.piercings,
+      f_tattoos: profileDetails.tattoos,
+      f_looks: profileDetails.looksAreImportant,
+      f_intelligence: profileDetails.intelligenceIsImportant,
+      f_relationship: profileDetails.relationshipOrientation,
+      experience: {
+        f_curious: profileDetails?.experience?.curious,
+        f_newbie: profileDetails?.experience?.newbie,
+        f_intermediate: profileDetails?.experience?.intermediate,
+        f_advanced: profileDetails?.experience?.advanced
+      }
+    }));
+
+    setMale(prev => ({
+      ...prev,
+      m_name: profileDetails.firstName,
+      m_dob: formattedDate,
+      m_sexuality: profileDetails.sexuality,
+      m_height: profileDetails.height,
+      m_weight: profileDetails.weight,
+      m_bodyType: profileDetails.bodyType,
+      m_ethnicBackground: profileDetails.ethnicBackground,
+      m_smoking: profileDetails.smoking,
+      m_piercings: profileDetails.piercings,
+      m_tattoos: profileDetails.tattoos,
+      m_looks: profileDetails.looksAreImportant,
+      m_intelligence: profileDetails.intelligenceIsImportant,
+      m_relationship: profileDetails.relationshipOrientation,
+      experience: {
+        m_curious: profileDetails?.experience?.curious,
+        m_newbie: profileDetails?.experience?.newbie,
+        m_intermediate: profileDetails?.experience?.intermediate,
+        m_advanced: profileDetails?.experience?.advanced
+      }
+    }));
+
+  }, [profileDetails]);
 
   return (
     <>
@@ -708,6 +781,7 @@ const EditTab = () => {
             </div>
           </div>
         </div>
+
       </div>
     </>
   )
