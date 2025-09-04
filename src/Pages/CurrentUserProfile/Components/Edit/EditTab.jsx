@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import maleIcon from "../../../../assets/icons/male.png";
 import femaleIcon from "../../../../assets/icons/female.png";
 import coupleIcon from "../../../../assets/icons/couple.png";
 import transgenderIcon from "../../../../assets/icons/transgender.png";
 
-import style from "./style.module.css";  
+import style from "./style.module.css";
 import EditProfilePageInputPopup from '../../../../components/EditProfilePageInputPopup/EditProfilePageInputPopup';
 import DropdownPopup from '../../../../components/EditProfilePageInputPopup/DropdownPopup';
+import httpService from '../../../../helper/httpService';
 
 const EditTab = () => {
 
@@ -183,6 +184,7 @@ const EditTab = () => {
     { id: 31, title: "Soft Swap", value: false },
     { id: 32, title: "Full Swap", value: false }
   ]);
+
   const [profileType, setProfileType] = useState([
     { id: 1, icon: coupleIcon, title: "Couple", value: true },
     { id: 2, icon: femaleIcon, title: "Female", value: false },
@@ -199,6 +201,7 @@ const EditTab = () => {
       ))
     ));
   };
+
   const handelInterest = (id) => {
     setInterestOptions((prev) => (
       prev.map(field => (
@@ -240,9 +243,121 @@ const EditTab = () => {
     }))
   };
 
+  // prepare payload data
+  const intrestPayload = interestOptions.filter(element => element.value).map(item => item.title);
+  const profilePayload = profileType.find(element => element.value)?.title || "";
+
+  // for single type
+  const singlePayload = {
+    firstName: female.f_name || male.m_name || "",
+    dateOfBirth: female.f_dob || male.m_dob || "",
+    gender: profilePayload,
+    sexuality: female.f_sexuality || male.m_sexuality || "",
+    interestedIn: intrestPayload || [],
+    bio: desc,
+    bodyHair: female.bodyHair || male.bodyHair || [],
+    height: female.f_height || male.m_height || "",
+    weight: female.f_weight || male.m_weight || "",
+    bodyType: female.f_bodyType || male.m_bodyType || "",
+    ethnicBackground: female.f_ethnicBackground || male.m_ethnicBackground || "",
+    smoking: female.f_smoking || male.m_smoking || "",
+    piercings: female.f_piercings || male.m_piercings || "",
+    tattoos: female.f_tattoos || male.m_tattoos || "",
+    languagesSpoken: female.f_languages
+      ? female.f_languages.split(',').map(lang => lang.trim())
+      : male.m_languages ? male.m_languages.split(',').map(lang => lang.trim()) : [] ,
+    looksAreImportant: female.f_looks || male.m_looks || "",
+    intelligenceIsImportant: female.f_intelligence || male.m_intelligence || "",
+    relationshipOrientation: female.f_relationship || male.m_relationship || "",
+    circumcised: circumcised || "",
+    experienceLevel: {
+      curious: female.experience.f_curious || male.experience.m_curious || "",
+      intermediate: female.experience.f_intermediate || male.experience.m_intermediate || "",
+      advanced: female.experience.f_advanced || male.experience.m_advanced || "",
+      newbie: female.experience.f_newbie || male.experience.m_newbie || "",
+    }
+  };
+
+  // for couple
+  const couplePayload = {
+    firstName: female.f_name || "",
+    dateOfBirth: female.f_dob || "",
+    gender: profilePayload,
+    sexuality: female.f_sexuality || "",
+    interestedIn: intrestPayload || [],
+    bio: desc,
+    photos: [],
+    bodyHair: female.bodyHair || [],
+    eyeColor: "",
+    height: female.f_height || "",
+    weight: female.f_weight || "",
+    bodyType: female.f_bodyType || "",
+    ethnicBackground: female.f_ethnicBackground || "",
+    smoking: female.f_smoking || "",
+    piercings: female.f_piercings || "",
+    tattoos: female.f_tattoos || "",
+    languagesSpoken: female.f_languages || "",
+    looksAreImportant: female.f_looks || "",
+    intelligenceIsImportant: female.f_intelligence || "",
+    relationshipOrientation: female.f_relationship || "",
+    circumcised: circumcised || "",
+    experienceLevel: {
+      curious: female.experience.f_curious || "",
+      intermediate: female.experience.f_intermediate || "",
+      advanced: female.experience.f_advanced || "",
+      newbie: female.experience.f_newbie || "",
+    },
+    partner: {
+      firstName: male.m_name || "",
+      lastName: "",
+      dateOfBirth: male.m_dob || "",
+      gender: profilePayload,
+      sexuality: male.m_sexuality || "",
+      interestedIn: intrestPayload || [],
+      bio: desc,
+      photos: [],
+      bodyHair: male.bodyHair || [],
+      eyeColor: "",
+      height: male.m_height || "",
+      weight: male.m_weight || "",
+      bodyType: male.m_bodyType || "",
+      ethnicBackground: male.m_ethnicBackground || "",
+      smoking: male.m_smoking || "",
+      piercings: male.m_piercings || "",
+      tattoos: male.m_tattoos || "",
+      languagesSpoken: male.m_languages || "",
+      looksAreImportant: male.m_looks || "",
+      intelligenceIsImportant: male.m_intelligence || "",
+      relationshipOrientation: male.m_relationship || "",
+      circumcised: circumcised || "",
+      experienceLevel: {
+        curious: male.experience.m_curious || "",
+        intermediate: male.experience.m_intermediate || "",
+        advanced: male.experience.m_advanced || "",
+        newbie: male.experience.m_newbie || "",
+      }
+    }
+  };
 
 
+  const handleSubmit = async () => {
 
+    if (["Transgender", "Male", "Female"].includes(profileType.find(element => element.value)?.title || "")) {
+      console.log(singlePayload);
+    } else {
+      console.log(couplePayload);
+    }
+  };
+
+  function sendUpdation(payload) {
+    httpService(`/profile`, "PUT", payload);
+
+    if (response.success) {
+      alert("Profile updated successfully!");
+    } else {
+      alert("Failed to update profile");
+    }
+  }
 
 
   // *************testing*******************
@@ -573,7 +688,7 @@ const EditTab = () => {
         {/* row 5 */}
         <div className="row">
           <div className="col-lg-6" style={{ margin: "auto" }}>
-            <button className='custom-button py-1 px-5 rounded-4 border-0'>Save</button>
+            <button className='custom-button py-1 px-5 rounded-4 border-0' onClick={handleSubmit} >Save</button>
           </div>
           <div className="col-lg-6 mt-md-4">
             <div className={`w-lg-50 ${style.parent}`} style={{ borderBottom: "2px solid #343A40" }}>

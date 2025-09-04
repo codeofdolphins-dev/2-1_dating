@@ -89,7 +89,7 @@
   .chat-list {
     overflow-y: auto;
     flex: 1;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 500px);
   }
   
   .chat-item {
