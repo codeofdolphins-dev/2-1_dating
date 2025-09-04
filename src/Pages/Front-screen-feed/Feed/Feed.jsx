@@ -74,7 +74,7 @@ const Feed = () => {
 
     // fetch feed data
     useEffect(() => {
-        const fetchProfile = ( page=1, limit=20, type=friend_request, priority=high, unreadOnly=false ) => {
+        const fetchProfile = ( page=1, limit=20, type="friend_request", priority="high", unreadOnly=false ) => {
             const token = sessionStorage.getItem("jwtToken");
             const config = {
                 headers: {

@@ -14,6 +14,7 @@ const ForgotPasswordModal = ({ show, onHide }) => {
     const [formData, setFormData] = useState({
         countryCode: "91",
         phoneNumber: "",
+        email: "",
         phoneOtp: "",
         password: "",
         confirmPassword: "",
@@ -56,9 +57,9 @@ const ForgotPasswordModal = ({ show, onHide }) => {
         }, 1000);
 
         axios
-            .post(`${apiUrl}/otp/request`, {
-                target: `+${formData.countryCode}${formData.phoneNumber}`,
-                type: "password_reset",
+            .post(`${apiUrl}/auth/forgot-password`, {
+                phone: `+${formData.countryCode}${formData.phoneNumber}`,
+                // email: formData.email,
             })
             .then((res) => {
                 const otp = res.data?.data?.code;
@@ -130,16 +131,15 @@ const ForgotPasswordModal = ({ show, onHide }) => {
             return;
         }
 
-        axios
-            .post(`${apiUrl}/otp/verify`, {
-                target: `+${formData.countryCode}${formData.phoneNumber}`,
-                type: "password_reset",
-                code: formData.phoneOtp,
-            })
+        axios.post(`${apiUrl}/auth/verify-reset-otp`, {
+            email: formData.email,
+            otp: formData.phoneOtp,
+        })
             .then((res) => {
                 if (res.data.success) {
                     toast.success("OTP verified!");
                     setStep(3);
+                    localStorage.setItem("resetToken", res.data.data.resetToken);
                 } else {
                     toast.error("Invalid OTP");
                 }
@@ -154,17 +154,30 @@ const ForgotPasswordModal = ({ show, onHide }) => {
             return;
         }
 
-        axios
-            .post(`${apiUrl}/auth/reset-password`, {
-                phone: `+${formData.countryCode}${formData.phoneNumber}`,
-                password: formData.password,
-            })
-            .then(() => {
-                toast.success("Password reset successfully!");
-                onHide();
-            })
-            .catch(() => toast.error("Failed to reset password"));
+        axios.post(`${apiUrl}/auth/reset-password-with-token`, {
+            resetToken: localStorage.setItem("resetToken"),
+            newPassword: formData.password,
+            confirmPassword: formData.confirmPassword
+        })
+        .then(() => {
+            toast.success("Password reset successfully!");
+            hideBtn();
+            localStorage.removeItem("resetToken");
+        })
+        .catch(() => toast.error("Failed to reset password"));
     };
+
+    const hideBtn = () => {
+        onHide();
+        setStep(1);
+        setFormData({
+            countryCode: "91",
+            phoneNumber: "",
+            phoneOtp: "",
+            password: "",
+            confirmPassword: "",
+        })
+    }
 
     return (
         <>
@@ -176,7 +189,7 @@ const ForgotPasswordModal = ({ show, onHide }) => {
   }
 `}
             </style>
-            <Modal show={show} onHide={onHide} centered>
+            <Modal show={show} onHide={hideBtn} centered>
                 <div
                     style={{
                         background: "#0A0D2E",
