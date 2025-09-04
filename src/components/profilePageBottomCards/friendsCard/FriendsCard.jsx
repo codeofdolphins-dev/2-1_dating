@@ -15,14 +15,16 @@ import female from "./img/female.png";
 import drink from "./img/drink.png"
 import phone from "./img/phone.png"
 import star from "./img/star.png"
+import { numberConversion } from "../../../helper/numberConversion";
 
 
-const images = [img1, img2, img3, img4];
+const dummyimages = [img1, img2, img3, img4];
 
-const FriendsCard = () => {
+const FriendsCard = ({ friend }) => {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
     const [swiperInstance, setSwiperInstance] = useState(null);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         if (swiperInstance && prevRef.current && nextRef.current) {
@@ -33,6 +35,10 @@ const FriendsCard = () => {
             swiperInstance.navigation.update();
         }
     }, [swiperInstance]);
+
+    useEffect(() => {
+        setImages( friend.profile.photos.length >= 0 ? friend.profile.photos : dummyimages );
+    }, [friend.profile.photos])
 
     return (
         <div className="row g-3 rounded-4 text-white pb-2 ml-3 mt-4" style={{ backgroundColor: "var(--color-border)",border:"1px solid #ffffff", maxWidth: "650px" }}>
@@ -89,7 +95,7 @@ const FriendsCard = () => {
                 <div>
                     <div className="d-flex justify-content-between align-items-center mb-2">
                         <div>
-                            <h5 className="fw-bold mb-0" style={{color:"var(--color-primary-green)"}}>BOLEROPALACE</h5>
+                            <h5 className="fw-bold mb-0" style={{color:"var(--color-primary-green)"}}> {friend?.username ?? "..."} </h5>
                         </div>
                         <div className="d-flex gap-2">
                             <img src={star} height={30} alt="Star" />
@@ -123,7 +129,7 @@ const FriendsCard = () => {
                     <hr />
                     <div className="d-flex align-items-center gap-2 text-white small py-2">
                         <i className="bi bi-geo-alt-fill"></i>
-                        <span>Altedo, ITA | 4256 mi</span>
+                        <span> { friend?.f ?? "..." } </span>
                     </div>
 
                     <hr />
@@ -132,28 +138,28 @@ const FriendsCard = () => {
                         <div>
                             <div className="d-flex align-items-center gap-2 text-white small py-2">
                                 <i class="bi bi-camera-fill"></i>
-                                <span>41</span>
+                                <span> { numberConversion(friend?.f) } </span>
                             </div>
                         </div>
 
                         <div>
                             <div className="d-flex align-items-center gap-2 text-white small py-2">
                                 <i class="bi bi-person-fill"></i>
-                                <span>12</span>
+                                <span> { numberConversion(friend?.friendCount) } </span>
                             </div>
                         </div>
 
                         <div>
                             <div className="d-flex align-items-center gap-2 text-white small py-2">
                                 <i class="bi bi-star-fill"></i>
-                                <span>5</span>
+                                <span> { numberConversion(friend?.f) } </span>
                             </div>
                         </div>
 
                         <div>
                             <div className="d-flex align-items-center gap-2 text-white small py-2">
                                 <i class="bi bi-play-fill"></i>
-                                <span>209</span>
+                                <span> { numberConversion(friend?.f) } </span>
                             </div>
                         </div>
                     </div>

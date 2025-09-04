@@ -1,5 +1,4 @@
 const numberConversion = (number = 0) => {
-
     if (number < 1000) return number.toString(); // Optional: include this if <1000 should return raw
 
     if (number >= 1000 && number < 1_000_000) {
