@@ -33,62 +33,6 @@ const EditTab = () => {
   const [circumcised, setCircumcised] = useState("");
   const [desc, setDesc] = useState(`all desi couples join the group "usa-desi-couples" \n\nwell educated couple from nc , looking to meet decent, respectful couple friends \n\nDesi married couples ....`);
 
-//   const [payload, setPayload] = useState(
-//     {
-//   "firstName": "Sarah",
-//   "lastName": "Smith",
-//   "dateOfBirth": "1988-03-15",
-//   "gender": "couple",
-//   "sexuality": "bi-sexual",
-//   "interestedIn": ["female", "couple"],
-//   "bio": "We are a fun-loving couple exploring new experiences together!",
-//   "photos": ["https://example.com/couple-photo1.jpg"],
-//   "bodyHair": "natural",
-//   "eyeColor": "blue",
-//   "height": "5'6",
-//   "weight": "140 lbs",
-//   "bodyType": "curvy",
-//   "ethnicBackground": "mixed",
-//   "smoking": "occasionally",
-//   "piercings": "ears",
-//   "tattoos": "some",
-//   "languagesSpoken": ["English", "French"],
-//   "looksAreImportant": false,
-//   "intelligenceIsImportant": true,
-//   "relationshipOrientation": "open",
-//   "experienceLevel": {
-//     "curious": true,
-//     "intermediate": false,
-//     "advanced": false,
-//     "newbie": true
-//   },
-//   "partner": {
-//     "firstName": "Mike",
-//     "lastName": "Smith",
-//     "dateOfBirth": "1985-07-20",
-//     "sexuality": "straight",
-//     "bodyHair": "trimmed",
-//     "eyeColor": "green",
-//     "height": "6'0",
-//     "weight": "180 lbs",
-//     "bodyType": "muscular",
-//     "ethnicBackground": "white",
-//     "smoking": "never",
-//     "piercings": "none",
-//     "tattoos": "many",
-//     "languagesSpoken": ["English"],
-//     "looksAreImportant": true,
-//     "intelligenceIsImportant": true,
-//     "relationshipOrientation": "open",
-//     "experienceLevel": {
-//       "curious": false,
-//       "intermediate": true,
-//       "advanced": true,
-//       "newbie": false
-//     }
-//   }
-// }
-//   )
 
   const femaleInputOptions = {
     f_height: heightOptions,
@@ -240,6 +184,7 @@ const EditTab = () => {
     { id: 31, title: "Soft Swap", value: false },
     { id: 32, title: "Full Swap", value: false }
   ]);
+
   const [profileType, setProfileType] = useState([
     { id: 1, icon: coupleIcon, title: "Couple", value: true },
     { id: 2, icon: femaleIcon, title: "Female", value: false },
@@ -256,6 +201,7 @@ const EditTab = () => {
       ))
     ));
   };
+
   const handelInterest = (id) => {
     setInterestOptions((prev) => (
       prev.map(field => (
@@ -297,79 +243,121 @@ const EditTab = () => {
     }))
   };
 
+  // prepare payload data
+  const intrestPayload = interestOptions.filter(element => element.value).map(item => item.title);
+  const profilePayload = profileType.find(element => element.value)?.title || "";
 
-  const handleSubmit = async () => {
-    try {
-      // helper to lowercase only if it's a string
-      const toLowerSafe = (val) =>
-        typeof val === "string" ? val.toLowerCase() : val;
+  // for single type
+  const singlePayload = {
+    firstName: female.f_name || male.m_name || "",
+    dateOfBirth: female.f_dob || male.m_dob || "",
+    gender: profilePayload,
+    sexuality: female.f_sexuality || male.m_sexuality || "",
+    interestedIn: intrestPayload || [],
+    bio: desc,
+    bodyHair: female.bodyHair || male.bodyHair || [],
+    height: female.f_height || male.m_height || "",
+    weight: female.f_weight || male.m_weight || "",
+    bodyType: female.f_bodyType || male.m_bodyType || "",
+    ethnicBackground: female.f_ethnicBackground || male.m_ethnicBackground || "",
+    smoking: female.f_smoking || male.m_smoking || "",
+    piercings: female.f_piercings || male.m_piercings || "",
+    tattoos: female.f_tattoos || male.m_tattoos || "",
+    languagesSpoken: female.f_languages
+      ? female.f_languages.split(',').map(lang => lang.trim())
+      : male.m_languages ? male.m_languages.split(',').map(lang => lang.trim()) : [] ,
+    looksAreImportant: female.f_looks || male.m_looks || "",
+    intelligenceIsImportant: female.f_intelligence || male.m_intelligence || "",
+    relationshipOrientation: female.f_relationship || male.m_relationship || "",
+    circumcised: circumcised || "",
+    experienceLevel: {
+      curious: female.experience.f_curious || male.experience.m_curious || "",
+      intermediate: female.experience.f_intermediate || male.experience.m_intermediate || "",
+      advanced: female.experience.f_advanced || male.experience.m_advanced || "",
+      newbie: female.experience.f_newbie || male.experience.m_newbie || "",
+    }
+  };
 
-      const payload = {
-        firstName: toLowerSafe(male.m_name || female.f_name || ""),
-        dateOfBirth: male.m_dob || female.f_dob,
-        gender: toLowerSafe(profileType.find((p) => p.value)?.title || ""), // male/female/couple/transgender
-        // sexuality: toLowerSafe(male.m_sexuality || female.f_sexuality || ""),
-        // interestedIn: interestOptions
-        //   .filter((opt) => opt.value)
-        //   .map((opt) => toLowerSafe(opt.title)),
-        bio: toLowerSafe(desc || ""),
-        photos: [], // add photo upload feature later
-        location: {
-          type: "Point",
-          coordinates: [-73.935242, 40.73061], // you can set dynamically
-        },
-        bodyHair: Array.isArray(male.bodyHair) && male.bodyHair.length
-          ? male.bodyHair.map(toLowerSafe)
-          : Array.isArray(female.bodyHair) && female.bodyHair.length
-            ? female.bodyHair.map(toLowerSafe)
-            : [],
-        eyeColor: "", // add if you create input
-        height: male.m_height || female.f_height,
-        weight: male.m_weight || female.f_weight,
-        bodyType: toLowerSafe(male.m_bodyType || female.f_bodyType || ""),
-        ethnicBackground: toLowerSafe(male.m_ethnicBackground || female.f_ethnicBackground || ""),
-        smoking: toLowerSafe(male.m_smoking || female.f_smoking || ""),
-        piercings: toLowerSafe(male.m_piercings || female.f_piercings || ""),
-        tattoos: toLowerSafe(male.m_tattoos || female.f_tattoos || ""),
-        languagesSpoken: [
-          ...(male.m_languages ? [toLowerSafe(male.m_languages)] : []),
-          ...(female.f_languages ? [toLowerSafe(female.f_languages)] : []),
-        ],
-        looksAreImportant:
-          toLowerSafe(male.m_looks) === "very important" ||
-          toLowerSafe(female.f_looks) === "very important",
-        intelligenceIsImportant:
-          toLowerSafe(male.m_intelligence) === "very important" ||
-          toLowerSafe(female.f_intelligence) === "very important",
-        relationshipOrientation: toLowerSafe(male.m_relationship || female.f_relationship || ""),
-        experienceLevel: {
-          curious: male.experience.m_curious || female.experience.f_curious,
-          intermediate: male.experience.m_intermediate || female.experience.f_intermediate,
-          advanced: male.experience.m_advanced || female.experience.f_advanced,
-          newbie: male.experience.m_newbie || female.experience.f_newbie,
-        },
-        circumcised: toLowerSafe(circumcised || ""),
-      };
-
-      console.log("Submitting payload:", payload);
-      console.log("male input", male_input)
-
-      const response = await httpService(`/profile`, "PUT", payload);
-
-      if (response.success) {
-        alert("Profile updated successfully!");
-      } else {
-        alert("Failed to update profile");
+  // for couple
+  const couplePayload = {
+    firstName: female.f_name || "",
+    dateOfBirth: female.f_dob || "",
+    gender: profilePayload,
+    sexuality: female.f_sexuality || "",
+    interestedIn: intrestPayload || [],
+    bio: desc,
+    photos: [],
+    bodyHair: female.bodyHair || [],
+    eyeColor: "",
+    height: female.f_height || "",
+    weight: female.f_weight || "",
+    bodyType: female.f_bodyType || "",
+    ethnicBackground: female.f_ethnicBackground || "",
+    smoking: female.f_smoking || "",
+    piercings: female.f_piercings || "",
+    tattoos: female.f_tattoos || "",
+    languagesSpoken: female.f_languages || "",
+    looksAreImportant: female.f_looks || "",
+    intelligenceIsImportant: female.f_intelligence || "",
+    relationshipOrientation: female.f_relationship || "",
+    circumcised: circumcised || "",
+    experienceLevel: {
+      curious: female.experience.f_curious || "",
+      intermediate: female.experience.f_intermediate || "",
+      advanced: female.experience.f_advanced || "",
+      newbie: female.experience.f_newbie || "",
+    },
+    partner: {
+      firstName: male.m_name || "",
+      lastName: "",
+      dateOfBirth: male.m_dob || "",
+      gender: profilePayload,
+      sexuality: male.m_sexuality || "",
+      interestedIn: intrestPayload || [],
+      bio: desc,
+      photos: [],
+      bodyHair: male.bodyHair || [],
+      eyeColor: "",
+      height: male.m_height || "",
+      weight: male.m_weight || "",
+      bodyType: male.m_bodyType || "",
+      ethnicBackground: male.m_ethnicBackground || "",
+      smoking: male.m_smoking || "",
+      piercings: male.m_piercings || "",
+      tattoos: male.m_tattoos || "",
+      languagesSpoken: male.m_languages || "",
+      looksAreImportant: male.m_looks || "",
+      intelligenceIsImportant: male.m_intelligence || "",
+      relationshipOrientation: male.m_relationship || "",
+      circumcised: circumcised || "",
+      experienceLevel: {
+        curious: male.experience.m_curious || "",
+        intermediate: male.experience.m_intermediate || "",
+        advanced: male.experience.m_advanced || "",
+        newbie: male.experience.m_newbie || "",
       }
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Something went wrong!");
     }
   };
 
 
+  const handleSubmit = async () => {
 
+    if (["Transgender", "Male", "Female"].includes(profileType.find(element => element.value)?.title || "")) {
+      console.log(singlePayload);
+    } else {
+      console.log(couplePayload);
+    }
+  };
 
+  function sendUpdation(payload) {
+    httpService(`/profile`, "PUT", payload);
+
+    if (response.success) {
+      alert("Profile updated successfully!");
+    } else {
+      alert("Failed to update profile");
+    }
+  }
 
 
   // *************testing*******************
