@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaBars, FaSearch, FaFacebookMessenger, FaBell, FaCog, FaTimes } from "react-icons/fa";
 
 import "./css/topbar.css"
@@ -12,41 +12,32 @@ import {
     FaUserCheck, FaStar, FaAddressBook, FaBed, FaUserFriends, FaBullhorn,
     FaTags
 } from "react-icons/fa";
+import httpService from "../../helper/httpService";
 
 const FrontScreenTopBar = () => {
     const { setNotificationHandler } = useAuth();
     const [appear, SetApper] = useState(false)
     const [open, SetOpen] = useState(false)
     const navigate = useNavigate()
+    const [user, SetUser] = useState([])
 
     //search state 
     const [search, setSearch] = useState("");
     // routesConfig.js
 
-    const users = [
-  { path: "/", name: "Home", icon: <FaHome /> },
-  { path: "/subscription", name: "Subscription", icon: <FaEnvelope /> },
-  { path: "/login", name: "Login", icon: <FaEye /> },
-  { path: "/registration", name: "Registration", icon: <FaFire /> },
-  { path: "/second_registration", name: "Second Registration", icon: <FaUserPlus /> },
-  { path: "/chat", name: "Chat", icon: <FaComments /> },
-  { path: "/business_profile", name: "Business Profile", icon: <FaFilm /> },
 
-  // Front-screen
-  { path: "/feed", name: "Feed", icon: <FaCertificate /> },
-  { path: "/profile", name: "Profile", icon: <FaAward /> },
-  { path: "/view", name: "Views", icon: <FaUsers /> },
-  { path: "/online", name: "Online", icon: <FaUsers /> },
-  { path: "/hotdate", name: "Hot Date", icon: <FaCalendarAlt /> },
-  { path: "/create-speeddate", name: "Create Speeddate", icon: <FaCalendarAlt /> },
-  { path: "/livestream", name: "Live Stream", icon: <FaVideo /> },
-  { path: "/messages", name: "Messages", icon: <FaComments /> },
-  { path: "/events", name: "Events", icon: <FaCalendarAlt /> },
-  { path: "/search", name: "Search", icon: <FaSearch /> },
-  { path: "/groups", name: "Groups", icon: <FaUsers /> },
-  { path: "/privacy", name: "Privacy", icon: <FaUsersCog /> },
-  { path: "*", name: "Not Found", icon: <FaUserCheck /> },
-];
+    useEffect(() => {
+        if (!search) return; // prevent unnecessary calls when search is empty
+
+        httpService("/users", "GET", {}, { params: { search } })
+            .then((res) => {
+                console.log("🔍 Search Result:", res?.data);
+                SetUser(res?.data)
+            })
+            .catch((err) => {
+                console.error("❌ Search API Error:", err);
+            });
+    }, [search]);
 
 
     const handleSetting = () => {
@@ -54,10 +45,7 @@ const FrontScreenTopBar = () => {
         console.log(open)
     }
 
-    // Filter users based on search term
-    const filteredUsers = users.filter((user) =>
-        user?.name.toLowerCase().includes(search.toLowerCase())
-    );
+
     return (
         <>
             <div
@@ -99,7 +87,7 @@ const FrontScreenTopBar = () => {
                         <input
                             type="text"
                             className="form-control search-input"
-                            placeholder="Enter text to search..."
+                            placeholder="Enter username to search...."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             style={{
@@ -121,10 +109,15 @@ const FrontScreenTopBar = () => {
                                     zIndex: 1000,
                                 }}
                             >
-                                {filteredUsers.length > 0 ? (
-                                    filteredUsers.map((user, index) => (
-                                        <li key={index} className="list-group-item" onClick={()=>navigate(`${user?.path}`)}>
-                                            {user.icon} {user.name}
+                                {user.length > 0 ? (
+                                    user.map((u, index) => (
+                                        <li
+                                            key={index}
+                                            className="list-group-item text-white"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => navigate(`/profile?i=${u._id}`)} // ✅ Go to profile by ID
+                                        >
+                                            {u.username}
                                         </li>
                                     ))
                                 ) : (
@@ -132,13 +125,14 @@ const FrontScreenTopBar = () => {
                                 )}
                             </ul>
                         )}
+
                     </div>
 
                 </div>
 
                 {/* Right: Icons */}
                 <div className="d-flex align-items-center gap-4 text-white">
-                    <FaFacebookMessenger  onClick={()=>navigate("/chat")}/>
+                    <FaFacebookMessenger onClick={() => navigate("/chat")} />
                     <FaBell className="position-relative" onClick={() => {
                         navigate("/feed")
                         setNotificationHandler()

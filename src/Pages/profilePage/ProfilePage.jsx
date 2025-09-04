@@ -33,7 +33,7 @@ import ProfilePageFollowingCardContainer from '../../components/profileBottomTab
 import FriendsCardContainer from '../../components/profileBottomTabSection/FriendsCardContainer'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { showErrorToast, showSuccessToast, showWarningToast } from '../../components/customToast/CustomToast'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ProfileReportPopup from '../../components/ProfileReportPopup/ProfileReportPopup'
@@ -73,15 +73,22 @@ const ProfilePage = () => {
     const [show, setShow] = useState(false);
 
     const [notsPopup, setNotesPopup] = useState(false)
+    const [user,setUser]=useState("")
     const location = useLocation();
     const { userId, username, role } = location.state || {};
     console.log("profileId", userId)
     console.log(location.state)
 
+      const queryParams = new URLSearchParams(location.search);
+      const userIdFromPrams = queryParams.get("i");
+
+      console.log("xxx",userIdFromPrams)
+
     useEffect(() => {
+        const id = userId || userIdFromPrams
         axios({
             method: 'post',
-            url: `${import.meta.env.VITE_BASE_URL}/users/${userId}/view`,
+            url: `${import.meta.env.VITE_BASE_URL}/users/${id}/view`,
             headers: {
                 'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
                 'Content-Type': 'application/json' // optional
@@ -90,7 +97,8 @@ const ProfilePage = () => {
                 source: "profile_link"
             }
         }).then(response => {
-            console.log(response)
+            console.log("xxxxx",response?.data?.data?.viewedUser?.username)
+            setUser(response?.data?.data?.viewedUser?.username)
             showWarningToast(response?.data?.message)
         })
             .catch(error => {
@@ -156,7 +164,7 @@ const ProfilePage = () => {
                                 <div className="px-2 rounded-4 text-white" style={{ backgroundColor: "var(--color-border)" }}>
                                     <div className="mb-4">
                                         <h5 className="fw-bold fs-2 d-flex align-items-center gap-2">
-                                            {username} <span className="text-warning">★</span>
+                                            {username || user} <span className="text-warning">★</span>
                                             <BsThreeDotsVertical style={{ cursor: "pointer" }} onClick={() => setShow(true)} />
                                         </h5>
                                         <ProfileReportPopup userId={userId} username={username} show={show} setShow={setShow} />
