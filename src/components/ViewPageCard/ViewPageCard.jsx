@@ -221,6 +221,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                   (card?.targetUserId?.profile?.photos && card?.targetUserId?.profile?.photos.length > 0 && card?.targetUserId?.profile?.photos) ||
                   (card?.senderId?.profile?.photos && card?.senderId?.profile?.photos.length > 0 && card?.senderId?.profile?.photos) ||
                   (card?.receiverId?.profile?.photos && card?.receiverId?.profile?.photos.length > 0 && card?.receiverId?.profile?.photos) ||
+                  card?.user?.profile?.photos ||
                   imageList;
 
                 return photos.map((img, idx) => (
@@ -283,7 +284,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
           <div>
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.targetUserId?.username ? card?.targetUserId?.username : card?.receiverId?.username ? card?.receiverId?.username : card?.viewedUserId?.username ? card?.viewedUserId?.username : card?.username}</h4>
+              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userData ? userData?.senderId?.username : card?.targetUserId?.username ? card?.targetUserId?.username : card?.receiverId?.username ? card?.receiverId?.username : card?.viewedUserId?.username ? card?.viewedUserId?.username : card?.user ? card?.user?.username : card?.username}</h4>
 
               {/* <div><img src={star} height={30} alt="Star" /></div> */}
               {

@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import GlobalPageWrapper from '../../components/GlobalPageWrapper'
 import FilterBar from '../../components/FilterBar/FilterBar'
 import { useNavigate } from 'react-router-dom'
 import Groups from '../../components/profilePageBottomCards/groupCard/Groups'
 import CreateGroupPopup from '../../components/CreateGroupPopup/CreateGroupPopup'
+import httpService from '../../helper/httpService'
 
 
 const cards = [
@@ -19,6 +20,26 @@ const cards = [
 
 const MyGroupsPage = () => {
   const [showGroupModal, setShowGroupModal] = useState(false);
+  const [loading, setLoading] = useState(false)
+
+  const [myGroupData, setMyGroupData] = useState([]);
+
+  // ✅ Fetch my group data
+  useEffect(() => {
+    setLoading(true);
+    httpService("/groups/my-groups", "GET")
+      .then((res) => {
+        console.log("group fetch res:", res?.data?.groups );
+        setMyGroupData(res?.data?.groups || []);
+      })
+      .catch((err) => {
+        console.error("Error fetching groups:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   const navigate = useNavigate()
 
   const handleNavigationPage1 = () => {
@@ -37,9 +58,9 @@ const MyGroupsPage = () => {
           <div className="container-fluid">
             <div className="row g-4 pt-4">
               {
-                cards.map((card, index) => (
+                myGroupData.map((card, index) => (
                   <div className="col-12 col-sm-12  col-lg-12 col-xl-4 mt-0" key={index}>
-                    <Groups index={index} />
+                    <Groups index={index} groupData={card}/>
                   </div>
                 ))
               }

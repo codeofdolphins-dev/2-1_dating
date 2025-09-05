@@ -14,6 +14,11 @@ import chat from "./img/chat.png";
 import male from "./img/male.png";
 import female from "./img/female.png";
 import { useNavigate } from "react-router-dom";
+import httpService from "../../../helper/httpService";
+import { showErrorToast, showSuccessToast } from "../../customToast/CustomToast";
+import { ToastContainer } from "react-toastify";
+import OverlayLoader from "../../../helper/OverlayLoader"
+import GlobalPageWrapper from "../../GlobalPageWrapper";
 
 const images = [img1, img2, img3, img4];
 
@@ -21,6 +26,7 @@ const Groups = ({groupData}) => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [swiperInstance, setSwiperInstance] = useState(null);
+  const[loading,setLoading] = useState(false)
   const navigate = useNavigate()
 
 
@@ -45,11 +51,26 @@ const Groups = ({groupData}) => {
   }, [swiperInstance]);
 
   const handleNavifationToIndividualGroup = ()=>{
-    // console.log("id",groupData._id);
-    navigate(`/individual-group?user=${groupData?._id}`);
+    setLoading(true)
+    httpService(`/groups/${groupData?._id}/join`,"POST")
+    .then((res)=>{
+      console.log("group rsponse",res)
+      showSuccessToast(res?.message)
+      if(res?.success)
+      navigate(`/individual-group?user=${groupData?._id}`);
+    })
+    .catch((err)=>{
+      console.log(err)
+      showErrorToast(err?.response?.data?.message)
+    })
+    .finally(() => setLoading(false)); // hide loader
+    
   }
 
   return (
+    <>
+    <ToastContainer/>
+    <OverlayLoader show={loading}/>
     <div
       className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4 mx-auto"
       style={{
@@ -74,13 +95,13 @@ const Groups = ({groupData}) => {
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-2">
           <div>
             <div className="d-flex justify-content-between align-items-center">
-              <h4 className="fw-bold mb-3" style={{color:"var(--color-primary-green)"}}>{groupData?.name}</h4>
+              <h4 className="fw-bold mb-3" style={{color:"var(--color-primary-green)"}}>{groupData?.name || groupData?.group?.name} </h4>
             </div>
 
             <hr className="my-2" />
 
             <div className="mb-2 d-flex gap-2 align-items-center">
-              <p className="mb-0 fw-semibold fs-6">by &nbsp; <span style={{color:"var(--color-primary-green)"}}>{groupData?.creator?.username}</span></p>
+              <p className="mb-0 fw-semibold fs-6">by &nbsp; <span style={{color:"var(--color-primary-green)"}}>{groupData?.creator?.username || groupData?.group?.creator?.username}</span></p>
             </div>
 
             <hr className="my-2" />
@@ -100,7 +121,7 @@ const Groups = ({groupData}) => {
                   <i className="bi bi-file-earmark-text-fill"></i>
                 </div>
                 <div className="small text-white">
-                  <p>{groupData?.postCount}</p>
+                  <p>{groupData?.postCount || groupData?.group?.postCount}</p>
                 </div>
               </div>
               <div className="d-flex gap-2">
@@ -108,7 +129,7 @@ const Groups = ({groupData}) => {
                   <i className="bi bi-people-fill"></i>
                 </div>
                 <div className="small text-white">
-                  <p>{groupData?.memberCount}</p>
+                  <p>{groupData?.memberCount || groupData?.group?.memberCount}</p>
                 </div>
               </div>
             </div>
@@ -132,7 +153,7 @@ const Groups = ({groupData}) => {
         }}
       >
         <p className="mb-2 small">
-          {groupData?.description}
+          {groupData?.description || groupData?.group?.description}
         </p>
         <div
           className="text-primary d-flex align-items-center gap-1"
@@ -145,6 +166,7 @@ const Groups = ({groupData}) => {
       </div>
 
     </div>
+    </>
 
 
   );

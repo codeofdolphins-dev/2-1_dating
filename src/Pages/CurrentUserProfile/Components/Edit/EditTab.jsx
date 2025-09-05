@@ -525,17 +525,13 @@ const EditTab = () => {
                   <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid red" }}>
                     <input
                       type="text"
-                      className="form-control border-0 rounded-0 text-danger px-0" id='f_name'
+                      className="form-control border-0 rounded-0 text-danger px-0 customInput" id='f_name'
                       name='f_name'
                       value={female.f_name}
                       onChange={(e) => setFemale((prev) => ({
                         ...prev,
                         f_name: e.target.value
                       }))}
-                      style={{
-                        fontSize: "20px",
-                        backgroundColor: "transparent"
-                      }}
                     />
                     <label htmlFor='f_name' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill text-danger" style={{ cursor: "pointer" }}></i></label>
                   </div>
