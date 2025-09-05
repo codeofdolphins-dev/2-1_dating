@@ -75,6 +75,7 @@ import OtherUserFriendListpage from './Pages/OtherUserFriendListpage/OtherUserFr
 import { useEffect } from 'react';
 import { useAuth } from './context/AuthContextAPI';
 import WebSocketService from './services/websocket';
+import IndividualGroup from './Pages/IndividualGroup/IndividualGroup';
 
 
 
@@ -171,6 +172,7 @@ function App() {
 
           <Route path="/create-private-party" element={<ProtectedRoute> <CreatePrivateParty /> </ProtectedRoute>} />
           <Route path="/other-user-friendlist" element={<ProtectedRoute> <OtherUserFriendListpage /> </ProtectedRoute>} />
+          <Route path="/individual-group" element={<ProtectedRoute> <IndividualGroup /> </ProtectedRoute>} />
 
         </Routes>
       </BrowserRouter>

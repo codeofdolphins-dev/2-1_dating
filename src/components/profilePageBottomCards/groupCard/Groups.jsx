@@ -13,13 +13,26 @@ import pc from "./img/pc.png";
 import chat from "./img/chat.png";
 import male from "./img/male.png";
 import female from "./img/female.png";
+import { useNavigate } from "react-router-dom";
 
 const images = [img1, img2, img3, img4];
 
-const Groups = () => {
+const Groups = ({groupData}) => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [swiperInstance, setSwiperInstance] = useState(null);
+  const navigate = useNavigate()
+
+
+  const timestamp = groupData?.updatedAt;
+  const date = new Date(timestamp);
+
+  // Format: Sep 04, 2025
+  const options = { year: "numeric", month: "short", day: "2-digit" };
+  const formattedDate = date.toLocaleDateString("en-US", options);
+
+  
+  
 
   useEffect(() => {
     if (swiperInstance && prevRef.current && nextRef.current) {
@@ -30,6 +43,11 @@ const Groups = () => {
       swiperInstance.navigation.update();
     }
   }, [swiperInstance]);
+
+  const handleNavifationToIndividualGroup = ()=>{
+    // console.log("id",groupData._id);
+    navigate(`/individual-group?user=${groupData?._id}`);
+  }
 
   return (
     <div
@@ -56,13 +74,13 @@ const Groups = () => {
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-2">
           <div>
             <div className="d-flex justify-content-between align-items-center">
-              <h4 className="fw-bold mb-3" style={{color:"var(--color-primary-green)"}}>FOR2MORE</h4>
+              <h4 className="fw-bold mb-3" style={{color:"var(--color-primary-green)"}}>{groupData?.name}</h4>
             </div>
 
             <hr className="my-2" />
 
             <div className="mb-2 d-flex gap-2 align-items-center">
-              <p className="mb-0 fw-semibold fs-6">by FUN4TWO</p>
+              <p className="mb-0 fw-semibold fs-6">by &nbsp; <span style={{color:"var(--color-primary-green)"}}>{groupData?.creator?.username}</span></p>
             </div>
 
             <hr className="my-2" />
@@ -71,7 +89,7 @@ const Groups = () => {
               <div>
                 <i className="bi bi-geo-alt-fill"></i>
               </div>
-              <div>94555, CA 94555, USA | 8412 mi</div>
+              <div>{groupData?.location}</div>
             </div>
 
             <hr className="my-2" />
@@ -82,23 +100,23 @@ const Groups = () => {
                   <i className="bi bi-file-earmark-text-fill"></i>
                 </div>
                 <div className="small text-white">
-                  <p>556</p>
+                  <p>{groupData?.postCount}</p>
                 </div>
               </div>
               <div className="d-flex gap-2">
                 <div className="small text-white">
-                  <i className="bi bi-file-earmark-text-fill"></i>
+                  <i className="bi bi-people-fill"></i>
                 </div>
                 <div className="small text-white">
-                  <p>556</p>
+                  <p>{groupData?.memberCount}</p>
                 </div>
               </div>
             </div>
 
             <hr className="my-2" />
 
-            <div className="text-secondary small">
-              <span className="" style={{color:"var(--color-primary-green)"}}>by FOR2MORE</span> Feb 08, 2025
+            <div className="text-danger small" style={{color:"var(--color-primary-green)"}}>
+              <div className="" >Since &nbsp;{formattedDate}</div>
             </div>
           </div>
         </div>
@@ -114,11 +132,12 @@ const Groups = () => {
         }}
       >
         <p className="mb-2 small">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, doloribus maiores placeat eaque rem enim.
+          {groupData?.description}
         </p>
         <div
           className="text-primary d-flex align-items-center gap-1"
           style={{ cursor: "pointer" }}
+          onClick={handleNavifationToIndividualGroup}
         >
           <i className="bi bi-plus" />
           <span>Join</span>
