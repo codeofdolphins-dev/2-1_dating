@@ -66,6 +66,10 @@ const CreatePrivateParty = () => {
 
     }, [details])
 
+    const handleSubmit = () =>{
+        console.log("private party",startTime,endTime,openFor,ages,country,event,details_char_len,details,incognito,promote,inviteFriend,showList)
+    }
+
 
     return (
         <>
@@ -574,7 +578,7 @@ const CreatePrivateParty = () => {
                     {/* submit button */}
                     <section className='mt-3'>
                         <p className='mb-4' style={{ fontSize: "14px" }}>2+1 has final approval on which parties get posted. Once your party is approved it will be automatically added to our private party list, and you will receive a notification. It can take 24 hours before approval is completed.</p>
-                        <button type="submit" className='custom-button rounded-5 py-1 border-0' style={{ width: "160px" }}>Post</button>
+                        <button type="submit" className='custom-button rounded-5 py-1 border-0' style={{ width: "160px" }} onClick={handleSubmit}>Post</button>
                     </section>
 
                 </div>

@@ -9,6 +9,7 @@ import { showSuccessToast, showErrorToast } from "../../../components/customToas
 import httpService from "../../../helper/httpService"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import RegistrationprofileImgUpload from "../../../components/registrationprofileImgUpload/RegistrationprofileImgUpload";
 
 const SecondRegistrationForm = () => {
     const navigate = useNavigate()
@@ -92,7 +93,7 @@ const SecondRegistrationForm = () => {
             setPreview(imageUrl);
             setFormData((prev) => ({
                 ...prev,
-                profileImage: "https://dummyimage.com/300",
+                profileImage: file, // store actual file
             }));
         }
     };
@@ -103,106 +104,88 @@ const SecondRegistrationForm = () => {
         console.log("Form submitted:", formData);
 
         try {
-            // ✅ Validation rules
+            // ✅ Validation (same as before)
             const yearRegex = /^\d{4}$/;
             const day = parseInt(formData.dobDay, 10);
             const month = parseInt(formData.dobMonth, 10);
             const year = formData.dobYear;
 
-            if (!yearRegex.test(year)) {
-                throw new Error("Your birth year must be 4 digits (YYYY).");
-            }
-            if (day < 1 || day > 31) {
-                throw new Error("Day must be between 1 and 31.");
-            }
-            if (month < 1 || month > 12) {
-                throw new Error("Month must be between 1 and 12.");
-            }
+            if (!yearRegex.test(year)) throw new Error("Your birth year must be 4 digits (YYYY).");
+            if (day < 1 || day > 31) throw new Error("Day must be between 1 and 31.");
+            if (month < 1 || month > 12) throw new Error("Month must be between 1 and 12.");
 
-            // ✅ Age validation for main user
-            const userDob = new Date(`${year}-${month}-${day}`);
+            // ✅ Age check
             const today = new Date();
+            const userDob = new Date(`${year}-${month}-${day}`);
             const userAge =
                 today.getFullYear() - userDob.getFullYear() -
                 (today.getMonth() < userDob.getMonth() ||
                     (today.getMonth() === userDob.getMonth() && today.getDate() < userDob.getDate()) ? 1 : 0);
+            if (userAge < 18) throw new Error("You must be at least 18 years old.");
 
-            if (userAge < 18) {
-                throw new Error("You must be at least 18 years old.");
+            // ✅ Step 1: Upload image if exists
+            let uploadedImageUrl = null;
+            if (formData.profileImage) {
+                const imageForm = new FormData();
+                imageForm.append("file", formData.profileImage);
+                imageForm.append("folder", "profiles");
+                imageForm.append("optimize", true);
+                imageForm.append("createThumbnail", true);
+
+                const uploadRes = await httpService("/media/upload/single", "POST", imageForm, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+
+                console.log("uploadRes", uploadRes)
+
+                uploadedImageUrl = uploadRes?.data?.files?.thumbnail?.url || null;
+                console.log("✅ Uploaded Image URL:", uploadedImageUrl);
             }
 
-            // ✅ Partner validation (only if couple)
-            if (formData.gender === "couple") {
-                const partnerDay = parseInt(formData.partnerDobDay, 10);
-                const partnerMonth = parseInt(formData.partnerDobMonth, 10);
-                const partnerYear = formData.partnerDobYear;
-
-                if (!yearRegex.test(partnerYear)) {
-                    throw new Error("Partner's birth year must be 4 digits (YYYY).");
-                }
-                if (partnerDay < 1 || partnerDay > 31) {
-                    throw new Error("Partner's day must be between 1 to 31.");
-                }
-                if (partnerMonth < 1 || partnerMonth > 12) {
-                    throw new Error("Partner's month must be between 1 to 12.");
-                }
-
-                // ✅ Age validation for partner
-                const partnerDob = new Date(`${partnerYear}-${partnerMonth}-${partnerDay}`);
-                const partnerAge =
-                    today.getFullYear() - partnerDob.getFullYear() -
-                    (today.getMonth() < partnerDob.getMonth() ||
-                        (today.getMonth() === partnerDob.getMonth() && today.getDate() < partnerDob.getDate()) ? 1 : 0);
-
-                if (partnerAge < 18) {
-                    throw new Error("Partner must also be at least 18 years old.");
-                }
-            }
-
-            // ✅ Prepare payload
+            // ✅ Step 2: Prepare final payload (send image URL, not file)
             const payload =
                 formData.gender === "couple"
                     ? {
-                        gender: formData?.gender,
-                        sexuality: formData?.sexuality,
-                        dateOfBirth: formData?.dob,
-                        interestedIn: formData?.interestedIn,
+                        gender: formData.gender,
+                        sexuality: formData.sexuality,
+                        dateOfBirth: formData.dob,
+                        interestedIn: formData.interestedIn,
                         address: {
-                            street: formData?.street,
-                            city: formData?.city,
-                            state: formData?.state,
-                            country: formData?.country,
-                            zipcode: formData?.zipcode,
+                            street: formData.street,
+                            city: formData.city,
+                            state: formData.state,
+                            country: formData.country,
+                            zipcode: formData.zipcode,
                         },
                         partner: {
-                            dateOfBirth: formData?.partnerDob,
-                            sexuality: formData?.sexualityPartner,
+                            dateOfBirth: formData.partnerDob,
+                            sexuality: formData.sexualityPartner,
                         },
                         bio: formData.profileText,
-                        mainPhoto: formData?.profileImage,
+                        mainPhoto: uploadedImageUrl, // use uploaded url
                     }
                     : {
-                        gender: formData?.gender,
-                        sexuality: formData?.sexuality,
-                        dateOfBirth: formData?.dob,
-                        interestedIn: formData?.interestedIn,
+                        gender: formData.gender,
+                        sexuality: formData.sexuality,
+                        dateOfBirth: formData.dob,
+                        interestedIn: formData.interestedIn,
                         address: {
-                            street: formData?.street,
-                            city: formData?.city,
-                            state: formData?.state,
-                            country: formData?.country,
-                            zipcode: formData?.zipcode,
+                            street: formData.street,
+                            city: formData.city,
+                            state: formData.state,
+                            country: formData.country,
+                            zipcode: formData.zipcode,
                         },
                         bio: formData.profileText,
-                        mainPhoto: formData?.profileImage,
+                        mainPhoto: uploadedImageUrl, // use uploaded url
                     };
 
-            // ✅ API Call
+            // ✅ Step 3: Update onboarding
             const response = await httpService(`/onboarding/update`, "PUT", payload);
 
-            if (response && response?.message) {
-                showSuccessToast(response?.message);
-                navigate("/feed");
+            if (response?.message) {
+                showSuccessToast(response.message);
+                // navigate("/feed");
             } else {
                 showErrorToast("Something went wrong. Please try again.");
             }
@@ -215,7 +198,7 @@ const SecondRegistrationForm = () => {
                 "An unexpected error occurred.";
             showErrorToast(errorMsg);
         } finally {
-            SetLoader(false); // ✅ Always stop loader
+            SetLoader(false);
         }
     };
 
@@ -223,7 +206,7 @@ const SecondRegistrationForm = () => {
 
     return (
         <div className="container py-5 text-white" style={{ maxWidth: "500px" }}>
-            <ToastContainer/>
+            <ToastContainer />
             <div className="card text-white p-4 rounded-4" style={{ backgroundColor: "var(--color-border)" }}>
                 <form onSubmit={handleSubmit}>
 

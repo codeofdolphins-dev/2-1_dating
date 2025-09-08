@@ -6,7 +6,7 @@ import { BsEmojiSmile, BsSend } from 'react-icons/bs';
 import Form from 'react-bootstrap/Form';
 import httpService from '../helper/httpService';
 
-const ChatComponent = ({ receiverId, otherUserName }) => {
+const ChatComponent = ({ receiverId, otherUserName,groupMessageId }) => {
   const { user, messagereceiverName, groupMessageName} = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -16,6 +16,8 @@ const ChatComponent = ({ receiverId, otherUserName }) => {
   const messagesEndRef = useRef(null); // 🔹 ref for auto-scroll
 
   const myUserId = user?.data?.user?._id;
+
+  console.log("groupIdOnChatComponent",groupMessageId)
 
   /** 🔹 Load conversation initially */
   const fetchConversation = useCallback(async () => {

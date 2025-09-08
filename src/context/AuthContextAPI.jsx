@@ -61,7 +61,7 @@ export function AuthProvider({ children }) {
   // console.log("friemdListUsername",userNameFromFriendListPage)
   // console.log("receiverMessageId",messagereceiverId)
   // console.log("receiverMessageName",messagereceiverName)
-  // console.log("selectedGroupId",groupMessageId)
+  console.log("selectedGroupId",groupMessageId)
   // console.log("selectedGroupId",groupMessageName)
 
   return (

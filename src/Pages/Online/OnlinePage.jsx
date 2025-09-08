@@ -51,22 +51,28 @@ const OnlinePage = () => {
     setLoading(true);
     try {
       const token = sessionStorage.getItem("jwtToken");
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        params: { page, limit },
+        params: {
+          page,
+          limit,
+          online: true  // ✅ send online as param instead of hardcoding
+        },
       };
 
       const response = await axios.get(`${apiUrl}/users`, config);
-      const members = response?.data?.data || [];
-      // console.log("onlnile response", response?.data)
 
+      const members = response?.data?.data || [];
       const totalCount = response?.data?.meta?.pagination?.total || null;
       const apiTotalPages = response?.data?.meta?.pagination?.pageCount || null;
 
       setCards(members);
+
+      console.log("members",members)
 
       if (totalCount !== null) {
         setTotalPages(Math.ceil(totalCount / limit));
@@ -77,17 +83,20 @@ const OnlinePage = () => {
       }
     } catch (error) {
       console.error("Failed to fetch members:", error);
-      showErrorToast(`Please login again. ${error?.response?.data?.message || "An error occurred."}`);
+      showErrorToast(
+        `Please login again. ${error?.response?.data?.message || "An error occurred."}`
+      );
     } finally {
       setLoading(false);
     }
   };
 
+
   useEffect(() => {
     fetchMembers(currentPage, itemsPerPage);
   }, [currentPage, itemsPerPage]);
 
-   console.log("friends",cards)
+  console.log("friends", cards)
 
   return (
     <>

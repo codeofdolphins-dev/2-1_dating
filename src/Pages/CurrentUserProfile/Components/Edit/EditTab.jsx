@@ -207,6 +207,8 @@ const EditTab = () => {
         field.id === id ? { ...field, value: !field.value } : field
       ))
     ));
+
+    setInterestOptions|("male")
   };
 
   const femaleExperienceHandler = (e) => {
@@ -244,7 +246,7 @@ const EditTab = () => {
 
   // prepare payload data
   const intrestPayload = interestOptions.filter(element => element.value).map(item => item.title);
-  const profilePayload = profileType.find(element => element.value)?.title || "";
+  const profilePayload = profileType.find(element => element.value)?.title.toLowerCase() || "";
 
   // for single type
   const singlePayload = {

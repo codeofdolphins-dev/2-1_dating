@@ -244,7 +244,7 @@ const Chat = () => {
               </div>
             </div>
           </div> */}
-            <ChatComponent receiverId={messagereceiverId || groupMessageId}/>
+            <ChatComponent receiverId={messagereceiverId} groupMessageId={groupMessageId} />
 
         </div>
       </div>
