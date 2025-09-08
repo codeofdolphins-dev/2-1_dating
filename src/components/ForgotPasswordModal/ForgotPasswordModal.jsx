@@ -21,6 +21,7 @@ const ForgotPasswordModal = ({ show, onHide }) => {
     });
     const [errors, setErrors] = useState({});
     const [otpTimer, setOtpTimer] = useState(0);
+    const [otp, setOtp] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -58,13 +59,16 @@ const ForgotPasswordModal = ({ show, onHide }) => {
 
         axios
             .post(`${apiUrl}/auth/forgot-password`, {
-                phone: `+${formData.countryCode}${formData.phoneNumber}`,
+                // identifier: `+${formData.countryCode}${formData.phoneNumber}`,
+                identifier: `bdey77185@gmail.com`,
                 // email: formData.email,
             })
             .then((res) => {
-                const otp = res.data?.data?.code;
+                const otp = res.data?.data?.otpCode;
+                console.log("otp",otp)
+                setOtp(otp)
                 toast.success("OTP sent successfully!");
-
+                console.log("otp response",res)
                 // Custom OTP toast
                 toast(
                     <div
@@ -132,8 +136,10 @@ const ForgotPasswordModal = ({ show, onHide }) => {
         }
 
         axios.post(`${apiUrl}/auth/verify-reset-otp`, {
-            email: formData.email,
+            // identifier: formData.phoneNumber,
+            identifier:"bdey77185@gmail.com",
             otp: formData.phoneOtp,
+            type: "email"
         })
             .then((res) => {
                 if (res.data.success) {

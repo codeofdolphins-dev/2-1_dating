@@ -5,18 +5,18 @@ import { useNavigate } from "react-router-dom";
 import Groups from "../../components/profilePageBottomCards/groupCard/Groups";
 import CreateGroupPopup from "../../components/CreateGroupPopup/CreateGroupPopup";
 import httpService from "../../helper/httpService";
-import OverlayLoader from "../../helper/OverlayLoader"; // ✅ import your loader
+import OverlayLoader from "../../helper/OverlayLoader";
 
 const GroupsPage = () => {
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [groupData, setGroupData] = useState([]);
-  const [loading, setLoading] = useState(false); // ✅ handles loader
-  const [refresh, setRefresh] = useState(false); // ✅ trigger refetch
-  const [isMyGroupPage, setIsMyGroupPage] = useState("groups"); // ✅ default page
+  const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [isMyGroupPage, setIsMyGroupPage] = useState(false); // ✅ false = Groups, true = My Groups
 
   const navigate = useNavigate();
 
-  // ✅ Fetch group data
+  // ✅ Fetch groups
   useEffect(() => {
     setLoading(true);
     httpService("/groups", "GET")
@@ -30,15 +30,16 @@ const GroupsPage = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [refresh]); // ✅ refetch when refresh changes
+  }, [refresh]);
 
-  const handleNavigation = (page) => {
-    if (page === "my-groups") {
-      setIsMyGroupPage("my-groups");
-      navigate("/my-groups");
-    } else if (page === "groups") {
-      setIsMyGroupPage("groups");
+  // ✅ Handle navigation toggle
+  const handleNavigationToggle = () => {
+    if (isMyGroupPage) {
+      setIsMyGroupPage(false);
       navigate("/groups");
+    } else {
+      setIsMyGroupPage(true);
+      navigate("/my-groups");
     }
   };
 
@@ -48,23 +49,14 @@ const GroupsPage = () => {
 
   return (
     <GlobalPageWrapper>
-      {isMyGroupPage === "groups" ? (
-        <FilterBar
-          pageName={"Groups"}
-          navigationPageName1={"My Groups"}
-          navigationPageName2={"+Create A Group"}
-          navigationToAnotherPage={() => handleNavigation("my-groups")}
-          navigationToAnotherPage2={handleOpenGroupModal}
-          filterName2={"Filter"}
-        />
-      ) : (
-        <FilterBar
-          pageName={"My Groups"}
-          navigationPageName1={"Groups"}
-          navigationToAnotherPage={() => handleNavigation("groups")}
-          navigationToAnotherPage2={handleOpenGroupModal}
-        />
-      )}
+      <FilterBar
+        pageName={isMyGroupPage ? "My Groups" : "Groups"}
+        navigationPageName1={isMyGroupPage ? "All Groups" : "My Groups"}
+        navigationToAnotherPage={handleNavigationToggle}
+        navigationPageName2={"+Create A Group"} // ✅ Hide when "My Groups"
+        navigationToAnotherPage2={handleOpenGroupModal}
+        filterName2={!isMyGroupPage ? "Filter" : null} // ✅ Hide when "My Groups"
+      />
 
       <div className="client-page-background">
         <div className="container-fluid">
@@ -88,10 +80,10 @@ const GroupsPage = () => {
       <CreateGroupPopup
         show={showGroupModal}
         handleClose={() => setShowGroupModal(false)}
-        refreshGroups={() => setRefresh((prev) => !prev)} // ✅ toggle refresh to refetch
+        refreshGroups={() => setRefresh((prev) => !prev)}
       />
 
-      {/* ✅ Loader overlay */}
+      {/* ✅ Loader */}
       <OverlayLoader show={loading} text="Loading groups..." />
     </GlobalPageWrapper>
   );

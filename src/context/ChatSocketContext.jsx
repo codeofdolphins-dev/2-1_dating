@@ -14,7 +14,7 @@ export function ChatSocketProvider({ children }) {
   useEffect(() => {
     if (!token) return;
 
-    const chatSocket = io("ws://localhost:5000/chat", { auth: { token } });
+    const chatSocket = io(`${import.meta.env.VITE_BASE_URL}/chat`, { auth: { token } });
     setSocket(chatSocket);
 
     chatSocket.on("new_personal_message", (msg) => {

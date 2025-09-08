@@ -233,10 +233,15 @@ const RegistrationForm = () => {
               const data = response?.data
               sessionStorage.setItem('jwtToken', token);
               toast.success('Account created successfully!');
+              console.log("registration response",response)
                
               setLoading(false)
               // Redirect to next step
-              setTimeout(() => navigate('/second_registration'), 100);
+              if(response?.data?.success){
+                setTimeout(() => navigate('/second_registration'), 100);
+              }else{
+                setTimeout(() => navigate('/registration'), 100);
+              }
               registration(data,token);
             })
             .catch((error) => {
