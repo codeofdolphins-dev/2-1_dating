@@ -3,6 +3,7 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 const LiveStreamingCardVideoPopup = ({ show, handleClose, videoSrc }) => {
+    console.log("videoSrc",videoSrc)
     return (
         <Modal show={show} onHide={handleClose} centered size="lg" backdrop="static">
             <Modal.Body className="p-0 bg-black rounded">

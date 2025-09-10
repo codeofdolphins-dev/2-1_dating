@@ -200,7 +200,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
   return (
     <>
-      <ToastContainer />
+      
       <div className="row g-3 rounded-4 text-white pb-2 ml-3"
         style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}
       >
@@ -530,6 +530,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
         <DeviceInfoPopup show={show} setShow={setShow} />
       </div>
+      {/* <ToastContainer /> */}
     </>
   );
 };

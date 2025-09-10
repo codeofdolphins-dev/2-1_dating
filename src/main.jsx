@@ -8,9 +8,10 @@ import { ChatSocketProvider } from "./context/ChatSocketContext.jsx";
 
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+   <>
     <AuthProvider>
         <App />
     </AuthProvider>
-  </StrictMode>
+   </>
+  
 );

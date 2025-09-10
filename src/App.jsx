@@ -99,7 +99,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer />
+      
 
       {/* basename="/2-1_dating" */}
 
@@ -176,6 +176,7 @@ function App() {
 
         </Routes>
       </BrowserRouter>
+      <ToastContainer/>
     </>
   )
 }

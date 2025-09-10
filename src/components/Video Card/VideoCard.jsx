@@ -16,16 +16,13 @@ import ActionMenu from "../ViewPageCard/ActionMenu/Actionmenu";
 import LiveStreamingCardVideoPopup from "../LiveStreamingCardVideoPopup/LiveStreamingCardVideoPopup";
 
 import video from "../../assets/PopupDemoVideo/243647_small.mp4"
+import AgeCalculator from "../../helper/DobCalculator";
+
+import couple from "../../assets/icons/couple_custom.png"
 
 
-const VideoCard = ({
-    headerText = "demo",
-    maleNumbers = "57",
-    femaleNumbers = "58",
-    location = "Altedo, ITA | 4256 mi",
-    views = "68",
-    onClick
-}) => {
+const VideoCard = ({ card }) => {
+    console.log("video src",card)
     const [showMessagePopup, setShowMessagePopup] = useState(false);
     const [showPlayerPopup, setShowPlayerPopup] = useState(false);
 
@@ -35,7 +32,7 @@ const VideoCard = ({
             style={{
                 backgroundColor: "var(--color-border)",
                 // backgroundColor: "#343A40",
-                border:"2px solid #ffff",
+                border: "2px solid #ffff",
                 width: "auto",
                 borderRadius: "15px"
             }}
@@ -52,7 +49,7 @@ const VideoCard = ({
                         className="position-absolute top-50 start-50 translate-middle"
                         style={{ zIndex: 2 }}
                         // onClick={() => setShowPlayerPopup(true)}
-                        onClick={() => onClick()}
+                        onClick={() => (setShowPlayerPopup(true))}
                     >
                         <div
                             className="rounded-circle d-flex justify-content-center align-items-center"
@@ -74,7 +71,7 @@ const VideoCard = ({
                     <LiveStreamingCardVideoPopup
                         show={showPlayerPopup}
                         handleClose={() => setShowPlayerPopup(false)}
-                        videoSrc={video} // Replace with your video URL
+                        videoSrc={card?.url} // Replace with your video URL
                     />
                 </div>
 
@@ -94,36 +91,57 @@ const VideoCard = ({
             <div className="col-lg-6 d-flex flex-column justify-content-between mt-0">
                 {/* <div className="d-flex justify-content-between align-items-center mb-2"> */}
                 <div className="cardTitle">
-                    <h4 className="fw-bold mb-0">{headerText}</h4>
+                    <h4 className="fw-bold mb-0">{card?.user?.username || "User"}</h4>
                     <img src={starIcon} height={20} alt="star" />
                 </div>
                 {/* </div> */}
 
                 <div className="d-flex align-items-center gap-3 mb-2 fw-semibold mt-2 border-bottom pb-2">
-                    <div className="d-flex align-items-center gap-1">
-                        <img src={femaleIcon} height={14} alt="female" />
-                        <span className="text-danger"> {femaleNumbers} </span>
-                    </div>
+                    {
+                        card?.user?.partner?.age === !null && <div className="d-flex align-items-center gap-1">
+                            <img src={femaleIcon} height={14} alt="female" />
+                            <span className="text-danger"> {AgeCalculator(card?.user?.partner?.age || 0)} </span>
+                        </div>
+                    }
+
                     <div className="d-flex align-items-center gap-1">
                         <img src={maleIcon} height={14} alt="male" />
-                        <span className="text-primary"> {maleNumbers} </span>
+                        <span className="text-primary"> {card?.user?.age} </span>
                     </div>
                 </div>
 
                 <div className="text-muted small d-flex align-items-center gap-1 border-bottom pb-2">
                     <div className="text-white py-1 d-flex justify-content-center align-items-center gap-3 ">Interests:
                         <div className="">
-                            <img src={femaleIcon} height={14} alt="male" />
-                            <img src={maleIcon} height={14} alt="male" />
-                            <img src={femaleIcon} height={14} alt="male" />
+                            {card?.user?.interestedIn?.map((e, idx) =>
+                                e === "male" ? (
+                                    <img key={idx} src={maleIcon} height={14} alt="male" />
+                                ) : e === "female" ? (
+                                    <img key={idx} src={femaleIcon} height={14} alt="female" />
+                                ) : e === "couple" ? (
+                                    <img key={idx} src={couple} height={14} alt="female" />
+                                ) : null
+                            )}
                         </div>
+
                     </div>
                 </div>
 
-                <div className="text-muted small d-flex align-items-center gap-1 mb-2 mt-2 border-bottom pb-2">
+                <div className="text-muted small d-flex align-items-start gap-1 mb-2 mt-2 border-bottom pb-2">
                     <i className="bi bi-geo-alt-fill text-white" />
-                    <div className="text-white py-1"> {location} </div>
+                    <div
+                        className="text-white py-1"
+                        style={{
+                            maxHeight: "40px",       // limit height
+                            overflowY: "auto",       // make scrollable if too long
+                            wordBreak: "break-word", // handle very long words
+                            flex: 1                  // take remaining space
+                        }}
+                    >
+                        {card?.user?.location?.address?.fullAddress || "No Address"}
+                    </div>
                 </div>
+
 
 
                 <div className="d-flex align-items-center gap-4 mb-3 mt-2">
@@ -139,7 +157,7 @@ const VideoCard = ({
                         <img src={clockIcon} height={25} alt="phone" />
                     </div>
                     <div className="d-flex align-items-center justify-content-center text-white-50">
-                        <p className="mb-0 fs-6" style={{ color: "#EC5252", fontSize: "10px" }}>{views} views</p>
+                        {/* <p className="mb-0 fs-6" style={{ color: "#EC5252", fontSize: "10px" }}>{views} views</p> */}
                     </div>
                 </div>
             </div>
