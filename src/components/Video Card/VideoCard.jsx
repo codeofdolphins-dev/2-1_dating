@@ -98,9 +98,10 @@ const VideoCard = ({ card }) => {
 
                 <div className="d-flex align-items-center gap-3 mb-2 fw-semibold mt-2 border-bottom pb-2">
                     {
-                        card?.user?.partner?.age === !null && <div className="d-flex align-items-center gap-1">
+                        card?.user?.partner?.age &&
+                        <div className="d-flex align-items-center gap-1">
                             <img src={femaleIcon} height={14} alt="female" />
-                            <span className="text-danger"> {AgeCalculator(card?.user?.partner?.age || 0)} </span>
+                            <span className="text-danger"> {card?.user?.partner?.age || 0} </span>
                         </div>
                     }
 

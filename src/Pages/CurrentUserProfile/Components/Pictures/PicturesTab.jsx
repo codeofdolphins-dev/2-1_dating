@@ -217,6 +217,7 @@ const PicturesTab = () => {
                 <img
                   src={URL.createObjectURL(img)}
                   alt={`preview-${idx}`}
+                  accept="image/*"   
                   style={{
                     height: "316px",
                     width: "389px",

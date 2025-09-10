@@ -152,7 +152,7 @@ const CurrentUserPohotoPostAdult = () => {
           </button>
           <input
             type="file"
-            accept="image/*,video/*"
+            accept="image/*"
             ref={inputRef}
             multiple
             style={{ display: "none" }}
