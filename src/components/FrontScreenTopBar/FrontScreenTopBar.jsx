@@ -113,16 +113,42 @@ const FrontScreenTopBar = () => {
                                     user.map((u, index) => (
                                         <li
                                             key={index}
-                                            className="list-group-item text-white"
-                                            style={{ cursor: "pointer" }}
+                                            className="list-group-item d-flex align-items-center gap-2 text-white"
+                                            style={{
+                                                cursor: "pointer",
+                                                backgroundColor: "transparent",
+                                                border: "none",
+                                                padding: "8px 12px",
+                                            }}
                                             onClick={() => navigate(`/profile?i=${u._id}`)} // ✅ Go to profile by ID
                                         >
-                                            {u.username}
+                                            {/* ✅ Profile Image */}
+                                            <img
+                                                src={u?.profile?.photos?.[0] || "https://dummyimage.com/300"} // fallback if no photo
+                                                alt={u.username}
+                                                style={{
+                                                    width: "32px",
+                                                    height: "32px",
+                                                    borderRadius: "50%",
+                                                    objectFit: "cover",
+                                                }}
+                                            />
+
+                                            {/* ✅ Username */}
+                                            <span
+                                                style={{
+                                                    fontSize: "14px",
+                                                    fontWeight: "500",
+                                                }}
+                                            >
+                                                {u.username}
+                                            </span>
                                         </li>
                                     ))
                                 ) : (
-                                    <li className="list-group-item text-white">No results found</li>
+                                    <p className="text-muted px-2">No users found</p>
                                 )}
+
                             </ul>
                         )}
 

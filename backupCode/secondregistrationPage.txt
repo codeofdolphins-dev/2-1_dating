@@ -32,14 +32,11 @@ const SecondRegistrationForm = () => {
         country: "",
         zipcode: "",
         profileText: "",
-        profileImage: [],
+        profileImage: null,
     });
 
-    const [preview, setPreview] = useState([]);
-    const [profileImages, setProfileImages] = useState([]);
-
     const fileInputRef = useRef(null);
-    // const [preview, setPreview] = useState(null);
+    const [preview, setPreview] = useState(null);
     const [loader, SetLoader] = useState(false)
 
     // Auto-update dob & partnerDob when fields change
@@ -89,33 +86,17 @@ const SecondRegistrationForm = () => {
         }));
     };
 
-    // const handleFileChange = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         const imageUrl = URL.createObjectURL(file);
-    //         setPreview(imageUrl);
-    //         setFormData((prev) => ({
-    //             ...prev,
-    //             profileImage: file,
-    //         }));
-    //     }
-    // };
-
-
-    // ✅ Allow appending multiple images instead of overwriting
     const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-
-        if (files.length > 0) {
-            const newFiles = files.slice(0, 4 - profileImages.length); // only take what's needed
-            const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
-
-            setPreview((prev) => [...prev, ...newPreviews]);
-            setProfileImages((prev) => [...prev, ...newFiles]);
+        const file = e.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setPreview(imageUrl);
+            setFormData((prev) => ({
+                ...prev,
+                profileImage: file, // store actual file
+            }));
         }
     };
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -123,33 +104,45 @@ const SecondRegistrationForm = () => {
         console.log("Form submitted:", formData);
 
         try {
-            // ... your DOB + validation checks stay the same
+            // ✅ Validation (same as before)
+            const yearRegex = /^\d{4}$/;
+            const day = parseInt(formData.dobDay, 10);
+            const month = parseInt(formData.dobMonth, 10);
+            const year = formData.dobYear;
 
-            // ✅ Step 1: Upload multiple images
-            let uploadedImageUrls = [];
-            if (profileImages.length > 0) {
+            if (!yearRegex.test(year)) throw new Error("Your birth year must be 4 digits (YYYY).");
+            if (day < 1 || day > 31) throw new Error("Day must be between 1 and 31.");
+            if (month < 1 || month > 12) throw new Error("Month must be between 1 and 12.");
+
+            // ✅ Age check
+            const today = new Date();
+            const userDob = new Date(`${year}-${month}-${day}`);
+            const userAge =
+                today.getFullYear() - userDob.getFullYear() -
+                (today.getMonth() < userDob.getMonth() ||
+                    (today.getMonth() === userDob.getMonth() && today.getDate() < userDob.getDate()) ? 1 : 0);
+            if (userAge < 18) throw new Error("You must be at least 18 years old.");
+
+            // ✅ Step 1: Upload image if exists
+            let uploadedImageUrl = null;
+            if (formData.profileImage) {
                 const imageForm = new FormData();
-                profileImages.forEach((file) => {
-                    imageForm.append("files", file); // multiple files key = "files"
-                });
+                imageForm.append("file", formData.profileImage);
                 imageForm.append("folder", "profiles");
                 imageForm.append("optimize", true);
+                imageForm.append("createThumbnail", true);
 
-                const uploadRes = await httpService(
-                    "/media/upload/multiple",
-                    "POST",
-                    imageForm,
-                    { headers: { "Content-Type": "multipart/form-data" } }
-                );
+                const uploadRes = await httpService("/media/upload/single", "POST", imageForm, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
 
-                console.log("uploadRes", uploadRes);
+                console.log("uploadRes", uploadRes)
 
-                // Extract array of URLs from API response
-                uploadedImageUrls = uploadRes?.data?.results?.map((f) => f?.files?.original?.url) || [];
-                console.log("✅ Uploaded Image URLs:", uploadedImageUrls);
+                uploadedImageUrl = uploadRes?.data?.files?.thumbnail?.url || null;
+                console.log("✅ Uploaded Image URL:", uploadedImageUrl);
             }
 
-            // ✅ Step 2: Prepare payload (send array of URLs instead of single)
+            // ✅ Step 2: Prepare final payload (send image URL, not file)
             const payload =
                 formData.gender === "couple"
                     ? {
@@ -169,7 +162,7 @@ const SecondRegistrationForm = () => {
                             sexuality: formData.sexualityPartner,
                         },
                         bio: formData.profileText,
-                        photos: uploadedImageUrls, // <-- array of photos
+                        mainPhoto: uploadedImageUrl, // use uploaded url
                     }
                     : {
                         gender: formData.gender,
@@ -184,17 +177,15 @@ const SecondRegistrationForm = () => {
                             zipcode: formData.zipcode,
                         },
                         bio: formData.profileText,
-                        photos: uploadedImageUrls, // <-- array of photos
+                        mainPhoto: uploadedImageUrl, // use uploaded url
                     };
 
             // ✅ Step 3: Update onboarding
             const response = await httpService(`/onboarding/update`, "PUT", payload);
 
             if (response?.message) {
-                console.log("response_secondRegistration",response?.data)
-                localStorage.setItem("userId",response?.data?.user?._id)
                 showSuccessToast(response.message);
-                navigate("/feed");
+                // navigate("/feed");
             } else {
                 showErrorToast("Something went wrong. Please try again.");
             }
@@ -440,7 +431,7 @@ const SecondRegistrationForm = () => {
                     </Form.Group>
 
                     {/* Image Upload */}
-                    {/* <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Label>Main Profile Picture *</Form.Label>
                         <label
                             htmlFor="photo-upload"
@@ -475,51 +466,7 @@ const SecondRegistrationForm = () => {
                                 style={{ display: "none" }}
                             />
                         </label>
-                    </Form.Group> */}
-
-
-
-                    <Form.Group className="mb-3">
-                        <Form.Label>Main Profile Pictures *</Form.Label>
-                        <div className="d-flex flex-wrap gap-2">
-                            {preview.map((img, idx) => (
-                                <img
-                                    key={idx}
-                                    src={img}
-                                    alt={`Preview ${idx}`}
-                                    className="rounded"
-                                    style={{ width: "110px", height: "110px", objectFit: "cover" }}
-                                />
-                            ))}
-
-                            {/* ✅ Only show upload box if less than 2 images */}
-                            {preview.length < 4 && (
-                                <label
-                                    htmlFor="photo-upload"
-                                    className="d-flex flex-column align-items-center justify-content-center"
-                                    style={{
-                                        width: "110px",
-                                        height: "110px",
-                                        backgroundColor: "var(--color-background)",
-                                        border: "2px dashed var(--color-primary-green)",
-                                        cursor: "pointer",
-                                    }}
-                                >
-                                    <FaCamera size={32} className="mb-2 text-secondary" />
-                                    <span className="small">Add Photo</span>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        id="photo-upload"
-                                        onChange={handleFileChange}
-                                        multiple={false} // select one at a time
-                                        style={{ display: "none" }}
-                                    />
-                                </label>
-                            )}
-                        </div>
                     </Form.Group>
-
 
                     <div className="d-grid mt-2">
                         <Button
