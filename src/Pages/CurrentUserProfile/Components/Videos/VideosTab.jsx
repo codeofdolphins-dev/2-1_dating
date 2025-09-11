@@ -7,23 +7,45 @@ import axios from "axios";
 import { showSuccessToast } from "../../../../components/customToast/CustomToast";
 import { data } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import OverlayLoader from "../../../../helper/OverlayLoader";
+import Pagination from "../../../../components/Pagination/Pagination";
+import ItemsPerPageSelector from "../../../../components/Pagination/ItemsPerPageSelector";
 
 const VideosTab = () => {
   const [addVideo, setAddVideo] = useState(false);
   const [uploadedVideos, setUploadedVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null); // ✅ Track clicked video
   const [toggle, setToggle] = useState(false)
+  const [isAproved, setIsApproved] = useState(false)
+  const [isLoading, setIsloading] = useState(false)
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [totalPages, setTotalPages] = useState(0);
 
   const userStr = localStorage.getItem("user");
   const jsonUser = userStr ? JSON.parse(userStr) : null;
   const userId = jsonUser?.data?.user?._id;
 
-  // ✅ Fetch uploaded videos
-  const fetchVideos = async () => {
+  // Fetch videos
+  const fetchVideos = async (page, limit) => {
+    setIsloading(true);
     try {
-      const res = await httpService(`/media-library/${userId}?type=video`, "GET");
+      const res = await httpService(`/media-library/${userId}?type=video`, "GET", {
+        params: { page, limit },
+      });
 
-      console.log("videoRes", res)
+      const totalCount = res?.data?.pagination?.total || null;
+      const apiTotalPages = res?.data?.pagination?.pageCount || null;
+
+      if (totalCount !== null) {
+        setTotalPages(Math.ceil(totalCount / limit));
+      } else if (apiTotalPages !== null) {
+        setTotalPages(apiTotalPages);
+      } else {
+        setTotalPages(1);
+      }
+
       if (res?.success && Array.isArray(res?.data?.media)) {
         setUploadedVideos(res.data.media);
       } else {
@@ -32,16 +54,19 @@ const VideosTab = () => {
     } catch (err) {
       console.error("Failed to fetch videos:", err);
       setUploadedVideos([]);
+    } finally {
+      setIsloading(false);
     }
   };
 
+  // ✅ Only one useEffect for pagination + filters
   useEffect(() => {
-    fetchVideos();
-  }, [toggle]);
+    fetchVideos(currentPage, itemsPerPage);
+  }, [toggle, isAproved, currentPage, itemsPerPage]);
 
   const handleClose = (refresh = false) => {
     setAddVideo(false);
-    if (refresh) fetchVideos(); // ✅ reload after new video uploaded
+    if (refresh) fetchVideos(currentPage, itemsPerPage); // keep current page & limit
   };
 
   // ✅ Delete Video
@@ -75,9 +100,14 @@ const VideosTab = () => {
   };
 
 
+  useEffect(() => {
+    fetchVideos(currentPage, itemsPerPage);
+  }, [currentPage, itemsPerPage]);
+
   return (
     <>
       <ToastContainer />
+      <OverlayLoader show={isLoading} />
       <div className="">
         {/* ✅ Top Buttons */}
         <div className="w-100 d-flex justify-content-between align-items-center">
@@ -85,6 +115,7 @@ const VideosTab = () => {
             <Button
               variant="primary"
               className="px-4"
+              onClick={() => setIsApproved(true)}
               style={{ borderRadius: "0", fontSize: "14px" }}
             >
               Approve
@@ -92,6 +123,7 @@ const VideosTab = () => {
             <Button
               variant="secondary"
               className="px-4"
+              onClick={() => setIsApproved(false)}
               style={{ borderRadius: "0", fontSize: "14px" }}
             >
               Pending
@@ -116,8 +148,8 @@ const VideosTab = () => {
                   key={idx}
                   className="position-relative"
                   style={{
-                    width: "420px", // bigger width
-                    height: "240px", // bigger height
+                    width: "390px", // bigger width
+                    height: "200px", // bigger height
                     cursor: "pointer",
                     borderRadius: "12px",
                     overflow: "hidden",
@@ -198,6 +230,22 @@ const VideosTab = () => {
           )}
         </Modal.Body>
       </Modal>
+
+
+      {/* Items per page selector */}
+
+      <ItemsPerPageSelector
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        setCurrentPage={setCurrentPage}
+      />
+
+      {/* Capsule-style Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
 
       {/* ✅ Add Video Modal */}
       {addVideo && <AddVideo onClose={() => handleClose(true)} />}

@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import CurrentUserPohotoPostAdult from "../../../../components/CurrentUserPohotoPost/CurrentUserPohotoPostAdult.jsx";
 import CurrentUserPhotoPostNonAdult from "../../../../components/CurrentUserPohotoPost/CurrentUserPhotoPostNonAdult.jsx";
+import OverlayLoader from "../../../../helper/OverlayLoader.jsx";
 
 const PicturesTab = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
@@ -17,12 +18,14 @@ const PicturesTab = () => {
   const inputRef = useRef();
   const [toggle, setToggle] = useState(false);
   const [uploadProgress, setUploadProgress] = useState({}); // ✅ progress tracker
+  const[isLoading,setIsloading]=useState(false)
 
   const user = localStorage.getItem("user");
   const jsonUser = JSON.parse(user);
 
   // ✅ Fetch uploaded images
   useEffect(() => {
+    setIsloading(true)
     const fetchUploadedImages = async () => {
       try {
         const res = await httpService(
@@ -39,6 +42,7 @@ const PicturesTab = () => {
         console.error("Failed to fetch uploaded images", err);
         setUploadedImages([]);
       }
+      setIsloading(false)
     };
 
     fetchUploadedImages();
@@ -142,6 +146,7 @@ const PicturesTab = () => {
 
   return (
     <>
+    <OverlayLoader show={isLoading}/>
       <div className="d-flex flex-column gap-4 align-items-center">
         <ProfileImageFullPopup
           show={showGallery}

@@ -1,13 +1,24 @@
 // components/VideoPlayerPopup.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal } from "react-bootstrap";
+import httpService from "../../helper/httpService";
 
-const LiveStreamingCardVideoPopup = ({ show, handleClose, videoSrc }) => {
-    console.log("videoSrc",videoSrc)
+const LiveStreamingCardVideoPopup = ({ show, handleClose, videoSrc, card,setViewCount }) => {
+    console.log("videoSrc", videoSrc, card)
+    useEffect(() => {
+        httpService(`/media-library/view/${card?._id}`, "POST")
+            .then((res) => {
+                console.log("viewres", res)
+                setViewCount(res?.data?.viewCount)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    })
     return (
         <Modal show={show} onHide={handleClose} centered size="lg" backdrop="static">
             <Modal.Body className="p-0 bg-black rounded">
-                <video controls autoPlay style={{ width: "100%", height: "auto", borderRadius: "0.5rem" }}>
+                <video controls autoPlay style={{ width: "100%", height: "555px", borderRadius: "0.5rem" }}>
                     <source src={videoSrc} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>

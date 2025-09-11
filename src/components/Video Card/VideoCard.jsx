@@ -26,6 +26,8 @@ const VideoCard = ({ card }) => {
     const [showMessagePopup, setShowMessagePopup] = useState(false);
     const [showPlayerPopup, setShowPlayerPopup] = useState(false);
 
+    const[viewCount,setViewCount]=useState(0)
+
 
     return (
         <div className="row g-3 rounded-4 text-white pt-2 pb-2 m-1"
@@ -42,7 +44,7 @@ const VideoCard = ({ card }) => {
                 <div className="rounded-4 overflow-hidden position-relative" style={{ width: "100%", }}>
 
                     {/* Image */}
-                    <img src={videocardImg} alt="" className="h-100 w-100" style={{ objectFit: "fill" }} />
+                    <img src={card?.thumbnailUrl} alt="" className="h-100 w-100" style={{ objectFit: "fill" }} />
 
                     {/* Play Button */}
                     <div
@@ -72,6 +74,8 @@ const VideoCard = ({ card }) => {
                         show={showPlayerPopup}
                         handleClose={() => setShowPlayerPopup(false)}
                         videoSrc={card?.url} // Replace with your video URL
+                        card={card}
+                        setViewCount={setViewCount}
                     />
                 </div>
 
@@ -158,7 +162,7 @@ const VideoCard = ({ card }) => {
                         <img src={clockIcon} height={25} alt="phone" />
                     </div>
                     <div className="d-flex align-items-center justify-content-center text-white-50">
-                        {/* <p className="mb-0 fs-6" style={{ color: "#EC5252", fontSize: "10px" }}>{views} views</p> */}
+                        <p className="mb-0 fs-6" style={{ color: "#EC5252", fontSize: "10px" }}>{card?.moderationInfo?.viewCount} views</p>
                     </div>
                 </div>
             </div>
