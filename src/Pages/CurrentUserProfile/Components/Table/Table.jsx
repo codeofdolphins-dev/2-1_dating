@@ -2,7 +2,7 @@ import React from "react";
 import female from "../../../../assets/cardImgs/Images/female.png";
 import male from "../../../../assets/cardImgs/Images/male.png";
 
-const ProfilePageTable = () => {
+const ProfilePageTable = ({user}) => {
   return (
     <>
     <table

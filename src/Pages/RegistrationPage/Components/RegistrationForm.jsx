@@ -39,7 +39,7 @@ const RegistrationForm = () => {
   const [loading,setLoading] = useState(false)
 
 
-  const { username, email, password } = formData
+  const { username, email, password,phoneNumber } = formData
 
 
   const handleChange = (e) => {
@@ -227,7 +227,7 @@ const RegistrationForm = () => {
         console.log(response.data.message)
         if (response.data.success) {
           // If valid and OTP matched
-          axios.post(`${apiUrl}/auth/signup`, { username, email, password })
+          axios.post(`${apiUrl}/auth/signup`, { username, email, password, phone:phoneNumber })
             .then((response) => {
               const token = response?.data?.data?.token;
               const data = response?.data

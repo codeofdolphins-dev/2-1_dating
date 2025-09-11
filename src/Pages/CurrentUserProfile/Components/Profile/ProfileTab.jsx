@@ -108,7 +108,7 @@ const ProfileTab = ({ changeTab }) => {
             </div>
 
             <div className="w-100 mt-4">
-                <Table />
+                <Table user={user}/>
             </div>
 
             <div className="">

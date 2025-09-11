@@ -13,7 +13,7 @@ import { showErrorToast, showSuccessToast } from "../../customToast/CustomToast"
 // import ViewPageMessangerPopup from "../viewPageMessangerPopup/viewPageMessangerPopup";
 import httpService from "../../../helper/httpService"
 
-const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = "507f1f77bcf86cd799439011", handleFriendRequest,showRemembered,showlikeDislike,receiverId }) => {
+const ActionMenu = ({ showMeessagePopup, setshowMeessagePopup, targetUserId = null, handleFriendRequest,showRemembered,showlikeDislike,receiverId }) => {
 
   const [showLikeSubmenu, setShowLikeSubmenu] = useState(false);
   const [isLiked, setIsLiked] = useState({ id: "", status: false });

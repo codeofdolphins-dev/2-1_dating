@@ -320,13 +320,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomPhonenumberInputField from "../../Pages/RegistrationPage/Components/CustomPhonenumberInputField";
 import axios from "axios";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import style from "./style.module.css";
 
 const ForgotPasswordModal = ({ show, onHide }) => {
   const apiUrl = import.meta.env.VITE_BASE_URL;
 
   const [step, setStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [formData, setFormData] = useState({
     countryCode: "91",
     phoneNumber: "",
@@ -473,6 +475,13 @@ const ForgotPasswordModal = ({ show, onHide }) => {
       .catch(() => toast.error("Failed to verify OTP"));
   };
 
+  // ✅ Password validation function
+  const isPasswordStrong = (password) => {
+    const regex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=<>?{}[\]~])[A-Za-z\d!@#$%^&*()_\-+=<>?{}[\]~]{8,}$/;
+    return regex.test(password);
+  };
+
   // ✅ Reset password
   const handleSubmit = () => {
     if (formData.password !== formData.confirmPassword) {
@@ -480,9 +489,16 @@ const ForgotPasswordModal = ({ show, onHide }) => {
       return;
     }
 
+    if (!isPasswordStrong(formData.password)) {
+      toast.error(
+        "Password must contain at least 8 characters, one uppercase letter, one number, and one special character"
+      );
+      return;
+    }
+
     axios
       .post(`${apiUrl}/auth/reset-password-with-token`, {
-        resetToken: localStorage.getItem("resetToken"), // ✅ fixed
+        resetToken: localStorage.getItem("resetToken"),
         newPassword: formData.password,
         confirmPassword: formData.confirmPassword,
       })
@@ -597,24 +613,63 @@ const ForgotPasswordModal = ({ show, onHide }) => {
             {/* Step 3: Reset password */}
             {step === 3 && (
               <>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="New Password"
-                  className={`form-control bg-transparent text-white mb-3 ${style.dark_input}`}
-                  style={{ border: "2px solid #6c757d" }}
-                />
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm Password"
-                  className={`form-control bg-transparent text-white mb-3 ${style.dark_input}`}
-                  style={{ border: "2px solid #6c757d" }}
-                />
+                {/* Password Input */}
+                <div className="position-relative mb-3">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="New Password"
+                    className={`form-control bg-transparent text-white ${style.dark_input}`}
+                    style={{ border: "2px solid #6c757d" }}
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      position: "absolute",
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      cursor: "pointer",
+                      color: "#aaa",
+                    }}
+                  >
+                    {showPassword ? (
+                      <FaEye size={18} />
+                    ) : (
+                      <FaEyeSlash size={18} />
+                    )}
+                  </span>
+                </div>
+
+                {/* Confirm Password Input */}
+                <div className="position-relative mb-3">
+                  <input
+                    type={showConfirm ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm Password"
+                    className={`form-control bg-transparent text-white ${style.dark_input}`}
+                    style={{ border: "2px solid #6c757d" }}
+                  />
+                  <span
+                    onClick={() => setShowConfirm(!showConfirm)}
+                    style={{
+                      position: "absolute",
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      cursor: "pointer",
+                      color: "#aaa",
+                    }}
+                  >
+                    {showConfirm ? <FaEye size={18} /> : <FaEyeSlash size={18} />}
+                  </span>
+                </div>
+
+                {/* Submit Button */}
                 <button
                   className="btn w-100"
                   onClick={handleSubmit}
@@ -637,4 +692,5 @@ const ForgotPasswordModal = ({ show, onHide }) => {
 };
 
 export default ForgotPasswordModal;
+
 
