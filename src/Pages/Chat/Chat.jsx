@@ -104,7 +104,7 @@ const Chat = () => {
                             border: "2px solid #343A40",
                           }}
                         >
-                          {filter.map((label) => (
+                          {/* {filter.map((label) => (
                             <div key={label}>
                               <label className="form-check d-flex align-items-center mb-2">
                                 <input
@@ -116,7 +116,7 @@ const Chat = () => {
                                 <span className="text-white">{label}</span>
                               </label>
                             </div>
-                          ))}
+                          ))} */}
                         </div>
                       </div>
                     )}
