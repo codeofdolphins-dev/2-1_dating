@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
   FaSearch,
   FaEllipsisH,
@@ -19,15 +19,15 @@ import { BsEmojiSmile, BsSend } from "react-icons/bs";
 import GlobalPageWrapper from "../../components/GlobalPageWrapper";
 import MessangerTab from "./components/MessangerTab/MessangerTab";
 import GroupMessangerTab from "./components/GroupMessangerTab/GroupMessangerTab";
-import httpService from "../../helper/httpService";
+// import httpService from "../../helper/httpService";
 
 import ChatComponent from "../../services/ChatComponent"
 import { useAuth } from "../../context/AuthContextAPI";
 
 const Chat = () => {
   const {messagereceiverId,groupMessageId} =useAuth()
-  const [message, setMessage] = useState("");
-  const [users, Setusers] = useState([])
+  // const [message, setMessage] = useState("");
+  // const [users, Setusers] = useState([])
 
   // const contacts = [
   //   { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
@@ -39,14 +39,14 @@ const Chat = () => {
   // ];
 
   const [showPopup, setShowPopup] = useState(false)
-  const [selected, setSelected] = useState(["Viewed me"]);
-  const handleToggle = (label) => {
-    setSelected((prev) =>
-      prev.includes(label)
-        ? prev.filter((item) => item !== label)
-        : [...prev, label]
-    );
-  };
+  // const [selected, setSelected] = useState(["Viewed me"]);
+  // const handleToggle = (label) => {
+  //   setSelected((prev) =>
+  //     prev.includes(label)
+  //       ? prev.filter((item) => item !== label)
+  //       : [...prev, label]
+  //   );
+  // };
 
   // const filter = [
   //   "Latest",
