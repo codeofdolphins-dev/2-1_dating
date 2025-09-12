@@ -15,23 +15,6 @@ import OverlayLoader from '../../helper/OverlayLoader';
 import ItemsPerPageSelector from '../../components/Pagination/ItemsPerPageSelector';
 
 
-// const map = [
-//     "Viewed me",
-//     "Viewed each other",
-//     "Who I viewed",
-//     "Remembered",
-//     "Latest",
-//     "Distance",
-//     "All",
-//     "Couples & Females",
-//     "Couples",
-//     "Female",
-//     "Male",
-//     "Transgender",
-//     "Business",
-//     "Ethnicity"
-// ];
-
 const filter = [
     "Viewed Me",
     "Viewed Each Other",
@@ -48,16 +31,6 @@ const filter = [
     "Business",
 ];
 
-// const cards = [
-//     { username: "Card One" },
-//     { username: "Card Two" },
-//     { username: "Card Three" },
-//     { username: "Card Four" },
-//     { username: "Card Five" },
-//     { username: "Card Six" },
-//     { username: "Card Seven" },
-//     // ...
-// ];
 
 const images = [img1, img2, img3, img4];
 const ViewsPage = () => {
@@ -134,8 +107,7 @@ const ViewsPage = () => {
 
             console.log(tomiStampTime)
             const totalCount = response?.data?.meta?.pagination?.total || null;
-            const apiTotalPages =
-                response?.data?.meta?.pagination?.pageCount || null;
+            const apiTotalPages = response?.data?.meta?.pagination?.pageCount || null;
 
             setCards(members);
 

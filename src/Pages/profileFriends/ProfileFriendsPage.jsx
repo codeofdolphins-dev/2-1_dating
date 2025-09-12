@@ -11,6 +11,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import OverlayLoader from '../../helper/OverlayLoader';
 import ScondPagination from '../../components/Pagination/ItemsPerPageSelector';
 import ItemsPerPageSelector from '../../components/Pagination/ItemsPerPageSelector';
+import PaginationWithSelector from '../../components/Pagination/PaginationWithSelector';
 
 const options = [
     "accepted",
@@ -29,11 +30,12 @@ const options = [
 const ProfileFriendsPage = () => {
     const [user, setUser] = useState([]);
     const [refresh, setRefresh] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
-    const [totalPages, setTotalPages] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [itemsPerPage, setItemsPerPage] = useState(9);
+    const [totalCount, setTotalCount] = useState(0)
+    const [apiTotalPages, setApiTotalPages] = useState(0)
 
     const { filterOption } = useAuth();
     console.log("Current filter:", filterOption);
@@ -67,18 +69,9 @@ const ProfileFriendsPage = () => {
                 setUser(usersArray);
 
 
-                const totalCount = response?.meta?.pagination?.total || null;
-                console.log("users", totalCount)
-                const apiTotalPages =
-                    response?.data?.meta?.pagination?.totalPages || null;
-
-                if (totalCount !== null) {
-                    setTotalPages(Math.ceil(totalCount / itemsPerPage));
-                } else if (apiTotalPages !== null) {
-                    setTotalPages(apiTotalPages);
-                } else {
-                    setTotalPages(1);
-                }
+                setTotalCount(response?.meta?.pagination?.total || null);
+                setApiTotalPages(response?.data?.meta?.pagination?.totalPages || null);
+        
                 setLoading(false)
             })
             .catch((err) => {
@@ -126,20 +119,15 @@ const ProfileFriendsPage = () => {
                         <h1>No Friend Requests</h1>
                     )}
 
-                    
+                    <PaginationWithSelector
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
 
-                    <ItemsPerPageSelector
                         itemsPerPage={itemsPerPage}
                         setItemsPerPage={setItemsPerPage}
-                        setCurrentPage={setCurrentPage}
-                    />
 
-
-                    {/* Capsule-style Pagination */}
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={(page) => setCurrentPage(page)}
+                        totalCount={totalCount}
+                        apiTotalPages={apiTotalPages}
                     />
                 </div>
             </div>

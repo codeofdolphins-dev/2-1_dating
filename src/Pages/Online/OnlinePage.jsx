@@ -16,6 +16,7 @@ import { showErrorToast } from "../../components/customToast/CustomToast";
 import { useNavigate } from "react-router-dom";
 import OverlayLoader from "../../helper/OverlayLoader";
 import ItemsPerPageSelector from "../../components/Pagination/ItemsPerPageSelector";
+import PaginationWithSelector from "../../components/Pagination/PaginationWithSelector";
 
 const filter = [
   "Couples",
@@ -38,8 +39,10 @@ const OnlinePage = () => {
   const [cards, setCards] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
-  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [totalCount, setTotalCount] = useState(0)
+  const [apiTotalPages, setApiTotalPages] = useState(0)
+
 
   const apiUrl = import.meta.env.VITE_BASE_URL;
 
@@ -67,20 +70,14 @@ const OnlinePage = () => {
       const response = await axios.get(`${apiUrl}/users`, config);
 
       const members = response?.data?.data || [];
-      const totalCount = response?.data?.meta?.pagination?.total || null;
-      const apiTotalPages = response?.data?.meta?.pagination?.pageCount || null;
+      setTotalCount(response?.data?.meta?.pagination?.total || null);
+      setApiTotalPages(response?.data?.meta?.pagination?.pageCount || null);
+
+      // console.log("totalCount", totalCount);
+      // console.log("apiTotalPages", apiTotalPages);
 
       setCards(members);
 
-      console.log("members",members)
-
-      if (totalCount !== null) {
-        setTotalPages(Math.ceil(totalCount / limit));
-      } else if (apiTotalPages !== null) {
-        setTotalPages(apiTotalPages);
-      } else {
-        setTotalPages(1);
-      }
     } catch (error) {
       console.error("Failed to fetch members:", error);
       showErrorToast(
@@ -91,12 +88,9 @@ const OnlinePage = () => {
     }
   };
 
-
   useEffect(() => {
     fetchMembers(currentPage, itemsPerPage);
   }, [currentPage, itemsPerPage]);
-
-  console.log("friends", cards)
 
   return (
     <>
@@ -140,20 +134,16 @@ const OnlinePage = () => {
             SpeedDateCheckBoxPopupOptions={SpeedDateCheckBoxPopupOptions}
           />
 
-          {/* Items per page selector */}
-
-          <ItemsPerPageSelector
+          <PaginationWithSelector
+            currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             setItemsPerPage={setItemsPerPage}
             setCurrentPage={setCurrentPage}
+            totalCount={totalCount}
+            apiTotalPages={apiTotalPages}
           />
 
-          {/* Capsule-style Pagination */}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page)}
-          />
+
         </div>
         <ToastContainer />
       </GlobalPageWrapper>

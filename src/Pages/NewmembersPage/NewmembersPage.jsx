@@ -16,6 +16,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { showErrorToast } from '../../components/customToast/CustomToast';
 import OverlayLoader from '../../helper/OverlayLoader';
+import PaginationWithSelector from '../../components/Pagination/PaginationWithSelector';
 
 const images = [img1, img2, img3, img4];
 const filter = [
@@ -25,10 +26,11 @@ const filter = [
 
 const NewmembersPage = () => {
     const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
-    const [totalPages, setTotalPages] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [totalCount, setTotalCount] = useState(0)
+    const [apiTotalPages, setApiTotalPages] = useState(0)
 
     const apiUrl = import.meta.env.VITE_BASE_URL;
 
@@ -47,17 +49,10 @@ const NewmembersPage = () => {
             const response = await axios.get(`${apiUrl}/users`, config);
             const members = response?.data?.data || [];
 
-            const totalCount = response?.data?.meta?.pagination?.total || null;
-            const apiTotalPages = response?.data?.meta?.pagination?.pageCount || null;
+            setTotalCount(response?.data?.meta?.pagination?.total || null);
+            setApiTotalPages(response?.data?.meta?.pagination?.pageCount || null);
 
             setCards(members);
-            if (totalCount !== null) {
-                setTotalPages(Math.ceil(totalCount / limit));
-            } else if (apiTotalPages !== null) {
-                setTotalPages(apiTotalPages);
-            } else {
-                setTotalPages(1);
-            }
 
         } catch (error) {
             console.error("Failed to fetch members:", error);
@@ -106,31 +101,17 @@ const NewmembersPage = () => {
                     </div>
                 </div>
 
-                {/* Items per page selector */}
-                <div className="d-flex justify-content-left align-items-center gap-2 my-3">
-                    <label className="text-white mb-0">Items per page:</label>
-                    <select
-                        className="form-select form-select-sm w-auto"
-                        value={itemsPerPage}
-                        onChange={(e) => {
-                            setItemsPerPage(Number(e.target.value));
-                            setCurrentPage(1);
-                        }}
-                    >
-                        {[3, 6, 9].map((num) => (
-                            <option key={num} value={num}>{num}</option>
-                        ))}
-                    </select>
-                </div>
-
-                {/* Capsule-style Pagination */}
-                <Pagination
+                <PaginationWithSelector
                     currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={(page) => setCurrentPage(page)}
+                    setCurrentPage={setCurrentPage}
+
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    
+                    totalCount={totalCount}
+                    apiTotalPages={apiTotalPages}
                 />
 
-                {/* Toast Container */}
                 <ToastContainer />
             </GlobalPageWrapper>
         </div>

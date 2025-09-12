@@ -5,6 +5,7 @@ import GlobalPageWrapper from "../../components/GlobalPageWrapper";
 import ChoosePartnerGenderselector from "../../components/ChoosePartnerGenderselector/ChoosePartnerGenderselector";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CreateSpeeddatepage = () => {
   const [lookingFor, setLookingFor] = useState(["Couple"]);
@@ -12,6 +13,9 @@ const CreateSpeeddatepage = () => {
   const [where, setWhere] = useState("");
   const [details, setDetails] = useState("");
   const [submittedData, setSubmittedData] = useState(null);
+
+  const apiUrl = import.meta.env.VITE_BASE_URL;
+
 
   const navigate = useNavigate();
   const characterLimit = 250;
@@ -39,6 +43,20 @@ const CreateSpeeddatepage = () => {
   };
 
   const pagenavigate = () => {
+
+    const token = sessionStorage.getItem("jwtToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    };
+
+    axios.get(`${apiUrl}/speed-dates`, config)
+    .then((res) => {
+      
+    })
+
     navigate("/hotdate");
   };
 

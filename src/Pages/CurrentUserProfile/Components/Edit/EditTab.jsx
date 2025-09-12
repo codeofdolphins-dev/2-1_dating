@@ -63,7 +63,8 @@ const EditTab = () => {
   }
 
   const [female, setFemale] = useState({
-    f_name: "",
+    f_fname: "",
+    f_lname: "",
     f_dob: "",
     bodyHair: [],
     f_height: "",
@@ -86,7 +87,8 @@ const EditTab = () => {
     }
   });
   const [male, setMale] = useState({
-    m_name: "",
+    m_fname: "",
+    m_lname: "",
     m_dob: "",
     bodyHair: [],
     m_height: "",
@@ -204,11 +206,11 @@ const EditTab = () => {
   const handelInterest = (id) => {
     setInterestOptions((prev) => (
       prev.map(field => (
-        field.id === id ? { ...field, value: !field.value } : field
+        field.id === id ? { ...field, value: !field.value, title: field.title } : field
       ))
     ));
 
-    setInterestOptions|("male")
+    setInterestOptions | ("male")
   };
 
   const femaleExperienceHandler = (e) => {
@@ -245,22 +247,23 @@ const EditTab = () => {
   };
 
   // prepare payload data
-  const intrestPayload = interestOptions.filter(element => element.value).map(item => item.title);
+  const intrestPayload = interestOptions.filter(element => element.value).map(item => item.title.toLowerCase());
   const profilePayload = profileType.find(element => element.value)?.title.toLowerCase() || "";
 
   // for single type
   const singlePayload = {
-    fullName: female.f_name || male.m_name || "",
+    firstName: female.f_fname?.toLowerCase() || male.m_fname?.toLowerCase() || "",
+    lastName: female.f_lname?.toLowerCase() || male.m_lname?.toLowerCase() || "",
     dateOfBirth: female.f_dob || male.m_dob || "",
-    gender: profilePayload,
+    gender: profilePayload?.toLowerCase(),
     sexuality: female.f_sexuality || male.m_sexuality || "",
     interestedIn: intrestPayload || [],
-    bio: desc,
+    bio: desc?.toLowerCase(),
     bodyHair: female.bodyHair || male.bodyHair || [],
     height: female.f_height || male.m_height || "",
     weight: female.f_weight || male.m_weight || "",
-    bodyType: female.f_bodyType || male.m_bodyType || "",
-    ethnicBackground: female.f_ethnicBackground || male.m_ethnicBackground || "",
+    bodyType: female.f_bodyType?.toLowerCase() || male.m_bodyType?.toLowerCase() || "",
+    ethnicBackground: female.f_ethnicBackground?.toLowerCase() || male.m_ethnicBackground?.toLowerCase() || "",
     smoking: female.f_smoking || male.m_smoking || "",
     piercings: female.f_piercings || male.m_piercings || "",
     tattoos: female.f_tattoos || male.m_tattoos || "",
@@ -281,17 +284,18 @@ const EditTab = () => {
 
   // for couple
   const couplePayload = {
-    fullName: female.f_name || "",
+    firstName: female.f_fname?.toLowerCase() || "",
+    lastName: female.f_lname?.toLowerCase() || "",
     dateOfBirth: female.f_dob || "",
-    gender: profilePayload,
+    gender: profilePayload?.toLowerCase(),
     sexuality: female.f_sexuality || "",
     interestedIn: intrestPayload || [],
-    bio: desc,
+    bio: desc?.toLowerCase(),
     bodyHair: female.bodyHair || [],
     height: female.f_height || "",
     weight: female.f_weight || "",
-    bodyType: female.f_bodyType || "",
-    ethnicBackground: female.f_ethnicBackground || "",
+    bodyType: female.f_bodyType?.toLowerCase() || "",
+    ethnicBackground: female.f_ethnicBackground?.toLowerCase() || "",
     smoking: female.f_smoking || "",
     piercings: female.f_piercings || "",
     tattoos: female.f_tattoos || "",
@@ -307,17 +311,18 @@ const EditTab = () => {
       newbie: female.experience.f_newbie || "",
     },
     partner: {
-      fullName: male.m_name || "",
+      firstName: male.m_fname?.toLowerCase() || "",
+      lastName: male.m_lname?.toLowerCase() || "",
       dateOfBirth: male.m_dob || "",
-      gender: profilePayload,
+      gender: profilePayload?.toLowerCase(),
       sexuality: male.m_sexuality || "",
       interestedIn: intrestPayload || [],
       bio: desc,
       bodyHair: male.bodyHair || [],
       height: male.m_height || "",
       weight: male.m_weight || "",
-      bodyType: male.m_bodyType || "",
-      ethnicBackground: male.m_ethnicBackground || "",
+      bodyType: male.m_bodyType?.toLowerCase() || "",
+      ethnicBackground: male.m_ethnicBackground?.toLowerCase() || "",
       smoking: male.m_smoking || "",
       piercings: male.m_piercings || "",
       tattoos: male.m_tattoos || "",
@@ -338,9 +343,12 @@ const EditTab = () => {
 
   const handleSubmit = async () => {
     if (["Transgender", "Male", "Female"].includes(profileType.find(element => element.value)?.title || "")) {
-      await sendUpdation(singlePayload);
+      // await sendUpdation(singlePayload);
+      console.log(singlePayload);
+
     } else {
-      await sendUpdation(couplePayload);
+      // await sendUpdation(couplePayload);
+      console.log(couplePayload);
     }
   };
 
@@ -361,6 +369,8 @@ const EditTab = () => {
       .then((response) => {
         if (!response.success) throw new Error("Profile details retrieved failed!!!");
         setProfileDetails(response.data);
+        console.log(profileDetails);
+        
 
       })
       .catch(error => {
@@ -389,13 +399,21 @@ const EditTab = () => {
     const dateObj = new Date(profileDetails.dateOfBirth);
     const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${dateObj.getFullYear()}`;
 
+    function convertToInputDateFormat(dateString) {
+      console.log(dateString);
+      
+      const [day, month, year] = dateString?.split("-");
+      return `${year}-${month}-${day}`;
+    }
+
     setInterestOptions(updateOption);
     setDesc(profileDetails?.bio);
     setProfileType(gender);
 
     setFemale(prev => ({
       ...prev,
-      f_name: profileDetails.firstName,
+      f_fname: profileDetails.firstName,
+      f_lname: profileDetails.lastName,
       f_dob: formattedDate,
       f_sexuality: profileDetails.sexuality,
       f_height: profileDetails.height,
@@ -418,9 +436,10 @@ const EditTab = () => {
 
     setMale(prev => ({
       ...prev,
-      m_name: profileDetails.firstName,
-      m_dob: formattedDate,
-      m_sexuality: profileDetails.sexuality,
+      m_fname: profileDetails.partner?.firstName,
+      m_lname: profileDetails.partner?.lastName,
+      m_dob: profileDetails?.partner?.dateOfBirth || profileDetails?.dateOfBirth,
+      m_sexuality: profileDetails.partner?.sexuality || profileDetails?.sexuality || "",
       m_height: profileDetails.height,
       m_weight: profileDetails.weight,
       m_bodyType: profileDetails.bodyType,
@@ -521,22 +540,62 @@ const EditTab = () => {
                 (profileType[3].title === "Transgender" && profileType[3].value)
               ) &&
               <div className="col-lg-6">
-                <div className={`mx-4 d-flex flex-column gap-4 text-secondary ${style.parent}`}>
+                <div className={`mx-0 mx-md-4 d-flex flex-column gap-4 text-secondary ${style.parent}`}>
 
                   {/* name field */}
-                  <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid red" }}>
-                    <input
-                      type="text"
-                      className="form-control border-0 rounded-0 text-danger px-0 customInput" id='f_name'
-                      name='f_name'
-                      value={female.f_name}
-                      onChange={(e) => setFemale((prev) => ({
-                        ...prev,
-                        f_name: e.target.value
-                      }))}
-                    />
-                    <label htmlFor='f_name' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill text-danger" style={{ cursor: "pointer" }}></i></label>
+                  <div className="row mx-1">
+
+                    {/* female first name */}
+                    <div className="col-md-6 col-12 px-0 pe-md-2">
+                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid red" }}>
+                        <input
+                          type="text"
+                          className="form-control border-0 rounded-0 text-danger px-0"
+                          id="f_fname"
+                          name="f_fname"
+                          value={female.f_fname}
+                          onChange={(e) => setFemale((prev) => ({
+                            ...prev,
+                            f_name: e.target.value
+                          }))}
+                          style={{
+                            fontSize: "20px",
+                            backgroundColor: "transparent",
+                            color: "#096BFF"
+                          }}
+                        />
+                        <label htmlFor="f_fname" className="form-label mb-0 text-danger fw-bold">
+                          <i className="bi bi-pencil-fill text-danger" style={{ cursor: "pointer" }}></i>
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* female last name */}
+                    <div className="col-md-6 col-12 mt-3 mt-md-0 px-0 ps-md-2">
+                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid red" }}>
+                        <input
+                          type="text"
+                          className="form-control border-0 rounded-0 text-danger px-0"
+                          id="f_lname"
+                          name="f_lname"
+                          value={female.f_lname}
+                          onChange={(e) => setFemale((prev) => ({
+                            ...prev,
+                            m_name: e.target.value
+                          }))}
+                          style={{
+                            fontSize: "20px",
+                            backgroundColor: "transparent",
+                            color: "#096BFF"
+                          }}
+                        />
+                        <label htmlFor="f_lname" className="form-label mb-0 text-danger fw-bold">
+                          <i className="bi bi-pencil-fill text-danger" style={{ cursor: "pointer" }}></i>
+                        </label>
+                      </div>
+                    </div>
                   </div>
+
 
                   {/* female date of birth */}
                   <div style={{ borderBottom: "2px solid #343A40" }}>
@@ -640,26 +699,55 @@ const EditTab = () => {
               ) &&
               <div className="col-lg-6 mt-5 mt-lg-0">
 
-                <div className={`mx-4 d-flex flex-column gap-4 text-secondary ${style.parent}`}>
+                <div className={`mx-0 mx-md-4 d-flex flex-column gap-4 text-secondary ${style.parent}`}>
+
 
                   {/* name field */}
-                  <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #096BFF" }}>
-                    <input
-                      type="text"
-                      className="form-control border-0 rounded-0 px-0" id='m_name'
-                      name='m_name'
-                      value={male.m_name}
-                      onChange={(e) => setMale((prev) => ({
-                        ...prev,
-                        m_name: e.target.value
-                      }))}
-                      style={{
-                        fontSize: "20px",
-                        backgroundColor: "transparent",
-                        color: "#096BFF"
-                      }}
-                    />
-                    <label htmlFor='m_name' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill" style={{ cursor: "pointer", color: "#096BFF" }}></i></label>
+                  <div className="row mx-1">
+
+                    {/* male first name */}
+                    <div className="col-md-6 col-12 px-0 pe-md-2">
+                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #096BFF" }}>
+                        <input
+                          type="text"
+                          className="form-control border-0 rounded-0 px-0" id='m_fname'
+                          name='m_fname'
+                          value={male.m_fname}
+                          onChange={(e) => setMale((prev) => ({
+                            ...prev,
+                            m_name: e.target.value
+                          }))}
+                          style={{
+                            fontSize: "20px",
+                            backgroundColor: "transparent",
+                            color: "#096BFF"
+                          }}
+                        />
+                        <label htmlFor='m_fname' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill" style={{ cursor: "pointer", color: "#096BFF" }}></i></label>
+                      </div>
+                    </div>
+
+                    {/* male last name */}
+                    <div className="col-md-6 col-12 mt-3 mt-md-0 px-0 ps-md-2">
+                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #096BFF" }}>
+                        <input
+                          type="text"
+                          className="form-control border-0 rounded-0 px-0" id='m_lname'
+                          name='m_lname'
+                          value={male.m_lname}
+                          onChange={(e) => setMale((prev) => ({
+                            ...prev,
+                            m_name: e.target.value
+                          }))}
+                          style={{
+                            fontSize: "20px",
+                            backgroundColor: "transparent",
+                            color: "#096BFF"
+                          }}
+                        />
+                        <label htmlFor='m_lname' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill" style={{ cursor: "pointer", color: "#096BFF" }}></i></label>
+                      </div>
+                    </div>
                   </div>
 
                   {/* male date of birth */}

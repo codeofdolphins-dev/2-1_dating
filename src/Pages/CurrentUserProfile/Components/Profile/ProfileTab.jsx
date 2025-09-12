@@ -43,17 +43,22 @@ const ProfileTab = ({ changeTab }) => {
 
 
     const [user, setUser] = useState([])
-    const[loader,setloader] = useState(true)
+    const[loader,setloader] = useState(false)
     useEffect(() => {
+        // setloader(true);
         httpService("/auth/me", "GET")
-            .then((response) => {
-                console.log("user profile fetch", response);
-                setUser(response?.data)
-                setloader(false)
-            })
-            .catch((err) => {
-                console.error("Failed to send friend request:", err);
-            });
+        .then((response) => {
+            console.log("user profile fetch", response);
+            setUser(response?.data)
+            setloader(false);
+        })
+        .catch((err) => {
+            console.error("Failed to send friend request:", err);
+            setloader(false);
+        })
+        .finally(() => {
+            setloader(false);
+        })
     }, []); // dependency on card._id
 
     // console.log("dob",user?.profile?.dateOfBirth)

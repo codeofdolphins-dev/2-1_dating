@@ -36,6 +36,7 @@ import { Button } from 'bootstrap/dist/js/bootstrap.bundle.min';
 import TravelDatePopup from '../../components/TravelDatePopup/TravelDatePopup';
 import SpeedDateCheckBoxPopup from '../../components/SpeedDateCheckBoxPopup/SpeedDateCheckBoxPopup';
 import { useNavigate } from 'react-router-dom';
+import PaginationWithSelector from '../../components/Pagination/PaginationWithSelector';
 
 const images = [img5, img6, img7, img1];
 const cards = [
@@ -81,57 +82,75 @@ const HotDatePage = () => {
   const [showTraveldate, setShowTraveldateShow] = useState(false);
   const [showSpeeddate, setShowSpeddateShow] = useState(false);
   const [showSpeeddateCheckBox, setShowSpeeddateCheckBox] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [totalCount, setTotalCount] = useState(0)
+  const [apiTotalPages, setApiTotalPages] = useState(0)
+
   const navigate = useNavigate()
 
 
 
-  const handleSpedDateTypePopup = () =>{
+  const handleSpedDateTypePopup = () => {
     setShowSpeeddateCheckBox(true)
     console.log(showSpeeddate)
   }
 
-  const handleSpedDatePopup = () =>{
+  const handleSpedDatePopup = () => {
     setShowSpeddateShow(true)
     console.log(showSpeeddate)
   }
 
-  const handleTravelDatePopup = () =>{
+  const handleTravelDatePopup = () => {
     setShowTraveldateShow(true)
     console.log(showSpeeddate)
   }
 
-  const navigationpage = () =>{
+  const navigationpage = () => {
     navigate("/create-speeddate")
   }
   return (
     <>
       <GlobalPageWrapper >
-      <FilterBar filter1={map} navigationPageName2={"+ Speed Date"} navigationToAnotherPage2={navigationpage} filter2={filter} filterName1={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} handleSpedDatePopup={handleSpedDateTypePopup} checkbox={false} />
+        <FilterBar filter1={map} navigationPageName2={"+ Speed Date"} navigationToAnotherPage2={navigationpage} filter2={filter} filterName1={"Filter"} showTab={false} pageName={"Hot Date"} distanceSlider={true} bottomForm={false} width={"330px"} showDatePicker={true} showLocationForm={true} filterTypeName={"Speed Date Type"} handleSpedDatePopup={handleSpedDateTypePopup} checkbox={false} />
 
-      <div className='client-page-background'>
-        <div className="container-fluid">
-          <div className="row g-4 pt-4">
-            {
-              cards.map((card, index) => (
-                <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                  <HotDatePageCard index={index} images={images} handleSpedDatePopup={handleSpedDatePopup} handleTravelDatePopup={handleTravelDatePopup}
-                    {...{
-                      card,
+        <div className='client-page-background'>
+          <div className="container-fluid">
+            <div className="row g-4 pt-4">
+              {
+                cards.map((card, index) => (
+                  <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
+                    <HotDatePageCard index={index} images={images} handleSpedDatePopup={handleSpedDatePopup} handleTravelDatePopup={handleTravelDatePopup}
+                      {...{
+                        card,
 
-                    }}
-                  />
-                </div>
-              ))
-            }
+                      }}
+                    />
+                  </div>
+                ))
+              }
+            </div>
           </div>
         </div>
-      </div>
 
 
-      <SpeedDatePopup show={showSpeeddate} handleClose={() => setShowSpeddateShow(false)} speedDateModalData={speedDateModalData} />
-      <TravelDatePopup show={showTraveldate} handleClose={() => setShowTraveldateShow(false)} travelDateModalData={travelDateModalData} />
-      <SpeedDateCheckBoxPopup show={showSpeeddateCheckBox} handleClose={() => setShowSpeeddateCheckBox(false)} SpeedDateCheckBoxPopupOptions={SpeedDateCheckBoxPopupOptions} />
-       </GlobalPageWrapper>
+        <SpeedDatePopup show={showSpeeddate} handleClose={() => setShowSpeddateShow(false)} speedDateModalData={speedDateModalData} />
+        <TravelDatePopup show={showTraveldate} handleClose={() => setShowTraveldateShow(false)} travelDateModalData={travelDateModalData} />
+        <SpeedDateCheckBoxPopup show={showSpeeddateCheckBox} handleClose={() => setShowSpeeddateCheckBox(false)} SpeedDateCheckBoxPopupOptions={SpeedDateCheckBoxPopupOptions} />
+
+        <PaginationWithSelector
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+
+          totalCount={totalCount}
+          apiTotalPages={apiTotalPages}
+        />
+
+      </GlobalPageWrapper>
     </>
   )
 }

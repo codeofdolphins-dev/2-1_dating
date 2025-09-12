@@ -111,18 +111,6 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     });
   };
 
-  // 🕒 Convert timestamp string to Date object
-  // let dateObj = null;
-  // if (typeof rawTimestamp === "string") {
-  //   const parsed = Date.parse(rawTimestamp); // works if timestamp is ISO or similar
-  //   console.log(parsed)
-  //   if (!isNaN(parsed)) {
-  //     dateObj = new Date(parsed);
-  //   }
-  // }
-
-  // timestamp in milliseconds
-
   // handle friend request send
   const handleFriendRequest = async () => {
     try {
@@ -138,7 +126,6 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
 
   // handle friend request decline
   const handleDeclineFriendRequest = async () => {
-    console.log("all ok")
     try {
       const response = await httpService(`/friend-requests/${card._id}/respond`, "PUT", { "action": "decline" })
       if (response) {
@@ -513,7 +500,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               )} */}
 
               {/* {showTime && <div className="text-danger">{card?.createdAt ? timeAgo(card?.createdAt) : timeAgo(card?.timestamp)}</div>} */}
-              {showTime && card?.timestamp && <div className="text-danger">{timeAgo(card?.timestamp)}</div>}
+              {showTime && card?.timestamp && <div className="text-danger" style={{ fontSize: ".6rem" }}>{timeAgo(card?.timestamp)}</div>}
             </div>
           </div>
         </div>

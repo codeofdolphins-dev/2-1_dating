@@ -16,12 +16,18 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import OverlayLoader from "../../helper/OverlayLoader.jsx";
+import PaginationWithSelector from "../../components/Pagination/PaginationWithSelector.jsx";
 
 const images = [img1, img2, img3, img4];
 
 const ProfileBlocklist = () => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [totalCount, setTotalCount] = useState(0)
+  const [apiTotalPages, setApiTotalPages] = useState(0)
 
   // Fetch blocklist
   useEffect(() => {
@@ -56,15 +62,18 @@ const ProfileBlocklist = () => {
       });
   };
 
+  // setTotalCount();
+  // setApiTotalPages();
+
   return (
     <>
       <GlobalPageWrapper>
-        <ToastContainer/>
+        <ToastContainer />
         <OverlayLoader show={loading} text="Please wait..." />
         <FilterBar clas pageName={"Blocklist"} filterName2={"Filter"} />
         <div className="container-fluid">
           <div className="row g-4 pt-4">
-            { user?.length === 0 ? <div className='text-white'>No Users Found </div> :user.map((card, index) => (
+            {user?.length === 0 ? <div className='text-white'>No Users Found </div> : user.map((card, index) => (
               <div className="col-12 col-sm-6 col-lg-6 col-xl-4" key={index}>
                 <ViewPageCard
                   card={card}
@@ -80,6 +89,18 @@ const ProfileBlocklist = () => {
             ))}
           </div>
         </div>
+
+        <PaginationWithSelector
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+
+          totalCount={totalCount}
+          apiTotalPages={apiTotalPages}
+        />
+
         {/* <ToastContainer position="top-right" autoClose={3000} /> */}
       </GlobalPageWrapper>
     </>

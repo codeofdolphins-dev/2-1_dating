@@ -1,15 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import FrontScreenLeftSidebar from '../../../components/FrontScreenLeftBar/FrontScreenLeftSidebar'
-import FrontScreenTopBar from '../../../components/FrontScreenTopBar/FrontScreenTopBar'
+import React, { useState } from 'react'
 import "./feedStyle.css"
-import GeneralFilter from '../componeents/GeneralFilter'
-import FeedScreen from '../componeents/FeedScreen.Feed'
-import NotificationScreen from '../componeents/NotificationScreen.Feed'
-// import PageWrapper from '../../../components/PageWrapper'
-import CheckboxDropdown from '../../../components/dropdown/CheckboxDropdown'
 import PageWrapper from '../../../components/PageWrapper'
 import FilterBar from '../../../components/FilterBar/FilterBar'
-import axios from 'axios'
 
 const GeneralFilteroptions = [
     "Viewed me",
@@ -73,26 +65,26 @@ const Feed = () => {
     };
 
     // fetch feed data
-    useEffect(() => {
-        const fetchProfile = ( page=1, limit=20, type="friend_request", priority="high", unreadOnly=false ) => {
-            const token = sessionStorage.getItem("jwtToken");
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-                params: { page, limit, type, priority, unreadOnly }
-            };
+    // useEffect(() => {
+    //     const fetchProfile = ( page=1, limit=20, type="friend_request", priority="high", unreadOnly=false ) => {
+    //         const token = sessionStorage.getItem("jwtToken");
+    //         const config = {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //                 "Content-Type": "application/json",
+    //             },
+    //             params: { page, limit, type, priority, unreadOnly }
+    //         };
 
-            axios.get(`${apiUrl}/feed`, config)
-            .then((res) => {
-                if(!res.success) throw new Error("Feed data retrive failed!!!");
-                setFeed(res.data);
-            })
-            .catch(err => console.error(err))
-        };
-        fetchProfile();
-    }, []);
+    //         axios.get(`${apiUrl}/feed`, config)
+    //         .then((res) => {
+    //             if(!res.success) throw new Error("Feed data retrive failed!!!");
+    //             setFeed(res.data);
+    //         })
+    //         .catch(err => console.error(err))
+    //     };
+    //     fetchProfile();
+    // }, []);
 
     return (
         <>

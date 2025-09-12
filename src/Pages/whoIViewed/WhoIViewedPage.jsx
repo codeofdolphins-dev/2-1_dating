@@ -13,6 +13,7 @@ import httpService from '../../helper/httpService';
 import OverlayLoader from '../../helper/OverlayLoader';
 import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
 import { ToastContainer } from 'react-toastify';
+import PaginationWithSelector from '../../components/Pagination/PaginationWithSelector';
 
 const cards = [
     { username: "Card One" },
@@ -30,7 +31,13 @@ const images = [img1, img2, img3, img4];
 
 const WhoIViewedPage = () => {
     const [user, setUser] = useState([])
-    const[loading,setLoading]=useState(true)
+    const [loading, setLoading] = useState(true)
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const [totalCount, setTotalCount] = useState(0);
+    const [apiTotalPages, setApiTotalPages] = useState(0);
+
     useEffect(() => {
         httpService(`/users/my-profile-views`, "GET")
             .then((res) => {
@@ -45,16 +52,20 @@ const WhoIViewedPage = () => {
                 setLoading(false)
             })
     }, [])
+
+    // setTotalCount();
+    // setApiTotalPages();
+
     return (
         <>
             <GlobalPageWrapper>
                 <FilterBar pageName={"Who I viewed"} filterName2={"filter"} />
-                <ToastContainer/>
-                 <OverlayLoader show={loading} text="Please wait..." />
+                <ToastContainer />
+                <OverlayLoader show={loading} text="Please wait..." />
                 <div className="container-fluid">
                     <div className="row g-4 pt-4">
                         {
-                           user?.length === 0 ? <div className='text-white'>No Users Found </div> :  user.map((card, index) => (
+                            user?.length === 0 ? <div className='text-white'>No Users Found </div> : user.map((card, index) => (
                                 <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
                                     <ViewPageCard showTime={true} card={card} index={index} images={images} showFriendOptions={false} rawTimestamp={1723974645000}
                                     />
@@ -63,6 +74,18 @@ const WhoIViewedPage = () => {
                         }
                     </div>
                 </div>
+
+                <PaginationWithSelector
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+
+                    totalCount={totalCount}
+                    apiTotalPages={apiTotalPages}
+                />
+
             </GlobalPageWrapper>
         </>
     )

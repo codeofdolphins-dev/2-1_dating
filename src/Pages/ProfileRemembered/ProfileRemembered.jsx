@@ -12,6 +12,7 @@ import axios from 'axios';
 import { showErrorToast, showSuccessToast } from '../../components/customToast/CustomToast';
 import httpService from '../../helper/httpService';
 import Pagination from '../../components/Pagination/Pagination';
+import PaginationWithSelector from '../../components/Pagination/PaginationWithSelector';
 
 const cards = [
     { username: "Card One" },
@@ -28,11 +29,13 @@ const images = [img1, img2, img3, img4];
 
 const ProfileRemembered = () => {
     const [cards, setCards] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
-    const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(false);
     const [refresh, setrefresh] = useState(false)
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const [totalCount, setTotalCount] = useState(0)
+    const [apiTotalPages, setApiTotalPages] = useState(0)
 
     const apiUrl = import.meta.env.VITE_BASE_URL;
 
@@ -52,19 +55,10 @@ const ProfileRemembered = () => {
             const members = response?.data?.data || [];
             console.log("onlnile response", response?.data?.data)
 
-            const totalCount = response?.data?.meta?.pagination?.total || null;
-            const apiTotalPages =
-                response?.data?.meta?.pagination?.pageCount || null;
+            setTotalCount(response?.data?.meta?.pagination?.total || null);
+            setApiTotalPages(response?.data?.meta?.pagination?.pageCount || null);
 
             setCards(members);
-
-            if (totalCount !== null) {
-                setTotalPages(Math.ceil(totalCount / limit));
-            } else if (apiTotalPages !== null) {
-                setTotalPages(apiTotalPages);
-            } else {
-                setTotalPages(1);
-            }
         } catch (error) {
             console.error("Failed to fetch members:", error);
             showErrorToast(`Please login again. ${error?.response?.data?.message || "An error occurred."}`);
@@ -113,31 +107,15 @@ const ProfileRemembered = () => {
                     </div>
                 </div>
 
-
-                {/* Items per page selector */}
-                <div className="d-flex justify-content-start align-items-center gap-2 my-3">
-                    <label className="text-white mb-0">Items per page:</label>
-                    <select
-                        className="form-select form-select-sm w-auto"
-                        value={itemsPerPage}
-                        onChange={(e) => {
-                            setItemsPerPage(Number(e.target.value));
-                            setCurrentPage(1);
-                        }}
-                    >
-                        {[3, 6, 9].map((num) => (
-                            <option key={num} value={num}>
-                                {num}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                {/* Capsule-style Pagination */}
-                <Pagination
+                <PaginationWithSelector
                     currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={(page) => setCurrentPage(page)}
+                    setCurrentPage={setCurrentPage}
+
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    
+                    totalCount={totalCount}
+                    apiTotalPages={apiTotalPages}
                 />
 
             </GlobalPageWrapper>

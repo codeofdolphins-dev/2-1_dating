@@ -1,7 +1,7 @@
 import React from "react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);  
 
   return (
     <nav style={{marginTop:0}}>

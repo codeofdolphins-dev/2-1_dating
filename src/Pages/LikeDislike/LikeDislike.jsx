@@ -16,6 +16,7 @@ import { useAuth } from "../../context/AuthContextAPI";
 import ItemsPerPageSelector from "../../components/Pagination/ItemsPerPageSelector";
 import Pagination from "../../components/Pagination/Pagination";
 import DeviceInfoPopup from "../../components/DeviceInfoPopup/DeviceInfoPopup";
+import PaginationWithSelector from "../../components/Pagination/PaginationWithSelector";
 
 const images = [img1, img2, img3, img4];
 
@@ -39,10 +40,12 @@ const LikeDislike = () => {
   const { filterOption } = useAuth();
 
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [totalCount, setTotalCount] = useState(0)
+  const [apiTotalPages, setApiTotalPages] = useState(0)
 
   // Fetch data based on filter, page, and limit
   useEffect(() => {
@@ -68,17 +71,9 @@ const LikeDislike = () => {
 
         setUser(response?.data || []); // adjust if API returns different structure
 
-        const totalCount = response?.data?.meta?.pagination?.total ?? null;
-        const apiTotalPages =
-          response?.data?.meta?.pagination?.pageCount ?? null;
+        setTotalCount(response?.data?.meta?.pagination?.total ?? null);
+        setApiTotalPages(response?.data?.meta?.pagination?.pageCount ?? null);
 
-        if (totalCount !== null) {
-          setTotalPages(Math.ceil(totalCount / itemsPerPage));
-        } else if (apiTotalPages !== null) {
-          setTotalPages(apiTotalPages);
-        } else {
-          setTotalPages(1);
-        }
       } catch (err) {
         console.error("Failed to fetch Like/Dislike:", err);
         showErrorToast(err?.response?.data?.message);
@@ -121,21 +116,19 @@ const LikeDislike = () => {
           )}
         </div>
 
-        {/* Items per page selector */}
-        <ItemsPerPageSelector
+        <PaginationWithSelector
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
-          setCurrentPage={setCurrentPage}
+
+          totalCount={totalCount}
+          apiTotalPages={apiTotalPages}
         />
 
-        {/* Pagination */}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
       </div>
-      <DeviceInfoPopup/>
+      <DeviceInfoPopup />
     </GlobalPageWrapper>
   );
 };
