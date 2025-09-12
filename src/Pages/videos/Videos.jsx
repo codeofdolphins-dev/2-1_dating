@@ -7,9 +7,24 @@ import VideoModal from '../../components/Video Modal/VideoModal';
 import { useNavigate } from 'react-router-dom';
 import httpService from '../../helper/httpService';
 import OverlayLoader from '../../helper/OverlayLoader';
+import { useAuth } from '../../context/AuthContextAPI';
+
+  const filter2 = [
+    "Latest",
+    "Distance",
+    "Most Viewed",
+    "Couples",
+    "Female",
+    "Male",
+    "Businessess",
+    "Transgender",
+    "Friends",
+    "Past Live Streams"
+  ]
 
 const Videos = () => {
   const navigate = useNavigate();
+  const {filterOption} = useAuth()
 
   const navigationToAnotherPage = () => {
     navigate("/current-user-profile");
@@ -23,7 +38,7 @@ const Videos = () => {
     setload(true)
     try {
       const res = await httpService(
-        "/media-library/global/videos?adultContent=all&contentRating=all&visibility=all"
+        `/media-library/global/videos?adultContent=all&contentRating=all&visibility=alluserTypes=${filterOption.toLowerCase()}`
       );
       setVideos(res?.data?.videos || []);
     } catch (err) {
@@ -36,7 +51,9 @@ const Videos = () => {
 
     videoApiCall();
 
-  }, []);
+  }, [filterOption]);
+
+  // console.log("filterOption",filterOption.toLowerCase())
 
   const handleOpenModal = () => setShow(true);
 
@@ -44,6 +61,8 @@ const Videos = () => {
     setShow(false);
     await videoApiCall(); // ✅ refresh list when modal closes
   };
+
+
 
   return (
     <>
@@ -57,6 +76,7 @@ const Videos = () => {
             pageName={"Videos"}
             navigationPageName1={"Add Videos"}
             filterName2={"Filter"}
+            filter2={filter2}
             navigationToAnotherPage={navigationToAnotherPage}
             checkbox={false}
             okButton={true}

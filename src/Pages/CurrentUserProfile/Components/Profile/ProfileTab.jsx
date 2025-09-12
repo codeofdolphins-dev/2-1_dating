@@ -36,7 +36,6 @@ const ProfileTab = ({ changeTab }) => {
     const navigate = useNavigate()
 
 
-
     const miniTabLower = [
         { title: "Certifications" },
         { title: "Groups" },
@@ -212,7 +211,7 @@ const ProfileTab = ({ changeTab }) => {
             </div>
 
             <div className="w-100 mt-4">
-                <Table user={user} />
+                <Table user={user?.profile} />
             </div>
 
             {/* lower mini tab  */}
