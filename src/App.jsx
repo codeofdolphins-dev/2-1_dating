@@ -38,7 +38,7 @@ import LiveStreamCard from './components/Video Card/VideoCard';
 import Videos from './Pages/videos/Videos';
 import AddVideo from './Pages/Add Video/AddVideo';
 import WallOfFramePage from './Pages/WallOfFramePage/WallOfFramePage';
-import ProfilePage from './Pages/profilePage/ProfilePage';
+import ProfilePage from './Pages/profilePage/profilePage';
 import GroupsPage from './Pages/GroupsPage/GroupsPage';
 import MyGroupsPage from './Pages/MyGroupsPage/MyGroupsPage';
 import FeaturedMembers from './Pages/Featured-Members/FeaturedMembers';
@@ -77,6 +77,7 @@ import { useAuth } from './context/AuthContextAPI';
 import WebSocketService from './services/websocket';
 import IndividualGroup from './Pages/IndividualGroup/IndividualGroup';
 import Chat from './Pages/Chat/Chat';
+
 
 
 
