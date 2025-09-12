@@ -38,7 +38,7 @@ import LiveStreamCard from './components/Video Card/VideoCard';
 import Videos from './Pages/videos/Videos';
 import AddVideo from './Pages/Add Video/AddVideo';
 import WallOfFramePage from './Pages/WallOfFramePage/WallOfFramePage';
-import ProfilePage from './Pages/profilePage/profilePage';
+import ProfilePage from './Pages/profilePage/ProfilePage';
 import GroupsPage from './Pages/GroupsPage/GroupsPage';
 import MyGroupsPage from './Pages/MyGroupsPage/MyGroupsPage';
 import FeaturedMembers from './Pages/Featured-Members/FeaturedMembers';
