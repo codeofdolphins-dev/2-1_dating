@@ -3,11 +3,12 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 
 const ImagePopup = ({ show, handleClose, image }) => {
+  console.log("xxxx",image)
   return (
     <Modal show={show} onHide={handleClose} centered className="image-popup-modal">
       <Modal.Body className="p-0 bg-transparent position-relative">
         <img
-          src={image}
+          src={image || image?.url}
           alt="Popup"
           className="img-fluid w-100 rounded"
           style={{ objectFit: 'cover' }}

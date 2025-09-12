@@ -25,9 +25,7 @@ const icons = [
     { icon: invite, text: "Invite" },
 ]
 
-const CurrentProfileCard = ({user}) => {
-
-   
+const CurrentProfileCard = ({ user, userFriendsCount, allProfileImg, geticonText, allAdultImg, allNonAdultImg, allVideo }) => {
 
     return (
         <>
@@ -41,17 +39,29 @@ const CurrentProfileCard = ({user}) => {
                             <i className="bi bi-three-dots-vertical"></i>
                         </div>
                         <div className="d-flex justify-content-center align-items-center gap-3">
-                            <div className="d-flex justify-content-center align-items-center">
-                                <img src={femaleIcon} alt="female" width="12px" height="12px" />
-                                <p className="mb-0 text-danger" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.dateOfBirth} /></p>
-                            </div>
                             {
-                              user?.profile?.partner &&  <div className="d-flex justify-content-center align-items-center">
-                                <img src={maleIcon} alt="male" width="12px" height="12px" />
-                                <p className="mb-0 text-primary" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.partner?.dateOfBirth} /></p>
-                            </div> 
+                                user?.profile?.gender === "male" ? <div className="d-flex justify-content-center align-items-center">
+                                    <img src={maleIcon} alt="male" width="12px" height="12px" />
+                                    <p className="mb-0 text-primary" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.dateOfBirth} /></p>
+                                </div> : user?.profile?.gender === "female" ? <div className="d-flex justify-content-center align-items-center">
+                                    <img src={femaleIcon} alt="female" width="12px" height="12px" />
+                                    <p className="mb-0 text-primary" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.dateOfBirth} /></p>
+                                </div> : user?.profile?.gender === "couple" && <div className='d-flex gap-2'>
+                                    <div className="d-flex justify-content-center align-items-center">
+                                        <img src={maleIcon} alt="male" width="12px" height="12px" />
+                                        <p className="mb-0 text-primary" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.dateOfBirth} /></p>
+                                    </div>
+                                    {
+                                        user?.profile?.partner && <div className="d-flex justify-content-center align-items-center">
+                                            <img src={femaleIcon} alt="female" width="12px" height="12px" />
+                                            <p className="mb-0 text-danger" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.partner?.dateOfBirth} /></p>
+                                        </div>
+                                    }
+                                </div>
                             }
-                            
+
+
+
                         </div>
                     </div>
                     <div className="mt-3">
@@ -68,22 +78,53 @@ const CurrentProfileCard = ({user}) => {
 
                 {/* Body */}
                 <div className="profile-body" style={{ width: "389px", height: "380px" }}>
-                    <ProfileImageCarousel images={user?.profile?.photos}/>
+                    <ProfileImageCarousel images={allProfileImg} />
                 </div>
 
                 {/* Footer */}
                 <div className="d-flex justify-content-around align-items-center my-3 w-100">
-                    {icons.map((item, i) => (
-                        <div
-                            key={i}
-                            className="d-flex flex-column justify-content-center align-items-center"
-                            style={{ width: "49px", fontSize: "10px" }}
-                        >
-                            <img src={item.icon} alt={item.text} />
-                            <p className="mb-0">{item.text}</p>
-                        </div>
-                    ))}
+                    {icons.map((item, i) => {
+                        let count = 0;
+
+                        if (item.text === "Adult") count = allAdultImg?.length || 0;
+                        if (item.text === "Non-Adult") count = allNonAdultImg?.length || 0;
+                        if (item.text === "Videos") count = allVideo?.length || 0;
+                        if (item.text === "Friends") count = userFriendsCount || 0; // ✅ Fix here
+
+                        return (
+                            <div
+                                key={i}
+                                className="d-flex flex-column justify-content-center align-items-center position-relative"
+                                style={{ width: "49px", fontSize: "10px" }}
+                            >
+                                {/* Image with count overlay */}
+                                <div className="position-relative" style={{ width: "40px", height: "40px" }}>
+                                    <img
+                                        src={item.icon}
+                                        alt={item.text}
+                                        onClick={() => geticonText(item.text, true)}
+                                        style={{ width: "100%", height: "100%", cursor: "pointer" }}
+                                    />
+                                    {count >= 0 && (
+                                        <span
+                                            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
+                                            style={{ fontSize: "9px" }}
+                                        >
+                                            {userFriendsCount ||count}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* Label text */}
+                                <p className="mb-0 mt-1">{item.text}</p>
+                            </div>
+                        );
+                    })}
+
+
                 </div>
+
+
             </div>
         </>
     )

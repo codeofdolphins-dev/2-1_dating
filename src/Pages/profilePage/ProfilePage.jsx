@@ -4,7 +4,7 @@ import ProfileImg from "./img/profileImg.png"
 import femaleIcon from "./img/female.png"
 import male from "./img/male.png"
 import couple from "./img/couple.png"
-import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
+// import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
 import cameraxxx from "./img/camera-xxx.png";
 // import camera from "./img/camera-xxx.png"
 import { Container, Row, Col, ToastBody } from "react-bootstrap";
@@ -40,6 +40,8 @@ import ProfileReportPopup from '../../components/ProfileReportPopup/ProfileRepor
 import NotesModal from '../../components/NotesModal/NotesModal'
 import NotesPopup from '../../components/NotesModal/NotesModal'
 import httpService from '../../helper/httpService'
+import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
+// import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },

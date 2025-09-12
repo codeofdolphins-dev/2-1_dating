@@ -144,63 +144,82 @@ const VideosTab = () => {
           {uploadedVideos.length > 0 ? (
             uploadedVideos.map((video, idx) =>
               video?.type === "video" && (
-                <div
-                  key={idx}
-                  className="position-relative"
-                  style={{
-                    width: "390px", // bigger width
-                    height: "200px", // bigger height
-                    cursor: "pointer",
-                    borderRadius: "12px",
-                    overflow: "hidden",
-                  }}
-                >
-                  {/* ✅ Delete button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent opening modal
-                      handleDelete(video.key);
+                <>
+                  <div
+                    key={idx}
+                    className="position-relative"
+                    style={{
+                      width: "390px", // bigger width
+                      height: "200px", // bigger height
+                      cursor: "pointer",
+                      borderRadius: "12px",
+                      overflow: "hidden",
                     }}
-                    className="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
-                    style={{ zIndex: 3 }}
                   >
-                    ✕
-                  </button>
-
-                  {/* ✅ Video Thumbnail */}
-                  <div onClick={() => setSelectedVideo(video)}>
-                    <video
-                      src={video.url}
-                      className="d-block w-100 h-100"
-                      style={{
-                        borderRadius: "12px",
-                        objectFit: "cover",
+                    {/* ✅ Delete button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent opening modal
+                        handleDelete(video.key);
                       }}
-                      muted
-                    />
-                    <div
-                      className="position-absolute top-50 start-50 translate-middle"
-                      style={{ zIndex: 2 }}
+                      className="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
+                      style={{ zIndex: 3 }}
                     >
-                      <div
-                        className="rounded-circle d-flex justify-content-center align-items-center"
+                      ✕
+                    </button>
+
+                    {/* ✅ Video Thumbnail */}
+                    <div onClick={() => setSelectedVideo(video)}>
+                      <video
+                        src={video.url}
+                        className="d-block w-100 h-100"
                         style={{
-                          width: 60,
-                          height: 60,
-                          background: "rgba(0,0,0,0.4)",
-                          border: "1px solid rgba(255,255,255,0.6)",
+                          borderRadius: "12px",
+                          objectFit: "cover",
+                        }}
+                        muted
+                      />
+
+                      {/* ✅ Play Button Overlay */}
+                      <div
+                        className="position-absolute top-50 start-50 translate-middle"
+                        style={{ zIndex: 2 }}
+                      >
+                        <div
+                          className="rounded-circle d-flex justify-content-center align-items-center"
+                          style={{
+                            width: 60,
+                            height: 60,
+                            background: "rgba(0,0,0,0.4)",
+                            border: "1px solid rgba(255,255,255,0.6)",
+                          }}
+                        >
+                          <span
+                            className="text-white fs-4"
+                            style={{ marginBottom: "3px" }}
+                          >
+                            ▶
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* ✅ View Count Badge */}
+                      <div
+                        className="position-absolute bottom-0 end-0 m-2 px-2 py-1"
+                        style={{
+                          background: "rgba(0, 0, 0, 0.6)",
+                          borderRadius: "8px",
+                          color: "white",
+                          fontSize: "14px",
+                          zIndex: 2,
                         }}
                       >
-                        <span
-                          className="text-white fs-4"
-                          style={{ marginBottom: "3px" }}
-                        >
-                          ▶
-                        </span>
+                        👁 {video?.sourceData?.viewCount || 0}
                       </div>
                     </div>
                   </div>
-                </div>
+
+                </>
               )
             )
           ) : (

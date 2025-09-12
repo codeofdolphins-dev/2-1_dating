@@ -11,7 +11,7 @@ import Registration from './Pages/RegistrationPage/Registration';
 import SecondRegistrationPage from './Pages/ScondRegistrationPage/SecondRegistrationPage';
 import BusinessProfilePage from './Pages/BusinessProfilePage/BusinessProfilePage';
 import Feed from './Pages/Front-screen-feed/Feed/Feed';
-import Chat from './Pages/Chat/chat';
+// import Chat from './Pages/Chat/Chat';
 
 // Swiper js Css
 import 'swiper/css';
@@ -76,6 +76,8 @@ import { useEffect } from 'react';
 import { useAuth } from './context/AuthContextAPI';
 import WebSocketService from './services/websocket';
 import IndividualGroup from './Pages/IndividualGroup/IndividualGroup';
+import Chat from './Pages/Chat/Chat';
+
 
 
 

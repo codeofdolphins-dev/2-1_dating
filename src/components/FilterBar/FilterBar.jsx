@@ -68,6 +68,7 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
 
     const handleToggle = (label) => {
         setSelected(label); // only one selected at a time
+        setFilterOption(label)
     };
 
 
