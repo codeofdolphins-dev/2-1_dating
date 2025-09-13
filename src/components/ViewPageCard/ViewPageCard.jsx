@@ -73,6 +73,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   const [showGallery, setShowGallery] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState(false);
   const [time, setTime] = useState("");
+  const [allVideos,setAllVideos] = useState([])
   const { setUserNameFromFriendListPage, setUserNameFromFriendList } = useAuth();
   const { user } = useAuth()
   const senderMssageId = user?.data?.user?._id;
@@ -102,7 +103,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   const senderId = userData?.senderId?._id
 
   const handleNavigateToProfilepage = () => {
-    navigate("/profile", {
+    navigate(`/profile/${card?._id}`, {
       state: {
         userId: card?._id,
         username: card?.username,
@@ -115,7 +116,6 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   const handleFriendRequest = async () => {
     try {
       const response = await httpService("/friend-requests", "POST", { receiverId: card._id ? card._id : senderId });
-      console.log(response)
       showSuccessToast(response?.message)
 
     } catch (err) {
@@ -185,9 +185,23 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   }
 
 
+  //get videos 
+
+  useState(() => {
+    httpService(`/media-library/${card?._id}?type=video`)
+      .then((res) => {
+        setAllVideos(res?.data?.media)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+  }, [])
+
+ console.log("user friends",card)
   return (
     <>
-      
+
       <div className="row g-3 rounded-4 text-white pb-2 ml-3"
         style={{ backgroundColor: "var(--color-border)", border: "2px solid #ffffff", maxWidth: "650px" }}
       >
@@ -403,7 +417,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 <i className="bi bi-hand-thumbs-up-fill"></i><span>{`_`}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }} onClick={handleOtherFriendlistPageNav ? handleOtherFriendlistPageNav : 0}>
-                <i className="bi bi-person-fill" ></i><span>{(card?.friends?.length || card?.friendCount) ?? "_"}</span>
+                <i className="bi bi-person-fill" ></i><span>{(card?.friends?.length || card?.friendCount) ?? "0"}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2">
                 <i className="bi bi-check-lg"></i><span>{`_`}</span>
@@ -414,7 +428,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 </div>
               } */}
               <div className="d-flex align-items-center gap-1 text-white small py-2">
-                <i className="bi bi-play-fill"></i><span>{`_`}</span>
+                <i className="bi bi-play-fill"></i><span>{ allVideos.length ||`_`}</span>
               </div>
             </div>
 
@@ -513,9 +527,10 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         />
 
         {/* 💬 Messenger Popup */}
-        {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} receiverId={card._id} senderId={senderMssageId} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)}/>}
+        {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} receiverId={card._id} senderId={senderMssageId} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
 
         <DeviceInfoPopup show={show} setShow={setShow} />
+        <Glo
       </div>
       {/* <ToastContainer /> */}
     </>

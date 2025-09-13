@@ -20,7 +20,7 @@ const MessengerPopup = ({ show, handleClose, profileImg, userName, receiverId })
 
   console.log("senderId:", senderId, "receiverId:", receiverId);
 
-  // ✅ Join conversation when popup opens
+  // ✅ Join conversation + Fetch old messages + Listen new
   useEffect(() => {
     if (!show || !receiverId || !senderId) return;
 
@@ -30,8 +30,19 @@ const MessengerPopup = ({ show, handleClose, profileImg, userName, receiverId })
 
     WebSocketService.joinConversation(receiverId);
 
-    const socket = WebSocketService.socket;
+    // ✅ Fetch previous chat history
+    const fetchChatHistory = async () => {
+      try {
+        const history = await WebSocketService.getChatHistory(receiverId);
+        setMessages(history || []);
+      } catch (err) {
+        console.error("Error fetching chat history:", err);
+      }
+    };
+    fetchChatHistory();
 
+    // ✅ Listen for new incoming messages
+    const socket = WebSocketService.socket;
     socket?.on("new_personal_message", (message) => {
       console.log("📩 new message:", message);
       setMessages((prev) => [...prev, message]);
@@ -43,6 +54,7 @@ const MessengerPopup = ({ show, handleClose, profileImg, userName, receiverId })
     };
   }, [show, receiverId, senderId, user?.token]);
 
+  // ✅ Send Message
   const handleSend = () => {
     if (!input.trim()) return;
 
@@ -64,6 +76,7 @@ const MessengerPopup = ({ show, handleClose, profileImg, userName, receiverId })
     }
   };
 
+  // ✅ Scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -91,7 +104,7 @@ const MessengerPopup = ({ show, handleClose, profileImg, userName, receiverId })
         >
           <div className="d-flex align-items-center gap-2">
             <img
-              src={profileImg}
+              src={profileImg?.url}
               alt="avatar"
               className="rounded-circle"
               style={{ width: "40px", height: "40px" }}

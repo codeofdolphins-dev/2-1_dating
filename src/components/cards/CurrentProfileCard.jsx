@@ -27,6 +27,8 @@ const icons = [
 
 const CurrentProfileCard = ({ user, userFriendsCount, allProfileImg, geticonText, allAdultImg, allNonAdultImg, allVideo }) => {
 
+    console.log("non-adult img",allNonAdultImg)
+
     return (
         <>
             <div className="d-flex flex-column gap-3 px-3 py-3 rounded-4" style={{ width: "422px", backgroundColor: "var(--color-border)", }}>
@@ -110,7 +112,7 @@ const CurrentProfileCard = ({ user, userFriendsCount, allProfileImg, geticonText
                                             className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
                                             style={{ fontSize: "9px" }}
                                         >
-                                            {userFriendsCount ||count}
+                                            {  count}
                                         </span>
                                     )}
                                 </div>

@@ -119,7 +119,7 @@ function App() {
 
           {/* Front-screen */}
           <Route path="/feed" element={<ProtectedRoute><Feed /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/profile/:userId" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/view" element={<ProtectedRoute><ViewsPage /></ProtectedRoute>} />
           <Route path="/online" element={<ProtectedRoute><OnlinePage /></ProtectedRoute>} />
           <Route path="/hotdate" element={<ProtectedRoute><HotDatePage /></ProtectedRoute>} />

@@ -18,7 +18,9 @@ import {
     FaShareAlt,
     FaEnvelope,
     FaHeart,
-    FaCamera
+    FaCamera,
+    FaMale,
+    FaFemale
 } from "react-icons/fa";
 import { AiFillFileText } from "react-icons/ai";
 // import { MdLocalMovies, MdAdultContent } from "react-icons/md";
@@ -42,22 +44,29 @@ import NotesPopup from '../../components/NotesModal/NotesModal'
 import httpService from '../../helper/httpService'
 import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
 // import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
+import GlobalImageCarouselPopup from "../../components/GlobalImageCarouselPopup/GlobalImageCarouselPopup"
+import MessengerPopup from "../../components/MessengerPopup/MessengerPopup"
+import DobCalculator from "../../helper/DobCalculator"
+import AgeCalculator from '../../helper/DobCalculator'
+import transgender from "../../assets/icons/custom_transgender.png";
+import CustomCouple from "../../assets/icons/couple_custom.png";
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
     // { icon: <MdLocalMovies />, label: "Adult" },
     // { icon: <MdAdultContent />, label: "Non-Adult" },
-    { icon: <FaCamera />, label: "Non-adult" },
+    { icon: <FaCamera />, label: "Non-Adult" },
+    { icon: <FaCamera />, label: "Adult" },
     // { icon: cameraxxx, label: "Adult Photo" }, ,
     { icon: <FaVideo />, label: "Videos" },
-    { icon: <FaImages />, label: "Albums" },
-    { icon: <FaUserFriends />, label: "Friends" },
+    // { icon: <FaImages />, label: "Albums" },
+    // { icon: <FaUserFriends />, label: "Friends" },
     { icon: <FaThumbsUp />, label: "Likes" },
-    { icon: <FaCheckCircle />, label: "Validate" },
-    { icon: <FaShareAlt />, label: "Share" },
-    { icon: <FaEnvelope />, label: "Invite" },
+    // { icon: <FaCheckCircle />, label: "Validate" },
+    // { icon: <FaShareAlt />, label: "Share" },
+    // { icon: <FaEnvelope />, label: "Invite" },
     { icon: <BsBookmark />, label: "Remember" },
-    { icon: <AiFillFileText />, label: "Notes" }
+    // { icon: <AiFillFileText />, label: "Notes" }
 ];
 
 const tabs = [
@@ -75,42 +84,120 @@ const ProfilePage = () => {
     const [show, setShow] = useState(false);
 
     const [notsPopup, setNotesPopup] = useState(false)
-    const [user,setUser]=useState("")
+    const [user, setUser] = useState("")
+
+    const [allProfileImg, setAllProfileImg] = useState([]);
+    const [allAdultImg, setAllAdultImg] = useState([]);
+    const [allNonAdultImg, setAllNonAdultImg] = useState([]);
+    const [allVideo, setAllVideo] = useState([]);
+    const [popupToggle, setPopupToggle] = useState(false);
+    const [iconText, setIconText] = useState("")
+    const [chatToggle, setChatToggle] = useState(false)
+
+
+
     const location = useLocation();
-    const { userId, username, role } = location.state || {};
-    console.log("profileId", userId)
-    console.log(location.state)
+    const { username, role } = location.state || {};
+    const { userId } = useParams();   // <-- userId from URL
 
-      const queryParams = new URLSearchParams(location.search);
-      const userIdFromPrams = queryParams.get("i");
+    const queryParams = new URLSearchParams(location.search);
+    const userIdFromPrams = queryParams.get("i");
 
-      console.log("xxx",userIdFromPrams)
 
+    // useEffect(() => {
+    //     const id = userId || userIdFromPrams
+    //     axios({
+    //         method: 'post',
+    //         url: `${import.meta.env.VITE_BASE_URL}/users/${id}/view`,
+    //         headers: {
+    //             'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+    //             'Content-Type': 'application/json' // optional
+    //         },
+    //         data: {
+    //             source: "profile_link"
+    //         }
+    //     }).then(response => {
+    //         console.log("xxxxx", response?.data?.data?.viewedUser?.username)
+    //         setUser(response?.data?.data?.viewedUser?.username)
+    //         showWarningToast(response?.data?.message)
+    //     })
+    //         .catch(error => {
+    //             console.error(error);
+    //             showErrorToast(error)
+    //         });
+    // }, [])
+
+
+
+    // ✅ Fetch images when user is loaded
     useEffect(() => {
-        const id = userId || userIdFromPrams
-        axios({
-            method: 'post',
-            url: `${import.meta.env.VITE_BASE_URL}/users/${id}/view`,
-            headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
-                'Content-Type': 'application/json' // optional
-            },
-            data: {
-                source: "profile_link"
-            }
-        }).then(response => {
-            console.log("xxxxx",response?.data?.data?.viewedUser?.username)
-            setUser(response?.data?.data?.viewedUser?.username)
-            showWarningToast(response?.data?.message)
-        })
-            .catch(error => {
-                console.error(error);
-                showErrorToast(error)
+        if (!userId) return;
+
+        // fetchUserInfo
+        httpService(`/users/${userId}`, "GET")
+            .then((res) => {
+                console.log("profile img", res);
+                setUser(res?.data?.profile);
+                console.log("userData", res?.data?.profile?.dateOfBirth)
+                // setImages(res?.data?.media || []);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch profile image:", err);
             });
-    }, [])
+
+        // profile photos
+        httpService(`/media-library/${userId}?type=image&source=profile`, "GET")
+            .then((res) => {
+                console.log("profile img", res);
+                setAllProfileImg(res?.data?.media);
+                // setImages(res?.data?.media || []);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch profile image:", err);
+            });
+
+        // adult post photos
+        httpService(
+            `/media-library/${userId}?type=image&source=post&adultContent=adult`,
+            "GET"
+        )
+            .then((res) => {
+                console.log("adult post img", res?.data?.media);
+                setAllAdultImg(res?.data?.media);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch adult images:", err);
+            });
 
 
-    console.log("profile userId", userId)
+        // non-adult post photos
+        httpService(
+            `/media-library/${userId}?type=image&source=post&adultContent=non-adult`,
+            "GET"
+        )
+            .then((res) => {
+                console.log("non-adult post img", res?.data?.media);
+                setAllNonAdultImg(res?.data?.media);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch adult images:", err);
+            });
+
+        // video post photos
+        httpService(
+            `/media-library/${userId}?type=video&source=post`,
+            "GET"
+        )
+            .then((res) => {
+                console.log("non-adult post video", res?.data?.media);
+                setAllVideo(res?.data?.media);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch adult images:", err);
+            });
+    }, [userId]);
+
+
 
     const handleActionClick = async (label) => {
         if (label === "Notes") {
@@ -144,11 +231,27 @@ const ProfilePage = () => {
                 console.error(err);
                 showErrorToast(err?.response?.data?.message || "Failed to remember");
             }
+        } else if (label === "Non-Adult") {
+            setIconText(label)
+            setPopupToggle(true)
+        } else if (label === "Videos") {
+            setIconText(label)
+            setPopupToggle(true)
+        } else if (label === "Adult") {
+            setIconText(label)
+            setPopupToggle(true)
+        } else if (label === "Messenger") {
+            setChatToggle(true)
         }
     };
 
+    const handleClose = () => {
+        setPopupToggle(false)
+        setChatToggle(false)
+    }
 
 
+    console.log("user", user)
     return (
         <>
             <PageWrapper>
@@ -157,7 +260,17 @@ const ProfilePage = () => {
                     <div className="row rounded-4 py-3" style={{ backgroundColor: "var(--color-border)", border: "1px solid #ffffff" }}>
                         {/* Left Column: Carousel */}
                         <div className="col-lg-4 mb-3 mb-lg-0">
-                            <ProfileImageCarousel />
+                            <ProfileImageCarousel images={allProfileImg} />
+
+                            <GlobalImageCarouselPopup show={popupToggle} handleClose={handleClose} currentMediaData={iconText === "Videos" && "video"} images={
+                                iconText === "Adult"
+                                    ? allAdultImg
+                                    : iconText === "Non-Adult"
+                                        ? allNonAdultImg
+                                        : iconText === "Videos"
+                                            ? allVideo
+                                            : []
+                            } />
                         </div>
 
                         {/* Right Column: Content Placeholder */}
@@ -171,26 +284,41 @@ const ProfilePage = () => {
                                         </h5>
                                         <ProfileReportPopup userId={userId} username={username} show={show} setShow={setShow} />
                                         <div className="d-flex gap-3 my-2 fw-bold">
-                                            <div className="d-flex align-items-center gap-1">
-                                                <img src={femaleIcon} alt="female" height={15} />
-                                                <div className="text-danger">57</div>
-                                            </div>
-                                            <div className="d-flex align-items-center gap-1">
-                                                <img src={male} alt="male" height={15} />
-                                                <div className="text-danger">57</div>
-                                            </div>
+                                            {
+                                                user?.gender === "couple" ? <>
+                                                    <div className="d-flex align-items-center gap-1">
+                                                        <img src={male} alt="female" height={15} />
+                                                        <div className="text-primary">{<AgeCalculator birthDate={user?.dateOfBirth} />}</div>
+                                                    </div>
+                                                    <div className="d-flex align-items-center gap-1">
+                                                        <img src={femaleIcon} alt="male" height={15} />
+                                                        <div className="text-danger">{<AgeCalculator birthDate={user?.partner?.dateOfBirth} />}</div>
+                                                    </div>
+                                                </> : user?.gender === "male" ? <>
+                                                    <div className="d-flex align-items-center gap-1">
+                                                        <img src={male} alt="male" height={15} />
+                                                        <div className="text-primary">{<AgeCalculator birthDate={user?.dateOfBirth} />}</div>
+                                                    </div>
+                                                </> : user?.gender === "female" ? <>
+                                                    <div className="d-flex align-items-center gap-1">
+                                                        <img src={femaleIcon} alt="male" height={15} />
+                                                        <div className="text-danger">{<AgeCalculator birthDate={user?.dateOfBirth} />}</div>
+                                                    </div>
+                                                </> : <></>
+                                            }
+
                                         </div>
                                     </div>
 
                                     <div className="mb-5">
                                         <div className="d-flex align-items-center gap-2 mb-1">
                                             <FaMapMarkerAlt />
-                                            <span>94555, CA 94555, USA | 8412 mi</span>
+                                            <span>{user?.address?.fullAddress}</span>
                                         </div>
-                                        <div className="d-flex align-items-center gap-2">
+                                        {/* <div className="d-flex align-items-center gap-2">
                                             <FaMapMarkerAlt />
                                             <span>Vancouver, CAN | 7645 mi</span>
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     {/* Action Icons */}
@@ -226,10 +354,19 @@ const ProfilePage = () => {
                                         </div>
                                         <div className="text-black d-flex gap-2">
                                             <div><strong>Interests:</strong>{" "}</div>
-                                            <div className='d-flex'>
-                                                <div><img src={femaleIcon} height={20} alt="" /></div>
-                                                <div><img src={couple} alt="" height={20} /></div>
-                                            </div>
+                                            {user?.interestedIn?.map((interest, i) => (
+                                                <div key={i} className="text-light small">
+                                                    {interest === "male" ? (
+                                                        <FaMale className="fs-5 text-primary" />
+                                                    ) : interest === "female" ? (
+                                                        <FaFemale className="fs-5 text-danger" />
+                                                    ) : interest === "transgender" ? (
+                                                        <img src={transgender} height={21} alt="transgender" />
+                                                    ) : interest === "couple" ? (
+                                                        <img src={CustomCouple} height={21} alt="couple" />
+                                                    ) : null}
+                                                </div>
+                                            ))}
                                         </div>
                                         <div className="text-black">
                                             <strong>Fantasy:</strong>{" "}
@@ -345,6 +482,7 @@ const ProfilePage = () => {
                     {activeTab === "Certifications" ? <ProfilePageCertificationCardContainer /> : activeTab === "Groups" ? <ProfilePageGroupCardContainer /> : activeTab === "Parties & Events" ? <PartiesAndeventCardContainer /> : activeTab === "Following" ? <ProfilePageFollowingCardContainer /> : activeTab === "Friends" && <FriendsCardContainer />}
                     {/* <ProfilePageCertificationCard/> */}
 
+                    <MessengerPopup show={chatToggle} handleClose={handleClose} receiverId={userId} profileImg={allProfileImg[0]} />
 
                 </div>
 
