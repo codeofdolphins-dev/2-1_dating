@@ -12,7 +12,7 @@ const CreateSpeeddatepage = () => {
   const [selectedOption, setSelectedOption] = useState("private"); // type of place
   const [where, setWhere] = useState("");
   const [details, setDetails] = useState("");
-  const [submittedData, setSubmittedData] = useState(null);
+  const [submitedData, setSubmitedData] = useState(null);
 
   const apiUrl = import.meta.env.VITE_BASE_URL;
 
@@ -39,7 +39,9 @@ const CreateSpeeddatepage = () => {
       where,
       details,
     };
-    setSubmittedData(data);
+    setSubmitedData(data);
+    console.log(submitedData);
+    
   };
 
   const pagenavigate = () => {
@@ -57,7 +59,7 @@ const CreateSpeeddatepage = () => {
       
     })
 
-    navigate("/hotdate");
+    // navigate("/hotdate");
   };
 
   return (
