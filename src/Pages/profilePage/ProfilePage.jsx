@@ -44,12 +44,13 @@ import NotesPopup from '../../components/NotesModal/NotesModal'
 import httpService from '../../helper/httpService'
 import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
 // import ProfileImageCarousel from '../../components/profileImageCarousel/profileImageCarousel'
-import GlobalImageCarouselPopup from "../../components/GlobalImageCarouselPopup/GlobalImageCarouselPopup"
+// import GlobalImageCarouselPopup from "../../components/GlobalImageCarouselPopup/GlobalImageCarouselPopup"
 import MessengerPopup from "../../components/MessengerPopup/MessengerPopup"
 import DobCalculator from "../../helper/DobCalculator"
 import AgeCalculator from '../../helper/DobCalculator'
 import transgender from "../../assets/icons/custom_transgender.png";
 import CustomCouple from "../../assets/icons/couple_custom.png";
+import GlobalImageCarouselPopup from '../../components/globalImageCarouselPopup/GlobalImageCarouselPopup'
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },

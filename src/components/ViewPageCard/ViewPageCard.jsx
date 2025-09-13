@@ -530,7 +530,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         {showMessagePopup && <ViewpageMessengerPopup userName={card?.username} receiverId={card._id} senderId={senderMssageId} profileImg={images[2]} show={showMessagePopup} handleClose={() => setShowMessagePopup(false)} />}
 
         <DeviceInfoPopup show={show} setShow={setShow} />
-        <Glo
+        {/* <Glo */}
       </div>
       {/* <ToastContainer /> */}
     </>
