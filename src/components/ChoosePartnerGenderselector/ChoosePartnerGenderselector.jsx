@@ -31,7 +31,8 @@ const ChoosePartnerGenderselector = ({ handleLookingFor }) => {
   return (
     <Form.Group className="mb-4">
       <Form.Label className="py-2">
-        Looking for (choose 1 or more) *
+        {/* Looking for (choose 1 or more) * */}
+        with
       </Form.Label>
       <div className="d-flex gap-3 flex-wrap">
         {options.map(({ label, icon }) => {

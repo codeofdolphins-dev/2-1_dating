@@ -6,19 +6,21 @@ import ChoosePartnerGenderselector from "../../components/ChoosePartnerGendersel
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Calender from "../../components/calender/Calender";
 
 const CreateSpeeddatepage = () => {
+  const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_BASE_URL;
+
   const [lookingFor, setLookingFor] = useState(["Couple"]);
   const [selectedOption, setSelectedOption] = useState("private"); // type of place
   const [where, setWhere] = useState("");
   const [details, setDetails] = useState("");
   const [submitedData, setSubmitedData] = useState(null);
+  const [formatted, setFormatted] = useState("");
 
-  const apiUrl = import.meta.env.VITE_BASE_URL;
-
-
-  const navigate = useNavigate();
   const characterLimit = 250;
+
 
   // Handler function for radio buttons
   const handleOptionChange = (event) => {
@@ -33,18 +35,23 @@ const CreateSpeeddatepage = () => {
   // Submit handler
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
+
+    setSubmitedData({
       type: selectedOption,
-      lookingFor,
+      preferredWith: lookingFor,
       where,
       details,
-    };
-    setSubmitedData(data);
-    console.log(submitedData);
-    
-  };
-
-  const pagenavigate = () => {
+      startDate: formatted.split(" to ")[0],
+      endDate: formatted.split(" to ")[1],
+      location: {
+        coordinates: [72.8777, 19.0760],
+        address: {
+          country: "India",
+          city: "Mumbai",
+          fullAddress: "Marine Drive, Mumbai"
+        }
+      },
+    });
 
     const token = sessionStorage.getItem("jwtToken");
     const config = {
@@ -54,13 +61,15 @@ const CreateSpeeddatepage = () => {
       }
     };
 
-    axios.get(`${apiUrl}/speed-dates`, config)
-    .then((res) => {
-      
-    })
+    console.log(submitedData);    
 
-    // navigate("/hotdate");
-  };
+    axios.post(`${apiUrl}/speed-dates`, submitedData, config)
+    .then((res) => {
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+  }
 
   return (
     <div className="client-page-background text-white">
@@ -72,7 +81,7 @@ const CreateSpeeddatepage = () => {
               <i
                 className="bi bi-chevron-left text-white fs-2"
                 style={{ cursor: "pointer" }}
-                onClick={pagenavigate}
+                onClick={() => navigate("/hotdate")}
               ></i>
             </div>
             <div className="text-white fs-2">
@@ -131,8 +140,15 @@ const CreateSpeeddatepage = () => {
               </div>
             </div>
 
+            {/* calender */}
+            <div className="mt-4">
+              <label htmlFor="">When</label>
+              <Calender setFormatted={setFormatted} className={`mt-3`} />
+            </div>
+
+
             {/* Looking For */}
-            <div className="mt-5">
+            <div className="mt-3">
               <ChoosePartnerGenderselector
                 handleLookingFor={handleToggleLookingFor}
               />
