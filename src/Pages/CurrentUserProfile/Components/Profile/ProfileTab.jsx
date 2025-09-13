@@ -61,28 +61,89 @@ const ProfileTab = ({ changeTab }) => {
         }
     };
 
-
-    const [user, setUser] = useState([])
-    const[loader,setloader] = useState(false)
+    // ✅ Fetch user profile
     useEffect(() => {
-        // setloader(true);
         httpService("/auth/me", "GET")
-        .then((response) => {
-            console.log("user profile fetch", response);
-            setUser(response?.data)
-            setloader(false);
-        })
-        .catch((err) => {
-            console.error("Failed to send friend request:", err);
-            setloader(false);
-        })
-        .finally(() => {
-            setloader(false);
-        })
-    }, []); // dependency on card._id
+            .then((response) => {
+                console.log("user profile fetch", response);
+                setUser(response?.data);
+                setLoader(false);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch user profile:", err);
+                setLoader(false);
+            });
+    }, []);
 
-    // console.log("dob",user?.profile?.dateOfBirth)
+    // ✅ Fetch images when user is loaded
+    useEffect(() => {
+        if (!user?._id) return;
 
+        // profile photos
+        httpService(`/media-library/${user._id}?type=image&source=profile`, "GET")
+            .then((res) => {
+                console.log("profile img", res);
+                setAllProfileImg(res?.data?.media);
+                // setImages(res?.data?.media || []);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch profile image:", err);
+            });
+
+        // adult post photos
+        httpService(
+            `/media-library/${user._id}?type=image&source=post&adultContent=adult`,
+            "GET"
+        )
+            .then((res) => {
+                console.log("adult post img", res?.data?.media);
+                setAllAdultImg(res?.data?.media);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch adult images:", err);
+            });
+
+
+        // non-adult post photos
+        httpService(
+            `/media-library/${user._id}?type=image&source=post&adultContent=non-adult`,
+            "GET"
+        )
+            .then((res) => {
+                console.log("non-adult post img", res?.data?.media);
+                setAllNonAdultImg(res?.data?.media);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch adult images:", err);
+            });
+
+        // video post photos
+        httpService(
+            `/media-library/${user._id}?type=video&source=post`,
+            "GET"
+        )
+            .then((res) => {
+                console.log("non-adult post video", res?.data?.media);
+                setAllVideo(res?.data?.media);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch adult images:", err);
+            });
+    }, [user?._id]);
+
+
+    const geticonText = (data, toggle) => {
+        setPopupToggle(toggle)
+        setIconText(data)
+        if(data === "Friends"){
+            navigate("/profile-friends")
+            setPopupToggle(false)
+        }
+    }
+
+    const handleClose = () => {
+        setPopupToggle(false)
+    }
 
     return (
         <>
