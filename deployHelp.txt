@@ -1,0 +1,2 @@
+scp -r .\dist\* root@159.89.167.38:/usr/share/nginx/html
+password - aShorAlo@2k

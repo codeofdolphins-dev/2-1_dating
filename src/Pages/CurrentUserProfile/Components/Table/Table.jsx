@@ -65,65 +65,68 @@ import female from "../../../../assets/cardImgs/Images/female.png";
 import male from "../../../../assets/cardImgs/Images/male.png";
 
 const ProfilePageTable = ({ user }) => {
+  const isCouple = user?.gender?.toLowerCase() === "couple";
+
   // ✅ Map API object to table-friendly format
   const userData = [
     {
       label: "Date of Birth",
       char: user?.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "-",
-      parm: user?.partner?.dateOfBirth ? new Date(user.partner.dateOfBirth).toLocaleDateString() : "-",
+      parm: isCouple && user?.partner?.dateOfBirth
+        ? new Date(user.partner.dateOfBirth).toLocaleDateString()
+        : "-",
     },
     {
       label: "Gender",
       char: user?.gender || "-",
-      parm: user?.partner?.gender || "-",
+      parm: isCouple ? user?.partner?.gender || "-" : "-",
     },
     {
       label: "Sexuality",
       char: user?.sexuality || "-",
-      parm: user?.partner?.sexuality || "-",
+      parm: isCouple ? user?.partner?.sexuality || "-" : "-",
     },
     {
       label: "Interested In",
       char: user?.interestedIn?.join(", ") || "-",
-      parm: user?.partner?.interestedIn?.join(", ") || "-",
+      parm: isCouple ? user?.partner?.interestedIn?.join(", ") || "-" : "-",
     },
     {
       label: "City",
       char: user?.address?.city || "-",
-      parm: user?.address?.city || "-",
+      parm: isCouple ? user?.partner?.address?.city || "-" : "-",
     },
     {
       label: "State",
       char: user?.address?.state || "-",
-      parm: user?.address?.state || "-",
+      parm: isCouple ? user?.partner?.address?.state || "-" : "-",
     },
     {
       label: "Country",
       char: user?.address?.country || "-",
-      parm: user?.address?.country || "-",
+      parm: isCouple ? user?.partner?.address?.country || "-" : "-",
     },
     {
       label: "Zip Code",
       char: user?.address?.zipcode || "-",
-      parm: user?.address?.zipcode || "-",
+      parm: isCouple ? user?.partner?.address?.zipcode || "-" : "-",
     },
     {
       label: "Full Address",
       char: user?.address?.fullAddress || "-",
-      parm: user?.address?.fullAddress || "-",
+      parm: isCouple ? user?.partner?.address?.fullAddress || "-" : "-",
     },
     {
       label: "Languages Spoken",
       char: user?.languagesSpoken?.join(", ") || "-",
-      parm: user?.partner?.languagesSpoken?.join(", ") || "-",
+      parm: isCouple ? user?.partner?.languagesSpoken?.join(", ") || "-" : "-",
     },
     {
       label: "Bio",
       char: user?.bio || "-",
-      parm: user?.partner?.bio || "-",
+      parm: isCouple ? user?.partner?.bio || "-" : "-",
     },
   ];
-
 
   return (
     <table
@@ -134,13 +137,15 @@ const ProfilePageTable = ({ user }) => {
         <tr style={{ backgroundColor: "var(--color-border)" }}>
           <th className="text-white">Details</th>
           <th className="text-white">
-            <img src={female} alt="Female" className="me-1" />
-            Char
+            <img src={isCouple ? male : user?.gender === "male" ? male : female} alt="Female" className="me-1" />
+            {isCouple ? "Char" : user?.gender === "male" ? "Char" :"Parm" }
           </th>
-          <th className="text-white">
-            <img src={male} alt="Male" className="me-1" />
-            Parm
-          </th>
+          {isCouple && (
+            <th className="text-white">
+              <img src={female} alt="Male" className="me-1" />
+              Partner
+            </th>
+          )}
         </tr>
       </thead>
       <tbody>
@@ -151,7 +156,7 @@ const ProfilePageTable = ({ user }) => {
           >
             <td className="text-white">{label}</td>
             <td className="text-white">{char}</td>
-            <td className="text-white">{parm}</td>
+            {isCouple && <td className="text-white">{parm}</td>}
           </tr>
         ))}
       </tbody>

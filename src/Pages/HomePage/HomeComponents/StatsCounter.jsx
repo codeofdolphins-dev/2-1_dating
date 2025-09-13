@@ -6,7 +6,7 @@ const StatsCounter = () => {
   const [counters, setCounters] = useState([
     { value: 0, target: 500, text: "Members" },
     { value: 0, target: 120, text: "Countries" },
-    { value: 0, target: 15, text: "Years" },
+    { value: 0, target: 16, text: "Years" },
     { value: 0, target: 24, text: "Support", suffix: "/7" }
   ]);
 

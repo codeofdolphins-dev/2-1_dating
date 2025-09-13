@@ -25,6 +25,7 @@ const ChatComponent = ({ receiverId, otherUserName,groupMessageId }) => {
     try {
       const data = await httpService(`/personal-messages/conversations/${receiverId}`, 'GET');
       setMessages(data?.data || []);
+      console.log("personal-message",data)
     } catch (err) {
       console.error('❌ Failed to load conversation:', err);
     }
