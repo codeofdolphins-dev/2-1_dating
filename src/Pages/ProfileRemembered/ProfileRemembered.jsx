@@ -71,6 +71,7 @@ const ProfileRemembered = () => {
         fetchMembers(currentPage, itemsPerPage);
     }, [currentPage, itemsPerPage, refresh]);
 
+    console.log("ggg",cards)
 
     // handle remove remember me 
     const handleeDeleteFunction = async (card) => {
@@ -100,7 +101,7 @@ const ProfileRemembered = () => {
                         {
                             cards?.length === 0 ? <div className='text-white'>No Users Found </div> : cards.map((card, index) => (
                                 <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                                    <ViewPageCard card={card} index={index} images={images} showFriendOptions={false} timestamp={false} deleteOption={true} handleeDeleteFunction={handleeDeleteFunction} showRemembered={false}/>
+                                    <ViewPageCard card={card} index={index} images={card?.receiverId?.profile?.photos} showFriendOptions={false} timestamp={false} deleteOption={true} handleeDeleteFunction={handleeDeleteFunction} showRemembered={false} userName={card?.receiverId?.username}/>
                                 </div>
                             ))
                         }

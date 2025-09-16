@@ -72,7 +72,7 @@ const Groups = ({groupData}) => {
     <ToastContainer/>
     <OverlayLoader show={loading}/>
     <div
-      className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4 mx-auto"
+      className="rounded-4 text-white pb-3 px-3 pt-3 group position-relative overflow-hidden mt-4 "
       style={{
         backgroundColor: "var(--color-border)",
         border: "1px solid #ffffff",

@@ -21,9 +21,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import GlobalImageCarouselPopup from "../../../../components/globalImageCarouselPopup/GlobalImageCarouselPopup";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ProfileTab = ({ changeTab }) => {
-    const [activeTabLower, setActiveTabLower] = useState("Certifications");
+    const [activeTabLower, setActiveTabLower] = useState("Groups");
     const [allProfileImg, setAllProfileImg] = useState([]);
     const [allAdultImg, setAllAdultImg] = useState([]);
     const [allNonAdultImg, setAllNonAdultImg] = useState([]);
@@ -35,12 +36,37 @@ const ProfileTab = ({ changeTab }) => {
 
     const navigate = useNavigate()
 
+    // useEffect(() => {
+    //     httpService("/groups/my-groups", "GET")
+    //         .then((res) => {
+    //             console.log("eeee", res?.data?.groups)
+    //             setGroupCount(res?.data?.groups?.length)
+    //         })
+    // }, [])
+
+    // useEffect(() => {
+    //     const apiUrl = import.meta.env.VITE_BASE_URL;
+    //     const token = sessionStorage.getItem("jwtToken");
+    //     const config = {
+    //         headers: {
+    //             Authorization: `Bearer ${token}`
+    //         },
+    //         params: { page: 1, limit: 20 },
+    //     };
+
+    //     axios.get(`${apiUrl}/friends`, config)
+    //         .then((res) => {
+    //             setFriendCount(res?.data?.data?.friends?.length)
+    //         })
+
+    // }, []);
+
 
     const miniTabLower = [
-        { title: "Certifications" },
+        // { title: "Certifications" },
         { title: "Groups" },
-        { title: "Parties & Events" },
-        { title: "Following" },
+        // { title: "Parties & Events" },
+        // { title: "Following" },
         { title: "Friends" },
     ];
 
@@ -135,7 +161,7 @@ const ProfileTab = ({ changeTab }) => {
     const geticonText = (data, toggle) => {
         setPopupToggle(toggle)
         setIconText(data)
-        if(data === "Friends"){
+        if (data === "Friends") {
             navigate("/profile-friends")
             setPopupToggle(false)
         }
@@ -153,7 +179,7 @@ const ProfileTab = ({ changeTab }) => {
                 <div className="col-lg-6">
                     <CurrentProfileCard
                         user={user}
-                        userFriendsCount ={user?.friendCount}
+                        userFriendsCount={user?.friendCount}
                         allProfileImg={allProfileImg}
                         allAdultImg={allAdultImg}
                         allNonAdultImg={allNonAdultImg}
@@ -163,14 +189,14 @@ const ProfileTab = ({ changeTab }) => {
                     <GlobalImageCarouselPopup
                         handleClose={handleClose}
                         show={popupToggle}
-                        currentMediaData={iconText==="Videos" && "video"}
+                        currentMediaData={iconText === "Videos" && "video"}
                         images={
                             iconText === "Adult"
                                 ? allAdultImg
                                 : iconText === "Non-Adult"
                                     ? allNonAdultImg
                                     : iconText === "Videos"
-                                        ? allVideo 
+                                        ? allVideo
                                         : []
                         }
                     />

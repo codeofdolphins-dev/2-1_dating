@@ -35,7 +35,7 @@ const ProfileBottomTabWrapper = ({children}) => {
 
   return (
     <div
-      className="scroll-container d-flex overflow-x-auto gap-4 px-4 py-2"
+      className="scroll-container d-flex overflow-x-auto gap-4 px-4 py-2 justify-content-start"
       ref={scrollRef}
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}

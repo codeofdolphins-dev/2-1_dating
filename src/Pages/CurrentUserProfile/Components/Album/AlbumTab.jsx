@@ -1,31 +1,68 @@
-import React from 'react'
-import CurrentProfileCard from '../../../../components/cards/CurrentProfileCard'
+import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import NewAlbumModalPopup from "../../../../components/NewAlbumModalPopup/NewAlbumModalPopup";
+import AlbumCard from "../../../../components/AlbumCard/AlbumCard";
+import httpService from "../../../../helper/httpService";
+import AlbumContainer from "../../../AlbumContainer/AlbumContainer";
 
-const AlbumTab = () => {
+const AlbumPage = () => {
+  const [toggle, setToggle] = useState(false);
+  const [album, setAlbum] = useState([])
+  const [load, setLoad] = useState(false)
+  const [albumInfoShowToggler, setAlbumInfoShowToggler] = useState(false)
+  const [albumId,setAlbumId] = useState()
+
+
+
+  useEffect(() => {
+    httpService("/albums", "GET")
+      .then((res) => {
+        console.log("ert", res)
+        setAlbum(res?.data?.albums)
+      })
+      .catch((err) => {
+        console.log("ert", err)
+      })
+  }, [toggle, load])
+
   return (
     <>
-      <div className="row">
-        <div className="col-lg-6">
-          <div className="">
-            <CurrentProfileCard />
+      {
+        !albumInfoShowToggler && <div className="min-vh-100 p-3 ">
+          {/* Header */}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h5 className="text-white fw-bold mb-0">
+              ALBUMS <i className="bi bi-question-circle-fill text-primary"></i>
+            </h5>
+            <button
+              className="btn btn-primary btn-sm rounded-pill"
+              onClick={() => setToggle(true)}
+            >
+              Add Album
+            </button>
           </div>
-        </div>
-        <div className="col-lg-6">
-          <div className="">
-            <div className="d-flex justify-content-between align-items-center border px-4 py-2 rounded-4 mb-4" style={{ backgroundColor: "var(--color-border)", }}>
-              <p className='mb-0'>Looking for:</p>
-              <button className='custom-button rounded-4 px-3 py-1 border-0'>Edit Profile</button>
-            </div>
-            <div className="d-flex flex-column align-items-start justify-content-center">
-              <p>all desi couples join the group "usa-desi-couples" </p>
-              <p> well educated couple from nc , looking to meet decent, respectful couple friends</p>
-              <p>Desi married couples ....</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  )
-}
 
-export default AlbumTab
+          {/* Albums Grid */}
+          <div className="d-flex flex-wrap gap-3">
+            {album.map((album) => (
+              <AlbumCard key={album.id} {...album} setLoad={setLoad} load={load} setAlbumInfoShowToggler={setAlbumInfoShowToggler} setAlbumId={setAlbumId}/>
+            ))}
+          </div>
+        </div>
+      }
+
+
+      {/* Modal */}
+      <NewAlbumModalPopup show={toggle} handleClose={() => setToggle(false)} />
+        {
+          albumInfoShowToggler && <AlbumContainer albumId={albumId} setAlbumInfoShowToggler={setAlbumInfoShowToggler}/>
+        }
+      
+    </>
+  );
+};
+
+export default AlbumPage;
+
+

@@ -65,6 +65,8 @@ const ProfileBlocklist = () => {
   // setTotalCount();
   // setApiTotalPages();
 
+  console.log("erty",user)
+
   return (
     <>
       <GlobalPageWrapper>
@@ -78,12 +80,13 @@ const ProfileBlocklist = () => {
                 <ViewPageCard
                   card={card}
                   index={index}
-                  images={images}
+                  images={card?.targetUserId?.profile?.photos}
                   showFriendOptions={false}
                   timestamp={false}
                   deleteOption={true}
                   handleeDeleteFunction={handleeDeleteFunction}
                   showTime={false}
+                  userName={card?.targetUserId?.username}
                 />
               </div>
             ))}

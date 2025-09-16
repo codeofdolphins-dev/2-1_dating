@@ -27,13 +27,15 @@ const FriendsCardContainer = () => {
 
     axios.get(`${apiUrl}/friends`, config)
       .then((res) => {
-        console.log(res?.data?.data);
         setFriends(res?.data?.data?.friends);
         setLoading(false);
       })
-
+      .catch((err)=>{
+       setLoading(false);
+      })
   }, []);
 
+  
 
   return (
     <ProfileBottomTabWrapper>

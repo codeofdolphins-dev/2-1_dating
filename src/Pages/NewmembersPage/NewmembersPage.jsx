@@ -66,6 +66,8 @@ const NewmembersPage = () => {
         fetchMembers(currentPage, itemsPerPage);
     }, [currentPage, itemsPerPage]);
 
+    console.log("llll",cards)
+
     return (
         <div style={{ backgroundColor: "var(--color-background)", minHeight: "100vh" }}>
             <GlobalPageWrapper>
@@ -89,9 +91,10 @@ const NewmembersPage = () => {
                                 <div className="col-12 col-sm-6 col-lg-6 col-xl-4" key={card._id || index}>
                                     <ViewPageCard
                                         index={index}
-                                        images={images}
+                                        images={card?.profile?.photos}
                                         timestamp={false}
                                         card={card}
+                                        userName={card?.username}
                                     />
                                 </div>
                             ))

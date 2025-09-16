@@ -8,7 +8,8 @@ import defaultImages from "../../assets/ViwCardImags/img/profileImg.png";
 
 const ViewpagePhotoGallery = ({ show, handleClose, images }) => {
   const galleryImages = images && images.length > 0 ? images : [defaultImages];
-
+ 
+  console.log("asdasdsa",images)
   return (
     <Modal
       show={show}
@@ -36,7 +37,7 @@ const ViewpagePhotoGallery = ({ show, handleClose, images }) => {
           {galleryImages.map((img, idx) => (
             <div className="col-6" key={idx}>
               <img
-                src={img}
+                src={img|| img?.url}
                 alt={`gallery-${idx}`}
                 className="img-fluid rounded"
                 style={{ objectFit: "cover", width: "100%", height: "100%" }}

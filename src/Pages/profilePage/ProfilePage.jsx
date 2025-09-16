@@ -105,28 +105,28 @@ const ProfilePage = () => {
     const userIdFromPrams = queryParams.get("i");
 
 
-    // useEffect(() => {
-    //     const id = userId || userIdFromPrams
-    //     axios({
-    //         method: 'post',
-    //         url: `${import.meta.env.VITE_BASE_URL}/users/${id}/view`,
-    //         headers: {
-    //             'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
-    //             'Content-Type': 'application/json' // optional
-    //         },
-    //         data: {
-    //             source: "profile_link"
-    //         }
-    //     }).then(response => {
-    //         console.log("xxxxx", response?.data?.data?.viewedUser?.username)
-    //         setUser(response?.data?.data?.viewedUser?.username)
-    //         showWarningToast(response?.data?.message)
-    //     })
-    //         .catch(error => {
-    //             console.error(error);
-    //             showErrorToast(error)
-    //         });
-    // }, [])
+    useEffect(() => {
+        const id = userId || userIdFromPrams
+        axios({
+            method: 'post',
+            url: `${import.meta.env.VITE_BASE_URL}/users/${id}/view`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
+                'Content-Type': 'application/json' // optional
+            },
+            data: {
+                source: "profile_link"
+            }
+        }).then(response => {
+            console.log("xxxxx", response?.data?.data?.viewedUser?.username)
+            setUser(response?.data?.data?.viewedUser?.username)
+            showWarningToast(response?.data?.message)
+        })
+            .catch(error => {
+                console.error(error);
+                showErrorToast(error)
+            });
+    }, [])
 
 
 

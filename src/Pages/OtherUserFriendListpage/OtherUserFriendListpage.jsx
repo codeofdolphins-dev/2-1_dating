@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import GlobalPageWrapper from '../../components/GlobalPageWrapper'
-import FilterBar from '../../components/FilterBar/FilterBar'
-import { useAuth } from '../../context/AuthContextAPI'
-import ViewPageCard from '../../components/ViewPageCard/ViewPageCard'
-import { useLocation } from 'react-router-dom'
-import OverlayLoader from '../../helper/OverlayLoader'
-import axios from 'axios'
-import SpeedDateCheckBoxPopup from '../../components/SpeedDateCheckBoxPopup/SpeedDateCheckBoxPopup'
-import ItemsPerPageSelector from '../../components/Pagination/ItemsPerPageSelector'
-import { Pagination } from 'react-bootstrap'
+import React, { useEffect, useState } from "react";
+import GlobalPageWrapper from "../../components/GlobalPageWrapper";
+import FilterBar from "../../components/FilterBar/FilterBar";
+import { useAuth } from "../../context/AuthContextAPI";
+import ViewPageCard from "../../components/ViewPageCard/ViewPageCard";
+import { useLocation } from "react-router-dom";
+import OverlayLoader from "../../helper/OverlayLoader";
+import axios from "axios";
+import ItemsPerPageSelector from "../../components/Pagination/ItemsPerPageSelector";
+import { Pagination } from "react-bootstrap";
+import { showErrorToast } from "../../components/customToast/CustomToast"; // ✅ import error toast
 
 const OtherUserFriendListpage = () => {
-  const { userNameFromFriendListPage, userNameFromFriendList } = useAuth()
+  const { userNameFromFriendListPage } = useAuth();
 
   const apiUrl = import.meta.env.VITE_BASE_URL;
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,6 @@ const OtherUserFriendListpage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [cards, setCards] = useState([]);
-
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -30,17 +29,15 @@ const OtherUserFriendListpage = () => {
     try {
       const token = sessionStorage.getItem("jwtToken");
       const config = {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
+        headers: { Authorization: `Bearer ${token}` },
         params: { page, limit },
       };
 
       const response = await axios.get(`${apiUrl}/friends/${userId}`, config);
       const members = response?.data?.data?.friends || [];
 
-      const totalCount = response?.data?.data?.pagination?.total || null;
-      const apiTotalPages = response?.data?.data?.pagination?.pageCount || null;
+      const totalCount = response?.data?.data?.pagination?.total ?? null;
+      const apiTotalPages = response?.data?.data?.pagination?.pageCount ?? null;
 
       setCards(members);
 
@@ -53,15 +50,40 @@ const OtherUserFriendListpage = () => {
       }
     } catch (error) {
       console.error("Failed to fetch members:", error);
-      showErrorToast(`Please login again. ${error?.response?.data?.message || "An error occurred."}`);
+      showErrorToast(
+        `Please login again. ${
+          error?.response?.data?.message || "An error occurred."
+        }`
+      );
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchMembers(currentPage, itemsPerPage);
+    if (userId) {
+      fetchMembers(currentPage, itemsPerPage);
+    }
   }, [currentPage, itemsPerPage, userId]);
+
+  console.log("qqqq",cards)
+
+  // ✅ Build Bootstrap Pagination
+  const renderPagination = () => {
+    let items = [];
+    for (let page = 1; page <= totalPages; page++) {
+      items.push(
+        <Pagination.Item
+          key={page}
+          active={page === currentPage}
+          onClick={() => setCurrentPage(page)}
+        >
+          {page}
+        </Pagination.Item>
+      );
+    }
+    return <Pagination>{items}</Pagination>;
+  };
 
   return (
     <GlobalPageWrapper>
@@ -72,17 +94,18 @@ const OtherUserFriendListpage = () => {
         style={{ minHeight: "100vh" }}
       >
         <div className="row g-4 pt-4">
-          {cards.length === 0 ? <div className="text-white">No Profile Friends Found</div> :
+          {cards.length === 0 ? (
+            <div className="text-white">No Profile Friends Found</div>
+          ) : (
             cards.map((card, index) => (
               <div
                 className="col-12 col-sm-6 col-lg-6 col-xl-4"
                 key={index}
               >
-                {
-                  <ViewPageCard index={index} card={card} />
-                }
+                <ViewPageCard index={index} card={card}  />
               </div>
-            ))}
+            ))
+          )}
         </div>
 
         {/* Items per page selector */}
@@ -92,15 +115,13 @@ const OtherUserFriendListpage = () => {
           setCurrentPage={setCurrentPage}
         />
 
-        {/* Capsule-style Pagination */}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
+        {/* Pagination */}
+        <div className="d-flex justify-content-center mt-4">
+          {renderPagination()}
+        </div>
       </div>
     </GlobalPageWrapper>
-  )
-}
+  );
+};
 
-export default OtherUserFriendListpage
+export default OtherUserFriendListpage;

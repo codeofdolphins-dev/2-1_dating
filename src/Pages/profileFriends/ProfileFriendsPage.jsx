@@ -36,6 +36,7 @@ const ProfileFriendsPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(9);
     const [totalCount, setTotalCount] = useState(0)
     const [apiTotalPages, setApiTotalPages] = useState(0)
+    const [allVideo,setAllVideo] = useState([])
 
     const { filterOption } = useAuth();
     console.log("Current filter:", filterOption);
@@ -71,7 +72,7 @@ const ProfileFriendsPage = () => {
 
                 setTotalCount(response?.meta?.pagination?.total || null);
                 setApiTotalPages(response?.data?.meta?.pagination?.totalPages || null);
-        
+
                 setLoading(false)
             })
             .catch((err) => {
@@ -82,6 +83,8 @@ const ProfileFriendsPage = () => {
                 setLoading(false);
             });
     }, [refresh, filterOption, currentPage, itemsPerPage]);
+
+    console.log("users",user)
 
     return (
         <GlobalPageWrapper>
@@ -107,11 +110,13 @@ const ProfileFriendsPage = () => {
                             >
                                 <ViewPageCard
                                     card={userData}
+                                    images={userData?.senderId?.profile?.photos}
                                     index={index}
                                     showFriendOptions={true}
                                     timestamp={false}
                                     refresh={refresh}
                                     setrefresh={setRefresh}
+                                    userName={userData?.senderId?.username}
                                 />
                             </div>
                         ))

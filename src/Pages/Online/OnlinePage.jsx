@@ -92,6 +92,9 @@ const OnlinePage = () => {
     fetchMembers(currentPage, itemsPerPage);
   }, [currentPage, itemsPerPage]);
 
+
+  console.log("111",cards)
+
   return (
     <>
       <GlobalPageWrapper>
@@ -122,7 +125,7 @@ const OnlinePage = () => {
                   key={index}
                 >
                   {
-                    card?.settings?.showOnline && <ViewPageCard index={index} images={images} card={card} />
+                    card?.settings?.showOnline && <ViewPageCard index={index} images={card?.profile?.photos} card={card} />
                   }
                 </div>
               ))}
