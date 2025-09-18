@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 
 const GlobalImageCarouselPopup = ({ show, handleClose, images = [], currentMediaData }) => {
+
+  console.log("ppp",currentMediaData)
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // 🔹 Set initial index when modal opens with currentMediaData

@@ -14,6 +14,16 @@ const EditTab = () => {
 
   const bodyHairOptions = ["Prefer not to say", "Arms", "Bikini", "Buns", "Tummy", "Legs", "Everywhere", "Chest", "Treasure", "Arm Pits", "Shave", "Smooth"];
 
+  const languagesSpoken = [
+    "Nederlands",
+    "Deutsch",
+    "Français",
+    "Español",
+    "Italiano",
+    "English",
+    "Português"
+  ];
+
   const heightOptions = [`Prefer not to say`, `4'6" (137cm)`, `4'7" (140cm)`, `4'8" (142cm)`, `4'9" (145cm)`, `4'10" (147cm)`, `4'11" (150cm)`, `5'0" (152cm)`, `5'1" (155cm)`, `5'2" (157cm)`, `5'3" (160cm)`, `5'4" (163cm)`, `5'5" (165cm)`, `5'6" (168cm)`, `5'7" (170cm)`, `5'8" (173cm)`, `5'9" (175cm)`, `5'10" (178cm)`, `5'11" (180cm)`, `6'0" (183cm)`, `6'1" (185cm)`, `6'2" (188cm)`, `6'3" (190cm)`, `6'4" (193cm)`, `6'5" (195cm)`, `6'6" (198cm)`, `6'7" (200cm)`, `6'8" (203cm)`, `6'9" (205cm)`, `6'10" (208cm)`, `6'11" (210cm)`, `7'0" (213cm)`, `7'1" (215cm)`, `7'2" (218cm)`, `7'3" (220cm)`, `7'4" (223cm)`, `7'5" (225cm)`, `7'6" (228cm)`, `7'7" (230cm)`, `7'8" (233cm)`, `7'9" (235cm)`, `7'10" (238cm)`, `7'11" (240cm)`, `8'0" (244cm)`];
 
   const weightOptions = [`Prefer not to say`, `80 Lbs. (36 Kg.)`, `82 Lbs. (37 Kg.)`, `84 Lbs. (38 Kg.)`, `86 Lbs. (39 Kg.)`, `88 Lbs. (40 Kg.)`, `90 Lbs. (41 Kg.)`, `92 Lbs. (42 Kg.)`, `94 Lbs. (43 Kg.)`, `96 Lbs. (44 Kg.)`, `98 Lbs. (44.5 Kg.)`, `100 Lbs. (45 Kg.)`, `102 Lbs. (46 Kg.)`, `104 Lbs. (47 Kg.)`, `106 Lbs. (48 Kg.)`, `108 Lbs. (49 Kg.)`, `110 Lbs. (50 Kg.)`, `112 Lbs. (51 Kg.)`, `114 Lbs. (52 Kg.)`, `116 Lbs. (53 Kg.)`, `118 Lbs. (54 Kg.)`, `120 Lbs. (54.5 Kg.)`, `122 Lbs. (55 Kg.)`, `124 Lbs. (56 Kg.)`, `126 Lbs. (57 Kg.)`, `128 Lbs. (58 Kg.)`, `130 Lbs. (59 Kg.)`, `132 Lbs. (60 Kg.)`, `134 Lbs. (61 Kg.)`, `136 Lbs. (62 Kg.)`, `138 Lbs. (63 Kg.)`, `140 Lbs. (64 Kg.)`, `142 Lbs. (65 Kg.)`, `144 Lbs. (66 Kg.)`, `146 Lbs. (67 Kg.)`, `148 Lbs. (68 Kg.)`, `150 Lbs. (68 Kg.)`, `152 Lbs. (69 Kg.)`, `154 Lbs. (70 Kg.)`, `156 Lbs. (71 Kg.)`, `158 Lbs. (72 Kg.)`, `160 Lbs. (73 Kg.)`, `162 Lbs. (74 Kg.)`, `164 Lbs. (75 Kg.)`, `166 Lbs. (76 Kg.)`, `168 Lbs. (77 Kg.)`, `170 Lbs. (77 Kg.)`, `172 Lbs. (78 Kg.)`, `174 Lbs. (79 Kg.)`, `176 Lbs. (80 Kg.)`, `178 Lbs. (81 Kg.)`, `180 Lbs. (82 Kg.)`, `182 Lbs. (83 Kg.)`, `184 Lbs. (84 Kg.)`, `186 Lbs. (85 Kg.)`, `188 Lbs. (86 Kg.)`, `190 Lbs. (86 Kg.)`, `192 Lbs. (87 Kg.)`, `194 Lbs. (88 Kg.)`, `196 Lbs. (89 Kg.)`, `198 Lbs. (90 Kg.)`, `200 Lbs. (91 Kg.)`, `205 Lbs. (93 Kg.)`, `210 Lbs. (95 Kg.)`, `215 Lbs. (98 Kg.)`, `220 Lbs. (100 Kg.)`, `225 Lbs. (102 Kg.)`, `230 Lbs. (104 Kg.)`, `235 Lbs. (107 Kg.)`, `240 Lbs. (109 Kg.)`, `245 Lbs. (111 Kg.)`, `250 Lbs. (113 Kg.)`, `255 Lbs. (116 Kg.)`, `260 Lbs. (118 Kg.)`, `265 Lbs. (120 Kg.)`, `270 Lbs. (122 Kg.)`, `275 Lbs. (125 Kg.)`, `280 Lbs. (127 Kg.)`, `285 Lbs. (129 Kg.)`, `290 Lbs. (132 Kg.)`, `295 Lbs. (134 Kg.)`, `300 Lbs. (136 Kg.)`, `310 Lbs. (141 Kg.)`, `320 Lbs. (145 Kg.)`, `330 Lbs. (150 Kg.)`, `340 Lbs. (154 Kg.)`, `350 Lbs. (159 Kg.)`, `360 Lbs. (163 Kg.)`, `370 Lbs. (168 Kg.)`, `380 Lbs. (172 Kg.)`, `390 Lbs. (177 Kg.)`, `400 Lbs. (181 Kg.)`];
@@ -370,7 +380,7 @@ const EditTab = () => {
         if (!response.success) throw new Error("Profile details retrieved failed!!!");
         setProfileDetails(response.data);
         console.log(profileDetails);
-        
+
 
       })
       .catch(error => {
@@ -401,7 +411,7 @@ const EditTab = () => {
 
     function convertToInputDateFormat(dateString) {
       console.log(dateString);
-      
+
       const [day, month, year] = dateString?.split("-");
       return `${year}-${month}-${day}`;
     }
@@ -631,7 +641,7 @@ const EditTab = () => {
 
                     {/* Input */}
                     <div className="d-flex">
-                      <EditProfilePageInputPopup options={bodyHairOptions} bodyHair={female} setbodyHair={setFemale} />
+                      <EditProfilePageInputPopup options={bodyHairOptions} bodyHair={female} setbodyHair={setFemale} title={"Body Hair"} />
                     </div>
                   </div>
 
@@ -648,13 +658,17 @@ const EditTab = () => {
 
                       {/* Input */}
                       <div className="d-flex">
-                        <DropdownPopup
-                          name={field.id} // 🧠 key point: pass field ID as 'name'
-                          options={femaleInputOptions[field.id]} // options per field
-                          title={field.title}
-                          selectedValue={female}
-                          setSelectedValue={setFemale}
-                        />
+                        {
+                          field.title === "Languages Spoken" ?
+                            <EditProfilePageInputPopup options={languagesSpoken} bodyHair={male} setbodyHair={setMale} title={field?.title} /> :
+                            <DropdownPopup
+                              name={field.id} // 🧠 key point: pass field ID as 'name'
+                              options={femaleInputOptions[field.id]} // options per field
+                              title={field.title}
+                              selectedValue={female}
+                              setSelectedValue={setFemale}
+                            />
+                        }
                       </div>
                     </div>
                   ))}
@@ -784,7 +798,7 @@ const EditTab = () => {
 
                     {/* Input */}
                     <div className="d-flex">
-                      <EditProfilePageInputPopup options={bodyHairOptions} bodyHair={male} setbodyHair={setMale} />
+                      <EditProfilePageInputPopup options={bodyHairOptions} bodyHair={male} setbodyHair={setMale} title={"Body Hair"} />
                     </div>
                   </div>
 
@@ -801,13 +815,17 @@ const EditTab = () => {
 
                       {/* Input */}
                       <div className="d-flex">
-                        <DropdownPopup
-                          name={field.id} // 🧠 key point: pass field ID as 'name'
-                          options={maleInputOptions[field.id]} // options per field
-                          title={field.title}
-                          selectedValue={male}
-                          setSelectedValue={setMale}
-                        />
+                        {
+                          field.title === "Languages Spoken" ?
+                            <EditProfilePageInputPopup options={languagesSpoken} bodyHair={male} setbodyHair={setMale} title={field?.title} /> : <DropdownPopup
+                              name={field.id} // 🧠 key point: pass field ID as 'name'
+                              options={maleInputOptions[field.id]} // options per field
+                              title={field.title}
+                              selectedValue={male}
+                              setSelectedValue={setMale}
+                            />
+                        }
+
                       </div>
                     </div>
                   ))}

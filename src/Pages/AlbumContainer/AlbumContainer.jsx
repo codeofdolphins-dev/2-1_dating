@@ -7,6 +7,12 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import NewAlbumModalPopup from "../../components/NewAlbumModalPopup/NewAlbumModalPopup";
 import { showErrorToast, showSuccessToast } from "../../components/customToast/CustomToast";
 import AlbumMediaContainer from "../AlbumMediaContainer/AlbumMediaContainer";
+import { useAuth } from "../../context/AuthContextAPI";
+import OverlayLoader from "../../helper/OverlayLoader"
+
+import ReportMessagePopup from "../../components/ReportMessagePopup/ReportMessagePopup";
+import ReportPopup from "../../components/ReportPopup/ReportPopup";
+import WarningPopup from "../../components/WarningPopup/WarningPopup";
 
 const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
     const [albumData, setAlbumData] = useState();
@@ -15,7 +21,20 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [deleting, setDeleting] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [allMedia,setAllMedia] = useState([])
+    const [allMedia, setAllMedia] = useState([])
+    const [toggle, setToggle] = useState(false)
+    const [uploading, setUploading] = useState(false);
+    const [showWarning, SetShowwarning] = useState(false)
+    // const [reportMessagePopupShow, setReportMessagePopupShow] = useState(false);
+
+    const handleClose = () => {
+        SetShowwarning(false)
+    }
+
+
+
+
+    const { globalToggle, setGlobalToggle } = useAuth()
 
 
     useEffect(() => {
@@ -52,16 +71,15 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
     };
 
     // 🔹 Upload function
-
     const formData = new FormData();
     selectedFiles.forEach((file) => {
         formData.append("media", file);
     });
 
-    console.log("dddd", selectedFiles)
     const handleUpload = async () => {
         if (selectedFiles.length === 0) return;
         try {
+            setUploading(true); // start loader
             const res = await httpService(
                 `/albums/${albumId}/upload`,
                 "POST",
@@ -78,21 +96,32 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
 
             setShowUploader(false);
             setSelectedFiles([]);
-            showSuccessToast(res?.message)
+            showSuccessToast(res?.message);
+            setToggle(!toggle);
         } catch (err) {
             console.error("Upload failed:", err);
-            showErrorToast(err?.data?.message)
+            showErrorToast(err?.data?.message);
+            setToggle(!toggle);
+        } finally {
+            setUploading(false); // stop loader
         }
     };
+
+
+    
+
 
 
     // 🔹 Delete media
     const handleDeleteMedia = async (mediaId) => {
         if (!window.confirm("Are you sure you want to delete this media?")) return;
-        console.log("mediaId",mediaId,albumId)
+        SetShowwarning(true)
+        console.log("mediaId", mediaId, albumId)
         try {
             setDeleting(true);
-            await httpService(`/albums/${albumId}/media/${mediaId}`, "DELETE");
+            if (!showWarning) {
+                await httpService(`/albums/${albumId}/media/${mediaId}`, "DELETE");
+            }
         } catch (err) {
             console.error("Delete Media Error:", err);
         } finally {
@@ -108,13 +137,12 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
             .catch((err) => {
                 console.log("tyuio", err)
             })
-    }, [])
+    }, [toggle, albumId, deleting])
 
     if (loading) {
         return (
-            <div className="p-3 text-white rounded-3 bg-dark text-center">
-                <Spinner animation="border" variant="light" />
-                <p className="mt-2">Loading album...</p>
+            <div className="p-3 text-white rounded-3 text-center">
+                <OverlayLoader show={loading} />
             </div>
         );
     }
@@ -130,13 +158,13 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
     return (
         <div className="p-3 text-white rounded-3">
             {/* Header */}
-            <AlbumMediaContainer media={allMedia} onDelete={handleDeleteMedia}/>
+
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex align-items-center gap-2">
                     <MdOutlineKeyboardArrowLeft
                         className="h4 mb-0"
                         role="button"
-                        onClick={() => setAlbumInfoShowToggler(false)}
+                        onClick={() => { setAlbumInfoShowToggler(false), setGlobalToggle(!globalToggle) }}
                     />
                     <h6 className="mb-0 text-truncate d-flex align-items-center">
                         {albumData?.name}
@@ -148,21 +176,28 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
                     </h6>
                 </div>
 
+
+
                 <div className="d-flex gap-2">
-                    <Button size="sm" variant="primary" onClick={() => setShowEditModal(true)}>
-                        Edit
-                    </Button>
                     <Button
                         size="sm"
-                        variant="success"
+                        variant="primary"
+                        onClick={() => setShowEditModal(true)}
+                        className="rounded-pill px-3 py-2"
+                    >
+                        Edit
+                    </Button>
+
+                    <Button
+                        size="sm"
+                        variant="primary"
                         onClick={() => setShowUploader(!showUploader)}
+                        className="rounded-pill px-3 py-2"
                     >
                         {showUploader ? "Close" : "Add"}
                     </Button>
-                    <Button size="sm" variant="info">
-                        Select
-                    </Button>
                 </div>
+
             </div>
 
             {/* Uploader UI */}
@@ -205,6 +240,19 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
                                 className="position-relative rounded overflow-hidden"
                                 style={{ width: "120px", height: "120px" }}
                             >
+                                {/* Delete Button */}
+                                <Button
+                                    variant="danger"
+                                    size="sm"
+                                    className="position-absolute top-0 end-0 m-1 p-1 rounded-circle"
+                                    style={{ zIndex: 2 }}
+                                    onClick={() => {
+                                        setSelectedFiles((prev) => prev.filter((_, i) => i !== idx));
+                                    }}
+                                >
+                                    <i className="bi bi-x"></i>
+                                </Button>
+
                                 {file.type.startsWith("video") ? (
                                     <video
                                         src={URL.createObjectURL(file)}
@@ -224,6 +272,7 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
                         ))}
                     </div>
 
+
                     {selectedFiles.length > 0 && (
                         <div className="mt-3">
                             <Button variant="success" size="sm" onClick={handleUpload}>
@@ -234,45 +283,29 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
                 </div>
             )}
 
-            {/* Media Grid */}
-            <div className="d-flex gap-3 flex-wrap">
-                {albumData.media && albumData.media.length > 0 ? (
-                    albumData.media.map((item) => (
-                        <div
-                            key={item._id}
-                            className="position-relative rounded-3 overflow-hidden"
-                            style={{ width: "180px", height: "180px" }}
-                        >
-                            {item.type === "video" ? (
-                                <video
-                                    src={item.src}
-                                    controls
-                                    className="w-100 h-100"
-                                    style={{ objectFit: "cover" }}
-                                />
-                            ) : (
-                                <img
-                                    src={item.src}
-                                    alt="media"
-                                    className="w-100 h-100"
-                                    style={{ objectFit: "cover" }}
-                                />
-                            )}
+            {selectedFiles.length > 0 && (
+                <div className="mt-3">
+                    {uploading ? (
+                        <>
+                            <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                                className="me-2"
+                            />
+                            Uploading...
+                        </>
+                    ) : (
+                        <>Upload {selectedFiles.length} file(s)</>
+                    )}
+                </div>
+            )}
 
-                            {/* Delete Icon */}
-                            <i
-                                className={`bi bi-trash-fill position-absolute top-0 end-0 m-2 text-white bg-dark bg-opacity-50 p-1 rounded ${deleting ? "disabled opacity-50" : ""
-                                    }`}
-                                role="button"
-                                onClick={() => !deleting && handleDeleteMedia(item._id)}
-                                title="Delete media"
-                            ></i>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-white">No media found in this album.</p>
-                )}
-            </div>
+
+            {/* Media Grid */}
+            <AlbumMediaContainer media={allMedia} onDelete={handleDeleteMedia} />
 
             {/* Edit Album Modal */}
             <NewAlbumModalPopup
@@ -281,6 +314,12 @@ const AlbumContainer = ({ albumId, setAlbumInfoShowToggler }) => {
                 edit={true}
                 albumId={albumId}
             />
+            {/* <WarningPopup
+                text={"Are you sure you want to delete this media?"}
+                warningShowPopup={showWarning}
+                setWarningShowPopup={setShowWarning}
+                onConfirm={confirmDeleteMedia}
+            /> */}
         </div>
     );
 };

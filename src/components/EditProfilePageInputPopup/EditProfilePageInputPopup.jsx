@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import Styles from "./SelectPopup.module.css";
 
-const EditProfilePageInputPopup = ({ options = [], bodyHair, setbodyHair }) => {
+const EditProfilePageInputPopup = ({ options = [], bodyHair, setbodyHair,title }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleSelect = (option) => {
@@ -61,7 +61,7 @@ const EditProfilePageInputPopup = ({ options = [], bodyHair, setbodyHair }) => {
             {isOpen && (
                 <div className={Styles.modalOverlay} onClick={() => setIsOpen(false)} style={{ zIndex: "999" }}>
                     <div className={Styles.modalContent} onClick={(e) => e.stopPropagation()}>
-                        <h5 className={Styles.modalTitle}>Body Hair</h5>
+                        <h5 className={Styles.modalTitle}>{title}</h5>
                         <div className={Styles.modalOptions}>
                             {options.map((option, index) => (
                                 <label key={index} className={Styles.popupItem}>

@@ -5,15 +5,16 @@ import NewAlbumModalPopup from "../../../../components/NewAlbumModalPopup/NewAlb
 import AlbumCard from "../../../../components/AlbumCard/AlbumCard";
 import httpService from "../../../../helper/httpService";
 import AlbumContainer from "../../../AlbumContainer/AlbumContainer";
+import { useAuth } from "../../../../context/AuthContextAPI";
 
 const AlbumPage = () => {
-  const [toggle, setToggle] = useState(false);
   const [album, setAlbum] = useState([])
   const [load, setLoad] = useState(false)
   const [albumInfoShowToggler, setAlbumInfoShowToggler] = useState(false)
   const [albumId,setAlbumId] = useState()
+  const [toggle,setToggle]=useState(false)
 
-
+  const {globalToggle} =useAuth()
 
   useEffect(() => {
     httpService("/albums", "GET")
@@ -24,7 +25,9 @@ const AlbumPage = () => {
       .catch((err) => {
         console.log("ert", err)
       })
-  }, [toggle, load])
+  }, [load,globalToggle,toggle])
+
+  console.log("album",album)
 
   return (
     <>

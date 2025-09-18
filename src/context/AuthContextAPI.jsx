@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
   const [messagereceiverName, setMessageReceiverName] = useState("")
   const [groupMessageId, setGroupMessageId] = useState("")
   const [groupMessageName, setGroupMessageName] = useState("")
+  const [globalToggle,setGlobalToggle] = useState(false)
 
   // Restore from localStorage on reload
   useEffect(() => {
@@ -91,7 +92,10 @@ export function AuthProvider({ children }) {
         setGroupMessageId,
 
         groupMessageName,
-        setGroupMessageName
+        setGroupMessageName,
+
+        globalToggle,
+        setGlobalToggle
       }}
     >
       {children}

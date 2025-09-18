@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import httpService from "../../helper/httpService";
 import { showSuccessToast } from "../customToast/CustomToast";
 
-const AlbumCard = ({ name, image, isPrivate, views, _id, setLoad, load,setAlbumInfoShowToggler,setAlbumId,totalVideos,totalPhotos }) => {
+const AlbumCard = ({ name, coverImage, isPrivate, views, _id, setLoad, load,setAlbumInfoShowToggler,setAlbumId,totalVideos,totalPhotos }) => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -53,10 +53,10 @@ const AlbumCard = ({ name, image, isPrivate, views, _id, setLoad, load,setAlbumI
         </div>
 
         {/* Image */}
-        <div className="rounded-3 overflow-hidden" onClick={()=>{setAlbumInfoShowToggler(true),setAlbumId(_id)}}>
+        <div className="rounded-3 overflow-hidden" onClick={()=>{setAlbumInfoShowToggler(true),setAlbumId(_id)}} style={{cursor:"pointer"}}>
           <img
             src={
-              image ||
+              coverImage ||
               "https://twoplusone.blr1.cdn.digitaloceanspaces.com/profiles/68c40585feb8eada77e592b7_1758006456619_127be06d.jpg"
             }
             alt={name}
@@ -82,8 +82,8 @@ const AlbumCard = ({ name, image, isPrivate, views, _id, setLoad, load,setAlbumI
           )}
 
           <div className="d-flex gap-2 align-items-center ms-auto">
-            <i className="bi bi-camera">&nbsp;{totalVideos}</i>
-            <i className="bi bi-play-fill">{totalPhotos}</i>
+            <i className="bi bi-camera">&nbsp;{totalPhotos}</i>
+            <i className="bi bi-play-fill">{ totalVideos}</i>
             <span>{views}</span>
           </div>
         </div>
