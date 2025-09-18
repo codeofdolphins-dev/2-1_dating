@@ -4,30 +4,35 @@ import starIcon from "./Images/star.png";
 import femaleIcon from "./Images/female.png";
 import maleIcon from "./Images/male.png";
 import ProfileImageCarousel from '../profileImageCarousel/profileImageCarousel';
-import camera from "../../assets/icons/camera.png";
-import group from "../../assets/icons/group.png";
-import folder from "../../assets/icons/folder.png";
-import video from "../../assets/icons/video.png";
-import share from "../../assets/icons/share.png";
-import invite from "../../assets/icons/invite.png";
-import httpService from '../../helper/httpService';
-import { showErrorToast, showSuccessToast } from '../customToast/CustomToast';
+// import camera from "../../assets/icons/camera.png";
+// import group from "../../assets/icons/group.png";
+// import folder from "../../assets/icons/folder.png";
+// import video from "../../assets/icons/video.png";
+// import share from "../../assets/icons/share.png";
+// import invite from "../../assets/icons/invite.png";
+// import httpService from '../../helper/httpService';
+// import { showErrorToast, showSuccessToast } from '../customToast/CustomToast';
 import DobCalculator from "../../helper/DobCalculator"
 import AgeCalculator from '../../helper/DobCalculator';
 
+import { FaCamera, FaUsers, FaFolder, FaVideo, FaShareAlt, FaUserPlus } from "react-icons/fa";
+import { LuAlbum } from "react-icons/lu"; // already imported in your code
+
+
 const icons = [
-    { icon: camera, text: "Adult" },
-    { icon: camera, text: "Non-Adult" },
-    { icon: group, text: "Friends" },
-    { icon: folder, text: "Albums" },
-    { icon: video, text: "Videos" },
-    { icon: share, text: "Share" },
-    { icon: invite, text: "Invite" },
-]
+    { icon: <FaCamera size={20} />, text: "Adult" },
+    { icon: <FaCamera size={20} />, text: "Non-Adult" },
+    { icon: <FaUsers size={20} />, text: "Friends" },
+    { icon: <FaFolder size={20} />, text: "Album" },
+    { icon: <FaVideo size={20} />, text: "Videos" },
+    { icon: <FaShareAlt size={20} />, text: "Share" },
+    { icon: <FaUserPlus size={20} />, text: "Invite" },
+    // { icon: <LuAlbum size={20} />, text: "Album" },
+];
 
-const CurrentProfileCard = ({ user, userFriendsCount, allProfileImg, geticonText, allAdultImg, allNonAdultImg, allVideo }) => {
+const CurrentProfileCard = ({ user, userFriendsCount, allProfileImg, geticonText, allAdultImg, allNonAdultImg, allVideo, album }) => {
 
-    console.log("non-adult img",allNonAdultImg)
+    console.log("wwwwww", album)
 
     return (
         <>
@@ -47,7 +52,7 @@ const CurrentProfileCard = ({ user, userFriendsCount, allProfileImg, geticonText
                                     <p className="mb-0 text-primary" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.dateOfBirth} /></p>
                                 </div> : user?.profile?.gender === "female" ? <div className="d-flex justify-content-center align-items-center">
                                     <img src={femaleIcon} alt="female" width="12px" height="12px" />
-                                    <p className="mb-0 text-primary" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.dateOfBirth} /></p>
+                                    <p className="mb-0 text-danger" style={{ fontSize: "14px" }}><AgeCalculator birthDate={user?.profile?.dateOfBirth} /></p>
                                 </div> : user?.profile?.gender === "couple" && <div className='d-flex gap-2'>
                                     <div className="d-flex justify-content-center align-items-center">
                                         <img src={maleIcon} alt="male" width="12px" height="12px" />
@@ -92,6 +97,8 @@ const CurrentProfileCard = ({ user, userFriendsCount, allProfileImg, geticonText
                         if (item.text === "Non-Adult") count = allNonAdultImg?.length || 0;
                         if (item.text === "Videos") count = allVideo?.length || 0;
                         if (item.text === "Friends") count = userFriendsCount || 0; // ✅ Fix here
+                        if (item.text === "Album") count = album?.length || 0;
+                        if (item.text === "Share") count = ""
 
                         return (
                             <div
@@ -99,27 +106,25 @@ const CurrentProfileCard = ({ user, userFriendsCount, allProfileImg, geticonText
                                 className="d-flex flex-column justify-content-center align-items-center position-relative"
                                 style={{ width: "49px", fontSize: "10px" }}
                             >
-                                {/* Image with count overlay */}
-                                <div className="position-relative" style={{ width: "40px", height: "40px" }}>
-                                    <img
-                                        src={item.icon}
-                                        alt={item.text}
-                                        onClick={() => geticonText(item.text, true)}
-                                        style={{ width: "100%", height: "100%", cursor: "pointer" }}
-                                    />
+                                <div
+                                    className="position-relative d-flex justify-content-center align-items-center"
+                                    style={{ width: "40px", height: "40px", cursor: "pointer" }}
+                                    {...(item.text !== "Album" ? { onClick: () => geticonText(item.text, true) } : {})}
+                                >
+                                    {item.icon}
                                     {count >= 0 && (
                                         <span
                                             className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
                                             style={{ fontSize: "9px" }}
                                         >
-                                            {  count}
+                                            {count}
                                         </span>
                                     )}
                                 </div>
 
-                                {/* Label text */}
                                 <p className="mb-0 mt-1">{item.text}</p>
                             </div>
+
                         );
                     })}
 

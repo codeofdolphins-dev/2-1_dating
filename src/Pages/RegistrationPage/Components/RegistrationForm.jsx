@@ -248,7 +248,7 @@ const RegistrationForm = () => {
               console.log(error);
               if(!error?.response?.data?.success)
               {
-                navigate("/login")
+                setTimeout(() => navigate('/login'), 800);
               }
               setLoading(false)
               toast.error(error?.response?.data?.message);

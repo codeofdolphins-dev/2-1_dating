@@ -63,58 +63,67 @@
 import React from "react";
 import female from "../../../../assets/cardImgs/Images/female.png";
 import male from "../../../../assets/cardImgs/Images/male.png";
+import DobCalculator from "../../../../helper/DobCalculator"
 
 const ProfilePageTable = ({ user }) => {
   const isCouple = user?.gender?.toLowerCase() === "couple";
 
+  console.log("user", user)
+
   // ✅ Map API object to table-friendly format
   const userData = [
     {
-      label: "Date of Birth",
-      char: user?.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "-",
+      label: "Age",
+      char: user?.dateOfBirth ? <DobCalculator birthDate={user.dateOfBirth} /> : "-",
       parm: isCouple && user?.partner?.dateOfBirth
-        ? new Date(user.partner.dateOfBirth).toLocaleDateString()
+        ? <DobCalculator birthDate={user?.partner?.dateOfBirth} />
         : "-",
     },
     {
-      label: "Gender",
-      char: user?.gender || "-",
-      parm: isCouple ? user?.partner?.gender || "-" : "-",
+      label: "Body Hair",
+      char: Array.isArray(user?.bodyHair) ? user.bodyHair : [],  // always an array
+      parm: isCouple ? (Array.isArray(user?.partner?.bodyHair) ? user.partner.bodyHair : []) : []
+    }
+    ,
+    {
+      label: "Height",
+      char: user?.height || "-",
+      parm: isCouple ? user?.partner?.height || "-" : "-",
     },
     {
-      label: "Sexuality",
-      char: user?.sexuality || "-",
-      parm: isCouple ? user?.partner?.sexuality || "-" : "-",
+      label: "Weight",
+      char: user?.weight || "-",
+      parm: isCouple ? user?.partner?.weight || "-" : "-",
     },
     {
-      label: "Interested In",
-      char: user?.interestedIn?.join(", ") || "-",
-      parm: isCouple ? user?.partner?.interestedIn?.join(", ") || "-" : "-",
+      label: "Body type",
+      char: user?.bodyType || "-",
+      parm: isCouple ? user?.partner?.bodyType || "-" : "-",
     },
     {
-      label: "City",
-      char: user?.address?.city || "-",
-      parm: isCouple ? user?.partner?.address?.city || "-" : "-",
+      label: "Ethnic background",
+      char: user?.ethnicBackground || "-",
+      parm: isCouple ? user?.partner?.ethnicBackground || "-" : "-",
     },
     {
-      label: "State",
-      char: user?.address?.state || "-",
-      parm: isCouple ? user?.partner?.address?.state || "-" : "-",
+      label: "Smoking",
+      char: user?.smoking || "-",
+      parm: isCouple ? user?.partner?.smoking || "-" : "-",
     },
     {
-      label: "Country",
-      char: user?.address?.country || "-",
-      parm: isCouple ? user?.partner?.address?.country || "-" : "-",
+      label: "Languages Spoken",
+      char: Array.isArray(user?.languagesSpoken) ? user.languagesSpoken : [],  // always an array
+      parm: isCouple ? (Array.isArray(user?.partner?.languagesSpoken) ? user.partner.languagesSpoken : []) : []
     },
     {
-      label: "Zip Code",
-      char: user?.address?.zipcode || "-",
-      parm: isCouple ? user?.partner?.address?.zipcode || "-" : "-",
+      label: "Looks are important?",
+      char: user?.looksAreImportant || "-",
+      parm: isCouple ? user?.partner?.looksAreImportant || "-" : "-",
     },
     {
-      label: "Full Address",
-      char: user?.address?.fullAddress || "-",
-      parm: isCouple ? user?.partner?.address?.fullAddress || "-" : "-",
+      label: "Intelligence is important?",
+      char: user?.intelligenceIsImportant || "-",
+      parm: isCouple ? user?.partner?.intelligenceIsImportant || "-" : "-",
     },
     {
       label: "Languages Spoken",
@@ -122,10 +131,21 @@ const ProfilePageTable = ({ user }) => {
       parm: isCouple ? user?.partner?.languagesSpoken?.join(", ") || "-" : "-",
     },
     {
-      label: "Bio",
-      char: user?.bio || "-",
-      parm: isCouple ? user?.partner?.bio || "-" : "-",
+      label: "Sexuality",
+      char: user?.sexuality || "-",
+      parm: isCouple ? user?.partner?.sexuality || "-" : "-",
     },
+    {
+      label: "Relationship status",
+      char: user?.relationshipOrientation || "-",
+      parm: isCouple ? user?.partner?.relationshipOrientation || "-" : "-",
+    },
+    {
+      label: "Experience level",
+      char: user?.experienceLevel || "-",
+      parm: isCouple ? user?.partner?.experienceLevel || "-" : "-",
+    },
+
   ];
 
   return (
@@ -138,7 +158,7 @@ const ProfilePageTable = ({ user }) => {
           <th className="text-white">Details</th>
           <th className="text-white">
             <img src={isCouple ? male : user?.gender === "male" ? male : female} alt="Female" className="me-1" />
-            {isCouple ? "Char" : user?.gender === "male" ? "Char" :"Parm" }
+            {isCouple ? "Char" : user?.gender === "male" ? "Char" : "Parm"}
           </th>
           {isCouple && (
             <th className="text-white">
@@ -149,16 +169,51 @@ const ProfilePageTable = ({ user }) => {
         </tr>
       </thead>
       <tbody>
-        {userData.map(({ label, char, parm }, i) => (
-          <tr
-            key={i}
-            style={{ borderBottom: "1px solid var(--color-background)" }}
-          >
-            <td className="text-white">{label}</td>
-            <td className="text-white">{char}</td>
-            {isCouple && <td className="text-white">{parm}</td>}
-          </tr>
-        ))}
+        {userData.map(({ label, char, parm }, i) => {
+          const formatValue = (val) => {
+            if (React.isValidElement(val)) {
+              return val; // ✅ return component directly without formatting
+            }
+
+            if (Array.isArray(val)) {
+              return val.length > 0 ? val.join(", ") : "-";
+            }
+
+            if (typeof val === "object" && val !== null) {
+              // ✅ Pick only keys where value is true
+              const trueKeys = Object.keys(val).filter((key) => val[key]);
+              return trueKeys.length > 0
+                ? trueKeys.map(k => k.charAt(0).toUpperCase() + k.slice(1)).join(", ")
+                : "-";
+            }
+
+            if (typeof val === "boolean") {
+              return val ? "Yes" : "No";
+            }
+
+            if (typeof val === "number") {
+              return val.toString();
+            }
+
+            return val !== undefined && val !== null && val !== "" ? val : "-";
+          };
+
+          return (
+            <tr
+              key={i}
+              style={{ borderBottom: "1px solid var(--color-background)" }}
+            >
+              <td className="text-white">{label}</td>
+              <td className="text-white">{formatValue(char)}</td>
+              {isCouple && <td className="text-white">{formatValue(parm)}</td>}
+            </tr>
+          );
+        })}
+
+
+
+
+
       </tbody>
     </table>
   );
