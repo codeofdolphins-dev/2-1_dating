@@ -34,24 +34,23 @@ function Navbar() {
         { id: 6, text: 'Contact', href: '#contact' }
     ];
 
-    const joinButton = () =>{
+    const joinButton = () => {
         navigate("/subscription")
     }
 
-    const handleHomeClick = () =>{
+    const handleHomeClick = () => {
         navigate("/")
     }
 
-    const handleLogin = () =>{
+    const handleLogin = () => {
         navigate("/login")
     }
 
     return (
-        <div className={isSticky ? "navbar-wrapper-height" : ""} style={{backgroundColor: "var(--color-border)"}}>
+        <div className={isSticky ? "navbar-wrapper-height" : ""} style={{ backgroundColor: "var(--color-border)" }}>
             <nav
-                className={`navbar navbar-expand-lg navbar-dark px-4 navbar-animated ${
-                    isSticky ? "navbar-sticky" : "navbar-default"
-                }`}
+                className={`navbar navbar-expand-lg navbar-dark px-4 navbar-animated ${isSticky ? "navbar-sticky" : "navbar-default"
+                    }`}
             >
                 <div className="container">
                     <a className="navbar-brand d-flex align-items-center brand-animated" href="#" onClick={handleHomeClick}>
@@ -60,9 +59,8 @@ function Navbar() {
                             alt="Logo"
                             width="50"
                             height="50"
-                            className={`d-inline-block align-top me-2 logo-animated ${
-                                isSticky ? "logo-sticky" : ""
-                            }`}
+                            className={`d-inline-block align-top me-2 logo-animated ${isSticky ? "logo-sticky" : ""
+                                }`}
                         />
                         <span className={`fw-bold brand-text ${isSticky ? "brand-sticky" : ""}`}>
                             2+1 DATING
@@ -87,8 +85,8 @@ function Navbar() {
                     >
                         <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
                             {navLinks.map((link, index) => (
-                                <li 
-                                    key={link.id} 
+                                <li
+                                    key={link.id}
                                     className="nav-item nav-item-animated"
                                     style={{ animationDelay: `${index * 0.1}s` }}
                                 >
@@ -102,10 +100,14 @@ function Navbar() {
                             ))}
                         </ul>
 
-                        <div className="d-flex gap-3 buttons-animated">
-                            <button className="btn bg-white text-dark btn-animated" onClick={handleLogin}>Login</button>
-                            <button className="btn btn-animated" onClick={joinButton} style={{backgroundColor:"var(--color-primary-green)"}}>Join Now</button>
-                        </div>
+                        {
+                            !localStorage.getItem("jwtToken") && <div className="d-flex gap-3 buttons-animated">
+                                <button className="btn bg-white text-dark btn-animated" onClick={handleLogin}>Login</button>
+                                <button className="btn btn-animated" onClick={joinButton} style={{ backgroundColor: "var(--color-primary-green)" }}>Join Now</button>
+                            </div>
+                        }
+
+
                     </div>
                 </div>
             </nav>

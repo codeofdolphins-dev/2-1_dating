@@ -1,15 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../HomePage/HomeComponents/Navbar'
 import SubscriptionCard from '../SubscriptionPage/SubscriptionComponent/SubscriptionCard'
+import httpService from '../../helper/httpService'
 
 const Subscription = () => {
-    const check = <i class="bi bi-check-lg me-3 h5" style={{color:"var(--color-success-green)"}}></i>;
-const cross = <i className="bi bi-x me-2 h5" style={{color:"var(--color-success-green)"}}></i>;
+
+    const [plans, setPlans] = useState([])
+
+    useEffect(() => {
+        httpService("/plans", "GET")
+            .then((res) => {
+                console.log("plans", res?.data._id)
+                setPlans(res?.data)
+            })
+            .catch((err) => {
+                console.log("plan err", err)
+            })
+    }, [])
+    const check = <i class="bi bi-check-lg me-3 h5" style={{ color: "var(--color-success-green)" }}></i>;
+    const cross = <i className="bi bi-x me-2 h5" style={{ color: "var(--color-success-green)" }}></i>;
     return (
         <>
             <div className='container-fluid' style={{ backgroundColor: "var(--color-background)" }} >
                 <Navbar />
-                <div className='container  pb-5' style={{paddingTop: "150px"}}>
+                <div className='container  pb-5' style={{ paddingTop: "150px" }}>
                     <div className='mb-4'>
                         <div className='text-white display-6 fw-semibold mb-3 text-center'>2+1 Premium Membership</div>
                         <div className='text-center' style={{ color: "#9ca3af" }}>Unlock all features and connect with like-minded individulas</div>
@@ -18,34 +32,25 @@ const cross = <i className="bi bi-x me-2 h5" style={{color:"var(--color-success-
                     {/* Four card subscription */}
                     <div className="container py-5">
                         <div className="row g-4 justify-content-center">
-                            <div className="col-lg-3 col-sm-6 col-lg-3">
-                                <SubscriptionCard title="1 Month (30 DAYS)"
-                                    duration="30"
-                                    total="29.00"
-                                    perMonth="29.00" />
-                            </div>
-
-                            <div className="col-lg-3 col-sm-6 col-lg-3">
-                                <SubscriptionCard title="3 Months (90 DAYS)"
-                                    duration="90"
-                                    total="57.00"
-                                    perMonth="19.00" />
-                            </div>
-
-                            <div className="col-lg-3 col-sm-6 col-lg-3">
-                                <SubscriptionCard title="6 Months (180 DAYS)"
-                                    duration="180"
-                                    total="84.00"
-                                    perMonth="14.00"
-                                    isPopular={true} />
-                            </div>
-
-                            <div className="col-lg-3 col-sm-6 col-lg-3">
-                                <SubscriptionCard title="12 Months (365 DAYS)"
-                                    duration="365"
-                                    total="138.00"
-                                    perMonth="11.50" />
-                            </div>
+                            {
+                                plans.map((data, index) => {
+                                    return (
+                                        <div className="col-lg-3 col-sm-6" key={index}>
+                                            <SubscriptionCard
+                                                title={data?.name}
+                                                duration={data?.durationText}
+                                                total={data?.formattedPrice}
+                                                perMonth="29.00"
+                                                isPopular={data?.isPopular}
+                                                // features={data?.features}
+                                                // permissions={data?.permissions}
+                                                plans={data}
+                                                planId = {data?._id}
+                                            />
+                                        </div>
+                                    );
+                                })
+                            }
                         </div>
                     </div>
 
@@ -53,7 +58,7 @@ const cross = <i className="bi bi-x me-2 h5" style={{color:"var(--color-success-
                     <div className="container py-4">
                         <div
                             className=" text-white rounded-3 p-4"
-                            style={{ backgroundColor: 'var(--color-border)', fontSize: '0.9rem',border: "1px solid #374151" }}
+                            style={{ backgroundColor: 'var(--color-border)', fontSize: '0.9rem', border: "1px solid #374151" }}
                         >
                             <p className="fw-semibold text-uppercase  mb-4" style={{ fontSize: '0.85rem', color: "#d1d5db" }} >
                                 Account is automatically renewed unless you disable recurring billing on the account page before the renewal date.
@@ -126,14 +131,14 @@ const cross = <i className="bi bi-x me-2 h5" style={{color:"var(--color-success-
                             {/* Trial Member Features */}
                             <div className="col-lg-4">
                                 <h5 className="fw-bold mb-3 text-uppercase mb-4">trial member features</h5>
-                                <div className=" rounded-3 p-4" style={{backgroundColor: "var(--border-color)",border: "1px solid #374151"}}>
-                                    <p className="mb-2" style={{color :"#9ca3af"}}>{cross}Limited to 10 messages per day</p>
-                                    <p className="mb-2" style={{color :"#9ca3af"}}>{cross}Can only receive friend requests</p>
-                                    <p className="mb-2" style={{color :"#9ca3af"}}>{cross}View limited profile information</p>
-                                    <p className="mb-2" style={{color :"#9ca3af"}}>{cross}No access to private media</p>
-                                    <p className="mb-2" style={{color :"#9ca3af"}}>{cross}Cannot create events or groups</p>
-                                    <p className="mb-2" style={{color :"#9ca3af"}}>{cross}Read-only forum access</p>
-                                    <p className="mb-0" style={{color :"#9ca3af"}}>{cross}No VIP event access</p>
+                                <div className=" rounded-3 p-4" style={{ backgroundColor: "var(--border-color)", border: "1px solid #374151" }}>
+                                    <p className="mb-2" style={{ color: "#9ca3af" }}>{cross}Limited to 10 messages per day</p>
+                                    <p className="mb-2" style={{ color: "#9ca3af" }}>{cross}Can only receive friend requests</p>
+                                    <p className="mb-2" style={{ color: "#9ca3af" }}>{cross}View limited profile information</p>
+                                    <p className="mb-2" style={{ color: "#9ca3af" }}>{cross}No access to private media</p>
+                                    <p className="mb-2" style={{ color: "#9ca3af" }}>{cross}Cannot create events or groups</p>
+                                    <p className="mb-2" style={{ color: "#9ca3af" }}>{cross}Read-only forum access</p>
+                                    <p className="mb-0" style={{ color: "#9ca3af" }}>{cross}No VIP event access</p>
                                 </div>
 
                                 <p className="mt-3 small" style={{ color: "#9ca3af" }}>
