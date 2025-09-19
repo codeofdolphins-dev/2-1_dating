@@ -9,6 +9,7 @@ import style from "./style.module.css";
 import EditProfilePageInputPopup from '../../../../components/EditProfilePageInputPopup/EditProfilePageInputPopup';
 import DropdownPopup from '../../../../components/EditProfilePageInputPopup/DropdownPopup';
 import httpService from '../../../../helper/httpService';
+import LanguageInputPopup from '../../../../components/EditProfilePageInputPopup/LanguageInputPopup';
 
 const EditTab = () => {
 
@@ -40,7 +41,7 @@ const EditTab = () => {
   const relationshipOptions = [`Swinger`, `Prefer not to say`, `Monogamous`, `Open-Minded`, `Polyamorous`];
   const circumcisedOptions = [`Prefer not to say`, `No`, `Yes`];
 
-  const [circumcised, setCircumcised] = useState("");
+  const [circumcised, setCircumcised] = useState();
   const [desc, setDesc] = useState("");
 
   const femaleInputOptions = {
@@ -84,7 +85,7 @@ const EditTab = () => {
     f_smoking: "",
     f_piercings: "",
     f_tattoos: "",
-    f_languages: "",
+    languages: [],
     f_looks: "",
     f_intelligence: "",
     f_sexuality: "",
@@ -108,7 +109,7 @@ const EditTab = () => {
     m_smoking: "",
     m_piercings: "",
     m_tattoos: "",
-    m_languages: "",
+    languages: [],
     m_looks: "",
     m_intelligence: "",
     m_sexuality: "",
@@ -216,7 +217,7 @@ const EditTab = () => {
   const handelInterest = (id) => {
     setInterestOptions((prev) => (
       prev.map(field => (
-        field.id === id ? { ...field, value: !field.value, title: field.title } : field
+        field.id === id ? { ...field, value: !field.value } : field
       ))
     ));
 
@@ -267,8 +268,8 @@ const EditTab = () => {
     dateOfBirth: female.f_dob || male.m_dob || "",
     gender: profilePayload?.toLowerCase(),
     sexuality: female.f_sexuality || male.m_sexuality || "",
-    interestedIn: intrestPayload || [],
-    bio: desc?.toLowerCase(),
+    lookingFor: intrestPayload || [],
+    bio: desc?.toLowerCase() || "",
     bodyHair: female.bodyHair || male.bodyHair || [],
     height: female.f_height || male.m_height || "",
     weight: female.f_weight || male.m_weight || "",
@@ -277,9 +278,7 @@ const EditTab = () => {
     smoking: female.f_smoking || male.m_smoking || "",
     piercings: female.f_piercings || male.m_piercings || "",
     tattoos: female.f_tattoos || male.m_tattoos || "",
-    languagesSpoken: female.f_languages
-      ? female.f_languages.split(',').map(lang => lang.trim())
-      : male.m_languages ? male.m_languages.split(',').map(lang => lang.trim()) : [],
+    languagesSpoken: female.languages ? female.languages : male.languages ? male.languages : [],
     looksAreImportant: female.f_looks || male.m_looks || "",
     intelligenceIsImportant: female.f_intelligence || male.m_intelligence || "",
     relationshipOrientation: female.f_relationship || male.m_relationship || "",
@@ -298,8 +297,8 @@ const EditTab = () => {
     lastName: female.f_lname?.toLowerCase() || "",
     dateOfBirth: female.f_dob || "",
     gender: profilePayload?.toLowerCase(),
-    sexuality: female.f_sexuality || "",
-    interestedIn: intrestPayload || [],
+    sexuality: female.f_sexuality?.toLowerCase() || "",
+    lookingFor: intrestPayload || [],
     bio: desc?.toLowerCase(),
     bodyHair: female.bodyHair || [],
     height: female.f_height || "",
@@ -309,7 +308,7 @@ const EditTab = () => {
     smoking: female.f_smoking || "",
     piercings: female.f_piercings || "",
     tattoos: female.f_tattoos || "",
-    languagesSpoken: female.f_languages ? female.f_languages.split(',').map(lang => lang.trim()) : [],
+    languagesSpoken: female.languages ? female.languages : [],
     looksAreImportant: female.f_looks || "",
     intelligenceIsImportant: female.f_intelligence || "",
     relationshipOrientation: female.f_relationship || "",
@@ -324,10 +323,8 @@ const EditTab = () => {
       firstName: male.m_fname?.toLowerCase() || "",
       lastName: male.m_lname?.toLowerCase() || "",
       dateOfBirth: male.m_dob || "",
-      gender: profilePayload?.toLowerCase(),
       sexuality: male.m_sexuality || "",
-      interestedIn: intrestPayload || [],
-      bio: desc,
+      // interestedIn: intrestPayload || [],
       bodyHair: male.bodyHair || [],
       height: male.m_height || "",
       weight: male.m_weight || "",
@@ -336,11 +333,10 @@ const EditTab = () => {
       smoking: male.m_smoking || "",
       piercings: male.m_piercings || "",
       tattoos: male.m_tattoos || "",
-      languagesSpoken: male.m_languages ? male.m_languages.split(',').map(lang => lang.trim()) : [],
+      languagesSpoken: male.languages ? male.languages : [],
       looksAreImportant: male.m_looks || "",
       intelligenceIsImportant: male.m_intelligence || "",
       relationshipOrientation: male.m_relationship || "",
-      circumcised: circumcised || "",
       experienceLevel: {
         curious: male.experience.m_curious || "",
         intermediate: male.experience.m_intermediate || "",
@@ -379,9 +375,6 @@ const EditTab = () => {
       .then((response) => {
         if (!response.success) throw new Error("Profile details retrieved failed!!!");
         setProfileDetails(response.data);
-        console.log(profileDetails);
-
-
       })
       .catch(error => {
         error.log(error.message);
@@ -389,7 +382,6 @@ const EditTab = () => {
   }, []);
 
   useEffect(() => {
-
     // profile type
     const gender = profileType.map(ele => {
       return {
@@ -397,74 +389,77 @@ const EditTab = () => {
         value: ele.title?.toLocaleLowerCase() === profileDetails.gender?.toLocaleLowerCase()
       }
     });
+    setProfileType(gender);
 
     // for interest option
-    const interest = profileDetails?.interestedIn;
+    const interest = profileDetails?.partner?.lookingFor;
     const updateOption = interestOptions.map(ele => ({
       ...ele,
-      value: interest?.includes(ele.title)
+      value: interest?.includes(ele.title.toLowerCase())
     }))
+    setInterestOptions(updateOption);
+
+    setDesc(profileDetails?.bio);
 
     // for date
-    const dateObj = new Date(profileDetails.dateOfBirth);
-    const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${dateObj.getFullYear()}`;
+    function formatForInputDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
 
-    function convertToInputDateFormat(dateString) {
-      console.log(dateString);
-
-      const [day, month, year] = dateString?.split("-");
       return `${year}-${month}-${day}`;
     }
 
-    setInterestOptions(updateOption);
-    setDesc(profileDetails?.bio);
-    setProfileType(gender);
-
     setFemale(prev => ({
       ...prev,
-      f_fname: profileDetails.firstName,
-      f_lname: profileDetails.lastName,
-      f_dob: formattedDate,
-      f_sexuality: profileDetails.sexuality,
-      f_height: profileDetails.height,
-      f_weight: profileDetails.weight,
-      f_bodyType: profileDetails.bodyType,
-      f_ethnicBackground: profileDetails.ethnicBackground,
-      f_smoking: profileDetails.smoking,
-      f_piercings: profileDetails.piercings,
-      f_tattoos: profileDetails.tattoos,
-      f_looks: profileDetails.looksAreImportant,
-      f_intelligence: profileDetails.intelligenceIsImportant,
-      f_relationship: profileDetails.relationshipOrientation,
+      f_fname: profileDetails?.firstName,
+      f_lname: profileDetails?.lastName,
+      f_dob: formatForInputDate(profileDetails?.dateOfBirth),
+      f_sexuality: profileDetails?.sexuality,
+      f_height: profileDetails?.height,
+      f_weight: profileDetails?.weight,
+      f_bodyType: profileDetails?.bodyType,
+      f_ethnicBackground: profileDetails?.ethnicBackground,
+      f_smoking: profileDetails?.smoking,
+      f_piercings: profileDetails?.piercings,
+      f_tattoos: profileDetails?.tattoos,
+      f_looks: profileDetails?.looksAreImportant,
+      f_intelligence: profileDetails?.intelligenceIsImportant,
+      f_relationship: profileDetails?.relationshipOrientation,
+      bodyHair: profileDetails?.bodyHair,
+      languages: profileDetails?.languagesSpoken || [],
       experience: {
-        f_curious: profileDetails?.experience?.curious,
-        f_newbie: profileDetails?.experience?.newbie,
-        f_intermediate: profileDetails?.experience?.intermediate,
-        f_advanced: profileDetails?.experience?.advanced
+        f_curious: profileDetails?.experienceLevel?.curious,
+        f_newbie: profileDetails?.experienceLevel?.newbie,
+        f_intermediate: profileDetails?.experienceLevel?.intermediate,
+        f_advanced: profileDetails?.experienceLevel?.advanced
       }
     }));
 
     setMale(prev => ({
       ...prev,
-      m_fname: profileDetails.partner?.firstName,
-      m_lname: profileDetails.partner?.lastName,
-      m_dob: profileDetails?.partner?.dateOfBirth || profileDetails?.dateOfBirth,
-      m_sexuality: profileDetails.partner?.sexuality || profileDetails?.sexuality || "",
-      m_height: profileDetails.height,
-      m_weight: profileDetails.weight,
-      m_bodyType: profileDetails.bodyType,
-      m_ethnicBackground: profileDetails.ethnicBackground,
-      m_smoking: profileDetails.smoking,
-      m_piercings: profileDetails.piercings,
-      m_tattoos: profileDetails.tattoos,
-      m_looks: profileDetails.looksAreImportant,
-      m_intelligence: profileDetails.intelligenceIsImportant,
-      m_relationship: profileDetails.relationshipOrientation,
+      m_fname: profileDetails?.partner?.firstName || profileDetails?.firstName || "",
+      m_lname: profileDetails?.partner?.lastName || profileDetails?.lastName || "",
+      m_dob: formatForInputDate(profileDetails?.partner?.dateOfBirth) || formatForInputDate(profileDetails?.dateOfBirth),
+      m_sexuality: profileDetails?.partner?.sexuality || profileDetails?.sexuality || "",
+      m_height: profileDetails?.partner?.height || profileDetails?.height,
+      m_weight: profileDetails?.partner?.weight || profileDetails?.weight,
+      m_bodyType: profileDetails?.partner?.bodyType || profileDetails?.bodyType,
+      m_ethnicBackground: profileDetails?.partner?.ethnicBackground || profileDetails.ethnicBackground,
+      m_smoking: profileDetails?.partner?.bodyType || profileDetails?.smoking,
+      m_piercings: profileDetails?.partner?.piercings || profileDetails?.piercings,
+      m_tattoos: profileDetails?.partner?.tattoos || profileDetails?.tattoos,
+      m_looks: profileDetails?.partner?.looksAreImportant || profileDetails?.looksAreImportant,
+      m_intelligence: profileDetails?.partner?.intelligenceIsImportant || profileDetails?.intelligenceIsImportant,
+      m_relationship: profileDetails?.partner?.relationshipOrientation || profileDetails?.relationshipOrientation,
+      bodyHair: typeof (profileDetails?.bodyHair) == "string" ? [] : profileDetails?.bodyHair || typeof (profileDetails?.partner?.bodyHair) == "string" ? [] : profileDetails?.partner?.bodyHair,
+      languages: profileDetails?.partner?.languagesSpoken || profileDetails?.languagesSpoken || [],
       experience: {
-        m_curious: profileDetails?.experience?.curious,
-        m_newbie: profileDetails?.experience?.newbie,
-        m_intermediate: profileDetails?.experience?.intermediate,
-        m_advanced: profileDetails?.experience?.advanced
+        m_curious: profileDetails?.partner ? profileDetails?.partner?.experienceLevel?.curious : profileDetails?.experienceLevel?.curious,
+        m_newbie: profileDetails?.partner ? profileDetails?.partner?.experienceLevel?.newbie : profileDetails?.experienceLevel?.newbie,
+        m_intermediate: profileDetails?.partner ? profileDetails?.partner?.experienceLevel?.intermediate : profileDetails?.experienceLevel?.intermediate,
+        m_advanced: profileDetails?.partner ? profileDetails?.partner?.experienceLevel?.advanced : profileDetails?.experienceLevel?.advanced
       }
     }));
 
@@ -633,7 +628,7 @@ const EditTab = () => {
                     </div>
                   </div>
 
-                  {/* for body type */}
+                  {/* for body hair type */}
                   <div style={{ borderBottom: "2px solid #343A40" }}>
                     {/* Label */}
                     <label className="form-label mb-0" htmlFor="f_bodyHair"
@@ -656,11 +651,11 @@ const EditTab = () => {
                         {field.title}
                       </label>
 
-                      {/* Input */}
+                      {/* other inputs */}
                       <div className="d-flex">
                         {
                           field.title === "Languages Spoken" ?
-                            <EditProfilePageInputPopup options={languagesSpoken} bodyHair={male} setbodyHair={setMale} title={field?.title} /> :
+                            <LanguageInputPopup options={languagesSpoken} bodyHair={female} setbodyHair={setFemale} title={field?.title} /> :
                             <DropdownPopup
                               name={field.id} // 🧠 key point: pass field ID as 'name'
                               options={femaleInputOptions[field.id]} // options per field
@@ -790,7 +785,7 @@ const EditTab = () => {
                     </div>
                   </div>
 
-                  {/* for body type */}
+                  {/* for body hair type */}
                   <div style={{ borderBottom: "2px solid #343A40" }}>
                     {/* Label */}
                     <label className="form-label mb-0" htmlFor="f_bodyHair"
@@ -802,6 +797,7 @@ const EditTab = () => {
                     </div>
                   </div>
 
+                  {/* Other inputs */}
                   {male_input.map((field, i) => (
                     <div key={i} style={{ borderBottom: "2px solid #343A40" }}>
                       {/* Label */}
@@ -817,7 +813,7 @@ const EditTab = () => {
                       <div className="d-flex">
                         {
                           field.title === "Languages Spoken" ?
-                            <EditProfilePageInputPopup options={languagesSpoken} bodyHair={male} setbodyHair={setMale} title={field?.title} /> : <DropdownPopup
+                            <LanguageInputPopup options={languagesSpoken} bodyHair={male} setbodyHair={setMale} title={field?.title} /> : <DropdownPopup
                               name={field.id} // 🧠 key point: pass field ID as 'name'
                               options={maleInputOptions[field.id]} // options per field
                               title={field.title}

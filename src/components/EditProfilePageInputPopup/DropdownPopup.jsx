@@ -5,7 +5,7 @@ import Styles from "./SelectPopup.module.css";
 const DropdownPopup = ({ options = [], title = "", name, selectedValue, setSelectedValue }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleSelect = (option) => {
+    const handleSelect = (option) => {        
         setSelectedValue((prev) => ({
             ...prev,
             [name]: option, // Dynamically update the correct field
