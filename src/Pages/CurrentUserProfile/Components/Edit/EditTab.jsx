@@ -10,6 +10,7 @@ import EditProfilePageInputPopup from '../../../../components/EditProfilePageInp
 import DropdownPopup from '../../../../components/EditProfilePageInputPopup/DropdownPopup';
 import httpService from '../../../../helper/httpService';
 import LanguageInputPopup from '../../../../components/EditProfilePageInputPopup/LanguageInputPopup';
+import WarningPopup from '../../../../components/WarningPopup/WarningPopup';
 
 const EditTab = () => {
 
@@ -207,11 +208,69 @@ const EditTab = () => {
   // **********************handlers*************************
 
   const profileHandler = (id) => {
+    if (confirm("!!! If you change the gender then old data will be deleted") != true){
+      return
+    }
+
     setProfileType((prev) => (
       prev.map(field => (
         field.id === id ? { ...field, value: !field.value } : { ...field, value: false }
       ))
     ));
+
+    if (["Transgender", "Female"].includes(profileType.find(element => element.value)?.title || "")) {
+      setMale({
+        m_fname: "",
+        m_lname: "",
+        m_dob: "",
+        bodyHair: [],
+        m_height: "",
+        m_weight: "",
+        m_bodyType: "",
+        m_ethnicBackground: "",
+        m_smoking: "",
+        m_piercings: "",
+        m_tattoos: "",
+        languages: [],
+        m_looks: "",
+        m_intelligence: "",
+        m_sexuality: "",
+        m_relationship: "",
+        experience: {
+          m_curious: false,
+          m_newbie: false,
+          m_intermediate: false,
+          m_advanced: false
+        }
+      })
+
+    } else if (["Male"].includes(profileType.find(element => element.value)?.title || "")) {
+
+      setFemale({
+        f_fname: "",
+        f_lname: "",
+        f_dob: "",
+        bodyHair: [],
+        f_height: "",
+        f_weight: "",
+        f_bodyType: "",
+        f_ethnicBackground: "",
+        f_smoking: "",
+        f_piercings: "",
+        f_tattoos: "",
+        languages: [],
+        f_looks: "",
+        f_intelligence: "",
+        f_sexuality: "",
+        f_relationship: "",
+        experience: {
+          f_curious: false,
+          f_newbie: false,
+          f_intermediate: false,
+          f_advanced: false
+        }
+      });
+    }
   };
 
   const handelInterest = (id) => {
@@ -220,8 +279,6 @@ const EditTab = () => {
         field.id === id ? { ...field, value: !field.value } : field
       ))
     ));
-
-    setInterestOptions | ("male")
   };
 
   const femaleExperienceHandler = (e) => {
@@ -284,10 +341,10 @@ const EditTab = () => {
     relationshipOrientation: female.f_relationship || male.m_relationship || "",
     circumcised: circumcised || "",
     experienceLevel: {
-      curious: female.experience.f_curious || male.experience.m_curious || "",
-      intermediate: female.experience.f_intermediate || male.experience.m_intermediate || "",
-      advanced: female.experience.f_advanced || male.experience.m_advanced || "",
-      newbie: female.experience.f_newbie || male.experience.m_newbie || "",
+      curious: female.experience.f_curious || male.experience.m_curious || false,
+      intermediate: female.experience.f_intermediate || male.experience.m_intermediate || false,
+      advanced: female.experience.f_advanced || male.experience.m_advanced || false,
+      newbie: female.experience.f_newbie || male.experience.m_newbie || false,
     }
   };
 
@@ -314,10 +371,10 @@ const EditTab = () => {
     relationshipOrientation: female.f_relationship || "",
     circumcised: circumcised || "",
     experienceLevel: {
-      curious: female.experience.f_curious || "",
-      intermediate: female.experience.f_intermediate || "",
-      advanced: female.experience.f_advanced || "",
-      newbie: female.experience.f_newbie || "",
+      curious: female.experience.f_curious || false,
+      intermediate: female.experience.f_intermediate || false,
+      advanced: female.experience.f_advanced || false,
+      newbie: female.experience.f_newbie || false,
     },
     partner: {
       firstName: male.m_fname?.toLowerCase() || "",
@@ -338,10 +395,10 @@ const EditTab = () => {
       intelligenceIsImportant: male.m_intelligence || "",
       relationshipOrientation: male.m_relationship || "",
       experienceLevel: {
-        curious: male.experience.m_curious || "",
-        intermediate: male.experience.m_intermediate || "",
-        advanced: male.experience.m_advanced || "",
-        newbie: male.experience.m_newbie || "",
+        curious: male.experience.m_curious || false,
+        intermediate: male.experience.m_intermediate || false,
+        advanced: male.experience.m_advanced || false,
+        newbie: male.experience.m_newbie || false,
       }
     }
   };
@@ -349,8 +406,8 @@ const EditTab = () => {
 
   const handleSubmit = async () => {
     if (["Transgender", "Male", "Female"].includes(profileType.find(element => element.value)?.title || "")) {
-      // await sendUpdation(singlePayload);
       console.log(singlePayload);
+      await sendUpdation(singlePayload);
 
     } else {
       // await sendUpdation(couplePayload);
@@ -381,6 +438,8 @@ const EditTab = () => {
       })
   }, []);
 
+  // console.log(profileDetails);
+
   useEffect(() => {
     // profile type
     const gender = profileType.map(ele => {
@@ -392,7 +451,7 @@ const EditTab = () => {
     setProfileType(gender);
 
     // for interest option
-    const interest = profileDetails?.partner?.lookingFor;
+    const interest = profileDetails?.lookingFor;
     const updateOption = interestOptions.map(ele => ({
       ...ele,
       value: interest?.includes(ele.title.toLowerCase())
@@ -400,6 +459,8 @@ const EditTab = () => {
     setInterestOptions(updateOption);
 
     setDesc(profileDetails?.bio);
+
+    setCircumcised(profileDetails?.circumcised);
 
     // for date
     function formatForInputDate(dateString) {

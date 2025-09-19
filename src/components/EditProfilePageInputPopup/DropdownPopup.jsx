@@ -5,15 +5,25 @@ import Styles from "./SelectPopup.module.css";
 const DropdownPopup = ({ options = [], title = "", name, selectedValue, setSelectedValue }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleSelect = (option) => {        
-        setSelectedValue((prev) => ({
-            ...prev,
-            [name]: option, // Dynamically update the correct field
-        }));
+    const handleSelect = (option) => {
+        setSelectedValue((prev) => {
+
+            if (!name) {
+                return option; // Replace state with option if name is not defined
+            }
+
+            return {
+                ...prev,
+                [name]: option, // Update specific key if name is defined
+            };
+        });
         setIsOpen(false); // Close popup after selection
     };
 
     const displaySelected = () => {
+        if (!name) {
+            return selectedValue; // Replace state with option if name is not defined
+        }
         return selectedValue?.[name] || '';
     };
 
