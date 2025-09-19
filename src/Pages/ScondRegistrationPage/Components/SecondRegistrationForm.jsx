@@ -296,7 +296,7 @@ const SecondRegistrationForm = () => {
                                 onChange={handleInputChange}
                                 placeholder="DD"
                                 maxLength={2}
-                                className="text-center bg-transparent text-white border border-secondary rounded py-2"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
                                 style={{ width: "80px" }}
                             />
                             <Form.Control
@@ -306,7 +306,7 @@ const SecondRegistrationForm = () => {
                                 onChange={handleInputChange}
                                 placeholder="MM"
                                 maxLength={2}
-                                className="text-center bg-transparent text-white border border-secondary rounded py-2"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
                                 style={{ width: "80px" }}
                             />
                             <Form.Control
@@ -316,7 +316,7 @@ const SecondRegistrationForm = () => {
                                 onChange={handleInputChange}
                                 placeholder="YYYY"
                                 maxLength={4}
-                                className="text-center bg-transparent text-white border border-secondary rounded py-2"
+                                className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
                                 style={{ width: "100px" }}
                             />
                         </div>
@@ -335,7 +335,7 @@ const SecondRegistrationForm = () => {
                                     onChange={handleInputChange}
                                     placeholder="DD"
                                     maxLength={2}
-                                    className="text-center bg-transparent text-white border border-secondary rounded py-2"
+                                    className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
                                     style={{ width: "80px" }}
                                 />
                                 <Form.Control
@@ -345,7 +345,7 @@ const SecondRegistrationForm = () => {
                                     onChange={handleInputChange}
                                     placeholder="MM"
                                     maxLength={2}
-                                    className="text-center bg-transparent text-white border border-secondary rounded py-2"
+                                    className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
                                     style={{ width: "80px" }}
                                 />
                                 <Form.Control
@@ -355,7 +355,7 @@ const SecondRegistrationForm = () => {
                                     onChange={handleInputChange}
                                     placeholder="YYYY"
                                     maxLength={4}
-                                    className="text-center bg-transparent text-white border border-secondary rounded py-2"
+                                    className="text-center bg-transparent text-white border border-secondary rounded py-2 custom-placeholder"
                                     style={{ width: "100px" }}
                                 />
                             </div>

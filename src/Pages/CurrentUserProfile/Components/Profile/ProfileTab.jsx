@@ -33,6 +33,7 @@ const ProfileTab = ({ changeTab }) => {
     const [loader, setLoader] = useState(true);
     const [iconText, setIconText] = useState("")
     const [popupToggle, setPopupToggle] = useState(false)
+    const [album,setAlbums] = useState([])
 
     const navigate = useNavigate()
 
@@ -143,14 +144,28 @@ const ProfileTab = ({ changeTab }) => {
                 console.error("Failed to fetch adult images:", err);
             });
 
-        // video post photos
+        // videos
         httpService(
-            `/media-library/${user._id}?type=video&source=post`,
+            `/media-library/${user._id}?type=video`,
             "GET"
         )
             .then((res) => {
                 console.log("non-adult post video", res?.data?.media);
                 setAllVideo(res?.data?.media);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch adult images:", err);
+            });
+
+
+        // album count
+        httpService(
+            `/albums`,
+            "GET"
+        )
+            .then((res) => {
+                console.log("albums", res?.data?.albums);
+                setAlbums(res?.data?.albums);
             })
             .catch((err) => {
                 console.error("Failed to fetch adult images:", err);
@@ -165,11 +180,14 @@ const ProfileTab = ({ changeTab }) => {
             navigate("/profile-friends")
             setPopupToggle(false)
         }
+
     }
 
     const handleClose = () => {
         setPopupToggle(false)
     }
+
+    console.log("album",allVideo)
 
     return (
         <>
@@ -185,6 +203,7 @@ const ProfileTab = ({ changeTab }) => {
                         allNonAdultImg={allNonAdultImg}
                         allVideo={allVideo}
                         geticonText={geticonText}
+                        album={album}
                     />
                     <GlobalImageCarouselPopup
                         handleClose={handleClose}
@@ -196,7 +215,8 @@ const ProfileTab = ({ changeTab }) => {
                                 : iconText === "Non-Adult"
                                     ? allNonAdultImg
                                     : iconText === "Videos"
-                                        ? allVideo
+                                        ? allVideo :
+                                        iconText === "Album" ? album?.mediaItems
                                         : []
                         }
                     />
