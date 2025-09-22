@@ -100,12 +100,17 @@ function Navbar() {
                             ))}
                         </ul>
 
-                        {
+                        {/* {
                             !localStorage.getItem("jwtToken") && <div className="d-flex gap-3 buttons-animated">
                                 <button className="btn bg-white text-dark btn-animated" onClick={handleLogin}>Login</button>
                                 <button className="btn btn-animated" onClick={joinButton} style={{ backgroundColor: "var(--color-primary-green)" }}>Join Now</button>
                             </div>
-                        }
+                        } */}
+
+                        <div className="d-flex gap-3 buttons-animated">
+                            <button className="btn bg-white text-dark btn-animated" onClick={handleLogin}>Login</button>
+                            <button className="btn btn-animated" onClick={joinButton} style={{ backgroundColor: "var(--color-primary-green)" }}>Join Now</button>
+                        </div>
 
 
                     </div>
