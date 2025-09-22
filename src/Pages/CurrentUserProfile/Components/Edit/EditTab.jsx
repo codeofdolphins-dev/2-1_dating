@@ -622,7 +622,7 @@ const EditTab = () => {
                           value={female.f_fname}
                           onChange={(e) => setFemale((prev) => ({
                             ...prev,
-                            f_name: e.target.value
+                            f_fname: e.target.value
                           }))}
                           style={{
                             fontSize: "20px",
@@ -647,7 +647,7 @@ const EditTab = () => {
                           value={female.f_lname}
                           onChange={(e) => setFemale((prev) => ({
                             ...prev,
-                            m_name: e.target.value
+                            f_lname: e.target.value
                           }))}
                           style={{
                             fontSize: "20px",
@@ -785,7 +785,7 @@ const EditTab = () => {
                           value={male.m_fname}
                           onChange={(e) => setMale((prev) => ({
                             ...prev,
-                            m_name: e.target.value
+                            m_fname: e.target.value
                           }))}
                           style={{
                             fontSize: "20px",
@@ -807,7 +807,7 @@ const EditTab = () => {
                           value={male.m_lname}
                           onChange={(e) => setMale((prev) => ({
                             ...prev,
-                            m_name: e.target.value
+                            m_lname: e.target.value
                           }))}
                           style={{
                             fontSize: "20px",
