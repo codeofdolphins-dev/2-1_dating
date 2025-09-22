@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PageWrapper from "../../components/PageWrapper";
 import "./profileAccount.css";
 import ChangeProfileNameModal from "../../components/ChangeProfileNamePopup/ChangeProfileNamePopup";
@@ -84,6 +84,8 @@ const ProfileAccount = () => {
     };
 
     console.log("details", details);
+
+
 
     return (
         <PageWrapper>
