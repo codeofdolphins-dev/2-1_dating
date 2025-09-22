@@ -78,14 +78,9 @@ import WebSocketService from './services/websocket';
 import IndividualGroup from './Pages/IndividualGroup/IndividualGroup';
 import Chat from './Pages/Chat/Chat';
 import GlobalFriendList from './Pages/GlobalFriendList/GlobalFriendList';
-import TranslateText from './components/TranslateText/TranslateText';
+// import TranslateText from './components/TranslateText/TranslateText';
 
-import i18n from "./i18n";
 import SubscriptionPageMoreInfoPage from './Pages/SubscriptionPageMoreInfoPage/SubscriptionPageMoreInfoPage';
-
-
-
-
 
 
 function App() {
@@ -102,25 +97,14 @@ function App() {
   }, [token]);
 
 
-  const [language, setLanguage] = useState("en");
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    setLanguage(lng);
-  };
-
-
-
   return (
     <>
-
-
       {/* basename="/2-1_dating" */}
 
       {/* Secure route now removed later it will be added */}
       <BrowserRouter >
           <Routes>
-            <Route path="/" element={<TranslateText><Home /></TranslateText>} />
+            <Route path="/" element={<Home />} />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/subscription-moreInfo/:planId" element={<SubscriptionPageMoreInfoPage />} />
             <Route path="/login" element={<Login />} />

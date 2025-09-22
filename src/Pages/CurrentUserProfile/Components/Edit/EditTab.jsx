@@ -410,8 +410,8 @@ const EditTab = () => {
       await sendUpdation(singlePayload);
 
     } else {
-      // await sendUpdation(couplePayload);
       console.log(couplePayload);
+      await sendUpdation(couplePayload);
     }
   };
 

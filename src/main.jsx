@@ -5,7 +5,6 @@ import App from "./App.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContextAPI.jsx";
 import { ChatSocketProvider } from "./context/ChatSocketContext.jsx";
-import "./i18n"; // import config once
 
 
 createRoot(document.getElementById("root")).render(
