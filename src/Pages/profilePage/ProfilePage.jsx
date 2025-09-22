@@ -51,6 +51,7 @@ import AgeCalculator from '../../helper/DobCalculator'
 import transgender from "../../assets/icons/custom_transgender.png";
 import CustomCouple from "../../assets/icons/couple_custom.png";
 import GlobalImageCarouselPopup from '../../components/globalImageCarouselPopup/GlobalImageCarouselPopup'
+import Table from "../CurrentUserProfile/Components/Table/Table"
 
 const actionIcons = [
     { icon: <BsChatDots />, label: "Messenger" },
@@ -94,6 +95,7 @@ const ProfilePage = () => {
     const [popupToggle, setPopupToggle] = useState(false);
     const [iconText, setIconText] = useState("")
     const [chatToggle, setChatToggle] = useState(false)
+    const [subscription,setSubscription] = useState("")
 
 
 
@@ -139,7 +141,8 @@ const ProfilePage = () => {
             .then((res) => {
                 console.log("profile img", res);
                 setUser(res?.data?.profile);
-                console.log("userData", res?.data?.profile?.dateOfBirth)
+                setSubscription(res?.data?.subscription?.type)
+                console.log("userData", res?.data?.profile?.lookingFor)
                 // setImages(res?.data?.media || []);
             })
             .catch((err) => {
@@ -351,7 +354,12 @@ const ProfilePage = () => {
                                     <div className=" px-3 py-3 mt-5 rounded-3 d-flex flex-wrap gap-3 justify-content-between align-items-center" style={{ backgroundColor: "var(--color-primary-green)" }}>
                                         <div className="text-black">
                                             <strong>Looking for:</strong>{" "}
-                                            <span className="text-secondary">Girl on Girl | Soft Swap | Full Swap</span>
+                                            <span className="text-secondary">
+                                                {user?.lookingFor?.map((data, index) => (
+                                                    <span key={index}>{data} &nbsp;|&nbsp;</span>
+                                                ))}
+                                            </span>
+
                                         </div>
                                         <div className="text-black d-flex gap-2">
                                             <div><strong>Interests:</strong>{" "}</div>
@@ -369,10 +377,10 @@ const ProfilePage = () => {
                                                 </div>
                                             ))}
                                         </div>
-                                        <div className="text-black">
+                                        {/* <div className="text-black">
                                             <strong>Fantasy:</strong>{" "}
                                             <span className="text-secondary">Cuckold | Flashing | Wife swap</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -384,15 +392,15 @@ const ProfilePage = () => {
                         <div className="col-12 ">
                             <div className="rounded-4 py-4 px-4" style={{ backgroundColor: "var(--color-border)", border: "1px solid white" }}>
                                 <div className="d-flex justify-content-between align-items-center mb-4">
-                                    <h4 className="mb-0 text-white fs-2">Lifetime Member</h4>
+                                    <h4 className="mb-0 text-white fs-2">{subscription} Member</h4>
                                     <div className="px-4 py-2 rounded-pill text-black fw-semibold" style={{ backgroundColor: "var(--color-primary-green)", cursor: "pointer" }}>
                                         Translate
                                     </div>
                                 </div>
                                 <div className='text-white fs-6'>
-                                    <div style={{ lineHeight: "10px" }}>Brown Couple for fun </div> <br />
+                                    <div style={{ lineHeight: "10px" }}>{user?.bio}</div> <br />
 
-                                    <div > We like to experience more fun with other couples and very select single females. We tried this fun and liked it so much that we decided to explore more. We like to add verity and spice to our routine.We are easy going, fun loving, looking to have fun. We like go out dancing, clubs We like to meet like minded folks who can be discrete friends with extra benefits.</div>
+                                    {/* <div > We like to experience more fun with other couples and very select single females. We tried this fun and liked it so much that we decided to explore more. We like to add verity and spice to our routine.We are easy going, fun loving, looking to have fun. We like go out dancing, clubs We like to meet like minded folks who can be discrete friends with extra benefits.</div>
 
                                     <br /> <div>WE ARE NOT INTO ONE NIGHTERS</div> <br />
 
@@ -405,7 +413,7 @@ const ProfilePage = () => {
                                     <div>He likes to watch and join in. She likes to watch and join in. She likes to have girl on girl fun and Loves it.</div> <br />
 
                                     <div>
-                                        To: Any other institutions using this or any site or its associated sites for projects - You do not have</div>
+                                        To: Any other institutions using this or any site or its associated sites for projects - You do not have</div> */}
                                 </div>
                             </div>
                         </div>
@@ -413,7 +421,8 @@ const ProfilePage = () => {
 
                     {/* profile table */}
                     <div className='p-3 rounded-4 mt-4' style={{ backgroundColor: "var(--color-border)" }}>
-                        <ProfilePageTable femaleIcon={femaleIcon} male={male} />
+                        {/* <ProfilePageTable femaleIcon={femaleIcon} male={male} /> */}
+                        <Table user={user} />
                     </div>
 
                     {/* bottom tab section */}

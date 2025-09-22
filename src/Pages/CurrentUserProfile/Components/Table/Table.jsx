@@ -145,6 +145,11 @@ const ProfilePageTable = ({ user }) => {
       char: user?.experienceLevel || "-",
       parm: isCouple ? user?.partner?.experienceLevel || "-" : "-",
     },
+    {
+      label: "Looking For",
+      char: user?.lookingFor || "-",
+      parm: isCouple ? user?.lookingFor || "-" : "-",
+    },
 
   ];
 
