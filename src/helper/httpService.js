@@ -36,7 +36,11 @@ const httpService = async (endpoint, method = "GET", data = {}, extraConfig = {}
       data: ["post", "put", "patch"].includes(method.toLowerCase()) ? data : undefined,
       ...extraConfig,
     });
+
+    console.log("response", response);
+    
     return response.data;
+
   } catch (error) {
     console.error(`API ${method} ${endpoint} failed:`, error);
     throw error;

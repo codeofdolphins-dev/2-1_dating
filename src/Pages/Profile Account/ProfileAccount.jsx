@@ -26,9 +26,8 @@ const ProfileAccount = () => {
 
     const [show, setShow] = useState(false);
 
-    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
-    const langSelectRef = useRef(null);
+
 
     // ✅ rename handler
     const handleRename = async (newName) => {
@@ -73,10 +72,6 @@ const ProfileAccount = () => {
         e.preventDefault();
         console.log("Form Submitted:", details);
 
-        if (details.lang) {
-            i18n.changeLanguage(details.lang);
-            showSuccessToast(`Language changed to ${details.lang}`);
-        }
     };
 
     const handlenavigate = () => {
@@ -94,7 +89,7 @@ const ProfileAccount = () => {
                     {/* row 1 */}
                     <div className="row">
                         <div className="col-lg-7">
-                            <h3>{t("account")}</h3>
+                            <h3>account</h3>
                         </div>
                         <div
                             className="col-lg-5"
@@ -105,7 +100,7 @@ const ProfileAccount = () => {
                                     className="custom-button py-1 px-5 rounded-5 border-0"
                                     onClick={handlenavigate}
                                 >
-                                    {t("subscription")}
+                                    subscription
                                 </button>
                                 <button
                                     className="py-1 px-4 rounded-5"
@@ -116,7 +111,7 @@ const ProfileAccount = () => {
                                     }}
                                     onClick={() => setShow(true)}
                                 >
-                                    {t("changeName")}
+                                    changeName
                                 </button>
                             </div>
                         </div>

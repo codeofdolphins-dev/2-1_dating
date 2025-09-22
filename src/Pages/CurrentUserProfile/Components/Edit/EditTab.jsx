@@ -11,6 +11,12 @@ import DropdownPopup from '../../../../components/EditProfilePageInputPopup/Drop
 import httpService from '../../../../helper/httpService';
 import LanguageInputPopup from '../../../../components/EditProfilePageInputPopup/LanguageInputPopup';
 import WarningPopup from '../../../../components/WarningPopup/WarningPopup';
+import { showErrorToast, showSuccessToast } from '../../../../components/customToast/CustomToast';
+import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
+
+
+const baseURL = import.meta.env.VITE_BASE_URL
 
 const EditTab = () => {
 
@@ -208,7 +214,7 @@ const EditTab = () => {
   // **********************handlers*************************
 
   const profileHandler = (id) => {
-    if (confirm("!!! If you change the gender then old data will be deleted") != true){
+    if (confirm("!!! If you change the gender then old data will be deleted") != true) {
       return
     }
 
@@ -406,7 +412,7 @@ const EditTab = () => {
 
   const handleSubmit = async () => {
     if (["Transgender", "Male", "Female"].includes(profileType.find(element => element.value)?.title || "")) {
-      console.log(singlePayload);
+      // console.log(singlePayload);
       await sendUpdation(singlePayload);
 
     } else {
@@ -415,15 +421,33 @@ const EditTab = () => {
     }
   };
 
-  async function sendUpdation(payload) {
-    const response = await httpService(`/profile`, "PUT", payload);
 
-    if (response.success) {
-      alert("Profile updated successfully!");
-    } else {
-      alert("Failed to update profile");
+
+  const baseURL = import.meta.env.VITE_BASE_URL; // 🔹 Replace with your actual base URL
+  const token = localStorage.getItem("jwtToken"); // 🔹 Or wherever you store your auth token
+
+  async function sendUpdation(payload) {
+    try {
+      const response = await axios.put(`${baseURL}/profile`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`, // 🔹 Add token here
+          "Content-Type": "application/json", // optional, axios defaults to JSON for objects
+        },
+      });
+
+      if (response.status === 200) {
+        console.log("qqqq",response);
+        showSuccessToast(response?.data?.message);
+      } else {
+        console.warn("Unexpected response:", response);
+        showErrorToast(response?.data?.error?.[0]?.message || "Something went wrong");
+      }
+    } catch (err) {
+      console.error("Error:", err?.response?.data);
+      showErrorToast(err?.response?.data?.error?.[0]?.message || "Update failed");
     }
-  };
+  }
+
 
   const [profileDetails, setProfileDetails] = useState({});
 
@@ -528,6 +552,7 @@ const EditTab = () => {
 
   return (
     <>
+    <ToastContainer/>
       <div className="d-flex flex-column gap-3">
 
         {/* row 1 */}
@@ -944,6 +969,7 @@ const EditTab = () => {
         </div>
 
       </div>
+      
     </>
   )
 }
