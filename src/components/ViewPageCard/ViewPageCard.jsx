@@ -65,10 +65,10 @@ const cardList = [
 
 const imageList = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime = false,userName }) => {
+const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime = false, userName }) => {
   const navigate = useNavigate();
 
-  console.log("userName",userData?.senderId?.username);
+  console.log("userName", userData?.senderId?.username);
 
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
@@ -225,69 +225,69 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
       >
         {/* Left: Image Carousel */}
         <div className="col-lg-6 pe-lg-3 position-relative mt-2">
-  <div className="rounded-4 overflow-hidden">
-    <Swiper
-      modules={[Navigation]}
-      spaceBetween={10}
-      slidesPerView={1}
-      onSwiper={setSwiperInstance}
-    >
-      {(images && images.length > 0 ? images : []).map((img, idx) => (
-        <SwiperSlide key={idx}>
-          <img
-            src={img?.url || img}
-            alt={`Slide ${idx}`}
-            className="w-100"
-            onClick={() => setShowGallery(true)}
-            style={{
-              objectFit: "cover",
-              height: "260px",
-              borderRadius: "12px",
-              cursor: "pointer",
-            }}
-          />
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  </div>
+          <div className="rounded-4 overflow-hidden">
+            <Swiper
+              modules={[Navigation]}
+              spaceBetween={10}
+              slidesPerView={1}
+              onSwiper={setSwiperInstance}
+            >
+              {(images && images.length > 0 ? images : []).map((img, idx) => (
+                <SwiperSlide key={idx}>
+                  <img
+                    src={img?.url || img}
+                    alt={`Slide ${idx}`}
+                    className="w-100"
+                    onClick={() => setShowGallery(true)}
+                    style={{
+                      objectFit: "cover",
+                      height: "260px",
+                      borderRadius: "12px",
+                      cursor: "pointer",
+                    }}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
 
-  {/* Carousel Controls + ActionMenu */}
-  <div
-    className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2"
-    style={{ zIndex: 55 }}
-  >
-    {/* Show navigation only if more than 1 image */}
-    {images && images.length > 1 && (
-      <div className="d-flex gap-2">
-        <button
-          ref={prevRef}
-          className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
-          style={{ width: "32px", height: "32px" }}
-        >
-          <i className="bi bi-chevron-left"></i>
-        </button>
-        <button
-          ref={nextRef}
-          className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
-          style={{ width: "32px", height: "32px" }}
-        >
-          <i className="bi bi-chevron-right"></i>
-        </button>
-      </div>
-    )}
+          {/* Carousel Controls + ActionMenu */}
+          <div
+            className="position-absolute bottom-0 start-0 end-0 px-3 d-flex justify-content-between align-items-center mb-2"
+            style={{ zIndex: 55 }}
+          >
+            {/* Show navigation only if more than 1 image */}
+            {images && images.length > 1 && (
+              <div className="d-flex gap-2">
+                <button
+                  ref={prevRef}
+                  className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
+                  style={{ width: "32px", height: "32px" }}
+                >
+                  <i className="bi bi-chevron-left"></i>
+                </button>
+                <button
+                  ref={nextRef}
+                  className="bg-primary border-0 rounded-circle text-white d-flex justify-content-center align-items-center"
+                  style={{ width: "32px", height: "32px" }}
+                >
+                  <i className="bi bi-chevron-right"></i>
+                </button>
+              </div>
+            )}
 
-    <ActionMenu
-      index={index}
-      showMeessagePopup={showMessagePopup}
-      setshowMeessagePopup={setShowMessagePopup}
-      handleFriendRequest={handleFriendRequest}
-      targetUserId={card._id}
-      showRemembered={showRemembered}
-      showlikeDislike={showlikeDislike}
-      receaverId={userData?.receiverId?._id}
-    />
-  </div>
-</div>
+            <ActionMenu
+              index={index}
+              showMeessagePopup={showMessagePopup}
+              setshowMeessagePopup={setShowMessagePopup}
+              handleFriendRequest={handleFriendRequest}
+              targetUserId={card._id}
+              showRemembered={showRemembered}
+              showlikeDislike={showlikeDislike}
+              receaverId={userData?.receiverId?._id}
+            />
+          </div>
+        </div>
 
 
 
@@ -295,7 +295,31 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
         <div className="col-lg-6 d-flex flex-column justify-content-between ps-3" >
           <div>
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <h4 className="fw-bold mb-0" onClick={handleNavigateToProfilepage} style={{ cursor: "pointer", }}>{userName}</h4>
+              <div className="d-flex justify-content-around align-items-center">
+                {/* Left side: username */}
+                <div>
+                  <h4
+                    className="fw-bold mb-0"
+                    onClick={handleNavigateToProfilepage}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {userName}
+                  </h4>
+                </div>
+                 &nbsp; &nbsp; 
+                {/* Right side: checkbox */}
+                <div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="checkChecked"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </div>
+
 
               {/* <div><img src={star} height={30} alt="Star" /></div> */}
               {
@@ -423,13 +447,13 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }} onClick={() => setShowGallery(true)}>
                 <i className="bi bi-camera-fill"></i><span>{images?.length || `_`}</span>
               </div>
-              <div className="d-flex align-items-center gap-1 text-white small py-2"  style={{cursor:"pointer"}}>
+              <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }}>
                 <i className="bi bi-hand-thumbs-up-fill"></i><span>{`_`}</span>
               </div>
               <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }} onClick={handleOtherFriendlistPageNav ? handleOtherFriendlistPageNav : 0}>
                 <i className="bi bi-person-fill" ></i><span>{(card?.friends?.length || card?.friendCount) ?? "0"}</span>
               </div>
-              <div className="d-flex align-items-center gap-1 text-white small py-2"  style={{cursor:"pointer"}}>
+              <div className="d-flex align-items-center gap-1 text-white small py-2" style={{ cursor: "pointer" }}>
                 <i className="bi bi-check-lg"></i><span>{`_`}</span>
               </div>
               {/* {deleteOption || likeIcon &&
@@ -437,7 +461,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                   <i className="bi bi-hand-thumbs-up-fill"></i><span>29</span>
                 </div>
               } */}
-              <div className="d-flex align-items-center gap-1 text-white small py-2" onClick={() => setVideoPopupToggle(true)} style={{cursor:"pointer"}}>
+              <div className="d-flex align-items-center gap-1 text-white small py-2" onClick={() => setVideoPopupToggle(true)} style={{ cursor: "pointer" }}>
                 <i className="bi bi-play-fill"></i><span>{allVideos.length || `_`}</span>
               </div>
             </div>

@@ -193,14 +193,14 @@ const ProfileAccount = () => {
                     ...prev,
                     email: res?.data?.email || "",
                     phone: res?.data?.phone,
-                    lang: res?.data?.settings?.lang || "en",
+                    lang: res?.data?.settings?.siteLanguage || "en",
                 }));
-                // console.log("sasad",res)
+                console.log("sasad",res)
             })
             .catch((err) => console.log(err));
     }, []);
 
-
+console.log("sadsadsad",details?.lang)
 
     return (
         <PageWrapper>

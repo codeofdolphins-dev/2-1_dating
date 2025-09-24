@@ -17,6 +17,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import OverlayLoader from "../../helper/OverlayLoader.jsx";
 import PaginationWithSelector from "../../components/Pagination/PaginationWithSelector.jsx";
+import { useAuth } from "../../context/AuthContextAPI.jsx";
 
 const images = [img1, img2, img3, img4];
 
@@ -30,20 +31,37 @@ const ProfileBlocklist = () => {
   const [apiTotalPages, setApiTotalPages] = useState(0)
 
   // Fetch blocklist
+
+  const { filterOption } = useAuth()
   useEffect(() => {
-    httpService(`/interactions/blocks`, "GET")
-      .then((res) => {
-        console.log("blockList", res);
-        setUser(res?.data || []);
-        showSuccessToast("Blocklist fetched successfully ✅");
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.error(err);
-        showErrorToast(err.message || "Failed to fetch blocklist ❌");
-        setLoading(false)
-      });
-  }, []);
+    if (filterOption) {
+      httpService(`/interactions/blocks?search=${filterOption}`, "GET")
+        .then((res) => {
+          console.log("blockList", res);
+          setUser(res?.data?.blocks || []);
+          // showSuccessToast("Blocklist fetched successfully ✅");
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.error(err);
+          showErrorToast(err.message || "Failed to fetch blocklist ❌");
+          setLoading(false)
+        });
+    } else {
+      httpService(`/interactions/blocks`, "GET")
+        .then((res) => {
+          console.log("blockList", res);
+          setUser(res?.data?.blocks || []);
+          // showSuccessToast("Blocklist fetched successfully ✅");
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.error(err);
+          showErrorToast(err.message || "Failed to fetch blocklist ❌");
+          setLoading(false)
+        });
+    }
+  }, [filterOption]);
 
   // Delete handler
   const handleeDeleteFunction = (card) => {
@@ -65,14 +83,14 @@ const ProfileBlocklist = () => {
   // setTotalCount();
   // setApiTotalPages();
 
-  console.log("erty",user)
+  console.log("erty", user)
 
   return (
     <>
       <GlobalPageWrapper>
         <ToastContainer />
         <OverlayLoader show={loading} text="Please wait..." />
-        <FilterBar clas pageName={"Blocklist"} filterName2={"Filter"} />
+        <FilterBar filter2={[]} pageName={"Blocklist"} filterName2={"Filter"} friendsFilterTopSearchBar={true} />
         <div className="container-fluid">
           <div className="row g-4 pt-4">
             {user?.length === 0 ? <div className='text-white'>No Users Found </div> : user.map((card, index) => (
@@ -93,16 +111,21 @@ const ProfileBlocklist = () => {
           </div>
         </div>
 
-        <PaginationWithSelector
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+        {
+          user?.length !== 0 && <PaginationWithSelector
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
 
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
 
-          totalCount={totalCount}
-          apiTotalPages={apiTotalPages}
-        />
+            totalCount={totalCount}
+            apiTotalPages={apiTotalPages}
+          />
+        }
+
+
+
 
         {/* <ToastContainer position="top-right" autoClose={3000} /> */}
       </GlobalPageWrapper>

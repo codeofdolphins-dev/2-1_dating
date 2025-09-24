@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
   const [groupMessageId, setGroupMessageId] = useState("")
   const [groupMessageName, setGroupMessageName] = useState("")
   const [globalToggle,setGlobalToggle] = useState(false)
+  const [razorPayInfo,setResorPayInfo]=useState({})
 
   // Restore from localStorage on reload
   useEffect(() => {
@@ -95,7 +96,10 @@ export function AuthProvider({ children }) {
         setGroupMessageName,
 
         globalToggle,
-        setGlobalToggle
+        setGlobalToggle,
+
+        razorPayInfo,
+        setResorPayInfo
       }}
     >
       {children}

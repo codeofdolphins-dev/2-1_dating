@@ -111,15 +111,22 @@
 
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; 
+import { useLocation, useParams } from "react-router-dom";
 import httpService from "../../helper/httpService";
 import Navbar from "../HomePage/HomeComponents/Navbar";
 import axios from "axios";
+import RazorpayButton from "../../components/RazorPayButton/RazorPayButton";
 
 const SubscriptionPageMoreInfoPage = () => {
-  const { planId } = useParams(); 
+  const { planId } = useParams();
+  const location = useLocation();
   const [plan, setPlan] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const orderData = location.state?.orderData; // ✅ This is the res.data you passed
+
+  console.log("Plan ID:", planId);
+  console.log("Order Data:", orderData);
 
   useEffect(() => {
     // Fetch plan details by ID
@@ -153,13 +160,13 @@ const SubscriptionPageMoreInfoPage = () => {
       return;
     }
 
-     const baseURL = import.meta.env.VITE_BASE_URL
+    const baseURL = import.meta.env.VITE_BASE_URL
     // 1️⃣ Create order by calling backend
-    const orderRes = await httpService(`${baseURL}/razorpay/create-order`,"POST",{body:"1000"});
+    const orderRes = await httpService(`${baseURL}/razorpay/create-order`, "POST", { body: "1000" });
     const order = await orderRes.json();
 
     // 2️⃣ Setup Razorpay Checkout
-   
+
     const options = {
       key: "rzp_test_3WmknLIqcUo9erRAZORPAY_SECRET=ftRLb1NpewT6A2otsCNKS8Qd", // Replace with your Razorpay Key ID
       amount: order.amount,
@@ -249,15 +256,13 @@ const SubscriptionPageMoreInfoPage = () => {
             ))}
           </ul>
 
-          {/* Razorpay Subscribe Button */}
+          {/* Razorpay Button */}
           <div className="text-center mt-4">
-            <button
-              className="btn btn-lg text-uppercase"
-              style={{ backgroundColor: "var(--color-primary-green)", color: "#000000" }}
-              onClick={displayRazorpay}
-            >
-              Subscribe Now
-            </button>
+            {orderData ? (
+              <RazorpayButton orderDetails={orderData} />
+            ) : (
+              <p className="text-warning">⚠️ No order details found. Please go back and select a plan again.</p>
+            )}
           </div>
         </div>
       </div>

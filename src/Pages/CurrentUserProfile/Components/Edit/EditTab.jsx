@@ -14,11 +14,14 @@ import WarningPopup from '../../../../components/WarningPopup/WarningPopup';
 import { showErrorToast, showSuccessToast } from '../../../../components/customToast/CustomToast';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
+import { useAuth } from '../../../../context/AuthContextAPI';
 
 
 const baseURL = import.meta.env.VITE_BASE_URL
 
 const EditTab = () => {
+  const {user} = useAuth()
+  console.log("zczczc",user?.data?.user?.profile?.address?.fullAddress)
 
   const bodyHairOptions = ["Prefer not to say", "Arms", "Bikini", "Buns", "Tummy", "Legs", "Everywhere", "Chest", "Treasure", "Arm Pits", "Shave", "Smooth"];
 
@@ -351,7 +354,8 @@ const EditTab = () => {
       intermediate: female.experience.f_intermediate || male.experience.m_intermediate || false,
       advanced: female.experience.f_advanced || male.experience.m_advanced || false,
       newbie: female.experience.f_newbie || male.experience.m_newbie || false,
-    }
+    },
+    
   };
 
   // for couple

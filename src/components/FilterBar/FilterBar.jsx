@@ -35,10 +35,10 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
     const [maxAge, setMaxAge] = useState(30);
     const [topSearch, setTopSearch] = useState("")
 
-    const { showNotification } = useAuth();
+    const { showNotification,setFilterOption } = useAuth();
     // console.log("sdsadsdfs", selected)
 
-     const { filterOption, setFilterOption } = useAuth();
+
     //  console.log(filterOption)
 
     // Whenever showNotification changes to true → switch tab
@@ -57,6 +57,9 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
         setShowFriendsFilter(!showFriendsFilter);
         if (showGeneralFilter) setShowGeneralFilter(false);
     };
+
+    //set search Value
+    setFilterOption(topSearch)
 
     // const handleToggle = (label) => {
     //     setSelected((prev) =>
@@ -295,7 +298,7 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
                                             <input
                                                 type="text"
                                                 className="form-control bg-white border-0 text-black rounded-pill px-3"
-                                                placeholder="Name, Title, City"
+                                                placeholder="Name,Title,City,User"
                                                 value={topSearch}
                                                 onChange={(e) => setTopSearch(e.target.value)}
                                             />
