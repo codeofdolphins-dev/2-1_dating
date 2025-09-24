@@ -81,10 +81,15 @@ import GlobalFriendList from './Pages/GlobalFriendList/GlobalFriendList';
 // import TranslateText from './components/TranslateText/TranslateText';
 
 import SubscriptionPageMoreInfoPage from './Pages/SubscriptionPageMoreInfoPage/SubscriptionPageMoreInfoPage';
+import httpService from './helper/httpService';
+import GoogleTranslate from './components/GoogleTranslate/GoogleTranslate';
+
+
 
 
 function App() {
   const { token } = useAuth();
+  const [userLang, setUserLang] = useState("en");
 
   useEffect(() => {
     if (token) {
@@ -97,84 +102,99 @@ function App() {
   }, [token]);
 
 
+  useEffect(() => {
+    const fetchUserLanguage = async () => {
+      try {
+        const response = await httpService("/auth/me", "GET");
+        const lang = response?.data?.language || "en";
+        setUserLang(lang);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchUserLanguage();
+  }, []);
+
+
   return (
     <>
       {/* basename="/2-1_dating" */}
 
       {/* Secure route now removed later it will be added */}
+      {/* <GoogleTranslate targetLang={userLang} /> */}
       <BrowserRouter >
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/subscription" element={<Subscription />} />
-            <Route path="/subscription-moreInfo/:planId" element={<SubscriptionPageMoreInfoPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path="/second_registration" element={<SecondRegistrationPage />} />
-            <Route path="/chat" element={<Chat />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/subscription" element={<Subscription />} />
+          <Route path="/subscription-moreInfo/:planId" element={<SubscriptionPageMoreInfoPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/second_registration" element={<SecondRegistrationPage />} />
+          <Route path="/chat" element={<Chat />} />
 
-            <Route path="/business_profile" element={<BusinessProfilePage />} />
+          <Route path="/business_profile" element={<BusinessProfilePage />} />
 
-            {/* Front-screen */}
-            <Route path="/feed" element={<ProtectedRoute><Feed /></ProtectedRoute>} />
-            <Route path="/profile/:userId" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-            <Route path="/view" element={<ProtectedRoute><ViewsPage /></ProtectedRoute>} />
-            <Route path="/online" element={<ProtectedRoute><OnlinePage /></ProtectedRoute>} />
-            <Route path="/hotdate" element={<ProtectedRoute><HotDatePage /></ProtectedRoute>} />
-            <Route path="/create-speeddate" element={<ProtectedRoute><CreateSpeeddatepage /></ProtectedRoute>} />
-            <Route path="/livestream" element={<ProtectedRoute><LiveStreamPage /></ProtectedRoute>} />
-            <Route path="/liveandchatroom" element={<ProtectedRoute><LiveAndChatroomPage /></ProtectedRoute>} />
-            <Route path="/chatrooms" element={<ProtectedRoute><ChatroomGroupPageList /></ProtectedRoute>} />
-            <Route path="/chatroom" element={<ProtectedRoute><Chatroom /></ProtectedRoute>} />
-            <Route path="/create_chatroom" element={<ProtectedRoute><CreateChatroomPage /></ProtectedRoute>} />
-            <Route path="/new-members" element={<ProtectedRoute><NewmembersPage /></ProtectedRoute>} />
-            <Route path="/messages" element={<ProtectedRoute > <Chat /> </ProtectedRoute>} />
-            <Route path="/events" element={<ProtectedRoute > <PartiesAndEventPage /> </ProtectedRoute>} />
-            <Route path="/event-info" element={<ProtectedRoute><PartiesAndEventInfo /> </ProtectedRoute>} />
-            <Route path="/search" element={<ProtectedRoute><Search /> </ProtectedRoute>} />
-            <Route path="/advance-search" element={<ProtectedRoute><AdvanceMemberSearch /> </ProtectedRoute>} />
-            <Route path="/traveldate" element={<ProtectedRoute><TravelDatespage /> </ProtectedRoute>} />
-            <Route path="/createtraveldate" element={<ProtectedRoute ><CreateTravelDatePage /> </ProtectedRoute>} />
-            <Route path="/certifications" element={<ProtectedRoute><CertificationPage /> </ProtectedRoute>} />
-            <Route path="/videos" element={<ProtectedRoute><Videos /> </ProtectedRoute>} />
-            <Route path="/add-video" element={<ProtectedRoute><AddVideo /> </ProtectedRoute>} />
-            <Route path="/wall-of-fame" element={<ProtectedRoute><WallOfFramePage /></ProtectedRoute>} />
-            <Route path="/groups" element={<ProtectedRoute><GroupsPage /></ProtectedRoute>} />
-            <Route path="/my-groups" element={<ProtectedRoute><MyGroupsPage /></ProtectedRoute>} />
-            <Route path="/featured-members" element={<ProtectedRoute><FeaturedMembers /></ProtectedRoute>} />
-            <Route path="/add-me" element={<ProtectedRoute><AddmePage /></ProtectedRoute>} />
-            <Route path="/contests" element={<ProtectedRoute><Contests /></ProtectedRoute>} />
-            <Route path="/add-vacations-rental" element={<ProtectedRoute><VacationRentalPage /></ProtectedRoute>} />
-            <Route path="/create-travel-plan" element={<ProtectedRoute><CreateTravelPlan /></ProtectedRoute>} />
-            <Route path="/parties-events-club" element={<PartiesEventsClub />} />
-            <Route path="/vacations-rental-details" element={<VacationsRentalDetails />} />
-            <Route path="/two-plus-one" element={<TwoPlusOne />} />
-            <Route path="/invite-friend" element={<ProtectedRoute><InviteFriend /></ProtectedRoute>} />
-            <Route path="/profile-account" element={<ProtectedRoute> <ProfileAccount /> </ProtectedRoute>} />
-            <Route path="/profile-friends" element={<ProtectedRoute> <ProfileFriendsPage /> </ProtectedRoute>} />
-            <Route path="/profile-views" element={<ProtectedRoute> <WhoIViewedPage /> </ProtectedRoute>} />
-            <Route path="*" element={<NotFoundPage />} />
-            <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>} />
-            <Route path="/current-user-profile" element={<ProtectedRoute> <CurrentUserProfile /> </ProtectedRoute>} />
+          {/* Front-screen */}
+          <Route path="/feed" element={<ProtectedRoute><Feed /></ProtectedRoute>} />
+          <Route path="/profile/:userId" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/view" element={<ProtectedRoute><ViewsPage /></ProtectedRoute>} />
+          <Route path="/online" element={<ProtectedRoute><OnlinePage /></ProtectedRoute>} />
+          <Route path="/hotdate" element={<ProtectedRoute><HotDatePage /></ProtectedRoute>} />
+          <Route path="/create-speeddate" element={<ProtectedRoute><CreateSpeeddatepage /></ProtectedRoute>} />
+          <Route path="/livestream" element={<ProtectedRoute><LiveStreamPage /></ProtectedRoute>} />
+          <Route path="/liveandchatroom" element={<ProtectedRoute><LiveAndChatroomPage /></ProtectedRoute>} />
+          <Route path="/chatrooms" element={<ProtectedRoute><ChatroomGroupPageList /></ProtectedRoute>} />
+          <Route path="/chatroom" element={<ProtectedRoute><Chatroom /></ProtectedRoute>} />
+          <Route path="/create_chatroom" element={<ProtectedRoute><CreateChatroomPage /></ProtectedRoute>} />
+          <Route path="/new-members" element={<ProtectedRoute><NewmembersPage /></ProtectedRoute>} />
+          <Route path="/messages" element={<ProtectedRoute > <Chat /> </ProtectedRoute>} />
+          <Route path="/events" element={<ProtectedRoute > <PartiesAndEventPage /> </ProtectedRoute>} />
+          <Route path="/event-info" element={<ProtectedRoute><PartiesAndEventInfo /> </ProtectedRoute>} />
+          <Route path="/search" element={<ProtectedRoute><Search /> </ProtectedRoute>} />
+          <Route path="/advance-search" element={<ProtectedRoute><AdvanceMemberSearch /> </ProtectedRoute>} />
+          <Route path="/traveldate" element={<ProtectedRoute><TravelDatespage /> </ProtectedRoute>} />
+          <Route path="/createtraveldate" element={<ProtectedRoute ><CreateTravelDatePage /> </ProtectedRoute>} />
+          <Route path="/certifications" element={<ProtectedRoute><CertificationPage /> </ProtectedRoute>} />
+          <Route path="/videos" element={<ProtectedRoute><Videos /> </ProtectedRoute>} />
+          <Route path="/add-video" element={<ProtectedRoute><AddVideo /> </ProtectedRoute>} />
+          <Route path="/wall-of-fame" element={<ProtectedRoute><WallOfFramePage /></ProtectedRoute>} />
+          <Route path="/groups" element={<ProtectedRoute><GroupsPage /></ProtectedRoute>} />
+          <Route path="/my-groups" element={<ProtectedRoute><MyGroupsPage /></ProtectedRoute>} />
+          <Route path="/featured-members" element={<ProtectedRoute><FeaturedMembers /></ProtectedRoute>} />
+          <Route path="/add-me" element={<ProtectedRoute><AddmePage /></ProtectedRoute>} />
+          <Route path="/contests" element={<ProtectedRoute><Contests /></ProtectedRoute>} />
+          <Route path="/add-vacations-rental" element={<ProtectedRoute><VacationRentalPage /></ProtectedRoute>} />
+          <Route path="/create-travel-plan" element={<ProtectedRoute><CreateTravelPlan /></ProtectedRoute>} />
+          <Route path="/parties-events-club" element={<PartiesEventsClub />} />
+          <Route path="/vacations-rental-details" element={<VacationsRentalDetails />} />
+          <Route path="/two-plus-one" element={<TwoPlusOne />} />
+          <Route path="/invite-friend" element={<ProtectedRoute><InviteFriend /></ProtectedRoute>} />
+          <Route path="/profile-account" element={<ProtectedRoute> <ProfileAccount /> </ProtectedRoute>} />
+          <Route path="/profile-friends" element={<ProtectedRoute> <ProfileFriendsPage /> </ProtectedRoute>} />
+          <Route path="/profile-views" element={<ProtectedRoute> <WhoIViewedPage /> </ProtectedRoute>} />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/location" element={<ProtectedRoute> <ProfileLocation /> </ProtectedRoute>} />
+          <Route path="/current-user-profile" element={<ProtectedRoute> <CurrentUserProfile /> </ProtectedRoute>} />
 
-            <Route path="/blocklist" element={<ProtectedRoute> <ProfileBlocklist /> </ProtectedRoute>} />
-            <Route path="/notes" element={<ProtectedRoute> <Notes /> </ProtectedRoute>} />
-            <Route path="/remembered" element={<ProtectedRoute> <ProfileRemembered /> </ProtectedRoute>} />
+          <Route path="/blocklist" element={<ProtectedRoute> <ProfileBlocklist /> </ProtectedRoute>} />
+          <Route path="/notes" element={<ProtectedRoute> <Notes /> </ProtectedRoute>} />
+          <Route path="/remembered" element={<ProtectedRoute> <ProfileRemembered /> </ProtectedRoute>} />
 
 
-            <Route path="/privacy" element={<ProtectedRoute> <Privacy /> </ProtectedRoute>} />
-            <Route path="/profile-like-dislike" element={<ProtectedRoute> <LikeDislike /> </ProtectedRoute>} />
-            <Route path="/profile-member-service" element={<ProtectedRoute> <ProfileMemberService /> </ProtectedRoute>} />
-            <Route path="/bug-report" element={<ProtectedRoute> <BugReport /> </ProtectedRoute>} />
-            <Route path="/hide-profile" element={<ProtectedRoute> <HideProfile /> </ProtectedRoute>} />
-            <Route path="/contact-and-help" element={<ProtectedRoute> <ContactAndHelp /> </ProtectedRoute>} />
-            <Route path="/test-chat" element={<ProtectedRoute> <ChatComponent /> </ProtectedRoute>} />
+          <Route path="/privacy" element={<ProtectedRoute> <Privacy /> </ProtectedRoute>} />
+          <Route path="/profile-like-dislike" element={<ProtectedRoute> <LikeDislike /> </ProtectedRoute>} />
+          <Route path="/profile-member-service" element={<ProtectedRoute> <ProfileMemberService /> </ProtectedRoute>} />
+          <Route path="/bug-report" element={<ProtectedRoute> <BugReport /> </ProtectedRoute>} />
+          <Route path="/hide-profile" element={<ProtectedRoute> <HideProfile /> </ProtectedRoute>} />
+          <Route path="/contact-and-help" element={<ProtectedRoute> <ContactAndHelp /> </ProtectedRoute>} />
+          <Route path="/test-chat" element={<ProtectedRoute> <ChatComponent /> </ProtectedRoute>} />
 
-            <Route path="/create-private-party" element={<ProtectedRoute> <CreatePrivateParty /> </ProtectedRoute>} />
-            <Route path="/other-user-friendlist" element={<ProtectedRoute> <OtherUserFriendListpage /> </ProtectedRoute>} />
-            <Route path="/individual-group" element={<ProtectedRoute> <IndividualGroup /> </ProtectedRoute>} />
-            <Route path="/global-frindlist/:id" element={<ProtectedRoute> <GlobalFriendList /> </ProtectedRoute>} />
+          <Route path="/create-private-party" element={<ProtectedRoute> <CreatePrivateParty /> </ProtectedRoute>} />
+          <Route path="/other-user-friendlist" element={<ProtectedRoute> <OtherUserFriendListpage /> </ProtectedRoute>} />
+          <Route path="/individual-group" element={<ProtectedRoute> <IndividualGroup /> </ProtectedRoute>} />
+          <Route path="/global-frindlist/:id" element={<ProtectedRoute> <GlobalFriendList /> </ProtectedRoute>} />
 
-          </Routes>
+        </Routes>
       </BrowserRouter>
       <ToastContainer />
     </>

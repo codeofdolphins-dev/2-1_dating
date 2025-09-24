@@ -16,11 +16,14 @@ const ChangeProfileNameModal = ({ show, onClose }) => {
   useEffect(() => {
     if (show) {
       setLoading(true);
-      httpService("/profile", "GET")
+      httpService("/auth/me", "GET")
         .then((res) => {
-          const firstName = res?.data?.firstName || "";
-          const lastName = res?.data?.lastName || "";
-          setName([firstName, lastName].filter(Boolean).join(" "));
+          // const firstName = res?.data?.firstName || "";
+          // const lastName = res?.data?.lastName || "";
+          // setName([firstName, lastName].filter(Boolean).join(" "));
+          setName(res?.data?.username)
+
+          console.log("wert",res)
         })
         .catch((err) => {
           console.error("Failed to fetch user profile", err);
@@ -46,7 +49,7 @@ const ChangeProfileNameModal = ({ show, onClose }) => {
       lastName = parts.slice(1).join(" ");
     }
 
-    await httpService("/profile", "PUT", { firstName, lastName })
+    await httpService("/account/info", "PUT", { username:name })
       .then((res) => {
         console.log("userName updated", res);
         showSuccessToast(res?.message || "Profile updated successfully");
@@ -90,9 +93,9 @@ const ChangeProfileNameModal = ({ show, onClose }) => {
           
           className={`w-50 m-0 border-1 rounded-0 border-white bg-transparent`}
           onClick={() => handleRename(name)}
-          disabled={!name.trim() || loading}
+          disabled={!name || loading}
         >
-          {name.trim() ? "RENAME" : "RENAME FALSE"}
+          {name ? "RENAME" : "RENAME FALSE"}
         </Button>
       </Modal.Footer>
     </Modal>
