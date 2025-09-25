@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { GrAnnounce } from "react-icons/gr";
 import "../../Pages/Front-screen-feed/Feed/feedStyle.css";
 
 
@@ -9,7 +10,7 @@ import NotificationScreen from '../../Pages/Front-screen-feed/componeents/Notifi
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AuthProvider, useAuth } from '../../context/AuthContextAPI';
-import {FilterOptionselect} from "../../context/FilterOptionSelectAPI"
+import { FilterOptionselect } from "../../context/FilterOptionSelectAPI"
 
 const filter = [
     "Likes given",
@@ -23,7 +24,7 @@ const filter = [
     "New Friends / Followers"
 ];
 
-const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, filterName2, showTab, pageName, distanceSlider = false, bottomForm, width = "250px", showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup = null, okButton = null, age, friendsFilterTopSearchBar }) => {
+const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, filterName2, showTab, pageName, distanceSlider = false, bottomForm, width = "250px", showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup = null, okButton = null, age, friendsFilterTopSearchBar, broadcastBtn }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
@@ -35,7 +36,7 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
     const [maxAge, setMaxAge] = useState(30);
     const [topSearch, setTopSearch] = useState("")
 
-    const { showNotification,setFilterOption } = useAuth();
+    const { showNotification, setFilterOption } = useAuth();
     // console.log("sdsadsdfs", selected)
 
 
@@ -76,9 +77,9 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
 
 
     const handleSubmit = () => {
-        
-    setFilterOption(selected); // ✅ just a string
-    setShowFriendsFilter(!showFriendsFilter)
+
+        setFilterOption(selected); // ✅ just a string
+        setShowFriendsFilter(!showFriendsFilter)
     };
 
 
@@ -277,6 +278,14 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
                             </div>
                         )}
 
+                        {
+                            broadcastBtn &&
+                            <button
+                                onClick={broadcastBtn}
+                                className='d-flex justify-content-center align-items-center gap-2 border-0 bg-primary text-white rounded-3 px-3 py-0'
+                            > <GrAnnounce /> <p className='mb-0'>Broadcast</p></button>
+                        }
+
                         {/* Friend Filter Button */}
                         {
                             filterName2 &&
@@ -304,7 +313,6 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
                                             />
                                         </div>
                                     }
-
                                     {filter2.map((label) => (
                                         checkbox ? (
                                             <div key={label}>

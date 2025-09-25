@@ -13,6 +13,10 @@ import ScondPagination from '../../components/Pagination/ItemsPerPageSelector';
 import ItemsPerPageSelector from '../../components/Pagination/ItemsPerPageSelector';
 import PaginationWithSelector from '../../components/Pagination/PaginationWithSelector';
 
+import Editor from 'react-simple-wysiwyg';
+
+const token = sessionStorage.getItem("jwtToken");
+
 const options = [
     "accepted",
     "pending",
@@ -31,15 +35,17 @@ const ProfileFriendsPage = () => {
     const [user, setUser] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [broadcastEditorPopup, setBroadcastEditorPopup] = useState(false);
+    const [broadcastText, setBroadcastText] = useState('');
+    const [broadcastUser, setBroadcastUser] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(9);
     const [totalCount, setTotalCount] = useState(0)
     const [apiTotalPages, setApiTotalPages] = useState(0)
-    const [allVideo,setAllVideo] = useState([])
+    const [allVideo, setAllVideo] = useState([])
 
     const { filterOption } = useAuth();
-    console.log("Current filter:", filterOption);
 
     const handleRefreshByOkButton = () => {
         setRefresh((prev) => !prev);
@@ -59,8 +65,6 @@ const ProfileFriendsPage = () => {
 
         httpService("/friend-requests", "GET", {}, { params })
             .then((response) => {
-                console.log("Friend requests fetched:", response?.data);
-
                 showSuccessToast(response?.message);
 
                 // Some APIs return {data: {data: [], meta: {}}}, others {data: [], meta: {}}
@@ -68,7 +72,6 @@ const ProfileFriendsPage = () => {
                     response?.data?.data || response?.data || [];
 
                 setUser(usersArray);
-
 
                 setTotalCount(response?.meta?.pagination?.total || null);
                 setApiTotalPages(response?.data?.meta?.pagination?.totalPages || null);
@@ -84,21 +87,82 @@ const ProfileFriendsPage = () => {
             });
     }, [refresh, filterOption, currentPage, itemsPerPage]);
 
-    console.log("users",user)
+
+    const broadcastBtn = () => {
+        if (broadcastUser.length === 0) {
+            showErrorToast("Select atleast one member.")
+            return;
+        }
+
+        setBroadcastEditorPopup(prev => {            
+            let value = !prev;
+            if (value == false) {
+                setBroadcastText("");
+                setBroadcastUser([]);
+            };
+            return value;
+        });
+    };
+
+    const submitBroadcast = () => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+        };
+
+        httpService("/personal-messages/broadcast", "POST",
+            {
+                friendIds: broadcastUser,
+                messageType: "text",
+                content: broadcastText,
+                mediaUrl: "",
+                fileName: null,
+                fileSize: null
+            }, 
+            config
+        )
+        .then(res => {
+            console.log(res);            
+        })
+        .catch(err => {
+            console.log(err);            
+        });
+    };
 
     return (
         <GlobalPageWrapper>
             <OverlayLoader show={loading} text="Please wait..." />
             <FilterBar
-                clas
                 pageName="Friends"
                 filterName2="Filter"
                 filter2={options}
                 okButton={true}
                 handleRefreshByOkButton={handleRefreshByOkButton}
+                broadcastBtn={broadcastBtn}
             />
 
             <div className="container-fluid">
+
+                {/* broadcast popup area */}
+                {
+                    broadcastEditorPopup && <div className='my-2'>
+                        {/* <textarea className='w-100 no-outline' rows={3}></textarea> */}
+
+                        <Editor className='bg-white' value={broadcastText} onChange={(e) => setBroadcastText(e.target.value)} />
+
+                        <div className="mt-3 d-flex gap-3 align-items-center justify-content-end">
+                            <button
+                                onClick={broadcastBtn}
+                                className='bg-secondary border-0 rounded-4 px-3 text-white'
+                            >Cancel</button>
+                            <button onClick={submitBroadcast} className='bg-primary border-0 rounded-4 px-5 text-white'>Send</button>
+                        </div>
+                    </div>
+                }
+
+
                 <div className="row g-4 pt-4">
                     {loading ? (
                         <h4 className="text-white">Loading...</h4>
@@ -117,6 +181,8 @@ const ProfileFriendsPage = () => {
                                     refresh={refresh}
                                     setrefresh={setRefresh}
                                     userName={userData?.senderId?.username}
+                                    broadcastUser={broadcastUser}
+                                    setBroadcastUser={setBroadcastUser}
                                 />
                             </div>
                         ))

@@ -8,8 +8,7 @@ import defaultImages from "../../assets/ViwCardImags/img/profileImg.png";
 
 const ViewpagePhotoGallery = ({ show, handleClose, images }) => {
   const galleryImages = images && images.length > 0 ? images : [defaultImages];
- 
-  console.log("asdasdsa",images)
+
   return (
     <Modal
       show={show}
