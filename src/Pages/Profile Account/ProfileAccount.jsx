@@ -42,7 +42,7 @@ const ProfileAccount = () => {
 
     console.log("sdsadad", user?.data?.user?.phone)
 
-    
+
 
 
 
@@ -176,7 +176,9 @@ const ProfileAccount = () => {
         setShowOtp(false);
     };
 
-    const handlenavigate = () => navigate("/subscription");
+    const handlenavigate = () => {
+        navigate("/current-plan")
+    }
 
     const togglePasswordVisibility = (id) => {
         setVisiblePasswords((prev) => ({
@@ -195,12 +197,12 @@ const ProfileAccount = () => {
                     phone: res?.data?.phone,
                     lang: res?.data?.settings?.siteLanguage || "en",
                 }));
-                console.log("sasad",res)
+                console.log("sasad", res)
             })
             .catch((err) => console.log(err));
     }, []);
 
-console.log("sadsadsad",details?.lang)
+    console.log("sadsadsad", details?.lang)
 
     return (
         <PageWrapper>
@@ -287,7 +289,7 @@ console.log("sadsadsad",details?.lang)
                     {/* Row 3 */}
                     <div className="row">
 
-                        <GoogleTranslate lang={details?.lang}/>
+                        <GoogleTranslate lang={details?.lang} />
                         <div className="col-lg-6" style={{ margin: "auto 20px" }}>
                             <div className="d-flex gap-4 justify-content-start align-items-center">
 
