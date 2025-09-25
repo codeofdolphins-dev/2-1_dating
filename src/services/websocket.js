@@ -34,67 +34,67 @@ function createWebSocketService() {
 
     // Real-time notifications
     socket.on("notification", (notification) => {
-      console.log("New notification:", notification);
+      // console.log("New notification:", notification);
     });
 
     // Personal messaging
     socket.on("new_personal_message", (message) => {
-      console.log("New personal message:", message);
+      // console.log("New personal message:", message);
     });
 
     socket.on("message_sent", (message) => {
-      console.log("Message sent confirmation:", message);
+      // console.log("Message sent confirmation:", message);
     });
 
     socket.on("message_read", (data) => {
-      console.log("Message read:", data);
+      // console.log("Message read:", data);
     });
 
     // Typing indicators
     socket.on("user_typing", (data) => {
-      console.log("User typing:", data);
+      // console.log("User typing:", data);
     });
 
     // Friend status
     socket.on("friend_status_change", (data) => {
-      console.log("Friend status change:", data);
+      // console.log("Friend status change:", data);
     });
 
     // Chat room
     socket.on("new_room_message", (message) => {
-      console.log("New room message:", message);
+      // console.log("New room message:", message);
     });
 
     socket.on("user_joined_room", (data) => {
-      console.log("User joined room:", data);
+      // console.log("User joined room:", data);
     });
 
     socket.on("user_left_room", (data) => {
-      console.log("User left room:", data);
+      // console.log("User left room:", data);
     });
 
     // Conversation
     socket.on("user_joined_conversation", (data) => {
-      console.log("User joined conversation:", data);
+      // console.log("User joined conversation:", data);
     });
 
     socket.on("user_left_conversation", (data) => {
-      console.log("User left conversation:", data);
+      // console.log("User left conversation:", data);
     });
 
     // Errors
     socket.on("error", (error) => {
-      console.error("Socket error:", error);
+      // console.error("Socket error:", error);
     });
 
     socket.on("message_error", (error) => {
-      console.error("Message error:", error);
+      // console.error("Message error:", error);
     });
   };
 
   // === Personal Messaging Methods ===
   const joinConversation = (otherUserId) => {
-    console.log(otherUserId)
+    // console.log(otherUserId)
     socket?.emit("join_conversation", { otherUserId });
   };
 

@@ -65,10 +65,8 @@ const cardList = [
 
 const imageList = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime = false, userName }) => {
+const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime = false, userName, broadcastUser, setBroadcastUser }) => {
   const navigate = useNavigate();
-
-  console.log("userName", userData?.senderId?.username);
 
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
@@ -82,13 +80,6 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
   const [videoPopupToggle, setVideoPopupToggle] = useState(false)
   const [photoCount, setPhotoCount] = useState()
 
-
-
-  // const [isCheckedFriendrequest, setIsCheckedFriendrequest] = useState(false);
-  // console.log(isCheckedFriendrequest)
-  // const[loading,setLoading] = useState(true)
-
-  // console.log(setrefresh, refresh)
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -144,19 +135,6 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     }
   }
 
-  // useEffect(() => {
-  //   httpService(`/friend-requests/${userData._id}/respond`, "PUT", { "action": "accept" })
-  //     .then((response) => {
-  //       console.log("Friend request sent:", response);
-  //       showSuccessToast(response?.message);
-  //       setrefresh(!refresh)
-  //     })
-  //     .catch((err) => {
-  //       console.error("Failed to send friend request:", err);
-  //       showErrorToast(err?.response?.data?.message);
-  //       setrefresh(!refresh)
-  //     });
-  // }, []); // dependency on card._id
 
   const handleAcceptFriendrequest = async () => {
     console.log("all ok",)
@@ -207,15 +185,12 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
     httpService(`/media-library/${card?._id}`)
       .then((res) => {
         setUserImages(res?.data?.media)
-        console.log("asdada", res?.data?.media)
       })
       .catch((err) => {
         console.log(err)
       })
 
-  }, [])
-
-  console.log("userimages", card)
+  }, []);
 
   return (
     <>
@@ -306,7 +281,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                     {userName}
                   </h4>
                 </div>
-                 &nbsp; &nbsp; 
+                &nbsp; &nbsp;
                 {/* Right side: checkbox */}
                 <div>
                   <div className="form-check">
@@ -314,7 +289,13 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                       className="form-check-input"
                       type="checkbox"
                       id="checkChecked"
-                      readOnly
+                      checked={broadcastUser.includes(card._id)}
+                      onChange={() => setBroadcastUser((prev) => (
+                        [
+                          ...prev,
+                          card?._id
+                        ]
+                      ))}
                     />
                   </div>
                 </div>
