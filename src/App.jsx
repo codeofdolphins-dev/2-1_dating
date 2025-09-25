@@ -83,6 +83,7 @@ import GlobalFriendList from './Pages/GlobalFriendList/GlobalFriendList';
 import SubscriptionPageMoreInfoPage from './Pages/SubscriptionPageMoreInfoPage/SubscriptionPageMoreInfoPage';
 import httpService from './helper/httpService';
 import GoogleTranslate from './components/GoogleTranslate/GoogleTranslate';
+import CurrentUserSubscriptionPlan from './Pages/CurrentUserSubscriptionPlan/CurrentUserSubscriptionPlan';
 
 
 
@@ -127,6 +128,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription-moreInfo/:planId" element={<SubscriptionPageMoreInfoPage />} />
+          <Route path="/current-plan" element={<CurrentUserSubscriptionPlan />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/second_registration" element={<SecondRegistrationPage />} />

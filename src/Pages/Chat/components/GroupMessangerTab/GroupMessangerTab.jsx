@@ -5,7 +5,7 @@ import httpService from '../../../../helper/httpService';
 
 
 const GroupMessangerTab = () => {
-    const {setGroupMessageId,setGroupMessageName} = useAuth()
+    const {setGroupMessageId,groupMessageId,setGroupMessageName} = useAuth()
 
     const [selectedChat, setSelectedChat] = useState("");
 
@@ -33,9 +33,9 @@ const GroupMessangerTab = () => {
     setGroupMessageId(selectedChat)
 
     useState(()=>{
-      httpService("/groups","GET")
+      httpService("/groups/my-groups","GET")
       .then((res)=>{
-          console.log("groups",res?.data?.groups)
+          console.log("groups",res?.data?.groups?.name)
           setGroups(res?.data?.groups)
       })
       .catch((err)=>{
@@ -43,7 +43,7 @@ const GroupMessangerTab = () => {
       })
     },[])
 
-
+  console.log("groupIdpppppppppppp",selectedChat)
     return (
         <>
             <div className="chat-list flex-grow-1 overflow-auto">
@@ -52,8 +52,9 @@ const GroupMessangerTab = () => {
                         key={contact.id}
                         className={`chat-item p-3 ${selectedChat === index ? "active" : ""}`}
                         onClick={() => {
-                        setSelectedChat(contact?._id)
-                        setGroupMessageName(contact?.name)
+                        setSelectedChat(contact?.group?._id)
+                        
+                        setGroupMessageName(contact?.group?.name)
                         }}
                     >
                         <div className="d-flex align-items-center">
@@ -69,7 +70,7 @@ const GroupMessangerTab = () => {
                             <div className="flex-grow-1 ms-3">
                                 {/* name & time */}
                                 <div className="d-flex justify-content-between align-items-center">
-                                    <h6 className="text-white mb-0">{contact.name}</h6>
+                                    <h6 className="text-white mb-0">{contact?.group?.name}</h6>
                                     <div className="d-flex justify-content-between align-items-center">
                                         {/* icons */}
                                         {(contact.pin || contact.mute) && (
