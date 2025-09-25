@@ -4,7 +4,7 @@ import httpService from "../../../../helper/httpService";
 import { useAuth } from "../../../../context/AuthContextAPI";
 
 const MessangerTab = () => {
-  const { setMessageReceiverId, setMessageReceiverName } = useAuth();
+  const { setMessageReceiverId, setMessageReceiverName,setMessageSenderName } = useAuth();
 
   const [selectedChat, setSelectedChat] = useState(null);
   const [contacts, setContacts] = useState([]);
@@ -27,6 +27,8 @@ const MessangerTab = () => {
       setMessageReceiverName(selectedChat.username);
     }
   }, [selectedChat, setMessageReceiverId, setMessageReceiverName]);
+
+  setMessageSenderName(selectedChat?.username)
 
   return (
     <div className="chat-list flex-grow-1 overflow-auto">

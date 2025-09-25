@@ -10,7 +10,9 @@ import { ChatSocketProvider } from "./context/ChatSocketContext.jsx";
 createRoot(document.getElementById("root")).render(
    <>
     <AuthProvider>
+        <ChatSocketProvider>
         <App />
+        </ChatSocketProvider>
     </AuthProvider>
    </>
   

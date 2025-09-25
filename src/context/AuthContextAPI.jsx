@@ -17,6 +17,7 @@ export function AuthProvider({ children }) {
   const [groupMessageName, setGroupMessageName] = useState("")
   const [globalToggle,setGlobalToggle] = useState(false)
   const [razorPayInfo,setResorPayInfo]=useState({})
+  const [messageSenderName,setMessageSenderName] = useState("")
 
   // Restore from localStorage on reload
   useEffect(() => {
@@ -88,6 +89,9 @@ export function AuthProvider({ children }) {
 
         setMessageReceiverName,
         messagereceiverName,
+
+        setMessageSenderName,
+        messageSenderName,
 
         groupMessageId,
         setGroupMessageId,

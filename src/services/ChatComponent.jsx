@@ -6,8 +6,8 @@ import { BsEmojiSmile, BsSend } from 'react-icons/bs';
 import Form from 'react-bootstrap/Form';
 import httpService from '../helper/httpService';
 
-const ChatComponent = ({ receiverId, otherUserName, groupMessageId }) => {
-  const { user, messagereceiverName, groupMessageName } = useAuth();
+const ChatComponent = ({ receiverId, otherUserName }) => {
+  const { user, messagereceiverName,messageSenderName } = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -17,30 +17,23 @@ const ChatComponent = ({ receiverId, otherUserName, groupMessageId }) => {
 
   const myUserId = user?.data?.user?._id;
 
-  /** 🔹 Fetch chat history */
+  /** 🔹 Fetch personal chat history */
   const fetchConversation = useCallback(async () => {
     try {
       if (receiverId) {
         const data = await httpService(`/personal-messages/conversations/${receiverId}`, 'GET');
         setMessages(data?.data || []);
-      } else if (groupMessageId) {
-        const data = await httpService(`/group-messages/${groupMessageId}`, 'GET');
-        setMessages(data?.data || []);
       }
     } catch (err) {
       console.error('❌ Failed to load conversation:', err);
     }
-  }, [receiverId, groupMessageId]);
-
-  console.log("messages",messages)
+  }, [receiverId]);
 
   /** 🔹 WebSocket setup */
   useEffect(() => {
-    if (!myUserId) return;
+    if (!myUserId || !receiverId) return;
 
-    if (receiverId) websocket.joinConversation(receiverId);
-    if (groupMessageId) websocket.joinChatroom(groupMessageId);
-
+    websocket.joinConversation(receiverId);
     fetchConversation();
 
     /** Handle new personal message */
@@ -57,46 +50,34 @@ const ChatComponent = ({ receiverId, otherUserName, groupMessageId }) => {
       }
     };
 
-    /** Handle new group message */
-    const handleNewGroupMessage = (message) => {
-      if (message.roomId === groupMessageId) {
-        setMessages((prev) => [...prev, message]);
-      }
-    };
-
     /** Handle typing */
     const handleUserTyping = (data) => {
       if (data.userId === receiverId) setIsTyping(data.isTyping);
     };
 
     websocket.socket?.on('new_personal_message', handleNewPersonalMessage);
-    websocket.socket?.on('new_room_message', handleNewGroupMessage);
     websocket.socket?.on('user_typing', handleUserTyping);
 
     return () => {
-      if (receiverId) websocket.leaveConversation(receiverId);
-      if (groupMessageId) websocket.leaveChatroom(groupMessageId);
-
+      websocket.leaveConversation(receiverId);
       websocket.socket?.off('new_personal_message', handleNewPersonalMessage);
-      websocket.socket?.off('new_room_message', handleNewGroupMessage);
       websocket.socket?.off('user_typing', handleUserTyping);
     };
-  }, [receiverId, groupMessageId, myUserId, websocket, fetchConversation]);
+  }, [receiverId, myUserId, websocket, fetchConversation]);
 
   /** 🔹 Auto scroll */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  /** 🔹 Send message */
+  /** 🔹 Send personal message */
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
 
     const tempMessage = {
       _id: Date.now(),
       senderId: myUserId,
-      receiverId: receiverId || null,
-      roomId: groupMessageId || null,
+      receiverId: receiverId,
       content: newMessage,
       createdAt: new Date().toISOString(),
       isRead: false,
@@ -105,35 +86,31 @@ const ChatComponent = ({ receiverId, otherUserName, groupMessageId }) => {
     setMessages((prev) => [...prev, tempMessage]);
 
     try {
-      if (receiverId) {
-        websocket.sendPersonalMessage(receiverId, newMessage);
-      } else if (groupMessageId) {
-        websocket.sendRoomMessage(groupMessageId, newMessage);
-
-        // persist to DB
-        await httpService(`/group-messages/${groupMessageId}`, 'POST', { content: newMessage });
-      }
+      websocket.sendPersonalMessage(receiverId, newMessage);
+      // persist to DB
+      await httpService(`/personal-messages/conversations/${receiverId}`, 'POST', { content: newMessage });
     } catch (err) {
       console.error("❌ Failed to send message:", err);
     }
 
     setNewMessage('');
-    if (receiverId) websocket.stopTyping(receiverId);
+    websocket.stopTyping(receiverId);
   };
 
   /** 🔹 Handle typing */
   const handleInputTyping = () => {
-    if (receiverId) {
-      websocket.startTyping(receiverId);
-      if (typingTimeout) clearTimeout(typingTimeout);
+    websocket.startTyping(receiverId);
 
-      const timeout = setTimeout(() => {
-        websocket.stopTyping(receiverId);
-      }, 1000);
+    if (typingTimeout) clearTimeout(typingTimeout);
 
-      setTypingTimeout(timeout);
-    }
+    const timeout = setTimeout(() => {
+      websocket.stopTyping(receiverId);
+    }, 1000);
+
+    setTypingTimeout(timeout);
   };
+
+  console.log("aaaa",messages)
 
   return (
     <div className="col-md-8 col-lg-9 chat-area d-flex flex-column h-100 px-3 py-5 position-relative">
@@ -144,14 +121,14 @@ const ChatComponent = ({ receiverId, otherUserName, groupMessageId }) => {
             <div className="position-relative">
               <div className="avatar-sm">
                 <span className="text-white fw-bold">
-                  {(groupMessageId ? groupMessageName : otherUserName)?.charAt(0) || 'U'}
+                  {otherUserName?.charAt(0) || 'U'}
                 </span>
               </div>
               <div className="online-indicator-sm"></div>
             </div>
             <div className="ms-3">
               <h6 className="text-white mb-0">
-                {groupMessageId ? groupMessageName : messagereceiverName || 'User'}
+                {messagereceiverName || 'User'}
               </h6>
             </div>
           </div>
@@ -178,17 +155,12 @@ const ChatComponent = ({ receiverId, otherUserName, groupMessageId }) => {
             >
               {!isMine && <strong className="me-2">{message?.senderId?.username || 'User'}:</strong>}
               <div
-                className={`message-bubble px-4 py-2 rounded-pill ${
-                  isMine ? 'bg-primary text-white' : 'bg-success text-dark'
-                }`}
+                className={`message-bubble px-4 py-2 rounded-pill ${isMine ? 'bg-primary text-white' : 'bg-success text-dark'}`}
                 style={{ maxWidth: '60%' }}
               >
                 <p className="mb-0">{message.content}</p>
                 <span className="message-time small text-light">
-                  {new Date(message.createdAt).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                  {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
                 {message.isRead && isMine && <span className="ms-1 small">✓✓</span>}
               </div>
@@ -197,9 +169,9 @@ const ChatComponent = ({ receiverId, otherUserName, groupMessageId }) => {
         })}
 
         {/* Typing indicator */}
-        {isTyping && receiverId && (
+        {isTyping && (
           <div className="px-3 small fst-italic text-white">
-            {otherUserName} is typing...
+            {messageSenderName} is typing...
           </div>
         )}
 

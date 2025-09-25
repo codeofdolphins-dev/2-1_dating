@@ -23,6 +23,7 @@ import GroupMessangerTab from "./components/GroupMessangerTab/GroupMessangerTab"
 
 import ChatComponent from "../../services/ChatComponent"
 import { useAuth } from "../../context/AuthContextAPI";
+import GroupChatComponent from "../../services/GroupChatComponent";
 
 const Chat = () => {
   const {messagereceiverId,groupMessageId} =useAuth()
@@ -56,7 +57,7 @@ const Chat = () => {
   //   "Archive"
   // ];
 
-  const [activeTab, setActiveTab] = useState("messanger");
+  const [activeTab, setActiveTab] = useState("group");
   const renderContent = () => {
     switch (activeTab) {
       case "messanger":
@@ -244,7 +245,11 @@ const Chat = () => {
               </div>
             </div>
           </div> */}
-            <ChatComponent receiverId={messagereceiverId} groupMessageId={groupMessageId} />
+          {
+            activeTab ==="messanger" ? <ChatComponent receiverId={messagereceiverId}  /> : activeTab ==="group" &&
+            <GroupChatComponent groupMessageId={groupMessageId}/>
+          }
+            
 
         </div>
       </div>
