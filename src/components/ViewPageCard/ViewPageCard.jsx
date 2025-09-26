@@ -289,7 +289,7 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                       className="form-check-input"
                       type="checkbox"
                       id="checkChecked"
-                      checked={broadcastUser.includes(card._id)}
+                      checked={broadcastUser?.includes(card._id)}
                       onChange={() => setBroadcastUser((prev) => (
                         [
                           ...prev,

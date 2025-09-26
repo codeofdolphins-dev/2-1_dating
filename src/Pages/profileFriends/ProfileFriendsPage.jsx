@@ -117,9 +117,9 @@ const ProfileFriendsPage = () => {
                 friendIds: broadcastUser,
                 messageType: "text",
                 content: broadcastText,
-                mediaUrl: "",
-                fileName: null,
-                fileSize: null
+                mediaUrl: "https://www.google.com",
+                fileName: "abc",
+                fileSize: "15555766"
             }, 
             config
         )

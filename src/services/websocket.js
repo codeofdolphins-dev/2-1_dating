@@ -82,6 +82,7 @@
 //       console.log("User left conversation:", data);
 //     });
 
+
 //     // Errors
 //     socket.on("error", (error) => {
 //       console.error("Socket error:", error);
@@ -198,8 +199,7 @@
 
 // services/websocket.js
 // services/websocketService.js
-// services/websocket.js
-// services/websocket.js
+
 import { io } from "socket.io-client";
 
 function createWebSocketService() {
@@ -348,11 +348,12 @@ function createWebSocketService() {
   };
 
   const sendGroupMessage = (groupId, messageData) => {
+    console.log("messagedata",messageData)
     if (isSocketConnected()) {
       socket.emit("send_group_message", {
         groupId,
         messageType: messageData.type || "text",
-        content: messageData.content,
+        content: messageData.content,  // 👈 FIXED
         mediaUrl: messageData.mediaUrl,
         fileName: messageData.fileName,
         fileSize: messageData.fileSize,
@@ -361,6 +362,7 @@ function createWebSocketService() {
       });
     }
   };
+
 
   const startGroupTyping = (groupId) => {
     if (isSocketConnected()) socket.emit("group_typing_start", { groupId });
@@ -394,6 +396,4 @@ function createWebSocketService() {
 // ✅ Export singleton instance
 const websocketService = createWebSocketService();
 export default websocketService;
-
-
 
