@@ -12,7 +12,8 @@ import Pagination from "../../../../components/Pagination/Pagination";
 import ItemsPerPageSelector from "../../../../components/Pagination/ItemsPerPageSelector";
 
 const VideosTab = () => {
-  const [addVideo, setAddVideo] = useState(false);
+  // const [addVideo, setAddVideo] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [uploadedVideos, setUploadedVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null); // ✅ Track clicked video
   const [toggle, setToggle] = useState(false)
@@ -133,7 +134,7 @@ const VideosTab = () => {
             variant="primary"
             className="px-4"
             style={{ borderRadius: "20px", fontSize: "14px" }}
-            onClick={() => setAddVideo(true)}
+           onClick={() => setShowModal(true)}
           >
             Add Video
           </Button>
@@ -267,7 +268,7 @@ const VideosTab = () => {
       />
 
       {/* ✅ Add Video Modal */}
-      {addVideo && <AddVideo onClose={() => handleClose(true)} />}
+      <AddVideo show={showModal} onClose={() => setShowModal(false)} />
     </>
   );
 };

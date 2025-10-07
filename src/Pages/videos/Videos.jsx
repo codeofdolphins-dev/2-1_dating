@@ -119,6 +119,7 @@ import { useNavigate } from 'react-router-dom';
 import httpService from '../../helper/httpService';
 import OverlayLoader from '../../helper/OverlayLoader';
 import { useAuth } from '../../context/AuthContextAPI';
+import AddVideo from '../Add Video/components/VideosTab/components/addVideo/AddVideo';
 
 const filter2 = [
   "Latest",
@@ -134,11 +135,10 @@ const filter2 = [
 ];
 
 const Videos = () => {
-  const navigate = useNavigate();
-  const { filterOption } = useAuth();
+  const { filterOption} = useAuth();
 
   const navigationToAnotherPage = () => {
-    navigate("/current-user-profile");
+    setShowModal(true)
   };
 
   const [show, setShow] = useState(false);
@@ -146,6 +146,7 @@ const Videos = () => {
   const [load, setLoad] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const isFetching = useRef(false);
 
@@ -263,6 +264,7 @@ const Videos = () => {
           </div>
         </div>
       </div>
+      <AddVideo show={showModal} onClose={() => setShowModal(false)} />
     </PageWrapper>
   );
 };

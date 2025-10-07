@@ -199,10 +199,32 @@
 
 
 
+
+
+// const handleNewGroupMessage = (message) => {
+//     const groupId = message.groupMessageId || message.group;
+//     if (groupId === groupMessageId) {
+//         setMessages((prev) => {
+//             if (
+//                 prev.some(
+//                     (m) =>
+//                         m._id === message._id ||
+//                         (m.content === message.content &&
+//                             m.senderId === message.senderId)
+//                 )
+//             ) {
+//                 return prev; // avoid duplicates
+//             }
+//             return [...prev, message];
+//         });
+//     }
+// };
+
+
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "../context/AuthContextAPI";
 import { FaPhone, FaVideo, FaEllipsisH, FaMicrophone, FaPlus } from "react-icons/fa";
-import { BsEmojiSmile, BsSend } from "react-icons/bs";
+import { BsEmojiSmile, BsSend, BsPencilSquare } from "react-icons/bs";
 import Form from "react-bootstrap/Form";
 import httpService from "../helper/httpService";
 import websocketService from "../services/websocket";
@@ -215,22 +237,35 @@ const GroupChatComponent = ({ groupMessageId }) => {
     const [typingUser, setTypingUser] = useState(null);
     const typingTimeoutRef = useRef(null);
     const messagesEndRef = useRef(null);
-    const messagesContainerRef = useRef(null); // ✅ track scroll container
+    const messagesContainerRef = useRef(null);
     const [autoScroll, setAutoScroll] = useState(true);
+
+    const [editingMessageId, setEditingMessageId] = useState(null); // ✅ Track message being edited
 
     const myUserId = user?.data?.user?._id;
 
     /** 🔹 Fetch group chat history */
+    /** 🔹 Fetch group chat history */
     const fetchConversation = useCallback(async () => {
         if (!groupMessageId) return;
         try {
+            websocketService.sendGroupMessage(groupMessageId, { content: newMessage });
             const data = await httpService(`/group-messages/${groupMessageId}`, "GET");
             setMessages(data?.data || []);
         } catch (err) {
             console.error("❌ Failed to load conversation:", err);
         }
+
     }, [groupMessageId]);
-    fetchConversation();
+
+    // ✅ Fetch messages only when group changes
+
+
+    /** 🔹 Load conversation when group changes */
+    useEffect(() => {
+        fetchConversation();
+    }, [fetchConversation]);
+
 
 
     /** 🔹 WebSocket setup */
@@ -238,7 +273,6 @@ const GroupChatComponent = ({ groupMessageId }) => {
         if (!myUserId || !groupMessageId) return;
 
         websocketService.joinGroup(groupMessageId);
-
         const socket = websocketService.getSocket();
 
         const handleNewGroupMessage = (message) => {
@@ -253,14 +287,16 @@ const GroupChatComponent = ({ groupMessageId }) => {
                                     m.senderId === message.senderId)
                         )
                     ) {
-                        return prev;
+                        return prev; // avoid duplicates
                     }
                     return [...prev, message];
                 });
             }
         };
 
-        // ✅ Show who is typing
+
+        console.log("sadsadsad", socket)
+
         const handleTypingStart = (data) => {
             if (data.groupId === groupMessageId && data.userId !== myUserId) {
                 setTypingUser(data.username);
@@ -273,10 +309,12 @@ const GroupChatComponent = ({ groupMessageId }) => {
             }
         };
 
+        // ✅ Attach listeners once
         socket?.on("new_group_message", handleNewGroupMessage);
         socket?.on("group_typing_start", handleTypingStart);
         socket?.on("group_typing_stop", handleTypingStop);
 
+        // ✅ Cleanup when group changes/unmount
         return () => {
             websocketService.leaveGroup(groupMessageId);
             socket?.off("new_group_message", handleNewGroupMessage);
@@ -287,25 +325,45 @@ const GroupChatComponent = ({ groupMessageId }) => {
         };
     }, [groupMessageId, myUserId]);
 
-    /** 🔹 Auto scroll if user is near bottom */
+    /** 🔹 Auto scroll */
     useEffect(() => {
         if (autoScroll) {
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         }
     }, [messages]);
 
-    /** 🔹 Track if user scrolls up */
     const handleScroll = () => {
         if (!messagesContainerRef.current) return;
         const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
-        const isNearBottom = scrollHeight - scrollTop - clientHeight < 100; // px from bottom
+        const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
         setAutoScroll(isNearBottom);
     };
 
-    /** 🔹 Send message */
+    /** 🔹 Send / Edit message */
     const sendMessage = async () => {
         if (!newMessage.trim()) return;
 
+        if (editingMessageId) {
+            // ✅ Edit existing message
+            try {
+                await httpService(`/group-messages/${editingMessageId}`, "PUT", {
+                    content: newMessage,
+                });
+
+                setMessages((prev) =>
+                    prev.map((msg) =>
+                        msg._id === editingMessageId ? { ...msg, content: newMessage } : msg
+                    )
+                );
+            } catch (err) {
+                console.error("❌ Failed to edit message:", err);
+            }
+            setEditingMessageId(null);
+            setNewMessage("");
+            return;
+        }
+
+        // ✅ Send new message
         const tempMessage = {
             _id: Date.now().toString(),
             senderId: myUserId,
@@ -332,7 +390,7 @@ const GroupChatComponent = ({ groupMessageId }) => {
         });
     };
 
-    /** 🔹 Handle typing */
+    /** 🔹 Typing */
     const handleInputTyping = () => {
         websocketService.startGroupTyping(groupMessageId, {
             username: user?.data?.user?.username,
@@ -350,11 +408,11 @@ const GroupChatComponent = ({ groupMessageId }) => {
     };
 
     return (
-        <div className="col-md-8 col-lg-9 chat-area d-flex flex-column h-100 px-3 py-5 position-relative" >
+        <div className="col-md-8 col-lg-9 chat-area d-flex flex-column h-100 px-3 py-5 position-relative">
             {groupMessageId ? (
                 <>
                     {/* Header */}
-                    <div className="chat-header p-3 border-bottom" >
+                    <div className="chat-header p-3 border-bottom">
                         <div className="d-flex align-items-center justify-content-between">
                             <div className="d-flex align-items-center">
                                 <div className="position-relative">
@@ -399,6 +457,7 @@ const GroupChatComponent = ({ groupMessageId }) => {
                                 typeof message.senderId === "object" ? message.senderId._id : message.senderId;
 
                             const isMine = senderId === myUserId;
+
                             return (
                                 <div
                                     key={message._id || index}
@@ -424,6 +483,17 @@ const GroupChatComponent = ({ groupMessageId }) => {
                                         </span>
                                         {message.isRead && isMine && <span className="ms-1 small">✓✓</span>}
                                     </div>
+                                    {isMine && (
+                                        <BsPencilSquare
+                                            className="text-warning"
+                                            role="button"
+                                            title="Edit"
+                                            onClick={() => {
+                                                setEditingMessageId(message._id);
+                                                setNewMessage(message.content);
+                                            }}
+                                        />
+                                    )}
                                 </div>
                             );
                         })}
@@ -437,7 +507,9 @@ const GroupChatComponent = ({ groupMessageId }) => {
                                 <div className="d-flex align-items-center rounded-pill px-3 py-2 bg-light">
                                     <Form.Control
                                         type="text"
-                                        placeholder="Type your message here"
+                                        placeholder={
+                                            editingMessageId ? "Edit your message..." : "Type your message here"
+                                        }
                                         className="border-0 bg-transparent flex-grow-1"
                                         value={newMessage}
                                         onChange={(e) => {
@@ -454,7 +526,7 @@ const GroupChatComponent = ({ groupMessageId }) => {
                                     <BsSend
                                         className="text-primary fs-5"
                                         role="button"
-                                        title="Send"
+                                        title={editingMessageId ? "Update" : "Send"}
                                         onClick={() => sendMessage()}
                                     />
                                 </div>
@@ -478,6 +550,8 @@ const GroupChatComponent = ({ groupMessageId }) => {
 };
 
 export default GroupChatComponent;
+
+
 
 
 

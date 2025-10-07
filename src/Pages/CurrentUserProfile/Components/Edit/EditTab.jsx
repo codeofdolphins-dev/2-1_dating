@@ -642,10 +642,10 @@ const EditTab = () => {
 
                     {/* female first name */}
                     <div className="col-md-6 col-12 px-0 pe-md-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid red" }}>
+                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #096BFF" }}>
                         <input
                           type="text"
-                          className="form-control border-0 rounded-0 text-danger px-0"
+                          className="form-control border-0 rounded-0 px-0"
                           id="f_fname"
                           name="f_fname"
                           value={female.f_fname}
@@ -659,18 +659,18 @@ const EditTab = () => {
                             color: "#096BFF"
                           }}
                         />
-                        <label htmlFor="f_fname" className="form-label mb-0 text-danger fw-bold">
-                          <i className="bi bi-pencil-fill text-danger" style={{ cursor: "pointer" }}></i>
+                        <label htmlFor="f_fname" className="form-label mb-0 fw-bold" style={{color:"#096BFF"}}>
+                          <i className="bi bi-pencil-fill " style={{ cursor: "pointer",color:"#096BFF" }}></i>
                         </label>
                       </div>
                     </div>
 
                     {/* female last name */}
                     <div className="col-md-6 col-12 mt-3 mt-md-0 px-0 ps-md-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid red" }}>
+                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #096BFF" }}>
                         <input
                           type="text"
-                          className="form-control border-0 rounded-0 text-danger px-0"
+                          className="form-control border-0 rounded-0r px-0"
                           id="f_lname"
                           name="f_lname"
                           value={female.f_lname}
@@ -684,8 +684,8 @@ const EditTab = () => {
                             color: "#096BFF"
                           }}
                         />
-                        <label htmlFor="f_lname" className="form-label mb-0 text-danger fw-bold">
-                          <i className="bi bi-pencil-fill text-danger" style={{ cursor: "pointer" }}></i>
+                        <label htmlFor="f_lname" className="form-label mb-0 fw-bold">
+                          <i className="bi bi-pencil-fill " style={{ cursor: "pointer",color:"#096BFF" }}></i>
                         </label>
                       </div>
                     </div>
@@ -806,7 +806,7 @@ const EditTab = () => {
 
                     {/* male first name */}
                     <div className="col-md-6 col-12 px-0 pe-md-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #096BFF" }}>
+                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #bb2124" }}>
                         <input
                           type="text"
                           className="form-control border-0 rounded-0 px-0" id='m_fname'
@@ -819,16 +819,16 @@ const EditTab = () => {
                           style={{
                             fontSize: "20px",
                             backgroundColor: "transparent",
-                            color: "#096BFF"
+                            color: "#bb2124"
                           }}
                         />
-                        <label htmlFor='m_fname' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill" style={{ cursor: "pointer", color: "#096BFF" }}></i></label>
+                        <label htmlFor='m_fname' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill" style={{ cursor: "pointer", color: "#bb2124" }}></i></label>
                       </div>
                     </div>
 
                     {/* male last name */}
                     <div className="col-md-6 col-12 mt-3 mt-md-0 px-0 ps-md-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #096BFF" }}>
+                      <div className="d-flex justify-content-between align-items-center mb-1" style={{ borderBottom: "2px solid #bb2124" }}>
                         <input
                           type="text"
                           className="form-control border-0 rounded-0 px-0" id='m_lname'
@@ -841,10 +841,10 @@ const EditTab = () => {
                           style={{
                             fontSize: "20px",
                             backgroundColor: "transparent",
-                            color: "#096BFF"
+                            color: "#bb2124"
                           }}
                         />
-                        <label htmlFor='m_lname' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill" style={{ cursor: "pointer", color: "#096BFF" }}></i></label>
+                        <label htmlFor='m_lname' className="form-label mb-0 text-danger fw-bold"><i className="bi bi-pencil-fill" style={{ cursor: "pointer", color: "#bb2124" }}></i></label>
                       </div>
                     </div>
                   </div>
@@ -918,7 +918,7 @@ const EditTab = () => {
 
                   {/* experience level */}
                   <div className="">
-                    <h3 style={{ fontSize: "20px", color: "#096BFF" }}>Experience Level</h3>
+                    <h3 style={{ fontSize: "20px", color: "#bb2124" }}>Experience Level</h3>
                     <div className="row px-2 mt-3">
                       <div className="col-lg-6 w-100">
                         <div className={`d-flex flex-wrap align-items-center gap-5 ${style.parent}`}>

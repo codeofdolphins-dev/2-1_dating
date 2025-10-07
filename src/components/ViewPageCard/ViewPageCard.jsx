@@ -65,7 +65,7 @@ const cardList = [
 
 const imageList = [img1, img2, img3, img4];
 
-const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime = false, userName, broadcastUser, setBroadcastUser }) => {
+const ViewPageCard = ({ index, userData, images = imageList, card = cardList, rawTimestamp, showFriendOptions, deleteOption = false, deleteUser, likeIcon = false, refresh, setrefresh, handleeDeleteFunction, showRemembered = true, showlikeDislike = true, showTime = false, userName, broadcastUser, setBroadcastUser, checkbox = false }) => {
   const navigate = useNavigate();
 
   const [swiperInstance, setSwiperInstance] = useState(null);
@@ -283,22 +283,31 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
                 </div>
                 &nbsp; &nbsp;
                 {/* Right side: checkbox */}
-                <div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="checkChecked"
-                      checked={broadcastUser?.includes(card._id)}
-                      onChange={() => setBroadcastUser((prev) => (
-                        [
-                          ...prev,
-                          card?._id
-                        ]
-                      ))}
-                    />
+                {
+                  checkbox && <div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id={`check-${card?._id}`}
+                        checked={broadcastUser?.includes(card?._id)}
+                        onChange={() => {
+                          setBroadcastUser((prev) => {
+                            if (prev.includes(card?._id)) {
+                              // 🔹 Remove the ID if it's already selected
+                              return prev.filter((id) => id !== card?._id);
+                            } else {
+                              // 🔹 Add the ID if not selected
+                              return [...prev, card?._id];
+                            }
+                          });
+                        }}
+                      />
+
+                    </div>
                   </div>
-                </div>
+                }
+
               </div>
 
 

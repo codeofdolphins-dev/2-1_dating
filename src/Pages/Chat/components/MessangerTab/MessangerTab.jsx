@@ -124,7 +124,7 @@ const MessangerTab = () => {
 
                      
                      
-                     {  contact?.username?.charAt(0) || "U"}
+                     {contact?.username?.charAt(0) || "U"}
                     
                   </div>
 

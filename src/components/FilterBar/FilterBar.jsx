@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GrAnnounce } from "react-icons/gr";
+import { FaUserFriends } from "react-icons/fa";
 import "../../Pages/Front-screen-feed/Feed/feedStyle.css";
 
 
@@ -24,7 +25,7 @@ const filter = [
     "New Friends / Followers"
 ];
 
-const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, filterName2, showTab, pageName, distanceSlider = false, bottomForm, width = "250px", showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup = null, okButton = null, age, friendsFilterTopSearchBar, broadcastBtn }) => {
+const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, filterName2, showTab, pageName, distanceSlider = false, bottomForm, width = "250px", showDatePicker, showLocationForm, filterTypeName, navigationPageName1, navigationPageName2, navigationToAnotherPage, navigationToAnotherPage2, handleSpedDatePopup = null, handleFeaturePopup = null, okButton = null, age, friendsFilterTopSearchBar, broadcastBtn,frndReqButton,toggleButtonLabel }) => {
     const [activeTab, setActiveTab] = useState("feed");
     const [showGeneralFilter, setShowGeneralFilter] = useState(false);
     const [showFriendsFilter, setShowFriendsFilter] = useState(false);
@@ -285,6 +286,15 @@ const FilterBar = ({ filter1, filter2 = filter, checkbox = true, filterName1, fi
                                 className='d-flex justify-content-center align-items-center gap-2 border-0 bg-primary text-white rounded-3 px-3 py-0'
                             > <GrAnnounce /> <p className='mb-0'>Broadcast</p></button>
                         }
+
+                        {
+                            frndReqButton &&
+                            <button
+                                onClick={frndReqButton}
+                                className='d-flex justify-content-center align-items-center gap-2 border-0 bg-primary text-white rounded-3 px-3 py-0'
+                            > <FaUserFriends /> <p className='mb-0'>{toggleButtonLabel}</p></button>
+                        }
+                        
 
                         {/* Friend Filter Button */}
                         {

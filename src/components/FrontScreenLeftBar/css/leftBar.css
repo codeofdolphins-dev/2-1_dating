@@ -88,5 +88,20 @@
   border: 1px solid #343a40;
 }
 
+/* selected option  */
+.sidebar-link {
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.active-link {
+  background: var(--color-primary-green); /* 🔴 Highlight color */
+  color: #fff;
+  font-weight: bold;
+}
 
 
