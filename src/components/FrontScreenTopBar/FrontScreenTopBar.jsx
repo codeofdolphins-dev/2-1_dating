@@ -21,6 +21,9 @@ const FrontScreenTopBar = () => {
     const navigate = useNavigate()
     const [user, SetUser] = useState([])
 
+    const [showMenu, setShowMenu] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+
     //search state 
     const [search, setSearch] = useState("");
     // routesConfig.js
@@ -120,7 +123,10 @@ const FrontScreenTopBar = () => {
                                                 border: "none",
                                                 padding: "8px 12px",
                                             }}
-                                            onClick={() => navigate(`/profile?i=${u._id}`)} // ✅ Go to profile by ID
+                                            onClick={() => {
+                                                navigate(`/profile/${u._id}`)
+                                                setSearch("")
+                                            }} // ✅ Go to profile by ID
                                         >
                                             {/* ✅ Profile Image */}
                                             <img

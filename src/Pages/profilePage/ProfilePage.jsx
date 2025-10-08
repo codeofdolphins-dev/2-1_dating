@@ -87,6 +87,7 @@ const ProfilePage = () => {
 
     const [notsPopup, setNotesPopup] = useState(false)
     const [user, setUser] = useState("")
+    const [outherUserName,setOuterUserName] = useState()
 
     const [allProfileImg, setAllProfileImg] = useState([]);
     const [allAdultImg, setAllAdultImg] = useState([]);
@@ -139,7 +140,8 @@ const ProfilePage = () => {
         // fetchUserInfo
         httpService(`/users/${userId}`, "GET")
             .then((res) => {
-                console.log("profile img", res);
+                // console.log("profile img", user);
+                setOuterUserName(res?.data?.username)
                 setUser(res?.data?.profile);
                 setSubscription(res?.data?.subscription?.type)
                 console.log("userData", res?.data?.profile?.lookingFor)
@@ -148,6 +150,8 @@ const ProfilePage = () => {
             .catch((err) => {
                 console.error("Failed to fetch profile image:", err);
             });
+
+           
 
         // profile photos
         httpService(`/media-library/${userId}?type=image&source=profile`, "GET")
@@ -201,7 +205,7 @@ const ProfilePage = () => {
             });
     }, [userId]);
 
-
+    console.log("userInfo",user)
 
     const handleActionClick = async (label) => {
         if (label === "Notes") {
@@ -283,7 +287,7 @@ const ProfilePage = () => {
                                 <div className="px-2 rounded-4 text-white" style={{ backgroundColor: "var(--color-border)" }}>
                                     <div className="mb-4">
                                         <h5 className="fw-bold fs-2 d-flex align-items-center gap-2">
-                                            {username || user} <span className="text-warning">★</span>
+                                            {} {outherUserName ? outherUserName : username || user} <span className="text-warning">★</span>
                                             <BsThreeDotsVertical style={{ cursor: "pointer" }} onClick={() => setShow(true)} />
                                         </h5>
                                         <ProfileReportPopup userId={userId} username={username} show={show} setShow={setShow} />

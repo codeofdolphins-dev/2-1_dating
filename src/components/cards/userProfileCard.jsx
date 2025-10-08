@@ -7,7 +7,8 @@ import male from "./Images/male.png";
 import female from "./Images/female.png";
 import couple from "./Images/couple.png";
 
-const UserProfileCard = () => {
+const UserProfileCard = ({dataSecondUserId,dataFirstUserId}) => {
+  console.log("vvv",dataSecondUserId)
   return (
     <>
       <div
@@ -20,7 +21,7 @@ const UserProfileCard = () => {
         <div className="row g-0 h-100">
           <div className="col-md-4">
             <img
-              src={profileImg}
+              src={dataSecondUserId?.profile?.photos[0] || dataFirstUserId?.profile?.photos[0]}
               className="img-fluid rounded-start h-100 w-100 object-fit-cover"
               alt="Card visual"
             />
@@ -30,7 +31,7 @@ const UserProfileCard = () => {
               <div>
                 <div className="d-flex justify-content-between text-white">
                   <div className="d-flex">
-                    <div>CPLSUEPAUL</div>
+                    <div>{dataSecondUserId?.username}</div>
                     <div>
                       <img src={star} height={20} alt="" srcset="" />
                     </div>

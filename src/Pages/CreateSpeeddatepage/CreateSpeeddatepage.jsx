@@ -36,9 +36,11 @@ const CreateSpeeddatepage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setSubmitedData({
+    const lowerCasePreferredWith = lookingFor.map(item => item.toLowerCase());
+
+    const payload = {
       type: selectedOption,
-      preferredWith: lookingFor,
+      preferredWith: lowerCasePreferredWith, // 👈 lowercase applied here
       where,
       details,
       startDate: formatted.split(" to ")[0],
@@ -51,7 +53,10 @@ const CreateSpeeddatepage = () => {
           fullAddress: "Marine Drive, Mumbai"
         }
       },
-    });
+    };
+
+    setSubmitedData(payload);
+    console.log("submited data",submitedData)
 
     const token = sessionStorage.getItem("jwtToken");
     const config = {
@@ -61,15 +66,15 @@ const CreateSpeeddatepage = () => {
       }
     };
 
-    console.log(submitedData);    
+    axios.post(`${apiUrl}/speed-dates`, payload, config)
+      .then((res) => {
+        console.log("✅ speedDate res", res);
+      })
+      .catch((err) => {
+        console.log("❌ error", err);
+      });
+  };
 
-    axios.post(`${apiUrl}/speed-dates`, submitedData, config)
-    .then((res) => {
-    })
-    .catch((err) => {
-      console.error(err)
-    })
-  }
 
   return (
     <div className="client-page-background text-white">
