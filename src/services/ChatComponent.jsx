@@ -250,8 +250,8 @@ const ChatComponent = ({ receiverId, otherUserName }) => {
     }
   }, [receiverId]);
 
-  fetchConversation();
   useEffect(() => {
+    fetchConversation();
   }, [fetchConversation]);
 
   /** 🔹 WebSocket setup */

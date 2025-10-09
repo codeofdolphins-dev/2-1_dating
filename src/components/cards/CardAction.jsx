@@ -1,6 +1,19 @@
 import React from "react";
+import httpService from "../../helper/httpService";
 
-const CardAction = () => {
+const CardAction = ({ data }) => {
+  console.log("info show", data)
+
+  const handleAcceptFriendRequest = () => {
+    httpService(`/friend-requests/${data?.relatedUserId?._id}/respond`, "PUT", { "action": "accept" })
+      .then((res) => {
+        console.log("friend request", res)
+      })
+      .catch((err) => {
+        console.log("friend request", err)
+      })
+  }
+
   return (
     <div
       className="text-white  p-2 rounded d-flex flex-column align-center justify-content-center h-100"
@@ -14,6 +27,7 @@ const CardAction = () => {
           type="button"
           className="btn btn-primary rounded-pill "
           style={{ padding: "5px 120px" }}
+          onClick={handleAcceptFriendRequest}
         >
           Accept
         </button>
