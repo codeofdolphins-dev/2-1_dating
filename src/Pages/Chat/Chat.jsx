@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaSearch,
   FaEllipsisH,
@@ -24,44 +24,38 @@ import GroupMessangerTab from "./components/GroupMessangerTab/GroupMessangerTab"
 import ChatComponent from "../../services/ChatComponent"
 import { useAuth } from "../../context/AuthContextAPI";
 import GroupChatComponent from "../../services/GroupChatComponent";
+import WebSocketService from "../../services/websocket";
+import { useWebSocket } from "../../hooks/useWebSocket";
+// import WebSocketService from './services/websocket';
+
 
 const Chat = () => {
-  const {messagereceiverId,groupMessageId} =useAuth()
+  const { messagereceiverId, groupMessageId } = useAuth()
   // const [message, setMessage] = useState("");
   // const [users, Setusers] = useState([])
 
-  // const contacts = [
-  //   { id: 1, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-  //   { id: 2, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-  //   { id: 3, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-  //   { id: 4, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-  //   { id: 5, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false },
-  //   { id: 6, name: "JUSTONCE", message: "Hello guys. We are an easy going couple", time: "40min", online: true, unread: false }
-  // ];
 
   const [showPopup, setShowPopup] = useState(false)
-  // const [selected, setSelected] = useState(["Viewed me"]);
-  // const handleToggle = (label) => {
-  //   setSelected((prev) =>
-  //     prev.includes(label)
-  //       ? prev.filter((item) => item !== label)
-  //       : [...prev, label]
-  //   );
-  // };
+  
+  const websocket = useWebSocket();
 
-  // const filter = [
-  //   "Latest",
-  //   "Online",
-  //   "Unread",
-  //   "Sent",
-  //   "Archive"
-  // ];
 
-  const [activeTab, setActiveTab] = useState("group");
+  // useEffect(() => {
+  //     if (token) {
+  //       WebSocketService.connect(token);
+  //     }
+
+  //     return () => {
+  //       WebSocketService.disconnect();
+  //     };
+  //   }, [token]);
+
+
+  const [activeTab, setActiveTab] = useState("messanger");
   const renderContent = () => {
     switch (activeTab) {
       case "messanger":
-        return <MessangerTab />
+        return <MessangerTab websocket={websocket} />
       case "group":
         return <GroupMessangerTab />
       default:
@@ -69,8 +63,8 @@ const Chat = () => {
     }
   };
 
- 
-  console.log("taking user id for message",messagereceiverId)
+
+  console.log("taking user id for message", messagereceiverId)
 
 
   return (
@@ -105,19 +99,6 @@ const Chat = () => {
                             border: "2px solid #343A40",
                           }}
                         >
-                          {/* {filter.map((label) => (
-                            <div key={label}>
-                              <label className="form-check d-flex align-items-center mb-2">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input me-2"
-                                  checked={selected.includes(label)}
-                                  onChange={() => handleToggle(label)}
-                                />
-                                <span className="text-white">{label}</span>
-                              </label>
-                            </div>
-                          ))} */}
                         </div>
                       </div>
                     )}
@@ -156,7 +137,7 @@ const Chat = () => {
                 <button
                   className={`nav-link flex-fill ${activeTab === "messanger" ? "active" : ""}`}
                   onClick={() => setActiveTab("messanger")}
-                  >Messenger</button>
+                >Messenger</button>
                 <button
                   className={`nav-link flex-fill ${activeTab === "group" ? "active" : ""}`}
                   onClick={() => setActiveTab("group")}
@@ -168,88 +149,10 @@ const Chat = () => {
             <div className="mt-3 w-100">{renderContent()}</div>
 
           </div>
-
-          {/* Chat Area */}
-          {/* <div className="col-md-8 col-lg-9 chat-area d-flex flex-column h-100 px-3 py-5 position-relative">
-
-            <div className="chat-header p-3 border-bottom">
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex align-items-center">
-                  <div className="position-relative">
-                    <div className="avatar-sm">
-                      <span className="text-white fw-bold">J</span>
-                    </div>
-                    <div className="online-indicator-sm"></div>
-                  </div>
-                  <div className="ms-3">
-                    <h6 className="text-white mb-0">JUSTONCE</h6>
-                  </div>
-                </div>
-                <div className="d-flex align-items-center">
-                  <button className="btn btn-icon me-2">
-                    <FaPhone className="icon-sm" />
-                  </button>
-                  <button className="btn btn-icon me-2">
-                    <FaVideo className="icon-sm" />
-                  </button>
-                  <button className="btn btn-icon">
-                    <FaEllipsisH className="icon-sm" style={{ transform: "rotate(90deg)" }} />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            
-            <div style={{ height: "100vh", overflowX: "auto" }}>
-              
-              <div className="p-3 d-flex gap-2 align-items-center">
-                <div className="message-bubble bg-success text-dark rounded-pill px-4" style={{ maxWidth: "60%" }}>
-                  <p className="mb-0">Please add us to the USA DESI CPL group</p>
-                  <span className="message-time small text-white">Mar 13, 2024 • 2 days</span>
-                </div>
-                <FaEllipsisH className="icon-sm" style={{ transform: "rotate(90deg)" }} />
-              </div>
-
-              
-              <div className="p-3 d-flex justify-content-end align-items-center gap-2">
-                <FaEllipsisH className="icon-sm" style={{ transform: "rotate(90deg)" }} />
-                <div className="message-bubble bg-primary text-white rounded-pill px-4" style={{ maxWidth: "60%" }}>
-                  <p className="mb-0">Sure! I’ll add you to the group now.</p>
-                  <span className="message-time small text-light">Mar 13, 2024 • 2 days</span>
-                </div>
-              </div>
-            </div>
-
-            
-            <div className="message-input p-3">
-              <div className="d-flex align-items-center">
-                <div className="flex-grow-1">
-                  <div className="d-flex align-items-center rounded-pill px-3 py-2 bg-light">
-                    <Form.Control
-                      type="text"
-                      placeholder="Type your message here"
-                      className="border-0 bg-transparent flex-grow-1"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                    />
-                    <BsEmojiSmile className="text-secondary me-3 fs-5" role="button" title="Emoji" />
-                    <BsSend className="text-primary fs-5" role="button" title="Send" />
-                  </div>
-                </div>
-                <button className="btn btn-secondary btn-circle mx-2">
-                  <FaMicrophone />
-                </button>
-                <button className="btn btn-danger btn-circle">
-                  <FaPlus />
-                </button>
-              </div>
-            </div>
-          </div> */}
           {
-            activeTab ==="messanger" ? <ChatComponent receiverId={messagereceiverId}  /> : activeTab ==="group" &&
-            <GroupChatComponent groupMessageId={groupMessageId}/>
+            activeTab === "messanger" ? <ChatComponent receiverId={messagereceiverId} websocket={websocket} /> : activeTab === "group" && <GroupChatComponent groupMessageId={groupMessageId} />
           }
-            
+
 
         </div>
       </div>

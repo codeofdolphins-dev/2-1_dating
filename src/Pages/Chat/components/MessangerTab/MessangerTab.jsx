@@ -5,7 +5,7 @@ import { useAuth } from "../../../../context/AuthContextAPI";
 import { useWebSocket } from "../../../../hooks/useWebSocket";
 import { getUsersLatstMessage } from "../../../../helper/getUsersLatstMessage";
 
-const MessangerTab = () => {
+const MessangerTab = ({ websocket }) => {
   const {
     setMessageReceiverId,
     setMessageReceiverName,
@@ -15,7 +15,7 @@ const MessangerTab = () => {
 
   const [selectedChat, setSelectedChat] = useState(null);
   const [contacts, setContacts] = useState([]);
-  const websocket = useWebSocket();
+  // const websocket = useWebSocket();
 
   /** 🔹 Fetch contacts with latest message once on mount */
   useEffect(() => {
