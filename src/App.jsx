@@ -73,8 +73,8 @@ import CreatePrivateParty from './Pages/CreatePrivateParty/CreatePrivateParty';
 import ProfileRemembered from './Pages/ProfileRemembered/ProfileRemembered';
 import OtherUserFriendListpage from './Pages/OtherUserFriendListpage/OtherUserFriendListpage';
 import { useEffect, useState } from 'react';
-import { useAuth } from './context/AuthContextAPI';
-import WebSocketService from './services/websocket';
+// import { useAuth } from './context/AuthContextAPI';
+// import WebSocketService from './services/websocket';
 import IndividualGroup from './Pages/IndividualGroup/IndividualGroup';
 import Chat from './Pages/Chat/Chat';
 import GlobalFriendList from './Pages/GlobalFriendList/GlobalFriendList';
@@ -89,18 +89,18 @@ import CurrentUserSubscriptionPlan from './Pages/CurrentUserSubscriptionPlan/Cur
 
 
 function App() {
-  const { token } = useAuth();
+  // const { token } = useAuth();
   const [userLang, setUserLang] = useState("en");
 
-  useEffect(() => {
-    if (token) {
-      WebSocketService.connect(token);
-    }
+  // useEffect(() => {
+  //   if (token) {
+  //     WebSocketService.connect(token);
+  //   }
 
-    return () => {
-      WebSocketService.disconnect();
-    };
-  }, [token]);
+  //   return () => {
+  //     WebSocketService.disconnect();
+  //   };
+  // }, [token]);
 
 
   useEffect(() => {

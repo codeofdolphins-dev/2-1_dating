@@ -11,10 +11,10 @@ export const useWebSocket = () => {
       // Connect when user is authenticated
       WebSocketService.connect(token);
 
-      return () => {
-        // Cleanup on unmount
-        WebSocketService.disconnect();
-      };
+      // return () => {
+      //   // Cleanup on unmount
+      //   WebSocketService.disconnect();
+      // };
     }
   }, [token, user]);
 
