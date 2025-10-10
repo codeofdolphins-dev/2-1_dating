@@ -208,7 +208,7 @@ const ProfileFriendsPage = () => {
                     userName={
                       userData?.username || userData?.senderId?.username
                     }
-                    images={userData?.senderId?.profile?.photos}
+                    images={userData?.profile?.photos}
                     index={index}
                     showFriendOptions={true}
                     timestamp={false}

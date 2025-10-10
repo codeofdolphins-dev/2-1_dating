@@ -47,6 +47,7 @@ import { useAuth } from "../../context/AuthContextAPI";
 import AgeCalculator from "../../helper/DobCalculator";
 import CustomCouple from "../../assets/icons/couple_custom.png"
 import GlobalImageCarouselPopup from "../globalImageCarouselPopup/GlobalImageCarouselPopup";
+import { GLOBAL_DEMO_IMAGE_URL } from "../../demoImageConfig";
 
 // 📌 Add locale setup once
 // TimeAgo.addDefaultLocale(en);
@@ -207,22 +208,37 @@ const ViewPageCard = ({ index, userData, images = imageList, card = cardList, ra
               slidesPerView={1}
               onSwiper={setSwiperInstance}
             >
-              {(images && images.length > 0 ? images : []).map((img, idx) => (
-                <SwiperSlide key={idx}>
+              {Array.isArray(images) && images.length > 0 ? (
+                images.map((img, idx) => (
+                  <SwiperSlide key={idx}>
+                    <img
+                      src={img?.url ?? img ?? GLOBAL_DEMO_IMAGE_URL}
+                      alt={`Slide ${idx}`}
+                      className="w-100"
+                      onClick={() => setShowGallery(true)}
+                      style={{
+                        objectFit: "cover",
+                        height: "260px",
+                        borderRadius: "12px",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </SwiperSlide>
+                ))
+              ) : (
+                <SwiperSlide>
                   <img
-                    src={img?.url || img}
-                    alt={`Slide ${idx}`}
+                    src={GLOBAL_DEMO_IMAGE_URL}
+                    alt="Default"
                     className="w-100"
-                    onClick={() => setShowGallery(true)}
                     style={{
                       objectFit: "cover",
                       height: "260px",
                       borderRadius: "12px",
-                      cursor: "pointer",
                     }}
                   />
                 </SwiperSlide>
-              ))}
+              )}
             </Swiper>
           </div>
 
