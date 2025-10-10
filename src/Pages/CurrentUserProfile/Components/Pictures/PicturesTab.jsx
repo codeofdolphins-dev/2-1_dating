@@ -322,9 +322,18 @@ const PicturesTab = () => {
         </p>
       </div>
 
-      <CurrentUserPohotoPostAdult />
+      <div className="row">
+        <div className="col-lg-6">
+          <CurrentUserPohotoPostAdult />
+        </div>
+
+         <div className="col-lg-6">
+          <CurrentUserPhotoPostNonAdult />
+        </div>
+      </div>
+      
       <br />
-      <CurrentUserPhotoPostNonAdult />
+      
       <ToastContainer />
     </>
   );

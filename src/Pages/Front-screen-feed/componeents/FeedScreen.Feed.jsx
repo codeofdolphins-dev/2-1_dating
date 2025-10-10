@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import httpService from "../../../helper/httpService";
 
 // Components
@@ -7,34 +7,52 @@ import UserProfileCard from "../../../components/cards/UserProfileCard";
 import CardAction from "../../../components/cards/CardAction";
 import GroupDetailsCard from "../../../components/cards/GroupDetailsCard";
 import EventInformationCard from "../../../components/cards/EventInformationCard";
-import JoinRequestCard from "../../../components/cards/JoinRequestCard";
-import ActivityCard from "../../../components/cards/ActivityCard";
+import FeedNotificationCard from "../../../components/FeedNotificationCard/FeedNotificationCard";
+import PaginationWithSelector from "../../../components/Pagination/PaginationWithSelector";
+import OverlayLoader from "../../../helper/OverlayLoader";
+import { useAuth } from "../../../context/AuthContextAPI";
 
 // Images
 import yelloMiddleLogo from "../../../assets/cardImgs/Images/middle-logo-yellow.png";
 import likeLogo from "../../../assets/cardImgs/Images/like.png";
 import peopleLogo from "../../../assets/cardImgs/Images/middle-logo.png";
 import partyLogo from "../../../assets/cardImgs/Images/party.png";
-import OverlayLoader from "../../../helper/OverlayLoader";
 
 const FeedScreen = () => {
+  const { globalToggle } = useAuth();
   const [feedData, setFeedData] = useState([]);
-  const [show, setShow] = useState(true)
-  useEffect(() => {
-    httpService("/feed", "GET")
+  const [show, setShow] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [totalCount, setTotalCount] = useState(0);
+  const [apiTotalPages, setApiTotalPages] = useState(0);
+
+  // ✅ Fix: useCallback to avoid re-creating function
+  const fetchFeed = useCallback(() => {
+    setShow(true);
+    httpService(`/feed?page=${currentPage}&limit=${itemsPerPage}`, "GET")
       .then((res) => {
-        console.log("Feed data:", res?.data);
-        setFeedData(res?.data || []);
+        console.log("Feed data:", res);
+        const responseData = res?.data || [];
+        setFeedData(responseData?.data || responseData);
+        setTotalCount(res?.data?.meta?.pagination?.total || 0);
+        setApiTotalPages(res?.data?.meta?.pagination?.pageCount || 0);
       })
       .catch((err) => {
         console.error("Error fetching feed:", err);
       })
       .finally(() => {
-        setShow(false)
-      })
-  }, []);
+        setShow(false);
+      });
+  }, [currentPage, itemsPerPage, globalToggle]);
 
-  // Format timestamp -> "08 hours, 24 min"
+  // ✅ Fetch on mount and when dependencies change
+  useEffect(() => {
+    fetchFeed();
+  }, [fetchFeed]);
+
+  // ✅ Format timestamp -> "08 hours, 24 min"
   const getTimeDifference = (timestamp) => {
     if (!timestamp) return "Just now";
 
@@ -42,21 +60,22 @@ const FeedScreen = () => {
     const past = new Date(timestamp);
     const diffMs = now - past;
 
-    if (diffMs < 0) return "Just now"; // safeguard for future timestamps
+    if (diffMs < 0) return "Just now";
 
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const diffHours = Math.floor(
+      (diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
     if (diffDays > 0) {
-      return diffDays === 1
-        ? `${diffDays} day`
-        : `${diffDays} days`;
+      return diffDays === 1 ? `${diffDays} day` : `${diffDays} days`;
     }
 
-    return `${String(diffHours).padStart(2, "0")} hours, ${String(diffMinutes).padStart(2, "0")} min`;
+    return `${String(diffHours).padStart(2, "0")} hours, ${String(
+      diffMinutes
+    ).padStart(2, "0")} min`;
   };
-
 
   return (
     <>
@@ -66,14 +85,15 @@ const FeedScreen = () => {
           <p className="text-center text-white">No feed items available.</p>
         ) : (
           feedData.map((data, index) => {
-            console.log("Feed item:", data);
-
             switch (data?.type) {
               case "like_received":
                 return (
                   <CardContainer
                     key={index}
-                    headerText={data?.title || `${data?.relatedUserId?.username || "Someone"} liked your post`}
+                    headerText={
+                      data?.title ||
+                      `${data?.relatedUserId?.username || "Someone"} liked your post`
+                    }
                     dateText={getTimeDifference(data?.createdAt)}
                     middleIcon={likeLogo}
                   >
@@ -92,16 +112,23 @@ const FeedScreen = () => {
                 return (
                   <CardContainer
                     key={index}
-                    headerText={data?.title || "New Friend Request"}
+                    headerText={data?.message || "New Friend Request"}
                     dateText={getTimeDifference(data?.createdAt)}
                     middleIcon={yelloMiddleLogo}
                   >
                     <div className="row g-3">
                       <div className="col-md-6">
-                        <UserProfileCard dataFirstUserId={data?.relatedUserId} />
+                        <UserProfileCard
+                          dataFirstUserId={data?.relatedUserId}
+                          metaData={data?.metadata}
+                        />
                       </div>
                       <div className="col-md-6">
-                        <CardAction data={data} />
+                        <CardAction
+                          data={data}
+                          friendRequestId={data?.metadata?.friendRequestId}
+                          feedId={data?._id}
+                        />
                       </div>
                     </div>
                   </CardContainer>
@@ -111,7 +138,7 @@ const FeedScreen = () => {
                 return (
                   <CardContainer
                     key={index}
-                    headerText={data?.title || "New Friend Request"}
+                    headerText={data?.title || "Friend Request Accepted"}
                     dateText={getTimeDifference(data?.createdAt)}
                     middleIcon={yelloMiddleLogo}
                   >
@@ -120,31 +147,32 @@ const FeedScreen = () => {
                         <UserProfileCard dataFirstUserId={data} />
                       </div>
                       <div className="col-md-6">
-                        <UserProfileCard dataSecondUserId={data?.relatedUserId} />
+                        <UserProfileCard
+                          dataSecondUserId={data?.relatedUserId}
+                          feedId={data?._id}
+                        />
                       </div>
                     </div>
                   </CardContainer>
                 );
 
-              // Example placeholders for future feed types
               case "group_joined":
                 return (
-                  <>
-                    <CardContainer
-                      headerText={data?.title || "Joined a group"}
-                      dateText={getTimeDifference(data?.createdAt)}
-                      middleIcon={peopleLogo}
-                    >
-                      <div className="row g-3">
-                        <div className="col-md-6">
-                          <UserProfileCard />
-                        </div>
-                        <div className="col-md-6">
-                          <GroupDetailsCard data={data} joinButton={false}/>
-                        </div>
+                  <CardContainer
+                    key={index}
+                    headerText={data?.title || "Joined a group"}
+                    dateText={getTimeDifference(data?.createdAt)}
+                    middleIcon={peopleLogo}
+                  >
+                    <div className="row g-3">
+                      <div className="col-md-6">
+                        <UserProfileCard />
                       </div>
-                    </CardContainer>
-                  </>
+                      <div className="col-md-6">
+                        <GroupDetailsCard data={data} joinButton={false} />
+                      </div>
+                    </div>
+                  </CardContainer>
                 );
 
               case "event_invite":
@@ -159,17 +187,43 @@ const FeedScreen = () => {
                   </CardContainer>
                 );
 
+              case "profile_view":
+              case "new_post":
+              case "system_announcement":
+                return (
+                  <FeedNotificationCard
+                    key={index}
+                    notification={{
+                      type: data?.type,
+                      title: data?.title,
+                      message: data?.message,
+                      isRead: data?.isRead || false,
+                      createdAt: getTimeDifference(data?.createdAt),
+                    }}
+                  />
+                );
+
               default:
                 return null;
             }
           })
         )}
+
+        <PaginationWithSelector
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          totalCount={totalCount}
+          apiTotalPages={apiTotalPages}
+        />
       </div>
     </>
   );
 };
 
 export default FeedScreen;
+
 
 
 

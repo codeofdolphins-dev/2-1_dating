@@ -20,13 +20,13 @@ const InviteFriend = () => {
           style={{ backgroundColor: "var(--color-background)" }}
         >
           {/* navigation */}
-          <div className="d-flex justify-content-start align-items-center gap-3">
+          {/* <div className="d-flex justify-content-start align-items-center gap-3">
             <i
               className="bi bi-chevron-left fs-5 back-icon"
               onClick={() => navigate("/two-plus-one")}
             ></i>
             <h4 className="text-white mb-0">Search</h4>
-          </div>
+          </div> */}
 
           <p className="mt-3" style={{ opacity: "0.75" }}>
             Grow your network by inviting friends to join 2+1! Share your unique

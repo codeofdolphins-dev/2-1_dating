@@ -162,7 +162,7 @@ const CurrentUserPhotoPostNonAdult = () => {
 
         {/* Sub-header */}
         <div className="mb-3">
-          <p className="text-info fw-bold mb-1">ADULT</p>
+          <p className="text-info fw-bold mb-1">NON-ADULT</p>
           <small className="text-white">
             Nude or suggestive pictures that will appear exclusively on our 2+1 website due to app store rules prohibiting adult photos.
           </small>

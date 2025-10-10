@@ -1,19 +1,21 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import { IoClose } from "react-icons/io5"; // Close icon (optional)
+import { IoClose } from "react-icons/io5";
 
 const WarningPopup = ({
-  text = "Are You Sure ?",
+  text = "Are you sure?",
   setWarningShowPopup,
   warningShowPopup,
-  onConfirm, // <-- add callback for YES
-  setIsBlock
+  onConfirm, // Callback for YES button
+  setIsBlock, // Optional: function to toggle block state
 }) => {
   const handleClose = () => setWarningShowPopup(false);
 
-  const handlSubmit = () =>{
-    setIsBlock(true)
-  }
+  const handleSubmit = () => {
+    if (typeof setIsBlock === "function") setIsBlock(true);
+    if (typeof onConfirm === "function") onConfirm();
+    handleClose();
+  };
 
   return (
     <Modal show={warningShowPopup} onHide={handleClose} centered>
@@ -25,7 +27,12 @@ const WarningPopup = ({
         <Modal.Title className="text-white text-center flex-grow-1 m-0">
           Warning
         </Modal.Title>
-
+        <IoClose
+          size={24}
+          color="white"
+          style={{ cursor: "pointer" }}
+          onClick={handleClose}
+        />
       </Modal.Header>
 
       {/* Body */}
@@ -33,7 +40,6 @@ const WarningPopup = ({
         style={{
           backgroundColor: "var(--color-border)",
           color: "white",
-          //   border: 0,
         }}
         className="text-center"
       >
@@ -62,11 +68,7 @@ const WarningPopup = ({
           </Button>
           <Button
             variant="link"
-            onClick={() => {
-              if (onConfirm) onConfirm();
-              handlSubmit();
-              handleClose()
-            }}
+            onClick={handleSubmit}
             className="flex-fill rounded-0 text-primary"
             style={{ textDecoration: "none" }}
           >
