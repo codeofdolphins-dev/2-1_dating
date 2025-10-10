@@ -63,14 +63,14 @@ function createWebSocketService() {
     socket.off("group_user_inactive");
     socket.off("group_message_mention");
 
-    socket.on("new_group_message", (data) => console.log("New group message:", data));
-    socket.on("group_joined", (data) => console.log("Joined group:", data));
-    socket.on("group_left", (data) => console.log("Left group:", data));
-    socket.on("group_typing_start", (data) => console.log("User typing in group:", data));
-    socket.on("group_typing_stop", (data) => console.log("User stopped typing in group:", data));
-    socket.on("group_user_active", (data) => console.log("User active in group:", data));
-    socket.on("group_user_inactive", (data) => console.log("User inactive in group:", data));
-    socket.on("group_message_mention", (data) => console.log("Mentioned in group message:", data));
+    // socket.on("new_group_message", (data) => console.log("New group message:", data));
+    // socket.on("group_joined", (data) => console.log("Joined group:", data));
+    // socket.on("group_left", (data) => console.log("Left group:", data));
+    // socket.on("group_typing_start", (data) => console.log("User typing in group:", data));
+    // socket.on("group_typing_stop", (data) => console.log("User stopped typing in group:", data));
+    // socket.on("group_user_active", (data) => console.log("User active in group:", data));
+    // socket.on("group_user_inactive", (data) => console.log("User inactive in group:", data));
+    // socket.on("group_message_mention", (data) => console.log("Mentioned in group message:", data));
   };
 
   /** 🔹 Disconnect */
@@ -146,7 +146,7 @@ function createWebSocketService() {
   };
 
   const sendGroupMessage = (groupId, messageData) => {
-    console.log("messagedata", messageData)
+    // console.log("messagedata", messageData)
     if (isSocketConnected()) {
       socket.emit("send_group_message", {
         groupId,
@@ -156,18 +156,18 @@ function createWebSocketService() {
         fileName: messageData.fileName,
         fileSize: messageData.fileSize,
         replyTo: messageData.replyTo,
-        mentions: messageData.mentions || [],
+        mentions: messageData.mentions || []
       });
     }
   };
 
 
-  const startGroupTyping = (groupId) => {
-    if (isSocketConnected()) socket.emit("group_typing_start", { groupId });
+  const startGroupTyping = (groupId, data) => {
+    if (isSocketConnected()) socket.emit("group_typing_start", { groupId, data });
   };
 
-  const stopGroupTyping = (groupId) => {
-    if (isSocketConnected()) socket.emit("group_typing_stop", { groupId });
+  const stopGroupTyping = (groupId, data) => {
+    if (isSocketConnected()) socket.emit("group_typing_stop", { groupId, data });
   };
 
   return {

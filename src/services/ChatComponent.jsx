@@ -28,19 +28,18 @@ const ChatComponent = ({ receiverId, otherUserName, websocket }) => {
     } catch (err) {
       console.error('❌ Failed to load conversation:', err);
     }
-  }, [receiverId]);
+  }, []);
 
   useEffect(() => {
     fetchConversation();
-  }, [fetchConversation]);
+  }, [receiverId]);
 
   /** 🔹 WebSocket setup */
 
   /** Handle new personal message */
-  const handleNewPersonalMessage = useCallback((message) => {
+  const handleNewPersonalMessage = useCallback((message) => {    
     const senderId = typeof message.senderId === 'object' ? message.senderId._id : message.senderId;
-    const receiverIdFromMsg =
-      typeof message.receiverId === 'object' ? message.receiverId._id : message.receiverId;
+    const receiverIdFromMsg = typeof message.receiverId === 'object' ? message.receiverId._id : message.receiverId;
 
     if (
       (senderId === myUserId && receiverIdFromMsg === receiverId) ||
@@ -52,10 +51,6 @@ const ChatComponent = ({ receiverId, otherUserName, websocket }) => {
 
   const handleUserTypingStart = useCallback((data) => {
     // setTypingUser(true);
-
-    console.log(data);
-    return
-
 
     const senderId =
       data?.userId || data?.senderId || data?.from ||
@@ -105,15 +100,6 @@ const ChatComponent = ({ receiverId, otherUserName, websocket }) => {
     }
 
     socket.on('new_personal_message', handleNewPersonalMessage);
-
-    /** Handle typing */
-
-    // websocket.socket?.on('new_personal_message', handleNewPersonalMessage);
-
-    // socket.on('typing_start', () => {
-    //   console.log("start");
-    // });
-
     socket.on('typing_start', handleUserTypingStart);
     socket.on('typing_stop', handleUserTypingStop);
 
@@ -142,7 +128,6 @@ const ChatComponent = ({ receiverId, otherUserName, websocket }) => {
     if (!newMessage.trim()) return;
 
     const tempMessage = {
-      _id: Date.now(),
       senderId: myUserId,
       receiverId,
       content: newMessage,

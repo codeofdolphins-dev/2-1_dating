@@ -40,24 +40,13 @@ const Chat = () => {
   const websocket = useWebSocket();
 
 
-  // useEffect(() => {
-  //     if (token) {
-  //       WebSocketService.connect(token);
-  //     }
-
-  //     return () => {
-  //       WebSocketService.disconnect();
-  //     };
-  //   }, [token]);
-
-
-  const [activeTab, setActiveTab] = useState("messanger");
+  const [activeTab, setActiveTab] = useState("group");
   const renderContent = () => {
     switch (activeTab) {
       case "messanger":
         return <MessangerTab websocket={websocket} />
       case "group":
-        return <GroupMessangerTab />
+        return <GroupMessangerTab websocket={websocket} />
       default:
         return null;
     }
@@ -150,7 +139,7 @@ const Chat = () => {
 
           </div>
           {
-            activeTab === "messanger" ? <ChatComponent receiverId={messagereceiverId} websocket={websocket} /> : activeTab === "group" && <GroupChatComponent groupMessageId={groupMessageId} />
+            activeTab === "messanger" ? <ChatComponent receiverId={messagereceiverId} websocket={websocket} /> : activeTab === "group" && <GroupChatComponent groupMessageId={groupMessageId} websocket={websocket} />
           }
 
 

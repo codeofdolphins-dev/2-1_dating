@@ -3,14 +3,14 @@ import { FaEllipsisH } from "react-icons/fa";
 import { useAuth } from "../../../../context/AuthContextAPI";
 import httpService from "../../../../helper/httpService";
 // import { getLatestGroupMessage } from "../../../../helper/getLatestGroupMessage";
-import { useWebSocket } from "../../../../hooks/useWebSocket";
+// import { useWebSocket } from "../../../../hooks/useWebSocket";
 import { getLatestGroupMessage } from "../../../../helper/getLatestGroupMessage ";
 
-const GroupMessangerTab = () => {
+const GroupMessangerTab = ({ websocket }) => {
   const { setGroupMessageId, setGroupMessageName } = useAuth();
   const [selectedChat, setSelectedChat] = useState("");
   const [groups, setGroups] = useState([]);
-  const websocket = useWebSocket();
+  // const websocket = useWebSocket();
 
   /** 🔹 Fetch groups on mount */
   useEffect(() => {
@@ -87,9 +87,9 @@ const GroupMessangerTab = () => {
 
   return (
     <div className="chat-list flex-grow-1 overflow-auto">
-      {groups.map((group) => (
+      {groups.map((group, i) => (
         <div
-          key={group.id}
+          key={i}
           className={`chat-item p-3 ${
             selectedChat === group?.group?._id ? "active" : ""
           }`}

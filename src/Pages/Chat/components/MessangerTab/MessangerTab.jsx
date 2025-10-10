@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import httpService from "../../../../helper/httpService";
 import { useAuth } from "../../../../context/AuthContextAPI";
-import { useWebSocket } from "../../../../hooks/useWebSocket";
+// import { useWebSocket } from "../../../../hooks/useWebSocket";
 import { getUsersLatstMessage } from "../../../../helper/getUsersLatstMessage";
 
 const MessangerTab = ({ websocket }) => {
