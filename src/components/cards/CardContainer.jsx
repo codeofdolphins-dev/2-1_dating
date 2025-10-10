@@ -6,7 +6,7 @@ const CardContainer = ({children,headerText,dateText,middleIcon}) => {
         <>
             <div className="row" >
                 <div className="col-lg-12" >
-                    <div className="d-flex justify-content-between p-3">
+                    <div className="d-flex justify-content-between pt-4 pb-2 mt-3 ml-0">
                         <div>
                             <h6 className="text-white">
                                 {headerText}

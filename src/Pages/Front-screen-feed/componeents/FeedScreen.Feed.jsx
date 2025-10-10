@@ -1,78 +1,181 @@
-import CardContainer from "../../../components/cards/CardContainer";
-/* import BirthdayEventCard from "./cards/BirthdayEventCard.feed";
-import FriendConnectionCard from "./cards/FriendConnectionCard ";
-import UserJoinedCard from "./cards/GroupJoinCard.Feed";
+import { useEffect, useState } from "react";
+import httpService from "../../../helper/httpService";
 
-import GroupJoinCard from "./cards/GroupJoinCard.Feed";
-import GroupJoinCardNoImg from "./cards/GroupJoinCardNoImg"; */
-import UserProfileCard from "../../../components/cards/userProfileCard";
+// Components
+import CardContainer from "../../../components/cards/CardContainer";
+import UserProfileCard from "../../../components/cards/UserProfileCard";
 import CardAction from "../../../components/cards/CardAction";
 import GroupDetailsCard from "../../../components/cards/GroupDetailsCard";
 import EventInformationCard from "../../../components/cards/EventInformationCard";
 import JoinRequestCard from "../../../components/cards/JoinRequestCard";
 import ActivityCard from "../../../components/cards/ActivityCard";
 
-import yelloMiddleLogo from "../../../assets/cardImgs/Images/middle-logo-yellow.png"
-import likeLogo from "../../../assets/cardImgs/Images/like.png"
-import peopleLogo from "../../../assets/cardImgs/Images/middle-logo.png"
-import partyLogo from "../../../assets/cardImgs/Images/party.png"
-import { useEffect, useState } from "react";
-import httpService from "../../../helper/httpService";
+// Images
+import yelloMiddleLogo from "../../../assets/cardImgs/Images/middle-logo-yellow.png";
+import likeLogo from "../../../assets/cardImgs/Images/like.png";
+import peopleLogo from "../../../assets/cardImgs/Images/middle-logo.png";
+import partyLogo from "../../../assets/cardImgs/Images/party.png";
+import OverlayLoader from "../../../helper/OverlayLoader";
 
 const FeedScreen = () => {
-
-  const [feedData, setFeedData] = useState([])
-
+  const [feedData, setFeedData] = useState([]);
+  const [show, setShow] = useState(true)
   useEffect(() => {
     httpService("/feed", "GET")
       .then((res) => {
-        console.log("feed", res?.data)
-        setFeedData(res?.data)
+        console.log("Feed data:", res?.data);
+        setFeedData(res?.data || []);
       })
       .catch((err) => {
-        console.log("err", err)
+        console.error("Error fetching feed:", err);
       })
-  }, [])
+      .finally(() => {
+        setShow(false)
+      })
+  }, []);
 
-  function getTimeDifference(timestamp) {
+  // Format timestamp -> "08 hours, 24 min"
+  const getTimeDifference = (timestamp) => {
+    if (!timestamp) return "Just now";
+
     const now = new Date();
     const past = new Date(timestamp);
     const diffMs = now - past;
 
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    if (diffMs < 0) return "Just now"; // safeguard for future timestamps
+
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
+    if (diffDays > 0) {
+      return diffDays === 1
+        ? `${diffDays} day`
+        : `${diffDays} days`;
+    }
+
     return `${String(diffHours).padStart(2, "0")} hours, ${String(diffMinutes).padStart(2, "0")} min`;
-  }
+  };
+
 
   return (
     <>
+      <OverlayLoader show={show} />
       <div className="container py-4 z-0">
-        {
-          feedData.map((data, index) => (
-            data?.type === "like_received" && (
-              <CardContainer
-                key={index}
-                headerText={`${data?.relatedUserId?.username} gives you a like`}
-                dateText={`${getTimeDifference(data?.createdAt)}`}
-                middleIcon={likeLogo}
-              >
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <UserProfileCard dataFirstUserId={data} />
-                  </div>
-                  <div className="col-md-6">
-                    <UserProfileCard dataSecondUserId={data?.relatedUserId} />
-                  </div>
-                </div>
-              </CardContainer>
-            )
-          ))
-        }
+        {feedData.length === 0 ? (
+          <p className="text-center text-white">No feed items available.</p>
+        ) : (
+          feedData.map((data, index) => {
+            console.log("Feed item:", data);
+
+            switch (data?.type) {
+              case "like_received":
+                return (
+                  <CardContainer
+                    key={index}
+                    headerText={data?.title || `${data?.relatedUserId?.username || "Someone"} liked your post`}
+                    dateText={getTimeDifference(data?.createdAt)}
+                    middleIcon={likeLogo}
+                  >
+                    <div className="row g-3">
+                      <div className="col-md-6">
+                        <UserProfileCard dataSecondUserId={data?.relatedUserId} />
+                      </div>
+                      <div className="col-md-6">
+                        <UserProfileCard dataFirstUserId={data} />
+                      </div>
+                    </div>
+                  </CardContainer>
+                );
+
+              case "friend_request":
+                return (
+                  <CardContainer
+                    key={index}
+                    headerText={data?.title || "New Friend Request"}
+                    dateText={getTimeDifference(data?.createdAt)}
+                    middleIcon={yelloMiddleLogo}
+                  >
+                    <div className="row g-3">
+                      <div className="col-md-6">
+                        <UserProfileCard dataFirstUserId={data?.relatedUserId} />
+                      </div>
+                      <div className="col-md-6">
+                        <CardAction data={data} />
+                      </div>
+                    </div>
+                  </CardContainer>
+                );
+
+              case "friend_request_accepted":
+                return (
+                  <CardContainer
+                    key={index}
+                    headerText={data?.title || "New Friend Request"}
+                    dateText={getTimeDifference(data?.createdAt)}
+                    middleIcon={yelloMiddleLogo}
+                  >
+                    <div className="row g-3">
+                      <div className="col-md-6">
+                        <UserProfileCard dataFirstUserId={data} />
+                      </div>
+                      <div className="col-md-6">
+                        <UserProfileCard dataSecondUserId={data?.relatedUserId} />
+                      </div>
+                    </div>
+                  </CardContainer>
+                );
+
+              // Example placeholders for future feed types
+              case "group_joined":
+                return (
+                  <>
+                    <CardContainer
+                      headerText={data?.title || "Joined a group"}
+                      dateText={getTimeDifference(data?.createdAt)}
+                      middleIcon={peopleLogo}
+                    >
+                      <div className="row g-3">
+                        <div className="col-md-6">
+                          <UserProfileCard />
+                        </div>
+                        <div className="col-md-6">
+                          <GroupDetailsCard data={data} joinButton={false}/>
+                        </div>
+                      </div>
+                    </CardContainer>
+                  </>
+                );
+
+              case "event_invite":
+                return (
+                  <CardContainer
+                    key={index}
+                    headerText={data?.title || "Event Invitation"}
+                    dateText={getTimeDifference(data?.createdAt)}
+                    middleIcon={partyLogo}
+                  >
+                    <EventInformationCard data={data} />
+                  </CardContainer>
+                );
+
+              default:
+                return null;
+            }
+          })
+        )}
+      </div>
+    </>
+  );
+};
+
+export default FeedScreen;
 
 
-        {/* Group joined card */}
-        {/* <CardContainer
+
+
+{/* Group joined card */ }
+{/* <CardContainer
           headerText="CPLSUEPAUL has joined Georgia For Chocolate ??"
           dateText="Dec 12, 2024 | 24 Members"
           middleIcon={peopleLogo}
@@ -87,8 +190,8 @@ const FeedScreen = () => {
           </div>
         </CardContainer> */}
 
-        {/* Group Invitation card */}
-        {/* <CardContainer headerText="CLUBELATION would like you to join their event."
+{/* Group Invitation card */ }
+{/* <CardContainer headerText="CLUBELATION would like you to join their event."
           dateText="Dec 12, 2024 | 24 Members"
           middleIcon={yelloMiddleLogo}>
           <div className="row g-3">
@@ -101,8 +204,8 @@ const FeedScreen = () => {
           </div>
         </CardContainer> */}
 
-        {/* Group Invitation card */}
-        {/* <CardContainer headerText="MEMB3RSONLY would like you to join their event."
+{/* Group Invitation card */ }
+{/* <CardContainer headerText="MEMB3RSONLY would like you to join their event."
           dateText="Dec 12, 2024 | 24 Members"
           middleIcon={partyLogo}>
           <div className="row g-3">
@@ -115,8 +218,8 @@ const FeedScreen = () => {
           </div>
         </CardContainer> */}
 
-        {/* Birthday Card */}
-        {/* <CardContainer headerText="ANASDF2020 in your area has a birthday"
+{/* Birthday Card */ }
+{/* <CardContainer headerText="ANASDF2020 in your area has a birthday"
           dateText="08 hours, 22 min">
           <div className="row g-3">
             <div className="col-md-6">
@@ -128,8 +231,8 @@ const FeedScreen = () => {
           </div>
         </CardContainer> */}
 
-        {/* Friends/like card */}
-        {/* <CardContainer
+{/* Friends/like card */ }
+{/* <CardContainer
           headerText="AARAVMAYA and KEEPUGRINNING are friends"
           dateText="08 hours, 24 min"
           middleIcon={likeLogo}
@@ -144,8 +247,8 @@ const FeedScreen = () => {
           </div>
         </CardContainer> */}
 
-        {/* Travel date card */}
-        {/* <CardContainer headerText="ANASDF2020 is posted a travel date"
+{/* Travel date card */ }
+{/* <CardContainer headerText="ANASDF2020 is posted a travel date"
           dateText="08 hours, 22 min">
           <div className="row g-3">
             <div className="col-md-6">
@@ -157,8 +260,8 @@ const FeedScreen = () => {
           </div>
         </CardContainer> */}
 
-        {/* Certification Card */}
-        {/* <CardContainer
+{/* Certification Card */ }
+{/* <CardContainer
           headerText="AARAVMAYA   has certified KEEPUGRINNING"
           dateText="08 hours, 24 min"
         >
@@ -172,8 +275,8 @@ const FeedScreen = () => {
           </div>
         </CardContainer> */}
 
-        {/* Hotdate Card */}
-        {/* <CardContainer headerText="ANASDF2020 is posted a Hotdate"
+{/* Hotdate Card */ }
+{/* <CardContainer headerText="ANASDF2020 is posted a Hotdate"
           dateText="08 hours, 22 min">
           <div className="row g-3">
             <div className="col-md-6">
@@ -185,8 +288,8 @@ const FeedScreen = () => {
           </div>
         </CardContainer> */}
 
-        {/* Livestream Card */}
-        {/* <CardContainer headerText="ANASDF2020 started livestream"
+{/* Livestream Card */ }
+{/* <CardContainer headerText="ANASDF2020 started livestream"
           dateText="08 hours, 22 min">
           <div className="row g-3">
             <div className="col-md-6">
@@ -199,15 +302,9 @@ const FeedScreen = () => {
         </CardContainer> */}
 
 
-        {/* <UserProfileCard />
+{/* <UserProfileCard />
         {/* <GroupJoinCard />
         <GroupJoinCardNoImg/>
         <BirthdayEventCard />
         <FriendConnectionCard/> */}
-        {/* <EveentCard/> */}
-      </div>
-    </>
-  );
-};
-
-export default FeedScreen;
+{/* <EveentCard/> */ }

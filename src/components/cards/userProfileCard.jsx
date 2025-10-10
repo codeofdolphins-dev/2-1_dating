@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import profileImg from "./Images/Img.png";
 import star from "./Images/star.png";
 import pc from "./Images/pc.png";
@@ -6,9 +6,14 @@ import chat from "./Images/chat.png";
 import male from "./Images/male.png";
 import female from "./Images/female.png";
 import couple from "./Images/couple.png";
+import DeviceInfoPopup from "../../components/DeviceInfoPopup/DeviceInfoPopup"
 
 const UserProfileCard = ({dataSecondUserId,dataFirstUserId}) => {
-  console.log("vvv",dataSecondUserId)
+  const[showPopup,setShowPopup]=useState(false)
+  
+  const handleDeviceInfo = () =>{
+   setShowPopup(true)
+  }
   return (
     <>
       <div
@@ -31,7 +36,7 @@ const UserProfileCard = ({dataSecondUserId,dataFirstUserId}) => {
               <div>
                 <div className="d-flex justify-content-between text-white">
                   <div className="d-flex">
-                    <div>{dataSecondUserId?.username}</div>
+                    <div>{dataSecondUserId?.username || dataFirstUserId?.username}</div>
                     <div>
                       <img src={star} height={20} alt="" srcset="" />
                     </div>
@@ -39,7 +44,7 @@ const UserProfileCard = ({dataSecondUserId,dataFirstUserId}) => {
 
                   <div className="d-flex gap-2">
                     <div>
-                      <img src={pc} height={30} alt="" srcset="" />
+                      <img src={pc} height={30} alt="" srcset="" style={{cursor:"pointer"}} onClick={handleDeviceInfo}/>
                     </div>
                     <div>
                       <img src={chat} height={30} alt="" srcset="" />
@@ -117,6 +122,7 @@ const UserProfileCard = ({dataSecondUserId,dataFirstUserId}) => {
           </div>
         </div>
       </div>
+      <DeviceInfoPopup show={showPopup} setShow={setShowPopup}/>
     </>
   );
 };
