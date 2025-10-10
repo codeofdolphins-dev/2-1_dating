@@ -35,13 +35,13 @@ const GroupChatComponent = ({ groupMessageId, websocket }) => {
     // }, []);
 
     /** 🔹 Load conversation when group changes */
-    useEffect( () => {
+    useEffect(() => {
         try {
             if (groupMessageId) {
                 httpService(`/group-messages/${groupMessageId}`, "GET")
-                .then(data => {
-                    setMessages(data.data || []);
-                })
+                    .then(data => {
+                        setMessages(data.data || []);
+                    })
             }
         } catch (err) {
             console.error("❌ Failed to load conversation:", err);
@@ -62,12 +62,16 @@ const GroupChatComponent = ({ groupMessageId, websocket }) => {
     const handleNewGroupMessage = useCallback((message) => {
         console.log(message);
 
-        const groupId = message.groupId;        
+        const groupId = message.groupId;
         if (groupId === groupMessageId) {
-            setMessages((prev) => {    
+            setMessages((prev) => {
                 console.log(prev);
-                           
-                if ( prev.some((m) => m._id === message.message._id )) {
+
+                const flag = prev.some((m) => ( 
+                    (m._id === message.message._id) 
+                ))
+
+                if (flag) {
                     return prev; // avoid duplicates
                 }
                 return [...prev, message?.message];
@@ -150,7 +154,7 @@ const GroupChatComponent = ({ groupMessageId, websocket }) => {
             isRead: false,
             pending: true
         };
-        // setMessages((prev) => [...prev, tempMessage]);
+        setMessages((prev) => [...prev, tempMessage]);
 
         try {
             websocket.sendGroupMessage(groupMessageId, { content: newMessage });
