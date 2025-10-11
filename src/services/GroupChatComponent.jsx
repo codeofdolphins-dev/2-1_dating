@@ -22,19 +22,6 @@ const GroupChatComponent = ({ groupMessageId, websocket }) => {
     const myUserId = user?.data?.user?._id;
 
     /** 🔹 Fetch group chat history */
-    // const fetchConversation = useCallback(async () => {
-    //     try {
-    //         if (groupMessageId) {
-    //             const data = await httpService(`/group-messages/${groupMessageId}`, "GET");
-    //             setMessages(data?.data || []);
-    //             console.log(data?.data);
-    //         }
-    //     } catch (err) {
-    //         console.error("❌ Failed to load conversation:", err);
-    //     }
-    // }, []);
-
-    /** 🔹 Load conversation when group changes */
     useEffect(() => {
         try {
             if (groupMessageId) {
@@ -65,12 +52,7 @@ const GroupChatComponent = ({ groupMessageId, websocket }) => {
         const groupId = message.groupId;
         if (groupId === groupMessageId) {
             setMessages((prev) => {
-                console.log(prev);
-
-                const flag = prev.some((m) => ( 
-                    (m._id === message.message._id) 
-                ))
-
+                const flag = prev.some((m) => m._id === message.message._id);
                 if (flag) {
                     return prev; // avoid duplicates
                 }
@@ -78,6 +60,7 @@ const GroupChatComponent = ({ groupMessageId, websocket }) => {
             });
         }
     }, []);
+    // console.log(messages);
 
     /** 🔹 WebSocket setup */
     useEffect(() => {
