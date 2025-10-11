@@ -23,6 +23,7 @@ function createWebSocketService() {
     if (!listenersAttached) {
       setupConnectionHandlers();
       setupGroupListeners();
+      setupPersonalListeners();
       listenersAttached = true;
     }
 
@@ -71,6 +72,24 @@ function createWebSocketService() {
     // socket.on("group_user_active", (data) => console.log("User active in group:", data));
     // socket.on("group_user_inactive", (data) => console.log("User inactive in group:", data));
     // socket.on("group_message_mention", (data) => console.log("Mentioned in group message:", data));
+  };
+
+  /** 🔹 personal event listeners */
+  const setupPersonalListeners = () => {
+    if (!socket) return;
+
+    // Remove all previous listeners to prevent duplicates
+    socket.off("join_conversation");
+    socket.off("leave_conversation");
+    socket.off("send_personal_message");
+    socket.off("typing_start");
+    socket.off("typing_stop");
+
+    socket.on("join_conversation", (data) => console.log("join_conversation:", data));
+    socket.on("leave_conversation", (data) => console.log("leave_conversation:", data));
+    socket.on("send_personal_message", (data) => console.log("send_personal_message:", data));
+    socket.on("typing_start", (data) => console.log("User typing start:", data));
+    socket.on("typing_stop", (data) => console.log("User stopped typing:", data));
   };
 
   /** 🔹 Disconnect */

@@ -19,25 +19,25 @@ const ChatComponent = ({ receiverId, otherUserName, websocket }) => {
   const myUserId = user?.data?.user?._id;
 
   /** 🔹 Fetch personal chat history */
-  const fetchConversation = useCallback(async () => {
+  useEffect(() => {
     try {
       if (receiverId) {
-        const data = await httpService(`/personal-messages/conversations/${receiverId}`, 'GET');
-        setMessages(data?.data || []);
+        // console.log(receiverId);        
+        httpService(`/personal-messages/conversations/${receiverId}`, 'GET')
+          .then(data => {
+            // console.log(data);
+            setMessages(data?.data || []);
+          })
       }
     } catch (err) {
       console.error('❌ Failed to load conversation:', err);
     }
-  }, []);
-
-  useEffect(() => {
-    fetchConversation();
-  }, [receiverId, otherUserName, fetchConversation]);
+  }, [receiverId, otherUserName]);
 
   /** 🔹 WebSocket setup */
 
   /** Handle new personal message */
-  const handleNewPersonalMessage = useCallback((message) => {    
+  const handleNewPersonalMessage = useCallback((message) => {
     const senderId = typeof message.senderId === 'object' ? message.senderId._id : message.senderId;
     const receiverIdFromMsg = typeof message.receiverId === 'object' ? message.receiverId._id : message.receiverId;
 
@@ -50,28 +50,35 @@ const ChatComponent = ({ receiverId, otherUserName, websocket }) => {
   }, [myUserId, receiverId]);
 
   const handleUserTypingStart = useCallback((data) => {
-    // setTypingUser(true);
 
-    const senderId =
-      data?.userId || data?.senderId || data?.from ||
-      (data?.user && (data.user._id || data.user.id));
+    console.log(data);    
 
+    // Try to identify the user who triggered the typing event
+    const senderId = data?.userId || data?.senderId || data?.from || data?.user?._id || data?.user?.id;
+
+    // Attempt to extract username from various fallbacks
     const username = data?.username || data?.sender?.username || otherUserName || messagereceiverName;
 
-    if (
-      senderId && String(senderId) === String(receiverId) &&
-      String(senderId) !== String(myUserId)
-    ) {
-      // setTypingUser(username || 'User');
+    // Check if it's the expected other user (not self)
+    const isOtherUser = senderId &&
+      String(senderId) === String(receiverId) &&
+      String(senderId) !== String(myUserId);
 
-      // Auto clear after 3s if no stop event
+    if (isOtherUser) {
+      // Set the typing user display name
+      setTypingUser(true);
+
+      // Clear any existing timeout
       if (typingClearRef.current) clearTimeout(typingClearRef.current);
+
+      // Auto-clear after 3 seconds
       typingClearRef.current = setTimeout(() => {
-        setTypingUser(null);
+        setTypingUser(false);
         typingClearRef.current = null;
       }, 3000);
     }
-  });
+  }, [receiverId, myUserId, otherUserName, messagereceiverName]);
+
 
   const handleUserTypingStop = useCallback((data) => {
     setTypingUser(false);
@@ -81,7 +88,7 @@ const ChatComponent = ({ receiverId, otherUserName, websocket }) => {
       (data?.user && (data.user._id || data.user.id));
 
     if (senderId && String(senderId) === String(receiverId) && String(senderId) !== String(myUserId)) {
-      setTypingUser(null);
+      setTypingUser(false);
       if (typingClearRef.current) {
         clearTimeout(typingClearRef.current);
         typingClearRef.current = null;
@@ -152,9 +159,12 @@ const ChatComponent = ({ receiverId, otherUserName, websocket }) => {
   const handleInputTyping = () => {
     websocket.startTyping(receiverId);
 
+    receiverId == myUserId ? setTypingUser(true) : setTypingUser(false);
+    
     if (typingClearRef.current) clearTimeout(typingClearRef.current);
     typingClearRef.current = setTimeout(() => {
       websocket.stopTyping(receiverId);
+      setTypingUser(false);
     }, 1000);
 
     // setTypingTimeout(timeout);
