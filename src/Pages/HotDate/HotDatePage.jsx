@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import GlobalPageWrapper from '../../components/GlobalPageWrapper'
 import FilterBar from '../../components/FilterBar/FilterBar'
 import HotDatePageCard from '../../components/HotDatePageCard/HotDatePageCard';
@@ -37,6 +37,7 @@ import TravelDatePopup from '../../components/TravelDatePopup/TravelDatePopup';
 import SpeedDateCheckBoxPopup from '../../components/SpeedDateCheckBoxPopup/SpeedDateCheckBoxPopup';
 import { useNavigate } from 'react-router-dom';
 import PaginationWithSelector from '../../components/Pagination/PaginationWithSelector';
+import httpService from '../../helper/httpService';
 
 const images = [img5, img6, img7, img1];
 const cards = [
@@ -88,9 +89,9 @@ const HotDatePage = () => {
   const [totalCount, setTotalCount] = useState(0)
   const [apiTotalPages, setApiTotalPages] = useState(0)
 
+  const[dateInfo,setDateInfo]=useState([])
+
   const navigate = useNavigate()
-
-
 
   const handleSpedDateTypePopup = () => {
     setShowSpeeddateCheckBox(true)
@@ -110,6 +111,17 @@ const HotDatePage = () => {
   const navigationpage = () => {
     navigate("/create-speeddate")
   }
+
+  useEffect(() => {
+    httpService("/speed-dates", "GET")
+      .then((res) => {
+        console.log("group data", res?.data?.creator?.profile?.photos[0])
+        setDateInfo(res?.data)
+      })
+      .catch((err) => {
+        console.log("group data", err)
+      })
+  }, [])
   return (
     <>
       <GlobalPageWrapper >
@@ -119,9 +131,9 @@ const HotDatePage = () => {
           <div className="container-fluid">
             <div className="row g-4 pt-4">
               {
-                cards.map((card, index) => (
+                dateInfo.map((card, index) => (
                   <div className="col-12 col-sm-6 col-lg-6 col-xl-4 " key={index}>
-                    <HotDatePageCard index={index} images={images} handleSpedDatePopup={handleSpedDatePopup} handleTravelDatePopup={handleTravelDatePopup}
+                    <HotDatePageCard index={index} images={card?.creator?.profile?.photos} handleSpedDatePopup={handleSpedDatePopup} handleTravelDatePopup={handleTravelDatePopup}
                       {...{
                         card,
 
