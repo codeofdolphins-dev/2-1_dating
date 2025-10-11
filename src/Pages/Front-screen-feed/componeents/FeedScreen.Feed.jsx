@@ -3,7 +3,7 @@ import httpService from "../../../helper/httpService";
 
 // Components
 import CardContainer from "../../../components/cards/CardContainer";
-import UserProfileCard from "../../../components/cards/UserProfileCard";
+import UserProfileCard from "../../../components/cards/userProfileCard";
 import CardAction from "../../../components/cards/CardAction";
 import GroupDetailsCard from "../../../components/cards/GroupDetailsCard";
 import EventInformationCard from "../../../components/cards/EventInformationCard";

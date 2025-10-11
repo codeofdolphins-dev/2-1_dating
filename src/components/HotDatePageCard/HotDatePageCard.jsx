@@ -21,7 +21,7 @@ import ViewpageMessengerPopup from "../MessengerPopup/MessengerPopup";
 
 
 
-const HotDatePageCard = ({ index, images,handleSpedDatePopup=null,handleTravelDatePopup=null }) => {
+const HotDatePageCard = ({ index, images, handleSpedDatePopup = null, handleTravelDatePopup = null, card }) => {
     const [swiperInstance, setSwiperInstance] = useState(null);
     const [showGallery, setShowGallery] = useState(false);
     const [showMessagePopup, setShowMessagePopup] = useState(false);
@@ -38,6 +38,34 @@ const HotDatePageCard = ({ index, images,handleSpedDatePopup=null,handleTravelDa
             swiperInstance.navigation.update();
         }
     }, [swiperInstance]);
+
+    // Time difference
+    const getTimeDifference = (timestamp) => {
+        if (!timestamp) return "Just now";
+
+        const now = new Date();
+        const past = new Date(timestamp);
+        const diffMs = now - past;
+        if (diffMs < 0) return "Just now";
+
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const diffHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+        const diffMinutes = Math.floor((diffMs / (1000 * 60)) % 60);
+
+        if (diffDays > 0) return diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
+        return `${String(diffHours).padStart(2, "0")} hours, ${String(diffMinutes).padStart(2, "0")} min`;
+    };
+
+    // Time diffrence
+    function formatDateString(isoTime) {
+        const date = new Date(isoTime);
+        return date.toLocaleDateString('en-US', {
+            month: 'short', // "Mar"
+            day: '2-digit', // "08"
+            year: 'numeric'  // "2025"
+        });
+    }
+
 
 
     return (
@@ -103,7 +131,7 @@ const HotDatePageCard = ({ index, images,handleSpedDatePopup=null,handleTravelDa
             <div className="col-lg-6 d-flex flex-column justify-content-between ps-3">
                 <div>
                     <div className="d-flex justify-content-between align-items-center mb-2">
-                        <h4 className="fw-bold mb-0">BOLEROPALACE</h4>
+                        <h4 className="fw-bold mb-0">{card?.creator?.profile?.firstName}</h4>
                         <div><img src={star} height={30} alt="Star" /></div>
                     </div>
 
@@ -125,41 +153,59 @@ const HotDatePageCard = ({ index, images,handleSpedDatePopup=null,handleTravelDa
 
                         {/* Icons */}
                         <div className="d-flex ">
-                            <img src={male} height={20} alt="male" />
-                            <img src={female} height={20} alt="female" />
-                            <img src={male} height={20} alt="male" />
+                            {
+                                card?.preferredWith?.map((item) => {
+                                    if (item === "female") {
+                                        return <img key="female" src={female} height={20} alt="female" />;
+                                    }
+                                    if (item === "male") {
+                                        return <img key="male" src={male} height={20} alt="male" />;
+                                    }
+                                    if (item === "couple") {
+                                        return (
+                                            <div key="couple" className="d-flex">
+                                                <img src={female} height={20} alt="female" />
+                                                <img src={male} height={20} alt="male" />
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })
+                            }
                         </div>
                     </div>
 
 
                     <hr />
                     <div className="d-flex align-items-center gap-2 text-white small py-2">
-                        <span>Private Place</span>
+                        <span>{card?.type} </span>
                     </div>
                     <hr />
                     <div className=" text-white small py-2">
-                        <p className="mb-0 text-danger">Mar 08, 2025 - Mar 09, 2025 - Mar 15, 2025 - Mar 16, 2025</p>
+                        <p className="mb-0 text-danger">{formatDateString(card?.startDate)} - {formatDateString(card?.endDate)}</p>
                     </div>
                     <hr />
                     <div className="d-flex align-items-center gap-2 text-white small py-2">
                         <i className="bi bi-geo-alt-fill"></i>
-                        <span>Altedo, ITA | 4256 mi</span>
+                        <span>{card?.location?.address?.fullAddress} </span>
                     </div>
                     <hr />
-                    <div className=" text-white small py-2">
-                        <p>male half visiting Hyderabad from US and has a Sexy and ...</p>
+                    <div className=" text-white small pt-2">
+                        <p className=" mb-0">{card?.details}</p>
                     </div>
-                    
-                    <div className="d-flex justify-content-between align-items-end" style={{cursor:"pointer"}}>
+
+                    <div className="text-danger mt-2" style={{ fontSize: "12px" }}>{getTimeDifference(card?.createdAt)}</div>
+
+                    <div className="d-flex justify-content-between align-items-end" style={{ cursor: "pointer" }}>
                         <div className="d-flex gap-2 mt-2">
                             <img src={phone} alt="" height={30} />
                             <img src={pc} alt="" height={30} />
                             <img src={chat} alt="" height={30} />
-                            <img src={clock} alt="" height={30} onClick={handleSpedDatePopup}/>
-                            <img src={calender} alt="" height={30} onClick={handleTravelDatePopup}/>
+                            <img src={clock} alt="" height={30} onClick={handleSpedDatePopup} />
+                            <img src={calender} alt="" height={30} onClick={handleTravelDatePopup} />
                         </div>
 
-                        <div className="text-danger">8h4m</div>
+
                     </div>
                 </div>
             </div>

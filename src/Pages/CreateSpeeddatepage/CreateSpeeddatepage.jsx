@@ -41,7 +41,7 @@ const CreateSpeeddatepage = () => {
     const payload = {
       type: selectedOption,
       preferredWith: lowerCasePreferredWith, // 👈 lowercase applied here
-      where,
+      // where,
       details,
       startDate: formatted.split(" to ")[0],
       endDate: formatted.split(" to ")[1],
